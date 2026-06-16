@@ -1,20 +1,12 @@
-# WARDEN — Hero Background Video
+# Hero Background Video
 
-Para activar el video de fondo en la homepage, coloca tu archivo MP4 aquí:
+El video de fondo de la homepage está en `background.mp4`.
 
-```
-public/videos/background.mp4
-```
+- **Origen:** YouTube (MechWarrior 5: Mercs — gameplay de reparación en taller)
+- **Segmento:** 12:29 – 16:29
+- **Resolución:** 1280×720 (720p)
+- **FPS:** 30
+- **Audio:** eliminado (loop en mute)
+- **Duración:** 4 minutos en loop infinito
 
-### Recomendaciones
-
-- **Resolución:** 1920×1080 (Full HD) o superior
-- **Formato:** MP4 (H.264)
-- **Duración:** 10–30 segundos (loop infinito)
-- **Tamaño:** < 10 MB ideal, < 50 MB máximo
-- **Sin audio:** el video se reproduce en mute
-- **Temática:** taller de reparación de mechs / BattleTech / ciencia ficción industrial
-
-### Sin video
-
-Sin el archivo, la homepage muestra un fondo gradiente animado con el estilo visual de WARDEN. No hay error, solo un placeholder visual hasta que añadas el video.
+Para reemplazarlo, coloca un nuevo `background.mp4` aquí y actualiza `src/components/layout/video-hero.tsx` si cambia el nombre del archivo.
