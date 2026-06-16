@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export function Container({
   children,
   className,
@@ -6,11 +8,11 @@ export function Container({
   className?: string;
 }) {
   return (
-    <div className={`page-container ${className ?? ""}`}>{children}</div>
+    <div className={cn("page-container", className)}>{children}</div>
   );
 }
 
-export function PageSection({
+export function Section({
   children,
   className,
 }: {
@@ -18,6 +20,27 @@ export function PageSection({
   className?: string;
 }) {
   return (
-    <section className={`page-section ${className ?? ""}`}>{children}</section>
+    <section className={cn("page-section", className)}>{children}</section>
   );
 }
+
+export function Eyebrow({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <span className={cn("text-eyebrow text-muted-foreground", className)}>
+      {children}
+    </span>
+  );
+}
+
+export function SectionDivider({ className }: { className?: string }) {
+  return <hr className={cn("section-divider", className)} />;
+}
+
+/** @deprecated Use Section instead */
+export const PageSection = Section;

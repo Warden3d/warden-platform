@@ -1,116 +1,250 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Container, PageSection } from "@/components/shared/container";
-import { faqs } from "@/data/faq";
+
+import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
+import { CommunitySupportForm } from "@/components/forms/community-support-form";
+import { WardenButton } from "@/components/ui/warden-button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { ArrowRight, BookOpen, ExternalLink, MessageCircle } from "lucide-react";
+  ChevronRight,
+  Users,
+  Handshake,
+  ShieldCheck,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Community Support",
   description:
-    "Wardens helping wardens. Resources, guides, and support for the BattleTech tabletop community.",
+    "Programa de apoyo a asociaciones, clubes, organizadores y comunidades de juego. WARDEN colabora con iniciativas que fortalecen el ecosistema del wargame.",
 };
 
-const resources = [
+const applicantTypes = [
   {
-    title: "Product Guides",
+    title: "Asociaciones",
     description:
-      "Detailed usage guides for every WARDEN product, including setup instructions, compatibility notes, and gameplay examples.",
-    icon: BookOpen,
+      "Entidades constituidas que organizan actividades regulares de juego y eventos para sus miembros.",
   },
   {
-    title: "Community Discord",
+    title: "Clubes de juego",
     description:
-      "Join the WARDEN community on Discord to share table setups, ask questions, and connect with other BattleTech players using WARDEN tools.",
-    icon: MessageCircle,
+      "Grupos estables que se reúnen periódicamente para jugar, con o sin formalización legal.",
   },
   {
-    title: "External Resources",
+    title: "Organizadores de eventos",
     description:
-      "Links to official BattleTech rules references, community tools, and partner creators within the tabletop ecosystem.",
-    icon: ExternalLink,
+      "Personas o equipos que montan torneos, jornadas o convenciones de wargames.",
+  },
+  {
+    title: "Comunidades de juego",
+    description:
+      "Comunidades digitales o presenciales que agrupan jugadores en torno a sistemas de juego compatibles.",
+  },
+  {
+    title: "Iniciativas comunitarias",
+    description:
+      "Proyectos orientados a la divulgación, la accesibilidad o la ampliación de la base de jugadores.",
+  },
+];
+
+const supportForms = [
+  {
+    title: "Material promocional",
+    description:
+      "Folletos, fichas de producto y material gráfico para distribuir en tus eventos o puntos de encuentro.",
+  },
+  {
+    title: "Premios para torneos",
+    description:
+      "Productos WARDEN para utilizar como premios en torneos, ligas o competiciones organizadas.",
+  },
+  {
+    title: "Escenografía",
+    description:
+      "Cesión temporal de piezas de escenografía para eventos presenciales o exhibiciones.",
+  },
+  {
+    title: "Elementos de juego",
+    description:
+      "Productos funcionales para facilitar la organización de partidas demostrativas o torneos.",
+  },
+  {
+    title: "Asesoramiento",
+    description:
+      "Orientación sobre selección de productos, preparación de mesas de juego o configuración de eventos.",
+  },
+  {
+    title: "Difusión puntual",
+    description:
+      "Mención o promoción de vuestro evento en los canales de WARDEN, sin compromiso de cobertura continuada.",
+  },
+];
+
+const clarifyItems = [
+  {
+    icon: Handshake,
+    text: "No existe contraprestación obligatoria. El apoyo se concede sin exigir exclusividad ni compromisos publicitarios.",
+  },
+  {
+    icon: ShieldCheck,
+    text: "La concesión es discrecional. Evaluamos cada solicitud según su alineación con los valores de WARDEN y el impacto potencial en la comunidad.",
+  },
+  {
+    icon: Users,
+    text: "Depende de recursos disponibles. El alcance del apoyo se ajusta al inventario, capacidad operativa y calendario de producción en cada momento.",
   },
 ];
 
 export default function CommunitySupportPage() {
   return (
     <>
-      <PageSection>
+      {/* Hero */}
+      <Section>
         <Container>
-          <div className="max-w-3xl mb-12">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <div className="max-w-3xl">
+            <Eyebrow className="text-warden-ochre">
+              Colaboración
+            </Eyebrow>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               Community Support
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              Wardens helping wardens. Resources, guides, and support channels
-              for the BattleTech tabletop community. Whether you are learning
-              Classic for the first time or refining your Alpha Strike company
-              tactics, these resources are here to help.
+            <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">
+              Apoyo a asociaciones, clubes, organizadores y comunidades que
+              comparten los valores de WARDEN: juego en mesa, precisión
+              artesanal y comunidad sostenible.
             </p>
           </div>
         </Container>
-      </PageSection>
+      </Section>
 
-      <PageSection className="!pt-0">
+      {/* What is CS */}
+      <Section className="!pt-0">
         <Container>
-          <div className="grid gap-6 sm:grid-cols-3 mb-16">
-            {resources.map((resource) => (
-              <Card key={resource.title} className="border-border bg-card">
-                <CardHeader>
-                  <resource.icon className="size-6 text-primary mb-2" />
-                  <CardTitle className="text-base">{resource.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>{resource.description}</CardDescription>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <Separator className="mb-12" />
-
-          <div id="faq">
-            <h2 className="text-2xl font-semibold text-foreground mb-8">
-              Frequently Asked Questions
+          <div className="max-w-3xl">
+            <Eyebrow>Qué es</Eyebrow>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
+              Un programa de colaboración, no un canal publicitario
             </h2>
-            <div className="grid gap-4 max-w-3xl">
-              {faqs.map((faq) => (
-                <Card key={faq.question} className="border-border bg-card">
-                  <CardHeader>
-                    <CardTitle className="text-base">
-                      {faq.question}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {faq.answer}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-12 flex flex-wrap gap-4">
-            <Button render={<Link href="/contact" />}>
-              Contact Support
-              <ArrowRight className="ml-2 size-4" />
-            </Button>
-            <Button variant="outline" render={<Link href="/collections" />}>
-              Browse Catalog
-              <ArrowRight className="ml-2 size-4" />
-            </Button>
+            <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+              Community Support no es un programa de marketing ni una
+              estrategia de captación. Es una iniciativa para fortalecer el
+              ecosistema del wargame apoyando a quienes ya construyen
+              comunidad alrededor de la mesa. Colaboramos con entidades e
+              iniciativas que promueven el juego organizado, la
+              accesibilidad y la difusión de los wargames de mesa con un
+              enfoque respetuoso con los jugadores y sus espacios.
+            </p>
           </div>
         </Container>
-      </PageSection>
+      </Section>
+
+      {/* Who can apply */}
+      <Section className="!pt-0">
+        <Container>
+          <SectionDivider className="mb-10" />
+          <Eyebrow>Quién puede solicitar apoyo</Eyebrow>
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground mb-8">
+            Entidades e iniciativas
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {applicantTypes.map((item) => (
+              <div
+                key={item.title}
+                className="border border-border bg-warden-surface p-5"
+              >
+                <h3 className="text-sm font-semibold text-foreground mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Support forms */}
+      <Section className="!pt-0">
+        <Container>
+          <SectionDivider className="mb-10" />
+          <Eyebrow>Formas de apoyo</Eyebrow>
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground mb-8">
+            Cómo podemos colaborar
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {supportForms.map((item) => (
+              <div
+                key={item.title}
+                className="border border-border bg-warden-surface p-5"
+              >
+                <h3 className="text-sm font-semibold text-foreground mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Clarification */}
+      <Section className="!pt-0">
+        <Container>
+          <SectionDivider className="mb-10" />
+          <Eyebrow>Aclaraciones</Eyebrow>
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground mb-8">
+            Transparencia sobre el programa
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {clarifyItems.map((item) => (
+              <div
+                key={item.text}
+                className="border border-border bg-warden-surface p-5"
+              >
+                <item.icon className="size-5 text-warden-ochre mb-3" />
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {item.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Form */}
+      <Section className="!pt-0">
+        <Container>
+          <SectionDivider className="mb-10" />
+          <div className="max-w-3xl">
+            <Eyebrow>Solicitud</Eyebrow>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground mb-2">
+              Solicitar apoyo
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-8">
+              Rellena el formulario y lo revisaremos. Te respondemos en un
+              plazo máximo de cinco días hábiles.
+            </p>
+          </div>
+          <div className="border border-border bg-warden-surface p-6 max-w-2xl">
+            <CommunitySupportForm />
+          </div>
+        </Container>
+      </Section>
+
+      {/* CTA */}
+      <Section className="!pt-0">
+        <Container>
+          <div className="flex flex-wrap gap-3">
+            <WardenButton href="/contact">
+              Contacto general
+              <ChevronRight className="size-4" />
+            </WardenButton>
+            <WardenButton href="/about" variant="outline">
+              Sobre WARDEN
+            </WardenButton>
+          </div>
+        </Container>
+      </Section>
     </>
   );
 }

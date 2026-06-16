@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -7,15 +7,16 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const techMono = Share_Tech_Mono({
+  variable: "--font-tech-mono",
   subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
   title: {
     template: "%s | WARDEN",
-    default: "WARDEN — Precision Equipment for BattleTech",
+    default: "WARDEN — Precision Equipment",
   },
   description:
     "WARDEN develops physical products to enhance the BattleTech Classic, Alpha Strike, and AeroTech gaming experience. Functionality, compatibility, robustness, and clarity.",
@@ -44,9 +45,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full`}
+      className={`${geistSans.variable} ${techMono.variable} dark h-full`}
     >
-      <body className="flex min-h-full flex-col bg-background text-foreground antialiased">
+      <body className="flex min-h-full flex-col bg-warden-carbon text-foreground antialiased">
         {children}
       </body>
     </html>

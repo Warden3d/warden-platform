@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Container, PageSection } from "@/components/shared/container";
+import { Container, Section, Eyebrow } from "@/components/shared/container";
 import { collections, products } from "@/data/products";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { CompatibilityBadge } from "@/components/catalog/technical-badge";
+import { WardenButton } from "@/components/ui/warden-button";
 import { ArrowLeft } from "lucide-react";
-
-const systemLabels = {
-  "battletech-classic": "BattleTech Classic",
-  "alpha-strike": "Alpha Strike",
-  aerotech: "AeroTech",
-};
 
 export function generateStaticParams() {
   return collections.map((c) => ({ slug: c.slug }));
@@ -25,10 +18,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const collection = collections.find((c) => c.slug === slug);
   if (!collection) return { title: "Collection Not Found" };
-  return {
-    title: collection.name,
-    description: collection.description,
-  };
+  return { title: collection.name, description: collection.description };
 }
 
 export default async function CollectionPage({
@@ -41,21 +31,23 @@ export default async function CollectionPage({
 
   if (!collection) {
     return (
-      <PageSection>
+      <Section>
         <Container>
           <div className="text-center py-16">
-            <h1 className="text-2xl font-bold text-foreground">
+            <h1 className="text-2xl font-semibold text-foreground">
               Collection not found
             </h1>
             <p className="mt-2 text-muted-foreground">
               The collection you are looking for does not exist.
             </p>
-            <Button variant="outline" className="mt-6" render={<Link href="/collections" />}>
-              Back to Collections
-            </Button>
+            <div className="mt-6 inline-block">
+              <WardenButton href="/collections" variant="outline">
+                Back to Collections
+              </WardenButton>
+            </div>
           </div>
         </Container>
-      </PageSection>
+      </Section>
     );
   }
 
@@ -65,7 +57,7 @@ export default async function CollectionPage({
 
   return (
     <>
-      <PageSection>
+      <Section>
         <Container>
           <Link
             href="/collections"
@@ -75,82 +67,69 @@ export default async function CollectionPage({
             All Collections
           </Link>
           <div className="max-w-3xl mb-12">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <Eyebrow>{collection.productIds.length} products</Eyebrow>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {collection.name}
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+            <p className="mt-3 text-base text-muted-foreground leading-relaxed">
               {collection.description}
             </p>
           </div>
         </Container>
-      </PageSection>
+      </Section>
 
-      <PageSection className="!pt-0">
+      <Section className="!pt-0">
         <Container>
           {collectionProducts.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2">
               {collectionProducts.map((product) => (
-                <Card
+                <div
                   key={product.id}
-                  className="border-border bg-card"
+                  className="border border-border bg-warden-surface p-6"
                 >
-                  <CardHeader>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge
-                        variant="outline"
-                        className="text-[10px] uppercase tracking-widest border-primary/20 text-primary"
-                      >
-                        {
-                          systemLabels[
-                            product.system as keyof typeof systemLabels
-                          ]
-                        }
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-lg">
-                      {product.name}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                      {product.descriptionShort}
-                    </p>
-                    <div className="border-t border-border pt-4">
-                      <h4 className="text-xs font-semibold text-foreground mb-2 uppercase tracking-wider">
-                        Specifications
-                      </h4>
-                      <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
-                        {Object.entries(product.specs)
-                          .slice(0, 4)
-                          .map(([key, value]) => (
-                            <div key={key}>
-                              <dt className="text-xs text-muted-foreground">
-                                {key}
-                              </dt>
-                              <dd className="text-sm text-foreground">
-                                {value}
-                              </dd>
-                            </div>
-                          ))}
-                      </dl>
-                    </div>
-                  </CardContent>
-                </Card>
+                  <div className="mb-3">
+                    <CompatibilityBadge system={product.system} />
+                  </div>
+                  <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                    {product.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                    {product.descriptionShort}
+                  </p>
+                  <div className="mt-4 border-t border-border pt-4">
+                    <h4 className="text-eyebrow text-muted-foreground mb-3">
+                      Specifications
+                    </h4>
+                    <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
+                      {Object.entries(product.specs)
+                        .slice(0, 4)
+                        .map(([key, value]) => (
+                          <div key={key}>
+                            <dt className="text-spec-label text-muted-foreground">
+                              {key}
+                            </dt>
+                            <dd className="text-data text-foreground/90">
+                              {value}
+                            </dd>
+                          </div>
+                        ))}
+                    </dl>
+                  </div>
+                </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 border border-dashed border-border rounded-lg">
-              <p className="text-muted-foreground">
+            <div className="text-center py-12 border border-border bg-warden-surface">
+              <p className="text-sm text-muted-foreground">
                 No products have been listed in this collection yet.
               </p>
-              <p className="text-sm text-muted-foreground mt-2">
-                New products are added to collections as they complete
-                development and testing.
+              <p className="text-xs text-muted-foreground mt-2">
+                New products are added as they complete development and testing.
               </p>
             </div>
           )}
         </Container>
-      </PageSection>
+      </Section>
     </>
   );
 }
