@@ -1,0 +1,155 @@
+{
+  "common": {
+    "siteName": "WARDEN",
+    "tagline": "Precisie-uitrusting voor tabletop wargames",
+    "description": "WARDEN ontwikkelt fysieke producten om de spelervaring in BattleTech Classic, Alpha Strike en AeroTech te verbeteren. Functionaliteit, compatibiliteit, robuustheid en duidelijkheid.",
+    "exploreCatalog": "Catalogus verkennen",
+    "ourApproach": "Onze aanpak",
+    "goToSelection": "Naar Mijn Selectie",
+    "mySelection": "Mijn Selectie",
+    "openMenu": "Menu openen",
+    "closeMenu": "Menu sluiten",
+    "backToHome": "Terug naar start",
+    "viewCollection": "Collectie bekijken",
+    "learnMore": "Meer informatie",
+    "viewBundles": "Bundels bekijken",
+    "getSupport": "Support krijgen",
+    "language": "Taal"
+  },
+  "nav": {
+    "catalog": "Catalogus",
+    "bundles": "Bundels",
+    "drops": "Drops",
+    "community": "Community",
+    "about": "Over WARDEN",
+    "contact": "Contact",
+    "mainNavLabel": "Hoofdnavigatie",
+    "mobileNavLabel": "Mobiele navigatie"
+  },
+  "footer": {
+    "brandDesc": "Precisie-uitrusting ontworpen om de spelervaring in BattleTech Classic, Alpha Strike en AeroTech te verbeteren.",
+    "products": "Producten",
+    "support": "Support",
+    "warden": "WARDEN",
+    "collections": "Collecties",
+    "bundles": "Bundels",
+    "drops": "Drops",
+    "mySelection": "Mijn Selectie",
+    "community": "Community",
+    "contact": "Contact",
+    "faqs": "FAQs",
+    "about": "Over WARDEN",
+    "licenses": "Licenties",
+    "allRightsReserved": "Alle rechten voorbehouden.",
+    "noAffiliation": "Geen banden met Topps of Catalyst Game Labs."
+  },
+  "home": {
+    "heroEyebrow": "Precisie-uitrusting voor tabletop wargames",
+    "heroTitle1": "Gereedschappen ontworpen",
+    "heroTitle2": "voor op tafel.",
+    "heroDesc": "WARDEN ontwikkelt fysieke producten die wrijving elimineren in elke fase van BattleTech Classic, Alpha Strike en AeroTech. Geen decoratie. Geen opvulling. Alleen precisie-gereedschap dat zijn plek op tafel verdient.",
+    "exploreCollections": "Collecties verkennen",
+    "ourApproach": "Onze aanpak",
+    "goToMySelection": "Naar Mijn Selectie",
+    "wardenCore": {
+      "eyebrow": "Collectie",
+      "title": "WARDEN Core",
+      "desc": "Gereedschappen van messing, aluminium en acryl voor BattleTech Classic. Hex-markers, hitteschijven, pantserschuivers — gebouwd voor honderden sessies."
+    },
+    "licensedUniverses": {
+      "eyebrow": "Programma",
+      "title": "Gelicentieerde Universums",
+      "desc": "Samenwerkingen met onafhankelijke makers en studio's. Gereedschap op maat, unieke esthetiek, WARDEN-productienormen."
+    },
+    "bundles": {
+      "eyebrow": "Besparing",
+      "title": "Bundels",
+      "desc": "Samengestelde sets tegen een gereduceerde prijs. Commander Pack, Aerospace Bundle, Starter Kit — alles in één pakket."
+    },
+    "communitySupport": {
+      "eyebrow": "Bronnen",
+      "title": "Community Support",
+      "desc": "Producthandleidingen, FAQs en community-kanalen. Wardens helpen wardens in alle drie de spelsystemen."
+    },
+    "featuredEyebrow": "Uitgelicht",
+    "featuredTitle": "Getest op tafel",
+    "featuredDesc": "Onze meest gebruikte gereedschappen, getest in duizenden spelsessies.",
+    "designPrinciplesEyebrow": "Ontwerpprincipes",
+    "designPrinciplesTitle": "Drie regels die we nooit breken",
+    "principle1": {
+      "number": "01",
+      "title": "Ontwerpen om te spelen",
+      "desc": "Elk WARDEN-product begint met een spelprobleem. Als een gereedschap geen fase versnelt, geen regel verduidelijkt of de cognitieve belasting niet vermindert, wordt het niet gemaakt. Geen decoratie. Geen opvulling. Alleen functie."
+    },
+    "principle2": {
+      "number": "02",
+      "title": "Bouwen om lang mee te gaan",
+      "desc": "Messing, aluminium en acryl bewerkt met precieze toleranties. Elk materiaal wordt geselecteerd op zijn mechanische eigenschappen en gevalideerd in honderden sessies. Een WARDEN-gereedschap moet de campagne overleven."
+    },
+    "principle3": {
+      "number": "03",
+      "title": "Evolueren zonder identiteit te verliezen",
+      "desc": "Nieuwe producten, nieuwe systemen, nieuwe materialen — maar dezelfde toewijding aan duidelijkheid, compatibiliteit en samenhang. Elke collectie voegt mogelijkheden toe zonder de ervaring te fragmenteren."
+    },
+    "systemsEyebrow": "Spelsystemen",
+    "systemsTitle": "Compatibel over het hele spectrum",
+    "processEyebrow": "Proces",
+    "processTitle": "Hoe WARDEN werkt",
+    "processDesc": "We werken niet met directe afrekening. Zo krijgt u WARDEN-producten voor uw tafel.",
+    "step1Title": "Verken en selecteer",
+    "step1Desc": "Blader door de catalogus en voeg producten toe aan uw Selectie. Geen account nodig.",
+    "step2Title": "Offerte aanvragen",
+    "step2Desc": "Stuur uw Selectie met uw contactgegevens. Wij beoordelen en reageren met prijs, beschikbaarheid en levertijden.",
+    "step3Title": "Bevestigen en ontvangen",
+    "step3Desc": "Na bevestiging gaat uw bestelling in productie. Kleinschalige productie om kwaliteit te garanderen. Internationale verzending."
+  },
+  "about": {
+    "heroEyebrow": "Identiteit",
+    "heroTitle": "Over WARDEN",
+    "heroP1": "WARDEN ontwikkelt fysieke precisie-uitrusting voor de spelervaring in BattleTech Classic, Alpha Strike en AeroTech. Elk product komt voort uit een echte behoefte aan tafel: mechanische wrijving verminderen, spelfasen versnellen en de spelstatus verduidelijken.",
+    "heroP2": "Wij maken geen decoratie. Wij maken gereedschap dat zijn plek aan tafel verdient. Als een product geen concreet probleem oplost — of het nu snelheid, duidelijkheid of cognitieve belasting is — wordt het niet gemaakt.",
+    "purposeEyebrow": "Doel",
+    "purposeTitle": "Missie en visie",
+    "missionEyebrow": "Missie",
+    "missionText": "Het elimineren van mechanische en cognitieve wrijving in tabletop wargaming door fysieke gereedschappen ontworpen met technische criteria, vervaardigd met industriële materialen en gevalideerd in honderden echte spelsessies.",
+    "visionEyebrow": "Visie",
+    "visionText": "De referentiestandaard zijn voor functionele accessoires in sci-fi wargaming, met toewijding aan productiekwaliteit, compatibiliteit met officiële systemen en een ontwerpethiek waarbij functie de vorm bepaalt.",
+    "principlesEyebrow": "Principes",
+    "principlesTitle": "Waarden",
+    "principlesDesc": "Zes principes die elke ontwerp-, materiaal- en productiebeslissing bepalen.",
+    "systemsEyebrow": "Systemen",
+    "systemsTitle": "Referentiesystemen",
+    "systemsDesc": "WARDEN ontwerpt en test zijn producten voor de drie hoofdsystemen van het BattleTech-ecosysteem.",
+    "philosophyEyebrow": "Filosofie",
+    "philosophyTitle": "Ontwerpen om te spelen. Bouwen om lang mee te gaan.",
+    "philosophyDesc": "Drie principes die bepalen hoe we denken, ontwerpen en produceren.",
+    "historyEyebrow": "Geschiedenis",
+    "historyTitle": "Traject",
+    "historyDesc": "Van de community naar de catalogus. De mijlpalen die het project hebben gedefinieerd.",
+    "dnaEyebrow": "Ontwerp-DNA",
+    "dnaTitle": "Hoe we ontwerpen",
+    "dnaDesc": "Zes principes die elke ingenieurs- en productiebeslissing bepalen.",
+    "ctaEyebrow": "Verkennen",
+    "ctaTitle": "Catalogus bekijken",
+    "ctaDesc": "Alle WARDEN-producten zijn georganiseerd per collectie en systeem. Elk blad bevat technische specificaties, compatibiliteit en gebruiksaanwijzingen.",
+    "goToCatalog": "Naar catalogus",
+    "communitySupport": "Community Support"
+  },
+  "notFound": {
+    "title": "Pagina niet gevonden",
+    "description": "De bron die u zoekt bestaat niet of is verplaatst.",
+    "backToHome": "Terug naar start",
+    "exploreCatalog": "Catalogus verkennen"
+  },
+  "selection": {
+    "title": "Mijn Selectie",
+    "description": "Producten geselecteerd voor offerteaanvraag",
+    "empty": "Uw Selectie is leeg",
+    "emptyDesc": "Verken de catalogus en voeg producten toe aan uw Selectie.",
+    "browseCatalog": "Catalogus verkennen",
+    "clearAll": "Alles wissen",
+    "submit": "Offerte aanvragen",
+    "productAdded": "Product toegevoegd aan Selectie",
+    "productRemoved": "Product verwijderd uit Selectie"
+  }
+}

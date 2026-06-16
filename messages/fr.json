@@ -1,0 +1,155 @@
+{
+  "common": {
+    "siteName": "WARDEN",
+    "tagline": "Équipement de précision pour wargames sur table",
+    "description": "WARDEN développe des produits physiques pour améliorer l'expérience de jeu dans BattleTech Classic, Alpha Strike et AeroTech. Fonctionnalité, compatibilité, robustesse et clarté.",
+    "exploreCatalog": "Explorer le catalogue",
+    "ourApproach": "Notre approche",
+    "goToSelection": "Aller à Ma Sélection",
+    "mySelection": "Ma Sélection",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "backToHome": "Retour à l'accueil",
+    "viewCollection": "Voir la collection",
+    "learnMore": "En savoir plus",
+    "viewBundles": "Voir les bundles",
+    "getSupport": "Obtenir du support",
+    "language": "Langue"
+  },
+  "nav": {
+    "catalog": "Catalogue",
+    "bundles": "Bundles",
+    "drops": "Drops",
+    "community": "Communauté",
+    "about": "À propos de WARDEN",
+    "contact": "Contact",
+    "mainNavLabel": "Navigation principale",
+    "mobileNavLabel": "Navigation mobile"
+  },
+  "footer": {
+    "brandDesc": "Équipement de précision conçu pour améliorer l'expérience de jeu dans BattleTech Classic, Alpha Strike et AeroTech.",
+    "products": "Produits",
+    "support": "Support",
+    "warden": "WARDEN",
+    "collections": "Collections",
+    "bundles": "Bundles",
+    "drops": "Drops",
+    "mySelection": "Ma Sélection",
+    "community": "Communauté",
+    "contact": "Contact",
+    "faqs": "FAQ",
+    "about": "À propos de WARDEN",
+    "licenses": "Licences",
+    "allRightsReserved": "Tous droits réservés.",
+    "noAffiliation": "Aucune affiliation avec Topps ou Catalyst Game Labs."
+  },
+  "home": {
+    "heroEyebrow": "Équipement de précision pour wargames sur table",
+    "heroTitle1": "Des outils conçus",
+    "heroTitle2": "pour la table.",
+    "heroDesc": "WARDEN développe des produits physiques qui éliminent les frictions à chaque phase de BattleTech Classic, Alpha Strike et AeroTech. Pas de décoration. Pas de remplissage. Seulement des outils de précision qui gagnent leur place sur la table.",
+    "exploreCollections": "Explorer les collections",
+    "ourApproach": "Notre approche",
+    "goToMySelection": "Aller à Ma Sélection",
+    "wardenCore": {
+      "eyebrow": "Collection",
+      "title": "WARDEN Core",
+      "desc": "Outils en laiton, aluminium et acrylique pour BattleTech Classic. Marqueurs hexagonaux, cadrans de chaleur, curseurs de blindage — conçus pour des centaines de sessions."
+    },
+    "licensedUniverses": {
+      "eyebrow": "Programme",
+      "title": "Univers sous licence",
+      "desc": "Collaborations avec des créateurs indépendants et des studios. Outils sur mesure, esthétique unique, normes de fabrication WARDEN."
+    },
+    "bundles": {
+      "eyebrow": "Économies",
+      "title": "Bundles",
+      "desc": "Ensembles sélectionnés à prix réduit. Commander Pack, Aerospace Bundle, Starter Kit — tout en un seul paquet."
+    },
+    "communitySupport": {
+      "eyebrow": "Ressources",
+      "title": "Community Support",
+      "desc": "Guides produits, FAQ et canaux communautaires. Des wardens aidant des wardens dans les trois systèmes de jeu."
+    },
+    "featuredEyebrow": "En vedette",
+    "featuredTitle": "Testés sur table",
+    "featuredDesc": "Nos outils les plus utilisés, testés au cours de milliers de sessions de jeu.",
+    "designPrinciplesEyebrow": "Principes de conception",
+    "designPrinciplesTitle": "Trois règles que nous n'enfreignons jamais",
+    "principle1": {
+      "number": "01",
+      "title": "Concevoir pour jouer",
+      "desc": "Chaque produit WARDEN part d'un problème de jeu. Si un outil n'accélère pas une phase, ne clarifie pas une règle ou ne réduit pas la charge cognitive, il n'est pas fabriqué. Pas de décoration. Pas de remplissage. Rien que la fonction."
+    },
+    "principle2": {
+      "number": "02",
+      "title": "Construire pour durer",
+      "desc": "Laiton, aluminium et acrylique usinés avec des tolérances précises. Chaque matériau est sélectionné pour ses propriétés mécaniques et validé sur des centaines de sessions. Un outil WARDEN doit survivre à la campagne."
+    },
+    "principle3": {
+      "number": "03",
+      "title": "Évoluer sans perdre son identité",
+      "desc": "Nouveaux produits, nouveaux systèmes, nouveaux matériaux — mais le même engagement envers la clarté, la compatibilité et la cohérence. Chaque collection ajoute des capacités sans fragmenter l'expérience."
+    },
+    "systemsEyebrow": "Systèmes de jeu",
+    "systemsTitle": "Compatible sur tout le spectre",
+    "processEyebrow": "Processus",
+    "processTitle": "Comment fonctionne WARDEN",
+    "processDesc": "Nous ne proposons pas de paiement direct. Voici comment obtenir les produits WARDEN pour votre table.",
+    "step1Title": "Explorez et sélectionnez",
+    "step1Desc": "Parcourez le catalogue et ajoutez des produits à votre Sélection. Aucun compte nécessaire.",
+    "step2Title": "Demandez un devis",
+    "step2Desc": "Envoyez votre Sélection avec vos coordonnées. Nous examinons et répondons avec le prix, la disponibilité et les délais de livraison.",
+    "step3Title": "Confirmez et recevez",
+    "step3Desc": "Une fois confirmée, votre commande entre en production. Fabrication en petits lots pour garantir la qualité. Expédition internationale."
+  },
+  "about": {
+    "heroEyebrow": "Identité",
+    "heroTitle": "À propos de WARDEN",
+    "heroP1": "WARDEN développe un équipement physique de précision pour l'expérience de jeu dans BattleTech Classic, Alpha Strike et AeroTech. Chaque produit naît d'un besoin réel sur la table : réduire la friction mécanique, accélérer les phases de jeu et clarifier l'état de la partie.",
+    "heroP2": "Nous ne fabriquons pas de décoration. Nous fabriquons des outils qui gagnent leur place sur la table. Si un produit ne résout pas un problème concret — que ce soit de vitesse, de clarté ou de charge cognitive — il n'est pas fabriqué.",
+    "purposeEyebrow": "Objectif",
+    "purposeTitle": "Mission et vision",
+    "missionEyebrow": "Mission",
+    "missionText": "Éliminer la friction mécanique et cognitive du wargame sur table grâce à des outils physiques conçus avec des critères techniques, fabriqués avec des matériaux industriels et validés lors de centaines de sessions de jeu réelles.",
+    "visionEyebrow": "Vision",
+    "visionText": "Être la référence en matière d'accessoires fonctionnels pour le wargaming de science-fiction, en maintenant l'engagement envers la qualité de fabrication, la compatibilité avec les systèmes officiels et une éthique de conception où la fonction détermine la forme.",
+    "principlesEyebrow": "Principes",
+    "principlesTitle": "Valeurs",
+    "principlesDesc": "Six principes qui régissent chaque décision de conception, de matériau et de production.",
+    "systemsEyebrow": "Systèmes",
+    "systemsTitle": "Systèmes de référence",
+    "systemsDesc": "WARDEN conçoit et teste ses produits pour les trois principaux systèmes de l'écosystème BattleTech.",
+    "philosophyEyebrow": "Philosophie",
+    "philosophyTitle": "Concevoir pour jouer. Construire pour durer.",
+    "philosophyDesc": "Trois principes qui définissent notre façon de penser, de concevoir et de fabriquer.",
+    "historyEyebrow": "Histoire",
+    "historyTitle": "Trajectoire",
+    "historyDesc": "De la communauté au catalogue. Les jalons qui ont défini le projet.",
+    "dnaEyebrow": "ADN de conception",
+    "dnaTitle": "Comment nous concevons",
+    "dnaDesc": "Six principes qui régissent chaque décision d'ingénierie et de fabrication.",
+    "ctaEyebrow": "Explorer",
+    "ctaTitle": "Voir le catalogue",
+    "ctaDesc": "Tous les produits WARDEN sont organisés par collection et par système. Chaque fiche comprend les spécifications techniques, la compatibilité et les guides d'utilisation.",
+    "goToCatalog": "Aller au catalogue",
+    "communitySupport": "Community Support"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "description": "La ressource que vous recherchez n'existe pas ou a été déplacée.",
+    "backToHome": "Retour à l'accueil",
+    "exploreCatalog": "Explorer le catalogue"
+  },
+  "selection": {
+    "title": "Ma Sélection",
+    "description": "Produits sélectionnés pour demande de devis",
+    "empty": "Votre Sélection est vide",
+    "emptyDesc": "Parcourez le catalogue et commencez à ajouter des produits à votre Sélection.",
+    "browseCatalog": "Explorer le catalogue",
+    "clearAll": "Tout vider",
+    "submit": "Demander un devis",
+    "productAdded": "Produit ajouté à la Sélection",
+    "productRemoved": "Produit retiré de la Sélection"
+  }
+}

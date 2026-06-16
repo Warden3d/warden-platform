@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Container } from "@/components/shared/container";
 import { footerNavLinks } from "@/data/navigation";
 
 export function Footer() {
+  const t = useTranslations();
+
   return (
     <footer className="border-t border-border bg-warden-surface">
       <Container>
@@ -20,15 +23,14 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
-              Equipamiento de precisión diseñado para mejorar la experiencia de
-              juego en BattleTech Classic, Alpha Strike y AeroTech.
+              {t("footer.brandDesc")}
             </p>
           </div>
 
           {[
-            { label: "Productos", links: footerNavLinks.products },
-            { label: "Soporte", links: footerNavLinks.support },
-            { label: "WARDEN", links: footerNavLinks.legal },
+            { label: t("footer.products"), links: footerNavLinks.products },
+            { label: t("footer.support"), links: footerNavLinks.support },
+            { label: t("footer.warden"), links: footerNavLinks.legal },
           ].map((section) => (
             <div key={section.label}>
               <h4 className="text-eyebrow text-muted-foreground mb-4">
@@ -41,7 +43,7 @@ export function Footer() {
                       href={link.href}
                       className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      {link.label}
+                      {link.i18nKey ? t(link.i18nKey as any) : link.label}
                     </Link>
                   </li>
                 ))}
@@ -52,11 +54,19 @@ export function Footer() {
 
         <div className="py-5 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} WARDEN. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} WARDEN. {t("footer.allRightsReserved")}
           </p>
-          <p className="text-xs text-muted-foreground">
-            Sin afiliación a Topps ni Catalyst Game Labs.
-          </p>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/admin/login"
+              className="text-[10px] text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors uppercase tracking-wider"
+            >
+              Admin
+            </Link>
+            <p className="text-xs text-muted-foreground">
+              {t("footer.noAffiliation")}
+            </p>
+          </div>
         </div>
       </Container>
     </footer>

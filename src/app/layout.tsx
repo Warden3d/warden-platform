@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Share_Tech_Mono } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,40 +18,45 @@ const techMono = Share_Tech_Mono({
 export const metadata: Metadata = {
   title: {
     template: "%s | WARDEN",
-    default: "WARDEN — Equipamiento de precisión para BattleTech",
+    default: "WARDEN — Precision Equipment for BattleTech",
   },
   description:
-    "WARDEN desarrolla productos físicos para mejorar la experiencia de juego en BattleTech Classic, Alpha Strike y AeroTech. Funcionalidad, compatibilidad, robustez y claridad.",
+    "WARDEN develops physical products to enhance the gaming experience in BattleTech Classic, Alpha Strike and AeroTech. Functionality, compatibility, robustness and clarity.",
   keywords: [
     "WARDEN",
     "BattleTech",
     "Alpha Strike",
     "AeroTech",
     "wargame",
-    "equipamiento de precisión",
-    "accesorios de mesa",
+    "precision equipment",
+    "tabletop accessories",
   ],
   openGraph: {
     type: "website",
     siteName: "WARDEN",
-    title: "WARDEN — Equipamiento de precisión para BattleTech",
+    title: "WARDEN — Precision Equipment for BattleTech",
     description:
-      "Productos físicos diseñados para mejorar tus sesiones de BattleTech Classic, Alpha Strike y AeroTech.",
+      "Physical products designed to enhance your BattleTech Classic, Alpha Strike and AeroTech sessions.",
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="es"
+      lang={locale}
       className={`${geistSans.variable} ${techMono.variable} dark h-full`}
     >
       <body className="flex min-h-full flex-col bg-warden-carbon text-foreground antialiased">
-        {children}
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

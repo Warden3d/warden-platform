@@ -1,0 +1,155 @@
+{
+  "common": {
+    "siteName": "WARDEN",
+    "tagline": "Precision equipment for tabletop wargames",
+    "description": "WARDEN develops physical products to enhance the gaming experience in BattleTech Classic, Alpha Strike and AeroTech. Functionality, compatibility, robustness and clarity.",
+    "exploreCatalog": "Explore catalog",
+    "ourApproach": "Our approach",
+    "goToSelection": "Go to My Selection",
+    "mySelection": "My Selection",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "backToHome": "Back to home",
+    "viewCollection": "View collection",
+    "learnMore": "Learn more",
+    "viewBundles": "View bundles",
+    "getSupport": "Get support",
+    "language": "Language"
+  },
+  "nav": {
+    "catalog": "Catalog",
+    "bundles": "Bundles",
+    "drops": "Drops",
+    "community": "Community",
+    "about": "About WARDEN",
+    "contact": "Contact",
+    "mainNavLabel": "Main navigation",
+    "mobileNavLabel": "Mobile navigation"
+  },
+  "footer": {
+    "brandDesc": "Precision equipment designed to enhance the gaming experience in BattleTech Classic, Alpha Strike and AeroTech.",
+    "products": "Products",
+    "support": "Support",
+    "warden": "WARDEN",
+    "collections": "Collections",
+    "bundles": "Bundles",
+    "drops": "Drops",
+    "mySelection": "My Selection",
+    "community": "Community",
+    "contact": "Contact",
+    "faqs": "FAQs",
+    "about": "About WARDEN",
+    "licenses": "Licenses",
+    "allRightsReserved": "All rights reserved.",
+    "noAffiliation": "No affiliation with Topps or Catalyst Game Labs."
+  },
+  "home": {
+    "heroEyebrow": "Precision equipment for tabletop wargames",
+    "heroTitle1": "Tools designed",
+    "heroTitle2": "for the table.",
+    "heroDesc": "WARDEN develops physical products that eliminate friction in every phase of BattleTech Classic, Alpha Strike and AeroTech. No decoration. No filler. Just precision tools that earn their place on the table.",
+    "exploreCollections": "Explore collections",
+    "ourApproach": "Our approach",
+    "goToMySelection": "Go to My Selection",
+    "wardenCore": {
+      "eyebrow": "Collection",
+      "title": "WARDEN Core",
+      "desc": "Brass, aluminum and acrylic tools for BattleTech Classic. Hex markers, heat dials, armor sliders — built for hundreds of sessions."
+    },
+    "licensedUniverses": {
+      "eyebrow": "Program",
+      "title": "Licensed Universes",
+      "desc": "Collaborations with independent creators and studios. Bespoke tools, unique aesthetics, WARDEN manufacturing standards."
+    },
+    "bundles": {
+      "eyebrow": "Savings",
+      "title": "Bundles",
+      "desc": "Curated sets at a reduced price. Commander Pack, Aerospace Bundle, Starter Kit — everything in one package."
+    },
+    "communitySupport": {
+      "eyebrow": "Resources",
+      "title": "Community Support",
+      "desc": "Product guides, FAQs and community channels. Wardens helping wardens across all three game systems."
+    },
+    "featuredEyebrow": "Featured",
+    "featuredTitle": "Battle-tested",
+    "featuredDesc": "Our most used tools, tested across thousands of game sessions.",
+    "designPrinciplesEyebrow": "Design Principles",
+    "designPrinciplesTitle": "Three rules we never break",
+    "principle1": {
+      "number": "01",
+      "title": "Design to play",
+      "desc": "Every WARDEN product starts with a gameplay problem. If a tool doesn't speed up a phase, clarify a rule, or reduce cognitive load, it doesn't get made. No decoration. No filler. Just function."
+    },
+    "principle2": {
+      "number": "02",
+      "title": "Build to last",
+      "desc": "Brass, aluminum and acrylic machined with precise tolerances. Each material is selected for its mechanical properties and validated across hundreds of sessions. A WARDEN tool must survive the campaign."
+    },
+    "principle3": {
+      "number": "03",
+      "title": "Evolve without losing identity",
+      "desc": "New products, new systems, new materials — but the same commitment to clarity, compatibility and coherence. Each collection adds capability without fragmenting the experience."
+    },
+    "systemsEyebrow": "Game systems",
+    "systemsTitle": "Compatible across the spectrum",
+    "processEyebrow": "Process",
+    "processTitle": "How WARDEN works",
+    "processDesc": "We don't operate with direct checkout. Here's how to get WARDEN products for your table.",
+    "step1Title": "Explore and select",
+    "step1Desc": "Browse the catalog and add products to your Selection. No account needed.",
+    "step2Title": "Request a quote",
+    "step2Desc": "Submit your Selection with your contact details. We review and respond with price, availability and delivery times.",
+    "step3Title": "Confirm and receive",
+    "step3Desc": "Once confirmed, your order enters production. Small-batch manufacturing to guarantee quality. International shipping."
+  },
+  "about": {
+    "heroEyebrow": "Identity",
+    "heroTitle": "About WARDEN",
+    "heroP1": "WARDEN develops physical precision equipment for the gaming experience in BattleTech Classic, Alpha Strike and AeroTech. Each product is born from a real need on the table: reducing mechanical friction, speeding up game phases and clarifying the state of play.",
+    "heroP2": "We don't manufacture decoration. We manufacture tools that earn their place on the table. If a product doesn't solve a concrete problem — whether speed, clarity or cognitive load — it doesn't get made.",
+    "purposeEyebrow": "Purpose",
+    "purposeTitle": "Mission and vision",
+    "missionEyebrow": "Mission",
+    "missionText": "Eliminate mechanical and cognitive friction from tabletop wargaming through physical tools designed with technical criteria, manufactured with industrial materials, and validated across hundreds of real game sessions.",
+    "visionEyebrow": "Vision",
+    "visionText": "To be the reference standard in functional accessories for sci-fi wargaming, maintaining the commitment to manufacturing quality, compatibility with official systems, and a design ethic where function determines form.",
+    "principlesEyebrow": "Principles",
+    "principlesTitle": "Values",
+    "principlesDesc": "Six principles that govern every design, material and production decision.",
+    "systemsEyebrow": "Systems",
+    "systemsTitle": "Reference systems",
+    "systemsDesc": "WARDEN designs and tests its products for the three main systems of the BattleTech ecosystem.",
+    "philosophyEyebrow": "Philosophy",
+    "philosophyTitle": "Design to play. Build to last.",
+    "philosophyDesc": "Three principles that define how we think, design and manufacture.",
+    "historyEyebrow": "History",
+    "historyTitle": "Trajectory",
+    "historyDesc": "From the community to the catalog. The milestones that have defined the project.",
+    "dnaEyebrow": "Design DNA",
+    "dnaTitle": "How we design",
+    "dnaDesc": "Six principles that govern every engineering and manufacturing decision.",
+    "ctaEyebrow": "Explore",
+    "ctaTitle": "View the catalog",
+    "ctaDesc": "All WARDEN products are organized by collection and system. Each sheet includes technical specifications, compatibility and usage guides.",
+    "goToCatalog": "Go to catalog",
+    "communitySupport": "Community Support"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The resource you're looking for doesn't exist or has been moved.",
+    "backToHome": "Back to home",
+    "exploreCatalog": "Explore catalog"
+  },
+  "selection": {
+    "title": "My Selection",
+    "description": "Products selected for quote request",
+    "empty": "Your Selection is empty",
+    "emptyDesc": "Browse the catalog and start adding products to your Selection.",
+    "browseCatalog": "Browse catalog",
+    "clearAll": "Clear all",
+    "submit": "Request quote",
+    "productAdded": "Product added to Selection",
+    "productRemoved": "Product removed from Selection"
+  }
+}

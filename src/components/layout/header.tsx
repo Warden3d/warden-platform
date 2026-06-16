@@ -2,13 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Menu, X, Minus } from "lucide-react";
 import { useState } from "react";
 import { useSelection } from "@/hooks/use-selection";
 import { mainNavLinks } from "@/data/navigation";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
 
 export function Header() {
+  const t = useTranslations();
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { itemCount } = useSelection();
@@ -29,7 +32,7 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1" aria-label="Navegación principal">
+        <nav className="hidden md:flex items-center gap-1" aria-label={t("nav.mainNavLabel")}>
           {mainNavLinks.map((link) => {
             const isActive =
               link.href === "/"
@@ -46,14 +49,15 @@ export function Header() {
                     : "text-muted-foreground hover:text-foreground hover:bg-warden-elevated"
                 )}
               >
-                {link.label}
+                {link.i18nKey ? t(link.i18nKey as any) : link.label}
               </Link>
             );
           })}
         </nav>
 
-        {/* CTA + mobile toggle */}
-        <div className="flex items-center gap-3">
+        {/* CTA + language + mobile toggle */}
+        <div className="flex items-center gap-1">
+          <LanguageSwitcher />
           <Link
             href="/selection"
             className={cn(
@@ -62,9 +66,9 @@ export function Header() {
                 ? "border-warden-blue/40 text-warden-blue bg-warden-blue/5"
                 : "border-border text-muted-foreground hover:border-warden-blue/30 hover:text-foreground"
             )}
-            aria-label="Mi Selección"
+            aria-label={t("common.mySelection")}
           >
-            Mi Selección
+            {t("common.mySelection")}
             <Minus className="size-2.5 rotate-90" />
             {itemCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 inline-flex items-center justify-center size-4 rounded-full bg-warden-blue text-[10px] font-semibold text-warden-carbon leading-none">
@@ -77,7 +81,7 @@ export function Header() {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
-            aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-label={mobileOpen ? t("common.closeMenu") : t("common.openMenu")}
             type="button"
           >
             {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -88,7 +92,7 @@ export function Header() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div id="mobile-menu" className="md:hidden border-t border-border bg-warden-carbon">
-          <nav className="page-container py-4 flex flex-col gap-1" aria-label="Navegación móvil">
+          <nav className="page-container py-4 flex flex-col gap-1" aria-label={t("nav.mobileNavLabel")}>
             {mainNavLinks.map((link) => {
               const isActive =
                 link.href === "/"
@@ -106,7 +110,7 @@ export function Header() {
                       : "text-muted-foreground hover:text-foreground hover:bg-warden-elevated"
                   )}
                 >
-                  {link.label}
+                  {link.i18nKey ? t(link.i18nKey as any) : link.label}
                 </Link>
               );
             })}
@@ -115,7 +119,7 @@ export function Header() {
               onClick={() => setMobileOpen(false)}
               className="mt-2 px-3 py-2.5 text-xs font-medium tracking-wider uppercase rounded-sm border border-warden-blue/30 text-warden-blue hover:bg-warden-blue/5 transition-colors inline-flex items-center gap-2 relative"
             >
-              Mi Selección
+              {t("common.mySelection")}
               <Minus className="size-2.5 rotate-90" />
               {itemCount > 0 && (
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center size-4 rounded-full bg-warden-blue text-[10px] font-semibold text-warden-carbon leading-none">

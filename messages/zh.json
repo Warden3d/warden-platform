@@ -1,0 +1,155 @@
+{
+  "common": {
+    "siteName": "WARDEN",
+    "tagline": "桌面战棋精密装备",
+    "description": "WARDEN 开发实体产品，提升 BattleTech Classic、Alpha Strike 和 AeroTech 的游戏体验。功能、兼容、坚固、清晰。",
+    "exploreCatalog": "浏览目录",
+    "ourApproach": "我们的理念",
+    "goToSelection": "前往我的精选",
+    "mySelection": "我的精选",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单",
+    "backToHome": "返回首页",
+    "viewCollection": "查看系列",
+    "learnMore": "了解更多",
+    "viewBundles": "查看套装",
+    "getSupport": "获取支持",
+    "language": "语言"
+  },
+  "nav": {
+    "catalog": "目录",
+    "bundles": "套装",
+    "drops": "新品发布",
+    "community": "社区",
+    "about": "关于 WARDEN",
+    "contact": "联系我们",
+    "mainNavLabel": "主导航",
+    "mobileNavLabel": "移动端导航"
+  },
+  "footer": {
+    "brandDesc": "精密装备，旨在提升 BattleTech Classic、Alpha Strike 和 AeroTech 的游戏体验。",
+    "products": "产品",
+    "support": "支持",
+    "warden": "WARDEN",
+    "collections": "系列",
+    "bundles": "套装",
+    "drops": "新品发布",
+    "mySelection": "我的精选",
+    "community": "社区",
+    "contact": "联系我们",
+    "faqs": "常见问题",
+    "about": "关于 WARDEN",
+    "licenses": "授权许可",
+    "allRightsReserved": "版权所有。",
+    "noAffiliation": "与 Topps 或 Catalyst Game Labs 无关联关系。"
+  },
+  "home": {
+    "heroEyebrow": "桌面战棋精密装备",
+    "heroTitle1": "为桌面而生的",
+    "heroTitle2": "工具。",
+    "heroDesc": "WARDEN 开发实体产品，消除 BattleTech Classic、Alpha Strike 和 AeroTech 每个游戏阶段的摩擦。无装饰。无填充。只是值得在桌面上占有一席之地的精密工具。",
+    "exploreCollections": "探索系列",
+    "ourApproach": "我们的理念",
+    "goToMySelection": "前往我的精选",
+    "wardenCore": {
+      "eyebrow": "系列",
+      "title": "WARDEN 核心",
+      "desc": "适用于 BattleTech Classic 的黄铜、铝合金和亚克力工具。命中标记、热量刻度盘、装甲滑块——为数百场对局而打造。"
+    },
+    "licensedUniverses": {
+      "eyebrow": "合作计划",
+      "title": "授权宇宙",
+      "desc": "与独立创作者和工作室的合作。定制工具、独特美学、WARDEN 制造标准。"
+    },
+    "bundles": {
+      "eyebrow": "优惠",
+      "title": "套装",
+      "desc": "精选组合，价格更优。指挥官包、空天套装、入门套件——一包俱全。"
+    },
+    "communitySupport": {
+      "eyebrow": "资源",
+      "title": "社区支持",
+      "desc": "产品指南、常见问题和社区频道。Wardens 帮助 wardens，覆盖全部三套游戏系统。"
+    },
+    "featuredEyebrow": "精选",
+    "featuredTitle": "实战检验",
+    "featuredDesc": "我们最常用的工具，历经数千场对局的考验。",
+    "designPrinciplesEyebrow": "设计原则",
+    "designPrinciplesTitle": "我们永不违背的三条规则",
+    "principle1": {
+      "number": "01",
+      "title": "为游戏而设计",
+      "desc": "每一件 WARDEN 产品都始于一个游戏痛点。如果工具不能加速某个阶段、澄清规则或减轻认知负担，就不会被制造。无装饰。无填充。只有功能。"
+    },
+    "principle2": {
+      "number": "02",
+      "title": "为持久而制造",
+      "desc": "黄铜、铝合金和亚克力，以精密公差加工。每种材料都根据其机械性能选用，并在数百场对局中验证。WARDEN 工具必须能撑过整个战役。"
+    },
+    "principle3": {
+      "number": "03",
+      "title": "进化而不失本色",
+      "desc": "新产品、新系统、新材料——但对清晰性、兼容性和一致性的承诺始终如一。每个系列都在不割裂体验的前提下增加能力。"
+    },
+    "systemsEyebrow": "游戏系统",
+    "systemsTitle": "全谱系兼容",
+    "processEyebrow": "流程",
+    "processTitle": "WARDEN 的工作方式",
+    "processDesc": "我们不提供直接结账。以下是为您的桌面获取 WARDEN 产品的步骤。",
+    "step1Title": "浏览并选择",
+    "step1Desc": "浏览目录并将产品添加到您的精选。无需账户。",
+    "step2Title": "请求报价",
+    "step2Desc": "提交您的精选及联系方式。我们审核后回复价格、库存和交货时间。",
+    "step3Title": "确认并收货",
+    "step3Desc": "确认后，您的订单进入生产。小批量制造以保证品质。国际配送。"
+  },
+  "about": {
+    "heroEyebrow": "身份",
+    "heroTitle": "关于 WARDEN",
+    "heroP1": "WARDEN 为 BattleTech Classic、Alpha Strike 和 AeroTech 的游戏体验开发实体精密装备。每件产品都诞生于桌面上的真实需求：减少机械摩擦、加速游戏阶段、明确游戏状态。",
+    "heroP2": "我们不制造装饰品。我们制造值得在桌面上占有一席之地的工具。如果产品不能解决具体问题——无论是速度、清晰度还是认知负担——就不会被制造。",
+    "purposeEyebrow": "宗旨",
+    "purposeTitle": "使命与愿景",
+    "missionEyebrow": "使命",
+    "missionText": "通过以技术标准设计、以工业材料制造、并在数百场真实对局中验证的实体工具，消除桌面战棋中的机械摩擦与认知负担。",
+    "visionEyebrow": "愿景",
+    "visionText": "成为科幻战棋功能性配件的参考标准，恪守对制造品质、官方系统兼容性的承诺，以及功能决定形式的设计伦理。",
+    "principlesEyebrow": "原则",
+    "principlesTitle": "价值观",
+    "principlesDesc": "指导每一项设计、选材和生产决策的六项原则。",
+    "systemsEyebrow": "系统",
+    "systemsTitle": "参考系统",
+    "systemsDesc": "WARDEN 针对 BattleTech 生态系统的三大主要系统设计和测试其产品。",
+    "philosophyEyebrow": "理念",
+    "philosophyTitle": "为游戏而设计。为持久而制造。",
+    "philosophyDesc": "定义我们思考、设计和制造方式的三项原则。",
+    "historyEyebrow": "历程",
+    "historyTitle": "发展轨迹",
+    "historyDesc": "从社区到目录。定义项目的里程碑。",
+    "dnaEyebrow": "设计基因",
+    "dnaTitle": "我们的设计方式",
+    "dnaDesc": "指导每一项工程和制造决策的六项原则。",
+    "ctaEyebrow": "探索",
+    "ctaTitle": "查看目录",
+    "ctaDesc": "所有 WARDEN 产品按系列和系统组织。每张产品页包含技术规格、兼容性和使用指南。",
+    "goToCatalog": "前往目录",
+    "communitySupport": "社区支持"
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "description": "您寻找的资源不存在或已被移动。",
+    "backToHome": "返回首页",
+    "exploreCatalog": "浏览目录"
+  },
+  "selection": {
+    "title": "我的精选",
+    "description": "已选择用于报价请求的产品",
+    "empty": "您的精选为空",
+    "emptyDesc": "浏览目录并开始将产品添加到您的精选。",
+    "browseCatalog": "浏览目录",
+    "clearAll": "清空全部",
+    "submit": "请求报价",
+    "productAdded": "产品已添加到精选",
+    "productRemoved": "产品已从精选移除"
+  }
+}

@@ -203,6 +203,7 @@ export interface ContactRequest {
 export type NavLink = {
   label: string;
   href: string;
+  i18nKey?: string;
 };
 
 export type FaqItem = {

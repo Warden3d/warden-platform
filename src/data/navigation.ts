@@ -1,28 +1,28 @@
 import type { NavLink } from "@/types/warden";
 
 export const mainNavLinks: NavLink[] = [
-  { label: "Catálogo", href: "/collections" },
-  { label: "Bundles", href: "/bundles" },
-  { label: "Drops", href: "/drops" },
-  { label: "Comunidad", href: "/community-support" },
-  { label: "Sobre WARDEN", href: "/about" },
-  { label: "Contacto", href: "/contact" },
+  { label: "Catálogo", href: "/collections", i18nKey: "nav.catalog" },
+  { label: "Bundles", href: "/bundles", i18nKey: "nav.bundles" },
+  { label: "Drops", href: "/drops", i18nKey: "nav.drops" },
+  { label: "Comunidad", href: "/community-support", i18nKey: "nav.community" },
+  { label: "Sobre WARDEN", href: "/about", i18nKey: "nav.about" },
+  { label: "Contacto", href: "/contact", i18nKey: "nav.contact" },
 ];
 
 export const footerNavLinks = {
   products: [
-    { label: "Colecciones", href: "/collections" },
-    { label: "Bundles", href: "/bundles" },
-    { label: "Drops", href: "/drops" },
-    { label: "Mi Selección", href: "/selection" },
+    { label: "Colecciones", href: "/collections", i18nKey: "footer.collections" },
+    { label: "Bundles", href: "/bundles", i18nKey: "footer.bundles" },
+    { label: "Drops", href: "/drops", i18nKey: "footer.drops" },
+    { label: "Mi Selección", href: "/selection", i18nKey: "footer.mySelection" },
   ],
   support: [
-    { label: "Comunidad", href: "/community-support" },
-    { label: "Contacto", href: "/contact" },
-    { label: "FAQs", href: "/community-support#faq" },
+    { label: "Comunidad", href: "/community-support", i18nKey: "footer.community" },
+    { label: "Contacto", href: "/contact", i18nKey: "footer.contact" },
+    { label: "FAQs", href: "/community-support#faq", i18nKey: "footer.faqs" },
   ],
   legal: [
-    { label: "Sobre WARDEN", href: "/about" },
-    { label: "Licencias", href: "/collections/licenses" },
+    { label: "Sobre WARDEN", href: "/about", i18nKey: "footer.about" },
+    { label: "Licencias", href: "/collections/licenses", i18nKey: "footer.licenses" },
   ],
 };

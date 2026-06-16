@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
 import { getActiveProducts } from "@/lib/data";
 
@@ -10,9 +11,10 @@ import { VideoHero } from "@/components/layout/video-hero";
 import { ChevronRight, ArrowUpRight, Gauge, Box, Shield } from "lucide-react";
 
 export default async function Home() {
+  const t = await getTranslations("home");
+  const c = await getTranslations("common");
   const products = await getActiveProducts();
   const featuredProducts = products.filter((p) => p.featured);
-
 
   return (
     <>
@@ -21,29 +23,26 @@ export default async function Home() {
         <Container>
           <div className="py-24 md:py-32 lg:py-36 max-w-4xl">
             <Eyebrow className="text-warden-blue">
-              Equipamiento de precisión para wargames de mesa
+              {t("heroEyebrow")}
             </Eyebrow>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Herramientas diseñadas
+              {t("heroTitle1")}
               <br />
-              <span className="text-warden-blue">para la mesa.</span>
+              <span className="text-warden-blue">{t("heroTitle2")}</span>
             </h1>
             <p className="mt-6 max-w-2xl text-base text-muted-foreground leading-relaxed">
-              WARDEN desarrolla productos físicos que eliminan fricción en cada
-              fase de BattleTech Classic, Alpha Strike y AeroTech. Sin
-              decoración. Sin relleno. Solo herramientas de precisión que se
-              ganan su lugar sobre la mesa.
+              {t("heroDesc")}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <WardenButton href="/collections">
-                Explorar colecciones
+                {t("exploreCollections")}
                 <ChevronRight className="size-4" />
               </WardenButton>
               <WardenButton href="/about" variant="outline">
-                Nuestro enfoque
+                {t("ourApproach")}
               </WardenButton>
               <WardenButton href="/selection" variant="ghost">
-                Ir a Mi Selección
+                {t("goToMySelection")}
                 <ArrowUpRight className="size-3.5" />
               </WardenButton>
             </div>
@@ -61,17 +60,15 @@ export default async function Home() {
               className="group bg-warden-carbon p-6 transition-colors hover:bg-warden-surface"
             >
               <Shield className="size-5 text-warden-ochre mb-5" />
-              <Eyebrow>Colección</Eyebrow>
+              <Eyebrow>{t("wardenCore.eyebrow")}</Eyebrow>
               <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-warden-blue transition-colors">
-                WARDEN Core
+                {t("wardenCore.title")}
               </h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Herramientas de latón, aluminio y acrílico para BattleTech
-                Classic. Marcadores de hexágono, diales de calor, deslizadores
-                de blindaje — construidos para cientos de sesiones.
+                {t("wardenCore.desc")}
               </p>
               <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-warden-blue uppercase tracking-wider">
-                Ver colección <ChevronRight className="size-3" />
+                {c("viewCollection")} <ChevronRight className="size-3" />
               </span>
             </Link>
 
@@ -81,17 +78,15 @@ export default async function Home() {
               className="group bg-warden-carbon p-6 transition-colors hover:bg-warden-surface"
             >
               <Gauge className="size-5 text-warden-green mb-5" />
-              <Eyebrow>Programa</Eyebrow>
+              <Eyebrow>{t("licensedUniverses.eyebrow")}</Eyebrow>
               <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-warden-green transition-colors">
-                Universos licenciados
+                {t("licensedUniverses.title")}
               </h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Colaboraciones con creadores independientes y estudios.
-                Herramientas a medida, estética única, estándares de
-                fabricación WARDEN.
+                {t("licensedUniverses.desc")}
               </p>
               <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-warden-green uppercase tracking-wider">
-                Saber más <ChevronRight className="size-3" />
+                {c("learnMore")} <ChevronRight className="size-3" />
               </span>
             </Link>
 
@@ -101,16 +96,15 @@ export default async function Home() {
               className="group bg-warden-carbon p-6 transition-colors hover:bg-warden-surface"
             >
               <Box className="size-5 text-warden-blue mb-5" />
-              <Eyebrow>Ahorro</Eyebrow>
+              <Eyebrow>{t("bundles.eyebrow")}</Eyebrow>
               <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-warden-blue transition-colors">
-                Bundles
+                {t("bundles.title")}
               </h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Conjuntos seleccionados a precio reducido. Commander Pack,
-                Aerospace Bundle, Starter Kit — todo en un solo paquete.
+                {t("bundles.desc")}
               </p>
               <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-warden-blue uppercase tracking-wider">
-                Ver bundles <ChevronRight className="size-3" />
+                {c("viewBundles")} <ChevronRight className="size-3" />
               </span>
             </Link>
 
@@ -131,16 +125,15 @@ export default async function Home() {
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
               </svg>
-              <Eyebrow>Recursos</Eyebrow>
+              <Eyebrow>{t("communitySupport.eyebrow")}</Eyebrow>
               <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-foreground transition-colors">
-                Community Support
+                {t("communitySupport.title")}
               </h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Guías de producto, FAQs y canales de comunidad. Wardens
-                ayudando a wardens en los tres sistemas de juego.
+                {t("communitySupport.desc")}
               </p>
               <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground uppercase tracking-wider group-hover:text-foreground transition-colors">
-                Obtener soporte <ChevronRight className="size-3" />
+                {c("getSupport")} <ChevronRight className="size-3" />
               </span>
             </Link>
           </div>
@@ -153,13 +146,12 @@ export default async function Home() {
       <Section>
         <Container>
           <div className="mb-12">
-            <Eyebrow>Destacados</Eyebrow>
+            <Eyebrow>{t("featuredEyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Probados sobre la mesa
+              {t("featuredTitle")}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-              Nuestras herramientas más usadas, testadas en miles de sesiones
-              de juego.
+              {t("featuredDesc")}
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -176,47 +168,38 @@ export default async function Home() {
       <Section>
         <Container>
           <div className="mb-12">
-            <Eyebrow className="text-warden-blue">Design Principles</Eyebrow>
+            <Eyebrow className="text-warden-blue">{t("designPrinciplesEyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Three rules we never break
+              {t("designPrinciplesTitle")}
             </h2>
           </div>
 
           <div className="grid gap-px bg-border sm:grid-cols-3">
             <div className="bg-warden-carbon p-8">
-              <span className="text-data text-warden-blue mb-4 block">01</span>
+              <span className="text-data text-warden-blue mb-4 block">{t("principle1.number")}</span>
               <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
-                Diseñar para jugar
+                {t("principle1.title")}
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Cada producto WARDEN parte de un problema de juego. Si una
-                herramienta no acelera una fase, clarifica una regla o reduce
-                la carga cognitiva, no se fabrica. Sin decoración. Sin relleno.
-                Solo función.
+                {t("principle1.desc")}
               </p>
             </div>
             <div className="bg-warden-carbon p-8">
-              <span className="text-data text-warden-green mb-4 block">02</span>
+              <span className="text-data text-warden-green mb-4 block">{t("principle2.number")}</span>
               <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
-                Construir para durar
+                {t("principle2.title")}
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Latón, aluminio y acrílico mecanizados con tolerancias
-                precisas. Cada material se selecciona por sus propiedades
-                mecánicas y se valida en cientos de sesiones. Una herramienta
-                WARDEN debe sobrevivir a la campaña.
+                {t("principle2.desc")}
               </p>
             </div>
             <div className="bg-warden-carbon p-8">
-              <span className="text-data text-warden-ochre mb-4 block">03</span>
+              <span className="text-data text-warden-ochre mb-4 block">{t("principle3.number")}</span>
               <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
-                Evolucionar sin perder identidad
+                {t("principle3.title")}
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Nuevos productos, nuevos sistemas, nuevos materiales — pero el
-                mismo compromiso con la claridad, la compatibilidad y la
-                coherencia. Cada colección añade capacidad sin fragmentar la
-                experiencia.
+                {t("principle3.desc")}
               </p>
             </div>
           </div>
@@ -229,27 +212,27 @@ export default async function Home() {
       <Section>
         <Container>
           <div className="mb-12">
-            <Eyebrow>Sistemas de juego</Eyebrow>
+            <Eyebrow>{t("systemsEyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Compatible en todo el espectro
+              {t("systemsTitle")}
             </h2>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-3">
             <DataPanel label="BattleTech Classic" className="border-warden-ochre/20">
-              <DataRow label="Escala" value="1 hexágono = 30 m" />
-              <DataRow label="Unidades" value="Lanza / Compañía" />
-              <DataRow label="Herramientas" value="4 productos" />
+              <DataRow label="Scale" value="1 hex = 30 m" />
+              <DataRow label="Units" value="Lance / Company" />
+              <DataRow label="Tools" value="4 products" />
             </DataPanel>
             <DataPanel label="Alpha Strike" className="border-warden-blue/20">
-              <DataRow label="Escala" value="Abstracta" />
-              <DataRow label="Unidades" value="Compañía / Batallón" />
-              <DataRow label="Herramientas" value="1 producto" />
+              <DataRow label="Scale" value="Abstract" />
+              <DataRow label="Units" value="Company / Battalion" />
+              <DataRow label="Tools" value="1 product" />
             </DataPanel>
             <DataPanel label="AeroTech" className="border-warden-green/20">
-              <DataRow label="Escala" value="Atmosférica / Espacial" />
-              <DataRow label="Unidades" value="Caza / Escuadrón" />
-              <DataRow label="Herramientas" value="2 productos" />
+              <DataRow label="Scale" value="Atmospheric / Space" />
+              <DataRow label="Units" value="Fighter / Squadron" />
+              <DataRow label="Tools" value="2 products" />
             </DataPanel>
           </div>
         </Container>
@@ -261,43 +244,39 @@ export default async function Home() {
       <Section>
         <Container>
           <div className="max-w-3xl">
-            <Eyebrow>Proceso</Eyebrow>
+            <Eyebrow>{t("processEyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Cómo funciona WARDEN
+              {t("processTitle")}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              No operamos con checkout directo. Así es como conseguir productos
-              WARDEN para tu mesa.
+              {t("processDesc")}
             </p>
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
               <div>
                 <span className="text-data text-warden-blue block mb-2">01</span>
                 <h4 className="text-sm font-semibold text-foreground">
-                  Explora y selecciona
+                  {t("step1Title")}
                 </h4>
                 <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-                  Recorre el catálogo y añade productos a tu Selección. No se
-                  necesita cuenta.
+                  {t("step1Desc")}
                 </p>
               </div>
               <div>
                 <span className="text-data text-warden-green block mb-2">02</span>
                 <h4 className="text-sm font-semibold text-foreground">
-                  Solicita presupuesto
+                  {t("step2Title")}
                 </h4>
                 <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-                  Envía tu Selección con tus datos de contacto. Revisamos y
-                  respondemos con precio, disponibilidad y plazos de entrega.
+                  {t("step2Desc")}
                 </p>
               </div>
               <div>
                 <span className="text-data text-warden-ochre block mb-2">03</span>
                 <h4 className="text-sm font-semibold text-foreground">
-                  Confirma y recibe
+                  {t("step3Title")}
                 </h4>
                 <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-                  Una vez confirmado, tu pedido entra en producción. Fabricación
-                  en pequeños lotes para garantizar calidad. Envíos internacionales.
+                  {t("step3Desc")}
                 </p>
               </div>
             </div>

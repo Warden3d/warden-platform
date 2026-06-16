@@ -19,9 +19,9 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Sobre WARDEN",
+  title: "About WARDEN",
   description:
-    "WARDEN desarrolla equipamiento físico de precisión para BattleTech Classic, Alpha Strike y AeroTech. Conoce nuestra historia, valores y filosofía de diseño.",
+    "WARDEN develops physical precision equipment for BattleTech Classic, Alpha Strike and AeroTech. Learn about our history, values and design philosophy.",
 };
 
 const values = [
