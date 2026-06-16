@@ -2,11 +2,19 @@
 
 import { useRef, useEffect, useState } from "react";
 
-const VIDEO_SRC = "/videos/background.mp4";
+const VIDEOS = [
+  "/videos/background.mp4",
+  "/videos/background-2.mp4",
+];
+
+function pickVideo(): string {
+  return VIDEOS[Math.floor(Math.random() * VIDEOS.length)];
+}
 
 export function VideoHero({ children }: { children: React.ReactNode }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [loaded, setLoaded] = useState(false);
+  const [src] = useState(pickVideo);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -35,13 +43,14 @@ export function VideoHero({ children }: { children: React.ReactNode }) {
         loop
         playsInline
         preload="auto"
+        key={src}
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${loaded ? "opacity-100" : "opacity-0"}`}
         poster="/images/products/hex-markers-brass.svg"
       >
-        <source src={VIDEO_SRC} type="video/mp4" />
+        <source src={src} type="video/mp4" />
       </video>
 
-      {/* Gradient fallback (shows before video loads + when video fails) */}
+      {/* Gradient fallback */}
       <div
         className={`absolute inset-0 transition-opacity duration-1000 ${loaded ? "opacity-0" : "opacity-100"}`}
         style={{
@@ -54,7 +63,7 @@ export function VideoHero({ children }: { children: React.ReactNode }) {
         }}
       />
 
-      {/* Dark overlay for text readability */}
+      {/* Dark overlay */}
       <div
         className={`absolute inset-0 transition-opacity duration-1000 ${loaded ? "bg-warden-carbon/60" : "bg-warden-carbon/80"}`}
       />
