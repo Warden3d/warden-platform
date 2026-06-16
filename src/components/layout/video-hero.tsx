@@ -7,8 +7,14 @@ const VIDEOS = [
   "/videos/background-2.mp4",
 ];
 
+const COUNTER_KEY = "warden-video-idx";
+
 function pickVideo(): string {
-  return VIDEOS[Math.floor(Math.random() * VIDEOS.length)];
+  if (typeof window === "undefined") return VIDEOS[0];
+  const idx = parseInt(localStorage.getItem(COUNTER_KEY) ?? "0", 10);
+  const next = (idx + 1) % VIDEOS.length;
+  localStorage.setItem(COUNTER_KEY, String(next));
+  return VIDEOS[idx % VIDEOS.length];
 }
 
 export function VideoHero({ children }: { children: React.ReactNode }) {
