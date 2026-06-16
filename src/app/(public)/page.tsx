@@ -5,6 +5,7 @@ import { getActiveProducts } from "@/lib/data";
 import { ProductCard } from "@/components/catalog/product-card";
 import { WardenButton } from "@/components/ui/warden-button";
 import { DataPanel, DataRow } from "@/components/shared/data-panel";
+import { VideoHero } from "@/components/layout/video-hero";
 
 import { ChevronRight, ArrowUpRight, Gauge, Box, Shield } from "lucide-react";
 
@@ -15,11 +16,10 @@ export default async function Home() {
 
   return (
     <>
-      {/* ── HERO ── */}
-      <section className="relative overflow-hidden border-b border-border bg-warden-carbon">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,hsl(210,35%,52%,0.06),transparent_70%)]" />
+      {/* ── HERO (video background) ── */}
+      <VideoHero>
         <Container>
-          <div className="py-24 md:py-32 lg:py-36 max-w-4xl relative">
+          <div className="py-24 md:py-32 lg:py-36 max-w-4xl">
             <Eyebrow className="text-warden-blue">
               Equipamiento de precisión para wargames de mesa
             </Eyebrow>
@@ -49,7 +49,7 @@ export default async function Home() {
             </div>
           </div>
         </Container>
-      </section>
+      </VideoHero>
 
       {/* ── ACCESS BLOCKS ── */}
       <Section>
