@@ -21,7 +21,7 @@ export const collections: Collection[] = [
     name: "WARDEN Core",
     description:
       "Línea principal de herramientas de precisión para BattleTech. Componentes de latón, aluminio y acrílico diseñados para reducir el desorden en la mesa y acelerar cada fase de la partida.",
-    thumbnailUrl: "/images/collections/warden-core.jpg",
+    thumbnailUrl: "/images/collections/warden-core.svg",
   },
   {
     id: "col-licenses",
@@ -29,7 +29,7 @@ export const collections: Collection[] = [
     name: "Licenses",
     description:
       "Colaboraciones con estudios asociados y creadores independientes. Cada colección licenciada aporta estética y herramientas únicas manteniendo los estándares WARDEN de precisión y durabilidad.",
-    thumbnailUrl: "/images/collections/licenses.jpg",
+    thumbnailUrl: "/images/collections/licenses.svg",
   },
 ];
 
@@ -109,7 +109,7 @@ export const licenses: License[] = [
     description:
       "Estudio independiente especializado en escenografía post-apocalíptica y terrenos modulares para wargames de ciencia ficción. Sus diseños se integran con los sistemas de juego de BattleTech manteniendo una estética yerma y desgastada.",
     website: "https://wastelandstudios.example.com",
-    logoUrl: "/images/licenses/wasteland-studios.png",
+    logoUrl: "/images/licenses/wasteland-studios.svg",
   },
 ];
 
@@ -171,8 +171,8 @@ export const products: Product[] = [
       "Desarrollan pátina natural con el uso",
     ],
     images: buildImages("prod-001", [
-      { url: "/images/products/hex-markers-brass.jpg", alt: "Hex Position Markers sobre un mapa hexagonal", isPrimary: true },
-      { url: "/images/products/hex-markers-brass-angle.jpg", alt: "Detalle de los marcadores de latón" },
+      { url: "/images/products/hex-markers-brass.svg", alt: "Hex Position Markers sobre un mapa hexagonal", isPrimary: true },
+      { url: "/images/products/hex-markers-brass-angle.svg", alt: "Detalle de los marcadores de latón" },
     ]),
     status: "active",
     featured: true,
@@ -214,7 +214,7 @@ export const products: Product[] = [
       "Numeración grabada por láser de alto contraste",
     ],
     images: buildImages("prod-002", [
-      { url: "/images/products/heat-dial.jpg", alt: "Tactical Heat Dial sobre hoja de registro", isPrimary: true },
+      { url: "/images/products/heat-dial.svg", alt: "Tactical Heat Dial sobre hoja de registro", isPrimary: true },
     ]),
     status: "active",
     featured: true,
@@ -256,7 +256,7 @@ export const products: Product[] = [
       "Funda de almacenamiento con tarjeta de referencia",
     ],
     images: buildImages("prod-003", [
-      { url: "/images/products/movement-templates.jpg", alt: "Plantillas de movimiento Alpha Strike", isPrimary: true },
+      { url: "/images/products/movement-templates.svg", alt: "Plantillas de movimiento Alpha Strike", isPrimary: true },
     ]),
     status: "active",
     featured: true,
@@ -297,7 +297,7 @@ export const products: Product[] = [
       "Resistencia ajustada para evitar desplazamiento accidental",
     ],
     images: buildImages("prod-004", [
-      { url: "/images/products/armor-sliders.jpg", alt: "Deslizadores de blindaje sobre hoja de registro", isPrimary: true },
+      { url: "/images/products/armor-sliders.svg", alt: "Deslizadores de blindaje sobre hoja de registro", isPrimary: true },
     ]),
     status: "active",
     featured: false,
@@ -338,7 +338,7 @@ export const products: Product[] = [
       "Tamaño compacto para bandeja de dados",
     ],
     images: buildImages("prod-005", [
-      { url: "/images/products/cluster-wheel.jpg", alt: "Cluster Hit Quick Wheel", isPrimary: true },
+      { url: "/images/products/cluster-wheel.svg", alt: "Cluster Hit Quick Wheel", isPrimary: true },
     ]),
     status: "active",
     featured: false,
@@ -380,7 +380,7 @@ export const products: Product[] = [
       "Base compartida que encaja con hojas de registro",
     ],
     images: buildImages("prod-006", [
-      { url: "/images/products/altitude-tracker.jpg", alt: "AeroTech Altitude and Velocity Tracker", isPrimary: true },
+      { url: "/images/products/altitude-tracker.svg", alt: "AeroTech Altitude and Velocity Tracker", isPrimary: true },
     ]),
     status: "active",
     featured: false,
@@ -424,7 +424,7 @@ export const products: Product[] = [
       "Listo para imprimación y pintura acrílica",
     ],
     images: buildImages("prod-007", [
-      { url: "/images/products/wasteland-command-post.jpg", alt: "Wasteland Command Post sin pintar", isPrimary: true },
+      { url: "/images/products/wasteland-command-post.svg", alt: "Wasteland Command Post sin pintar", isPrimary: true },
     ]),
     status: "active",
     featured: true,
@@ -466,7 +466,7 @@ export const products: Product[] = [
       "Diseño original de Wasteland Studios",
     ],
     images: buildImages("prod-008", [
-      { url: "/images/products/scavenger-terrain-pack.jpg", alt: "Scavenger's Terrain Pack completo", isPrimary: true },
+      { url: "/images/products/scavenger-terrain-pack.svg", alt: "Scavenger's Terrain Pack completo", isPrimary: true },
     ]),
     status: "active",
     featured: false,
@@ -507,7 +507,7 @@ export const products: Product[] = [
       "Incluye marcadores de edificios y notas de escenario",
     ],
     images: buildImages("prod-009", [
-      { url: "/images/products/fallen-city-map-pack.jpg", alt: "Fallen City Map Pack — mapa del centro urbano", isPrimary: true },
+      { url: "/images/products/fallen-city-map-pack.svg", alt: "Fallen City Map Pack — mapa del centro urbano", isPrimary: true },
     ]),
     status: "active",
     featured: false,
@@ -534,10 +534,10 @@ export const products: Product[] = [
 // ─────────────────────────────────────────────────
 
 const bundleImage = buildImages("bundle-001", [
-  { url: "/images/bundles/commander-pack.jpg", alt: "Commander Pack", isPrimary: true },
+  { url: "/images/bundles/commander-pack.svg", alt: "Commander Pack", isPrimary: true },
 ]);
 const starterImage = buildImages("bundle-002", [
-  { url: "/images/bundles/starter-pack.jpg", alt: "WARDEN Starter Pack", isPrimary: true },
+  { url: "/images/bundles/starter-pack.svg", alt: "WARDEN Starter Pack", isPrimary: true },
 ]);
 
 export const bundles: Bundle[] = [
@@ -586,7 +586,7 @@ export const drops: Drop[] = [
     startsAt: "2026-07-15T17:00:00Z",
     endsAt: "2026-07-31T23:59:59Z",
     status: "live",
-    thumbnailUrl: "/images/drops/steel-edition.jpg",
+    thumbnailUrl: "/images/drops/steel-edition.svg",
     productIds: ["prod-001"],
   },
   {
@@ -599,7 +599,7 @@ export const drops: Drop[] = [
     startsAt: "2026-08-01T17:00:00Z",
     endsAt: "2026-08-04T16:59:59Z",
     status: "upcoming",
-    thumbnailUrl: "/images/drops/wasteland-launch.jpg",
+    thumbnailUrl: "/images/drops/wasteland-launch.svg",
     productIds: ["prod-007", "prod-008", "prod-009"],
   },
 ];
