@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
-import { drops, products, compatibilitySystems } from "@/data/warden-catalog";
+import { getDrops, getActiveProducts, getCompatibilitySystems } from "@/lib/data";
+import type { Drop, CompatibilitySystem } from "@/types/warden";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ChevronRight, Timer, Archive } from "lucide-react";
@@ -10,11 +11,11 @@ import { ChevronRight, Timer, Archive } from "lucide-react";
 export const metadata: Metadata = {
   title: "Drops",
   description:
-    "Limited production runs and launch drops from WARDEN. Time-limited availability on special editions and new product launches.",
+    "Lanzamientos temporales y ediciones limitadas de WARDEN. Disponibilidad por tiempo limitado en ediciones especiales y nuevos productos.",
 };
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
+  return new Date(iso).toLocaleDateString("es-ES", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -23,17 +24,13 @@ function formatDate(iso: string) {
 
 function DropCard({
   drop,
+  compatSystems,
   variant,
 }: {
-  drop: (typeof drops)[number];
+  drop: Drop;
+  compatSystems: CompatibilitySystem[];
   variant: "live" | "upcoming" | "ended";
 }) {
-  const dropProducts = products.filter((p) => drop.productIds.includes(p.id));
-  const compatIds = [...new Set(dropProducts.map((p) => p.compatibilityId))];
-  const compatSystems = compatIds
-    .map((id) => compatibilitySystems.find((c) => c.id === id))
-    .filter(Boolean);
-
   const isMuted = variant === "ended";
 
   return (
@@ -126,11 +123,25 @@ function DropCard({
   );
 }
 
-export default function DropsPage() {
+export default async function DropsPage() {
+  const [drops, products, compatibilitySystems] = await Promise.all([
+    getDrops(),
+    getActiveProducts(),
+    getCompatibilitySystems(),
+  ]);
+
   const live = drops.filter((d) => d.status === "live");
   const upcoming = drops.filter((d) => d.status === "upcoming");
   const ended = drops.filter((d) => d.status === "ended");
   const hasActive = live.length > 0 || upcoming.length > 0;
+
+  function getDropCompatSystems(drop: Drop): CompatibilitySystem[] {
+    const dropProducts = products.filter((p) => drop.productIds.includes(p.id));
+    const compatIds = [...new Set(dropProducts.map((p) => p.compatibilityId))];
+    return compatIds
+      .map((id) => compatibilitySystems.find((c) => c.id === id))
+      .filter(Boolean) as CompatibilitySystem[];
+  }
 
   return (
     <Section>
@@ -199,7 +210,12 @@ export default function DropsPage() {
                 </h2>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {ended.map((drop) => (
-                    <DropCard key={drop.id} drop={drop} variant="ended" />
+                    <DropCard
+                      key={drop.id}
+                      drop={drop}
+                      compatSystems={getDropCompatSystems(drop)}
+                      variant="ended"
+                    />
                   ))}
                 </div>
               </div>
@@ -231,7 +247,12 @@ export default function DropsPage() {
                 </h2>
                 <div className="grid gap-6 sm:grid-cols-2">
                   {live.map((drop) => (
-                    <DropCard key={drop.id} drop={drop} variant="live" />
+                    <DropCard
+                      key={drop.id}
+                      drop={drop}
+                      compatSystems={getDropCompatSystems(drop)}
+                      variant="live"
+                    />
                   ))}
                 </div>
               </div>
@@ -247,7 +268,12 @@ export default function DropsPage() {
                 </h2>
                 <div className="grid gap-6 sm:grid-cols-2">
                   {upcoming.map((drop) => (
-                    <DropCard key={drop.id} drop={drop} variant="upcoming" />
+                    <DropCard
+                      key={drop.id}
+                      drop={drop}
+                      compatSystems={getDropCompatSystems(drop)}
+                      variant="upcoming"
+                    />
                   ))}
                 </div>
               </div>
@@ -263,7 +289,12 @@ export default function DropsPage() {
                 </h2>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {ended.map((drop) => (
-                    <DropCard key={drop.id} drop={drop} variant="ended" />
+                    <DropCard
+                      key={drop.id}
+                      drop={drop}
+                      compatSystems={getDropCompatSystems(drop)}
+                      variant="ended"
+                    />
                   ))}
                 </div>
               </div>

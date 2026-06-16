@@ -1,8 +1,8 @@
 import { Package } from "lucide-react";
 
 export function EmptyState({
-  title = "No products found",
-  description = "Try adjusting your filters or search terms to discover what you need.",
+  title = "No se encontraron productos",
+  description = "Prueba a ajustar los filtros o los términos de búsqueda para encontrar lo que necesitas.",
   icon: Icon = Package,
 }: {
   title?: string;

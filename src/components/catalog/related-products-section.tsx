@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Product, Bundle } from "@/types/warden";
-import { products, bundles } from "@/data/warden-catalog";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
 import { ChevronRight, Package } from "lucide-react";
 
@@ -32,7 +31,7 @@ function RelatedProductCard({ product }: { product: Product }) {
           ${product.price.toFixed(2)}
         </span>
         <span className="text-xs text-warden-blue inline-flex items-center gap-0.5">
-          View <ChevronRight className="size-3" />
+          Ver <ChevronRight className="size-3" />
         </span>
       </div>
     </Link>
@@ -62,12 +61,12 @@ function RelatedBundleCard({ bundle }: { bundle: Bundle }) {
           </span>
           {bundle.discountLabel && (
             <span className="ml-2 text-[10px] text-warden-green uppercase tracking-wider">
-              Save
+              Ahorro
             </span>
           )}
         </div>
         <span className="text-xs text-warden-blue inline-flex items-center gap-0.5">
-          View Bundle <ChevronRight className="size-3" />
+          Ver bundle <ChevronRight className="size-3" />
         </span>
       </div>
     </Link>
@@ -75,41 +74,36 @@ function RelatedBundleCard({ bundle }: { bundle: Bundle }) {
 }
 
 export function RelatedProductsSection({
-  relatedProductIds,
-  relatedBundleIds,
+  products,
+  bundles,
 }: {
-  relatedProductIds: string[];
-  relatedBundleIds: string[];
+  products: Product[];
+  bundles: Bundle[];
 }) {
-  const relatedProducts = products.filter(
-    (p) => relatedProductIds.includes(p.id) && p.status === "active"
-  );
-  const relatedBundles = bundles.filter((b) => relatedBundleIds.includes(b.id));
-
-  if (relatedProducts.length === 0 && relatedBundles.length === 0) return null;
+  if (products.length === 0 && bundles.length === 0) return null;
 
   return (
     <div className="space-y-8">
-      {relatedProducts.length > 0 && (
+      {products.length > 0 && (
         <div>
           <h3 className="text-spec-label text-muted-foreground mb-4">
-            Related Products
+            Productos relacionados
           </h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {relatedProducts.map((p) => (
+            {products.map((p) => (
               <RelatedProductCard key={p.id} product={p} />
             ))}
           </div>
         </div>
       )}
 
-      {relatedBundles.length > 0 && (
+      {bundles.length > 0 && (
         <div>
           <h3 className="text-spec-label text-muted-foreground mb-4">
-            Available in Bundles
+            Disponible en bundles
           </h3>
           <div className="grid gap-4 sm:grid-cols-2">
-            {relatedBundles.map((b) => (
+            {bundles.map((b) => (
               <RelatedBundleCard key={b.id} bundle={b} />
             ))}
           </div>

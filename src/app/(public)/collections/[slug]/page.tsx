@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Container, Section, Eyebrow } from "@/components/shared/container";
-import { collections, products } from "@/data/products";
-import { CompatibilityBadge } from "@/components/catalog/technical-badge";
+import {
+  getActiveProducts,
+  getCollections,
+  getCompatibilitySystems,
+} from "@/lib/data";
+import { ProductCard } from "@/components/catalog/product-card";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ArrowLeft } from "lucide-react";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const collections = await getCollections();
   return collections.map((c) => ({ slug: c.slug }));
 }
 
@@ -16,9 +22,13 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const collections = await getCollections();
   const collection = collections.find((c) => c.slug === slug);
-  if (!collection) return { title: "Collection Not Found" };
-  return { title: collection.name, description: collection.description };
+  if (!collection) return { title: "Colección no encontrada" };
+  return {
+    title: collection.name,
+    description: collection.description,
+  };
 }
 
 export default async function CollectionPage({
@@ -27,32 +37,17 @@ export default async function CollectionPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const [collections, products, compatibilitySystems] = await Promise.all([
+    getCollections(),
+    getActiveProducts(),
+    getCompatibilitySystems(),
+  ]);
+
   const collection = collections.find((c) => c.slug === slug);
+  if (!collection) notFound();
 
-  if (!collection) {
-    return (
-      <Section>
-        <Container>
-          <div className="text-center py-16">
-            <h1 className="text-2xl font-semibold text-foreground">
-              Collection not found
-            </h1>
-            <p className="mt-2 text-muted-foreground">
-              The collection you are looking for does not exist.
-            </p>
-            <div className="mt-6 inline-block">
-              <WardenButton href="/collections" variant="outline">
-                Back to Collections
-              </WardenButton>
-            </div>
-          </div>
-        </Container>
-      </Section>
-    );
-  }
-
-  const collectionProducts = products.filter((p) =>
-    collection.productIds.includes(p.id)
+  const collectionProducts = products.filter(
+    (p) => p.collectionId === collection.id
   );
 
   return (
@@ -64,10 +59,10 @@ export default async function CollectionPage({
             className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="size-4" />
-            All Collections
+            Todas las colecciones
           </Link>
           <div className="max-w-3xl mb-12">
-            <Eyebrow>{collection.productIds.length} products</Eyebrow>
+            <Eyebrow>{collectionProducts.length} productos</Eyebrow>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {collection.name}
             </h1>
@@ -81,51 +76,49 @@ export default async function CollectionPage({
       <Section className="!pt-0">
         <Container>
           {collectionProducts.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2">
-              {collectionProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="border border-border bg-warden-surface p-6"
-                >
-                  <div className="mb-3">
-                    <CompatibilityBadge system={product.system} />
-                  </div>
-                  <h3 className="text-lg font-semibold tracking-tight text-foreground">
-                    {product.name}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                    {product.descriptionShort}
-                  </p>
-                  <div className="mt-4 border-t border-border pt-4">
-                    <h4 className="text-eyebrow text-muted-foreground mb-3">
-                      Specifications
-                    </h4>
-                    <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
-                      {Object.entries(product.specs)
-                        .slice(0, 4)
-                        .map(([key, value]) => (
-                          <div key={key}>
-                            <dt className="text-spec-label text-muted-foreground">
-                              {key}
-                            </dt>
-                            <dd className="text-data text-foreground/90">
-                              {value}
-                            </dd>
-                          </div>
-                        ))}
-                    </dl>
-                  </div>
-                </div>
-              ))}
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {collectionProducts.map((product) => {
+                const compatSystem = compatibilitySystems.find(
+                  (c) => c.id === product.compatibilityId
+                );
+                const compatSlug = compatSystem?.slug as
+                  | "battletech-classic"
+                  | "alpha-strike"
+                  | "aerotech"
+                  | undefined;
+
+                return (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    variant="default"
+                    showImage
+                    showPrice
+                    actions={
+                      compatSlug ? (
+                        <span className="text-eyebrow text-muted-foreground">
+                          {compatSystem?.name}
+                        </span>
+                      ) : undefined
+                    }
+                  />
+                );
+              })}
             </div>
           ) : (
-            <div className="text-center py-12 border border-border bg-warden-surface">
+            <div className="text-center py-16 border border-border bg-warden-surface">
               <p className="text-sm text-muted-foreground">
-                No products have been listed in this collection yet.
+                Esta colección no tiene productos activos en este momento.
               </p>
-              <p className="text-xs text-muted-foreground mt-2">
-                New products are added as they complete development and testing.
+              <p className="text-xs text-muted-foreground/60 mt-2">
+                Los productos se añaden conforme completan desarrollo y
+                pruebas.
               </p>
+              <div className="mt-6 inline-block">
+                <WardenButton href="/catalog" variant="outline">
+                  Explorar catálogo
+                </WardenButton>
+              </div>
             </div>
           )}
         </Container>

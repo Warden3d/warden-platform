@@ -3,19 +3,25 @@ import { Container, Section } from "@/components/shared/container";
 import { CatalogView } from "@/components/catalog/catalog-view";
 import {
   getActiveProducts,
-  collections,
-  categories,
-  compatibilitySystems,
-} from "@/data/warden-catalog";
+  getCollections,
+  getCategories,
+  getCompatibilitySystems,
+} from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Catalog",
+  title: "Catálogo",
   description:
-    "Browse the complete WARDEN catalog. Precision tools for BattleTech Classic, Alpha Strike, and AeroTech.",
+    "Explora el catálogo completo de WARDEN. Herramientas de precisión para BattleTech Classic, Alpha Strike y AeroTech.",
 };
 
-export default function CatalogPage() {
-  const products = getActiveProducts();
+export default async function CatalogPage() {
+  const [products, collections, categories, compatibilitySystems] =
+    await Promise.all([
+      getActiveProducts(),
+      getCollections(),
+      getCategories(),
+      getCompatibilitySystems(),
+    ]);
 
   return (
     <Section>
@@ -25,8 +31,8 @@ export default function CatalogPage() {
           categories={categories}
           compatibilitySystems={compatibilitySystems}
           collections={collections}
-          title="Catalog"
-          description="Explore every WARDEN product. Use the filters to narrow by category, game system, or collection."
+          title="Catálogo"
+          description="Explora todos los productos WARDEN. Usa los filtros para acotar por categoría, sistema de juego o colección."
         />
       </Container>
     </Section>

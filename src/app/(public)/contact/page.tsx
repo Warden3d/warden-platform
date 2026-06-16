@@ -7,9 +7,9 @@ import { WardenButton } from "@/components/ui/warden-button";
 import { ChevronRight, Mail, MapPin, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contacto",
   description:
-    "Get in touch with WARDEN for general inquiries, community support, dealer program, licensing, or other matters.",
+    "Ponte en contacto con WARDEN para consultas generales, Community Support, programa de distribuidores, licencias u otros asuntos.",
 };
 
 export default function ContactPage() {

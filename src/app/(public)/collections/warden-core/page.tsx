@@ -4,10 +4,10 @@ import { Container, Section } from "@/components/shared/container";
 import { CatalogView } from "@/components/catalog/catalog-view";
 import {
   getProductsByCollection,
-  collections,
-  categories,
-  compatibilitySystems,
-} from "@/data/warden-catalog";
+  getCollections,
+  getCategories,
+  getCompatibilitySystems,
+} from "@/lib/data";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -16,8 +16,15 @@ export const metadata: Metadata = {
     "Línea principal de herramientas de precisión para BattleTech. Componentes de latón, aluminio y acrílico diseñados para reducir el desorden en la mesa y acelerar cada fase de la partida.",
 };
 
-export default function WardenCorePage() {
-  const products = getProductsByCollection("warden-core");
+export default async function WardenCorePage() {
+  const [products, collections, categories, compatibilitySystems] =
+    await Promise.all([
+      getProductsByCollection("warden-core"),
+      getCollections(),
+      getCategories(),
+      getCompatibilitySystems(),
+    ]);
+
   const collection = collections.find((c) => c.slug === "warden-core");
 
   return (
@@ -28,7 +35,7 @@ export default function WardenCorePage() {
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ArrowLeft className="size-4" />
-          All Catalog
+          Todo el catálogo
         </Link>
         <CatalogView
           products={products}

@@ -5,7 +5,7 @@ import { Search, X } from "lucide-react";
 export function SearchBar({
   value,
   onChange,
-  placeholder = "Search products...",
+  placeholder = "Buscar productos...",
 }: {
   value: string;
   onChange: (value: string) => void;
@@ -13,8 +13,12 @@ export function SearchBar({
 }) {
   return (
     <div className="relative">
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+      <label htmlFor="catalog-search" className="sr-only">
+        Buscar productos
+      </label>
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" aria-hidden="true" />
       <input
+        id="catalog-search"
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -23,7 +27,9 @@ export function SearchBar({
       />
       {value && (
         <button
+          type="button"
           onClick={() => onChange("")}
+          aria-label="Limpiar búsqueda"
           className="absolute right-2 top-1/2 -translate-y-1/2 size-5 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
         >
           <X className="size-3.5" />

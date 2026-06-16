@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Container, Section, Eyebrow } from "@/components/shared/container";
+import { Container, Section } from "@/components/shared/container";
 import {
-  drops,
-  compatibilitySystems,
   getDropBySlug,
-  getProductsByIds,
-} from "@/data/warden-catalog";
+  getActiveProducts,
+  getCompatibilitySystems,
+  getDrops,
+} from "@/lib/data";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
+import { AddProductsToSelection } from "@/components/catalog/add-products-to-selection";
 import { WardenButton } from "@/components/ui/warden-button";
 import {
   ArrowLeft,
@@ -21,7 +22,7 @@ import {
 } from "lucide-react";
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
+  return new Date(iso).toLocaleDateString("es-ES", {
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -33,14 +34,15 @@ function formatDate(iso: string) {
 }
 
 function formatShortDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
+  return new Date(iso).toLocaleDateString("es-ES", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const drops = await getDrops();
   return drops.map((d) => ({ slug: d.slug }));
 }
 
@@ -50,15 +52,15 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const drop = getDropBySlug(slug);
-  if (!drop) return { title: "Drop Not Found" };
+  const drop = await getDropBySlug(slug);
+  if (!drop) return { title: "Drop no encontrado" };
 
   const statusLabel =
     drop.status === "live"
-      ? "Active"
+      ? "Activo"
       : drop.status === "upcoming"
-        ? "Upcoming"
-        : "Ended";
+        ? "Próximo"
+        : "Finalizado";
 
   return {
     title: `${drop.name} — WARDEN Drops`,
@@ -76,11 +78,18 @@ export default async function DropDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const drop = getDropBySlug(slug);
+
+  const [drop, compatibilitySystems, allProducts] = await Promise.all([
+    getDropBySlug(slug),
+    getCompatibilitySystems(),
+    getActiveProducts(),
+  ]);
 
   if (!drop) notFound();
 
-  const dropProducts = getProductsByIds(drop.productIds);
+  const dropProducts = allProducts.filter((p) =>
+    drop.productIds.includes(p.id)
+  );
   const isLive = drop.status === "live";
   const isUpcoming = drop.status === "upcoming";
   const isEnded = drop.status === "ended";
@@ -210,10 +219,10 @@ export default async function DropDetailPage({
             {/* CTA for live drops */}
             {isLive && (
               <div className="mt-6">
-                <WardenButton href="/selection">
-                  Ir a Mi Selección
-                  <ArrowUpRight className="size-4" />
-                </WardenButton>
+                <AddProductsToSelection
+                  products={dropProducts}
+                  label="Añadir productos del drop"
+                />
               </div>
             )}
 
@@ -394,10 +403,10 @@ export default async function DropDetailPage({
         {/* CTA footer */}
         <div className="border-t border-border pt-8 flex flex-wrap gap-3">
           {isLive && (
-            <WardenButton href="/selection">
-              Ir a Mi Selección
-              <ArrowUpRight className="size-4" />
-            </WardenButton>
+            <AddProductsToSelection
+              products={dropProducts}
+              label="Añadir productos del drop"
+            />
           )}
           <WardenButton href="/catalog" variant="outline">
             Explorar catálogo

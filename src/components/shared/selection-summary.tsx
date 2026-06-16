@@ -21,26 +21,26 @@ export function SelectionSummary({ className }: { className?: string }) {
     >
       <div className="flex items-center gap-2">
         <Package className="size-4 text-warden-blue" />
-        <span className="text-eyebrow">Selection Summary</span>
+        <span className="text-eyebrow">Resumen de la selección</span>
       </div>
 
       <div className="flex items-center justify-between text-sm">
-        <span className="text-muted-foreground">Products</span>
+        <span className="text-muted-foreground">Productos</span>
         <span className="text-data tabular-nums text-foreground">
           {itemCount}
         </span>
       </div>
 
       <div className="flex items-center justify-between text-sm">
-        <span className="text-muted-foreground">Orientative Subtotal</span>
+        <span className="text-muted-foreground">Subtotal orientativo</span>
         <span className="text-data tabular-nums text-foreground">
           ${subtotal.toFixed(2)}
         </span>
       </div>
 
       <p className="text-[11px] text-muted-foreground/60 leading-relaxed">
-        This is an orientative price. The final quote will be confirmed after
-        reviewing your request.
+        Precio orientativo. El presupuesto final se confirmará tras revisar tu
+        solicitud.
       </p>
     </div>
   );

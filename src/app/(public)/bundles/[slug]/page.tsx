@@ -2,23 +2,22 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Container, Section, Eyebrow } from "@/components/shared/container";
+import { Container, Section } from "@/components/shared/container";
 import {
-  bundles,
-  products,
-  compatibilitySystems,
   getBundleBySlug,
-  getProductsByIds,
-} from "@/data/warden-catalog";
+  getActiveProducts,
+  getCompatibilitySystems,
+  getActiveBundles,
+} from "@/lib/data";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
+import { AddProductsToSelection } from "@/components/catalog/add-products-to-selection";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ArrowLeft, Package, ArrowUpRight } from "lucide-react";
 
-export function generateStaticParams() {
-  return bundles
-    .filter((b) => b.status === "active")
-    .map((b) => ({ slug: b.slug }));
+export async function generateStaticParams() {
+  const bundles = await getActiveBundles();
+  return bundles.map((b) => ({ slug: b.slug }));
 }
 
 export async function generateMetadata({
@@ -27,9 +26,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const bundle = getBundleBySlug(slug);
+  const bundle = await getBundleBySlug(slug);
   if (!bundle || bundle.status !== "active")
-    return { title: "Bundle Not Found" };
+    return { title: "Bundle no encontrado" };
 
   return {
     title: `${bundle.name} — WARDEN Bundles`,
@@ -47,11 +46,18 @@ export default async function BundleDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const bundle = getBundleBySlug(slug);
+
+  const [bundle, compatibilitySystems, allProducts] = await Promise.all([
+    getBundleBySlug(slug),
+    getCompatibilitySystems(),
+    getActiveProducts(),
+  ]);
 
   if (!bundle || bundle.status !== "active") notFound();
 
-  const bundleProducts = getProductsByIds(bundle.productIds);
+  const bundleProducts = allProducts.filter((p) =>
+    bundle.productIds.includes(p.id)
+  );
   const totalIndividual = bundleProducts.reduce((sum, p) => sum + p.price, 0);
 
   const compatIds = [...new Set(bundleProducts.map((p) => p.compatibilityId))];
@@ -121,10 +127,10 @@ export default async function BundleDetailPage({
 
             {/* Bundle-wide CTA */}
             <div className="mt-6">
-              <WardenButton href="/selection" variant="ochre">
-                Añadir bundle a Mi Selección
-                <ArrowUpRight className="size-4" />
-              </WardenButton>
+              <AddProductsToSelection
+                products={bundleProducts}
+                label="Añadir bundle a Mi Selección"
+              />
             </div>
 
             {/* Compatibility */}

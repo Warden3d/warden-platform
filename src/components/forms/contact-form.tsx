@@ -16,13 +16,38 @@ import { cn } from "@/lib/utils";
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
+  return <p className="text-xs text-destructive mt-1">{message}</p>;
+}
+
+function FormField({
+  id,
+  label,
+  required,
+  error,
+  children,
+}: {
+  id: string;
+  label: string;
+  required?: boolean;
+  error?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <p className="text-xs text-red-400/80 mt-1">{message}</p>
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="text-spec-label text-muted-foreground">
+        {label}
+        {required && <span className="text-destructive ml-1">*</span>}
+      </label>
+      {children}
+      <FieldError message={error} />
+    </div>
   );
 }
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
 
   const {
     register,
@@ -66,63 +91,43 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <label
-            htmlFor="name"
-            className="text-spec-label text-muted-foreground"
-          >
-            Nombre
-          </label>
+        <FormField id="name" label="Nombre" required error={errors.name?.message}>
           <input
             id="name"
             {...register("name")}
             className={cn(
-              "h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
+              "h-9 w-full min-w-0 rounded-sm border bg-transparent px-3 py-1 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20",
               errors.name
-                ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+                ? "border-destructive focus-visible:border-destructive"
                 : "border-input"
             )}
             placeholder="Tu nombre"
           />
-          <FieldError message={errors.name?.message} />
-        </div>
-        <div className="space-y-1.5">
-          <label
-            htmlFor="email"
-            className="text-spec-label text-muted-foreground"
-          >
-            Email
-          </label>
+        </FormField>
+        <FormField id="email" label="Email" required error={errors.email?.message}>
           <input
             id="email"
             type="email"
             {...register("email")}
             className={cn(
-              "h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
+              "h-9 w-full min-w-0 rounded-sm border bg-transparent px-3 py-1 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20",
               errors.email
-                ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+                ? "border-destructive focus-visible:border-destructive"
                 : "border-input"
             )}
             placeholder="tucorreo@ejemplo.com"
           />
-          <FieldError message={errors.email?.message} />
-        </div>
+        </FormField>
       </div>
 
-      <div className="space-y-1.5">
-        <label
-          htmlFor="subject"
-          className="text-spec-label text-muted-foreground"
-        >
-          Motivo
-        </label>
+      <FormField id="subject" label="Motivo" required error={errors.subject?.message}>
         <select
           id="subject"
           {...register("subject")}
           className={cn(
-            "h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30 appearance-none cursor-pointer",
+            "h-9 w-full min-w-0 rounded-sm border bg-transparent px-3 py-1 text-sm transition-colors outline-none focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20 appearance-none cursor-pointer",
             errors.subject
-              ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+              ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
         >
@@ -135,33 +140,25 @@ export function ContactForm() {
             </option>
           ))}
         </select>
-        <FieldError message={errors.subject?.message} />
-      </div>
+      </FormField>
 
-      <div className="space-y-1.5">
-        <label
-          htmlFor="message"
-          className="text-spec-label text-muted-foreground"
-        >
-          Mensaje
-        </label>
+      <FormField id="message" label="Mensaje" required error={errors.message?.message}>
         <textarea
           id="message"
           rows={6}
           {...register("message")}
           className={cn(
-            "flex field-sizing-content min-h-16 w-full rounded-lg border bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
+            "flex field-sizing-content min-h-16 w-full rounded-sm border bg-transparent px-3 py-2 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20",
             errors.message
-              ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+              ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
           placeholder="Describe tu consulta en detalle..."
         />
-        <FieldError message={errors.message?.message} />
-      </div>
+      </FormField>
 
       {status === "error" && (
-        <p className="text-xs text-red-400/80">
+        <p className="text-xs text-destructive">
           No se pudo enviar el mensaje. Inténtalo de nuevo.
         </p>
       )}

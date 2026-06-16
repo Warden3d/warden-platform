@@ -19,13 +19,38 @@ import { cn } from "@/lib/utils";
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
+  return <p className="text-xs text-destructive mt-1">{message}</p>;
+}
+
+function FormField({
+  id,
+  label,
+  required,
+  error,
+  children,
+}: {
+  id: string;
+  label: string;
+  required?: boolean;
+  error?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <p className="text-xs text-red-400/80 mt-1">{message}</p>
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="text-spec-label text-muted-foreground">
+        {label}
+        {required && <span className="text-destructive ml-1">*</span>}
+      </label>
+      {children}
+      <FieldError message={error} />
+    </div>
   );
 }
 
 export function CommunitySupportForm() {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
 
   const {
     register,
@@ -69,20 +94,19 @@ export function CommunitySupportForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       {/* Entity type */}
-      <div className="space-y-1.5">
-        <label
-          htmlFor="entityType"
-          className="text-spec-label text-muted-foreground"
-        >
-          Tipo de entidad
-        </label>
+      <FormField
+        id="entityType"
+        label="Tipo de entidad"
+        required
+        error={errors.entityType?.message}
+      >
         <select
           id="entityType"
           {...register("entityType")}
           className={cn(
-            "h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30 appearance-none cursor-pointer",
+            "h-9 w-full min-w-0 rounded-sm border bg-transparent px-3 py-1 text-sm transition-colors outline-none focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20 appearance-none cursor-pointer",
             errors.entityType
-              ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+              ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
         >
@@ -95,99 +119,89 @@ export function CommunitySupportForm() {
             </option>
           ))}
         </select>
-        <FieldError message={errors.entityType?.message} />
-      </div>
+      </FormField>
 
-      {/* Entity name */}
+      {/* Entity name + contact */}
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <label
-            htmlFor="entityName"
-            className="text-spec-label text-muted-foreground"
-          >
-            Nombre de la entidad
-          </label>
+        <FormField
+          id="entityName"
+          label="Nombre de la entidad"
+          required
+          error={errors.entityName?.message}
+        >
           <input
             id="entityName"
             {...register("entityName")}
             className={cn(
-              "h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
+              "h-9 w-full min-w-0 rounded-sm border bg-transparent px-3 py-1 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20",
               errors.entityName
-                ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+                ? "border-destructive focus-visible:border-destructive"
                 : "border-input"
             )}
             placeholder="Nombre de la asociación, club, etc."
           />
-          <FieldError message={errors.entityName?.message} />
-        </div>
-
-        <div className="space-y-1.5">
-          <label
-            htmlFor="contactName"
-            className="text-spec-label text-muted-foreground"
-          >
-            Persona de contacto
-          </label>
+        </FormField>
+        <FormField
+          id="contactName"
+          label="Persona de contacto"
+          required
+          error={errors.contactName?.message}
+        >
           <input
             id="contactName"
             {...register("contactName")}
             className={cn(
-              "h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
+              "h-9 w-full min-w-0 rounded-sm border bg-transparent px-3 py-1 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20",
               errors.contactName
-                ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+                ? "border-destructive focus-visible:border-destructive"
                 : "border-input"
             )}
             placeholder="Nombre y apellidos"
           />
-          <FieldError message={errors.contactName?.message} />
-        </div>
+        </FormField>
       </div>
 
       {/* Email */}
-      <div className="space-y-1.5">
-        <label
-          htmlFor="email"
-          className="text-spec-label text-muted-foreground"
-        >
-          Email de contacto
-        </label>
+      <FormField
+        id="email"
+        label="Email de contacto"
+        required
+        error={errors.email?.message}
+      >
         <input
           id="email"
           type="email"
           {...register("email")}
           className={cn(
-            "h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
+            "h-9 w-full min-w-0 rounded-sm border bg-transparent px-3 py-1 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20",
             errors.email
-              ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+              ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
           placeholder="tucorreo@ejemplo.com"
         />
-        <FieldError message={errors.email?.message} />
-      </div>
+      </FormField>
 
       {/* Description */}
-      <div className="space-y-1.5">
-        <label
-          htmlFor="description"
-          className="text-spec-label text-muted-foreground"
-        >
-          Describe tu entidad
-        </label>
+      <FormField
+        id="description"
+        label="Describe tu entidad"
+        required
+        error={errors.description?.message}
+      >
         <textarea
           id="description"
           rows={4}
           {...register("description")}
           className={cn(
-            "flex field-sizing-content min-h-16 w-full rounded-lg border bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
+            "flex field-sizing-content min-h-16 w-full rounded-sm border bg-transparent px-3 py-2 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20",
             errors.description
-              ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+              ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
           placeholder="Cuéntanos quiénes sois, qué hacéis y a qué comunidad pertenecéis..."
         />
-        <FieldError message={errors.description?.message} />
-      </div>
+      </FormField>
 
       {/* Support types */}
       <div className="space-y-2">
@@ -216,27 +230,25 @@ export function CommunitySupportForm() {
       </div>
 
       {/* Details */}
-      <div className="space-y-1.5">
-        <label
-          htmlFor="details"
-          className="text-spec-label text-muted-foreground"
-        >
-          Detalles de la solicitud
-        </label>
+      <FormField
+        id="details"
+        label="Detalles de la solicitud"
+        required
+        error={errors.details?.message}
+      >
         <textarea
           id="details"
           rows={5}
           {...register("details")}
           className={cn(
-            "flex field-sizing-content min-h-16 w-full rounded-lg border bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm dark:bg-input/30",
+            "flex field-sizing-content min-h-16 w-full rounded-sm border bg-transparent px-3 py-2 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-warden-blue/50 focus-visible:ring-1 focus-visible:ring-warden-blue/20",
             errors.details
-              ? "border-red-400/50 focus-visible:border-red-400 focus-visible:ring-red-400/20"
+              ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
           placeholder="Explica qué necesitas, para qué evento o actividad, y cómo el apoyo de WARDEN ayudaría..."
         />
-        <FieldError message={errors.details?.message} />
-      </div>
+      </FormField>
 
       {/* Accepted terms */}
       <div className="space-y-1">
@@ -257,7 +269,7 @@ export function CommunitySupportForm() {
       </div>
 
       {status === "error" && (
-        <p className="text-xs text-red-400/80">
+        <p className="text-xs text-destructive">
           No se pudo enviar la solicitud. Inténtalo de nuevo.
         </p>
       )}

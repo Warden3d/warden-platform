@@ -4,11 +4,11 @@ import { Container, Section, Eyebrow } from "@/components/shared/container";
 import { CatalogView } from "@/components/catalog/catalog-view";
 import {
   getProductsByCollection,
-  collections,
-  categories,
-  compatibilitySystems,
-  licenses,
-} from "@/data/warden-catalog";
+  getCollections,
+  getCategories,
+  getCompatibilitySystems,
+  getLicenses,
+} from "@/lib/data";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ArrowLeft, ChevronRight, ExternalLink } from "lucide-react";
 
@@ -18,8 +18,16 @@ export const metadata: Metadata = {
     "Colaboraciones con estudios asociados y creadores independientes. Cada colección licenciada aporta estética y herramientas únicas manteniendo los estándares WARDEN.",
 };
 
-export default function LicensesPage() {
-  const products = getProductsByCollection("licenses");
+export default async function LicensesPage() {
+  const [products, collections, categories, compatibilitySystems, licenses] =
+    await Promise.all([
+      getProductsByCollection("licenses"),
+      getCollections(),
+      getCategories(),
+      getCompatibilitySystems(),
+      getLicenses(),
+    ]);
+
   const collection = collections.find((c) => c.slug === "licenses");
 
   return (
@@ -31,19 +39,20 @@ export default function LicensesPage() {
             className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
           >
             <ArrowLeft className="size-4" />
-            All Catalog
+            Todo el catálogo
           </Link>
 
           <div className="mb-10 max-w-3xl">
-            <Eyebrow>{licenses.length} partners</Eyebrow>
+            <Eyebrow>{licenses.length} colaboradores</Eyebrow>
             <h1 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Licensed Universes
+              Universos licenciados
             </h1>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-              Collaborations with independent creators and studios within the
-              BattleTech community. Each licensed collection brings custom
-              tooling and unique aesthetics while maintaining WARDEN standards
-              for precision, durability, and gameplay-first design.
+              Colaboraciones con creadores independientes y estudios dentro de
+              la comunidad BattleTech. Cada colección licenciada aporta
+              herramientas a medida y una estética única manteniendo los
+              estándares WARDEN de precisión, durabilidad y diseño centrado en
+              el juego.
             </p>
           </div>
 
@@ -66,7 +75,7 @@ export default function LicensesPage() {
                     size="sm"
                     href={`/collections/licenses/${license.id === "lic-wasteland-studios" ? "wasteland-studios" : license.id}`}
                   >
-                    View Products
+                    Ver productos
                     <ChevronRight className="size-3.5" />
                   </WardenButton>
                   {license.website && (
@@ -77,7 +86,7 @@ export default function LicensesPage() {
                       className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
                     >
                       <ExternalLink className="size-3" />
-                      Website
+                      Web
                     </a>
                   )}
                 </div>
@@ -90,9 +99,9 @@ export default function LicensesPage() {
       <Section className="!pt-0">
         <Container>
           <div className="mb-8">
-            <Eyebrow>{products.length} products</Eyebrow>
+            <Eyebrow>{products.length} productos</Eyebrow>
             <h2 className="mt-2 text-xl font-semibold tracking-tight text-foreground">
-              Licensed Products
+              Productos licenciados
             </h2>
           </div>
           <CatalogView

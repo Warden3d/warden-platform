@@ -43,26 +43,29 @@ export function CatalogFilters({
       {/* Clear all */}
       {hasActiveFilters && (
         <button
+          type="button"
           onClick={onClear}
           className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
         >
           <X className="size-3" />
-          Clear filters
+          Limpiar filtros
         </button>
       )}
 
       {/* Category */}
       <fieldset>
         <legend className="text-spec-label text-muted-foreground mb-2.5">
-          Category
+          Categoría
         </legend>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filtrar por categoría">
           {categories.map((cat) => (
             <button
+              type="button"
               key={cat.id}
               onClick={() => onCategoryChange(cat.id)}
+              aria-pressed={activeCategoryId === cat.id}
               className={cn(
-                "px-2.5 py-1 text-xs border rounded-sm transition-colors",
+                "px-2.5 py-1 text-xs border rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50 focus-visible:ring-offset-1 focus-visible:ring-offset-warden-carbon",
                 activeCategoryId === cat.id
                   ? "border-warden-blue/40 bg-warden-blue/10 text-warden-blue"
                   : "border-border text-muted-foreground hover:border-warden-blue/20 hover:text-foreground"
@@ -77,17 +80,19 @@ export function CatalogFilters({
       {/* Compatibility */}
       <fieldset>
         <legend className="text-spec-label text-muted-foreground mb-2.5">
-          Compatibility
+          Compatibilidad
         </legend>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filtrar por compatibilidad">
           {compatibilitySystems.map((comp) => (
             <button
+              type="button"
               key={comp.id}
               onClick={() => onCompatibilityChange(comp.id)}
+              aria-pressed={activeCompatibilityId === comp.id}
               className={cn(
-                "transition-opacity",
+                "rounded-sm transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50 focus-visible:ring-offset-1 focus-visible:ring-offset-warden-carbon",
                 activeCompatibilityId && activeCompatibilityId !== comp.id
-                  ? "opacity-30 hover:opacity-60"
+                  ? "opacity-40 hover:opacity-70"
                   : "opacity-100"
               )}
             >
@@ -108,15 +113,17 @@ export function CatalogFilters({
       {/* Collection */}
       <fieldset>
         <legend className="text-spec-label text-muted-foreground mb-2.5">
-          Collection
+          Colección
         </legend>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filtrar por colección">
           {collections.map((col) => (
             <button
+              type="button"
               key={col.id}
               onClick={() => onCollectionChange(col.id)}
+              aria-pressed={activeCollectionId === col.id}
               className={cn(
-                "px-2.5 py-1 text-xs border rounded-sm transition-colors",
+                "px-2.5 py-1 text-xs border rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50 focus-visible:ring-offset-1 focus-visible:ring-offset-warden-carbon",
                 activeCollectionId === col.id
                   ? "border-warden-blue/40 bg-warden-blue/10 text-warden-blue"
                   : "border-border text-muted-foreground hover:border-warden-blue/20 hover:text-foreground"

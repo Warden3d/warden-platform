@@ -1,6 +1,7 @@
 "use server";
 
 import { contactSchema } from "@/lib/schemas/contact";
+import { createContactRequest } from "@/lib/data";
 
 export type ContactFormResult = {
   success: boolean;
@@ -11,8 +12,6 @@ export type ContactFormResult = {
 export async function submitContact(
   data: unknown
 ): Promise<ContactFormResult> {
-  await new Promise((r) => setTimeout(r, 1200));
-
   const parsed = contactSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -24,6 +23,13 @@ export async function submitContact(
     }
     return { success: false, errors };
   }
+
+  await createContactRequest({
+    name: parsed.data.name,
+    email: parsed.data.email,
+    subject: parsed.data.subject,
+    message: parsed.data.message,
+  });
 
   return { success: true, message: "Mensaje recibido correctamente." };
 }

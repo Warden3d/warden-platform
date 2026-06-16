@@ -1,6 +1,7 @@
 "use server";
 
 import { communitySupportSchema } from "@/lib/schemas/community-support";
+import { createCommunitySupportRequest } from "@/lib/data";
 
 export type CommunitySupportFormResult = {
   success: boolean;
@@ -11,8 +12,6 @@ export type CommunitySupportFormResult = {
 export async function submitCommunitySupport(
   data: unknown
 ): Promise<CommunitySupportFormResult> {
-  await new Promise((r) => setTimeout(r, 1500));
-
   const parsed = communitySupportSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -24,6 +23,17 @@ export async function submitCommunitySupport(
     }
     return { success: false, errors };
   }
+
+  await createCommunitySupportRequest({
+    entityType: parsed.data.entityType,
+    entityName: parsed.data.entityName,
+    contactName: parsed.data.contactName,
+    email: parsed.data.email,
+    description: parsed.data.description,
+    supportTypes: parsed.data.supportTypes,
+    details: parsed.data.details,
+    acceptedTerms: parsed.data.acceptedTerms,
+  });
 
   return { success: true, message: "Solicitud enviada correctamente." };
 }

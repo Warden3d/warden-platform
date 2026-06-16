@@ -16,24 +16,25 @@ const techMono = Share_Tech_Mono({
 export const metadata: Metadata = {
   title: {
     template: "%s | WARDEN",
-    default: "WARDEN — Precision Equipment",
+    default: "WARDEN — Equipamiento de precisión para BattleTech",
   },
   description:
-    "WARDEN develops physical products to enhance the BattleTech Classic, Alpha Strike, and AeroTech gaming experience. Functionality, compatibility, robustness, and clarity.",
+    "WARDEN desarrolla productos físicos para mejorar la experiencia de juego en BattleTech Classic, Alpha Strike y AeroTech. Funcionalidad, compatibilidad, robustez y claridad.",
   keywords: [
     "WARDEN",
     "BattleTech",
     "Alpha Strike",
     "AeroTech",
-    "tabletop gaming",
-    "precision equipment",
+    "wargame",
+    "equipamiento de precisión",
+    "accesorios de mesa",
   ],
   openGraph: {
     type: "website",
     siteName: "WARDEN",
-    title: "WARDEN — Precision Equipment for BattleTech",
+    title: "WARDEN — Equipamiento de precisión para BattleTech",
     description:
-      "Physical products designed to enhance your BattleTech Classic, Alpha Strike, and AeroTech sessions.",
+      "Productos físicos diseñados para mejorar tus sesiones de BattleTech Classic, Alpha Strike y AeroTech.",
   },
 };
 
@@ -44,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="es"
       className={`${geistSans.variable} ${techMono.variable} dark h-full`}
     >
       <body className="flex min-h-full flex-col bg-warden-carbon text-foreground antialiased">

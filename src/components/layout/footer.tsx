@@ -1,32 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
-
-const footerSections = [
-  {
-    label: "Products",
-    links: [
-      { label: "Collections", href: "/collections" },
-      { label: "Bundles", href: "/bundles" },
-      { label: "Drops", href: "/drops" },
-      { label: "Selection", href: "/selection" },
-    ],
-  },
-  {
-    label: "Support",
-    links: [
-      { label: "Community", href: "/community-support" },
-      { label: "FAQ", href: "/community-support#faq" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    label: "WARDEN",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Licenses", href: "/collections/licenses" },
-    ],
-  },
-];
+import { footerNavLinks } from "@/data/navigation";
 
 export function Footer() {
   return (
@@ -46,12 +20,16 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
-              Precision equipment designed to enhance the BattleTech Classic,
-              Alpha Strike, and AeroTech tabletop experience.
+              Equipamiento de precisión diseñado para mejorar la experiencia de
+              juego en BattleTech Classic, Alpha Strike y AeroTech.
             </p>
           </div>
 
-          {footerSections.map((section) => (
+          {[
+            { label: "Productos", links: footerNavLinks.products },
+            { label: "Soporte", links: footerNavLinks.support },
+            { label: "WARDEN", links: footerNavLinks.legal },
+          ].map((section) => (
             <div key={section.label}>
               <h4 className="text-eyebrow text-muted-foreground mb-4">
                 {section.label}
@@ -74,10 +52,10 @@ export function Footer() {
 
         <div className="py-5 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} WARDEN. All rights reserved.
+            &copy; {new Date().getFullYear()} WARDEN. Todos los derechos reservados.
           </p>
           <p className="text-xs text-muted-foreground">
-            Not affiliated with Topps or Catalyst Game Labs.
+            Sin afiliación a Topps ni Catalyst Game Labs.
           </p>
         </div>
       </Container>

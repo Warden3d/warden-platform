@@ -4,12 +4,14 @@ import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/shared/container";
 import {
   getProductBySlug,
-  products,
-  collections,
-  categories,
-  compatibilitySystems,
-  licenses,
-} from "@/data/warden-catalog";
+  getActiveProducts,
+  getCollections,
+  getCategories,
+  getCompatibilitySystems,
+  getLicenses,
+  getProductsByIds,
+  getBundles,
+} from "@/lib/data";
 import { ProductGallery } from "@/components/catalog/product-gallery";
 import { ProductSpecsPanel } from "@/components/catalog/product-specs-panel";
 import { GameFeaturesList } from "@/components/catalog/game-features-list";
@@ -24,10 +26,9 @@ const systemMap: Record<string, "battletech-classic" | "alpha-strike" | "aerotec
   "comp-aerotech": "aerotech",
 };
 
-export function generateStaticParams() {
-  return products
-    .filter((p) => p.status === "active")
-    .map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const products = await getActiveProducts();
+  return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -36,8 +37,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
-  if (!product || product.status !== "active") return { title: "Product Not Found" };
+  const product = await getProductBySlug(slug);
+  if (!product || product.status !== "active") return { title: "Producto no encontrado" };
 
   return {
     title: product.name,
@@ -55,7 +56,22 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+
+  const [
+    product,
+    collections,
+    categories,
+    compatibilitySystems,
+    licenses,
+    relatedBundles,
+  ] = await Promise.all([
+    getProductBySlug(slug),
+    getCollections(),
+    getCategories(),
+    getCompatibilitySystems(),
+    getLicenses(),
+    getBundles(),
+  ]);
 
   if (!product || product.status !== "active") notFound();
 
@@ -70,6 +86,13 @@ export default async function ProductPage({
 
   const compatKey = systemMap[product.compatibilityId] ?? "aerotech";
 
+  const resolvedRelatedProducts = product.relatedProductIds.length > 0
+    ? await getProductsByIds(product.relatedProductIds)
+    : [];
+  const resolvedRelatedBundles = relatedBundles.filter((b) =>
+    product.relatedBundleIds.includes(b.id)
+  );
+
   return (
     <Section>
       <Container>
@@ -79,7 +102,7 @@ export default async function ProductPage({
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ArrowLeft className="size-4" />
-          Back to Catalog
+          Volver al catálogo
         </Link>
 
         {/* Hero: gallery + info */}
@@ -163,7 +186,7 @@ export default async function ProductPage({
                   className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-warden-blue transition-colors"
                 >
                   <ExternalLink className="size-3" />
-                  Visit {license.name} website
+                  Visitar web de {license.name}
                 </a>
               </div>
             )}
@@ -172,7 +195,7 @@ export default async function ProductPage({
             {compatSystem && (
               <div className="mt-4 pt-4 border-t border-border">
                 <p className="text-spec-label text-muted-foreground mb-1">
-                  Compatible with
+                  Compatible con
                 </p>
                 <p className="text-xs text-muted-foreground/70 leading-relaxed">
                   {compatSystem.description}
@@ -186,7 +209,7 @@ export default async function ProductPage({
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 mb-12">
           <div>
             <h2 className="text-spec-label text-muted-foreground mb-3">
-              Description
+              Descripción
             </h2>
             <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">
               {product.description}
@@ -209,8 +232,8 @@ export default async function ProductPage({
 
         {/* Related */}
         <RelatedProductsSection
-          relatedProductIds={product.relatedProductIds}
-          relatedBundleIds={product.relatedBundleIds}
+          products={resolvedRelatedProducts}
+          bundles={resolvedRelatedBundles}
         />
       </Container>
     </Section>

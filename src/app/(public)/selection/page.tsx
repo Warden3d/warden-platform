@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { SelectionView } from "@/components/selection/selection-view";
+import { getActiveProducts } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "My Selection",
+  title: "Mi Selección",
   description:
-    "Review your selected WARDEN products and submit a quote request. No purchase obligation.",
+    "Revisa tus productos WARDEN seleccionados y envía una solicitud de presupuesto. Sin compromiso de compra.",
 };
 
-export default function SelectionPage() {
-  return <SelectionView />;
+export default async function SelectionPage() {
+  const products = await getActiveProducts();
+  return <SelectionView products={products} />;
 }

@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container, Section, Eyebrow } from "@/components/shared/container";
-import { bundles, products, compatibilitySystems } from "@/data/warden-catalog";
+import {
+  getActiveBundles,
+  getActiveProducts,
+  getCompatibilitySystems,
+} from "@/lib/data";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ChevronRight, Package } from "lucide-react";
@@ -10,11 +14,15 @@ import { ChevronRight, Package } from "lucide-react";
 export const metadata: Metadata = {
   title: "Bundles",
   description:
-    "WARDEN product bundles — curated sets at reduced pricing. Commander Pack, WARDEN Starter Pack, and more.",
+    "Bundles de productos WARDEN — conjuntos seleccionados a precio reducido. Commander Pack, WARDEN Starter Pack y más.",
 };
 
-export default function BundlesPage() {
-  const activeBundles = bundles.filter((b) => b.status === "active");
+export default async function BundlesPage() {
+  const [bundles, products, compatibilitySystems] = await Promise.all([
+    getActiveBundles(),
+    getActiveProducts(),
+    getCompatibilitySystems(),
+  ]);
 
   return (
     <Section>
@@ -32,7 +40,7 @@ export default function BundlesPage() {
           </p>
         </div>
 
-        {activeBundles.length === 0 ? (
+        {bundles.length === 0 ? (
           <div className="text-center py-16 border border-border bg-warden-surface">
             <Package className="size-8 text-muted-foreground/40 mx-auto mb-4" />
             <p className="text-sm text-muted-foreground">
@@ -50,7 +58,7 @@ export default function BundlesPage() {
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2">
-            {activeBundles.map((bundle) => {
+            {bundles.map((bundle) => {
               const bundleProducts = products.filter((p) =>
                 bundle.productIds.includes(p.id)
               );

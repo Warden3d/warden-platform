@@ -59,11 +59,11 @@ export function CatalogView({
         <div className="flex-1">
           <SearchBar value={filters.search} onChange={setSearch} />
         </div>
-        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3">
           <ResultsCounter total={products.length} filtered={filteredProducts.length} />
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <SlidersHorizontal className="size-3.5" />
-            <span className="hidden sm:inline">Filters</span>
+            <span className="hidden sm:inline">Filtros</span>
           </div>
         </div>
       </div>
@@ -99,8 +99,8 @@ export function CatalogView({
             </ProductGrid>
           ) : (
             <EmptyState
-              title="No results match your criteria"
-              description="Try clearing some filters or adjusting your search to find what you're looking for."
+              title="Ningún resultado coincide con tus criterios"
+              description="Prueba a limpiar algunos filtros o ajustar tu búsqueda para encontrar lo que buscas."
             />
           )}
         </main>

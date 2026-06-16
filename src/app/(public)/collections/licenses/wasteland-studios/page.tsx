@@ -3,12 +3,12 @@ import Link from "next/link";
 import { Container, Section, Eyebrow } from "@/components/shared/container";
 import { CatalogView } from "@/components/catalog/catalog-view";
 import {
-  products,
-  collections,
-  categories,
-  compatibilitySystems,
-  licenses,
-} from "@/data/warden-catalog";
+  getProducts,
+  getCollections,
+  getCategories,
+  getCompatibilitySystems,
+  getLicenses,
+} from "@/lib/data";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 
@@ -18,7 +18,16 @@ export const metadata: Metadata = {
     "Estudio independiente especializado en escenografía post-apocalíptica y terrenos modulares para wargames de ciencia ficción.",
 };
 
-export default function WastelandStudiosPage() {
+export default async function WastelandStudiosPage() {
+  const [products, collections, categories, compatibilitySystems, licenses] =
+    await Promise.all([
+      getProducts(),
+      getCollections(),
+      getCategories(),
+      getCompatibilitySystems(),
+      getLicenses(),
+    ]);
+
   const license = licenses.find((l) => l.id === "lic-wasteland-studios");
   const licenseProducts = products.filter(
     (p) => p.associatedLicenseId === "lic-wasteland-studios" && p.status === "active"
@@ -30,14 +39,14 @@ export default function WastelandStudiosPage() {
         <Container>
           <div className="text-center py-16">
             <h1 className="text-2xl font-semibold text-foreground">
-              License not found
+              Licencia no encontrada
             </h1>
             <p className="mt-2 text-muted-foreground">
-              The license you are looking for does not exist.
+              La licencia que buscas no existe.
             </p>
             <div className="mt-6 inline-block">
               <WardenButton href="/collections/licenses" variant="outline">
-                Back to Licenses
+                Volver a licencias
               </WardenButton>
             </div>
           </div>
@@ -54,11 +63,11 @@ export default function WastelandStudiosPage() {
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ArrowLeft className="size-4" />
-          All Licenses
+          Todas las licencias
         </Link>
 
         <div className="mb-10 max-w-3xl">
-          <Eyebrow>Licensed Partner</Eyebrow>
+          <Eyebrow>Colaborador licenciado</Eyebrow>
           <h1 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             {license.name}
           </h1>
@@ -74,7 +83,7 @@ export default function WastelandStudiosPage() {
                 className="inline-flex items-center gap-1.5 text-sm text-warden-blue hover:underline"
               >
                 <ExternalLink className="size-3.5" />
-                Visit studio website
+                Visitar web del estudio
               </a>
             </div>
           )}
@@ -85,8 +94,8 @@ export default function WastelandStudiosPage() {
           categories={categories}
           compatibilitySystems={compatibilitySystems}
           collections={collections}
-          title={`${licenseProducts.length} ${licenseProducts.length === 1 ? "Product" : "Products"}`}
-          description="Products developed in collaboration with Wasteland Studios, maintaining WARDEN precision standards."
+          title={`${licenseProducts.length} ${licenseProducts.length === 1 ? "Producto" : "Productos"}`}
+          description="Productos desarrollados en colaboración con Wasteland Studios, manteniendo los estándares de precisión WARDEN."
         />
       </Container>
     </Section>

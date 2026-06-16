@@ -24,6 +24,7 @@ export function AddToSelectionButton({
 
   return (
     <button
+      type="button"
       onClick={() => {
         if (selected) {
           removeItem(productId);
@@ -38,8 +39,12 @@ export function AddToSelectionButton({
           });
         }
       }}
+      aria-pressed={selected}
+      aria-label={
+        selected ? `${productName} añadido a Mi Selección` : `Añadir ${productName} a Mi Selección`
+      }
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-sm font-medium transition-all duration-150 active:translate-y-px",
+        "inline-flex items-center justify-center gap-2 rounded-sm font-medium transition-all duration-150 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50 focus-visible:ring-offset-1 focus-visible:ring-offset-warden-carbon",
         size === "default"
           ? "h-10 px-6 text-sm tracking-wide"
           : "h-7 px-3 text-xs tracking-wider uppercase",
@@ -51,12 +56,12 @@ export function AddToSelectionButton({
       {selected ? (
         <>
           <Check className={size === "default" ? "size-4" : "size-3"} />
-          {size === "default" ? "Added to Selection" : "Added"}
+          {size === "default" ? "Añadido" : "Añadido"}
         </>
       ) : (
         <>
           <Plus className={size === "default" ? "size-4" : "size-3"} />
-          {size === "default" ? "Add to Selection" : "Select"}
+          {size === "default" ? "Añadir a Mi Selección" : "Seleccionar"}
         </>
       )}
     </button>

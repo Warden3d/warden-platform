@@ -50,6 +50,27 @@ export interface License {
 
 // ─── ProductImage ────────────────────────────────
 
+export const IMAGE_VIEW_TYPES = [
+  "main",
+  "left",
+  "right",
+  "top",
+  "rear",
+  "contextual",
+  "other",
+] as const;
+export type ImageViewType = (typeof IMAGE_VIEW_TYPES)[number];
+
+export const IMAGE_VIEW_LABELS: Record<ImageViewType, string> = {
+  main: "Principal",
+  left: "Izquierda",
+  right: "Derecha",
+  top: "Superior",
+  rear: "Trasera",
+  contextual: "Contextual",
+  other: "Otra",
+};
+
 export interface ProductImage {
   id: string;
   productId: string;
@@ -57,6 +78,7 @@ export interface ProductImage {
   alt: string;
   isPrimary: boolean;
   sortOrder: number;
+  viewType: ImageViewType;
 }
 
 // ─── Dimensions ──────────────────────────────────
@@ -175,3 +197,15 @@ export interface ContactRequest {
   message: string;
   createdAt: string;
 }
+
+// ─── Shared UI types ─────────────────────────────
+
+export type NavLink = {
+  label: string;
+  href: string;
+};
+
+export type FaqItem = {
+  question: string;
+  answer: string;
+};

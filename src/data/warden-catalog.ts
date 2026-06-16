@@ -117,7 +117,7 @@ export const licenses: License[] = [
 // Helper to build product images
 // ─────────────────────────────────────────────────
 
-function buildImages(productId: string, items: { url: string; alt: string; isPrimary?: boolean }[]): ProductImage[] {
+function buildImages(productId: string, items: { url: string; alt: string; isPrimary?: boolean; viewType?: ProductImage["viewType"] }[]): ProductImage[] {
   return items.map((item, idx) => ({
     id: `img-${productId}-${idx + 1}`,
     productId,
@@ -125,6 +125,7 @@ function buildImages(productId: string, items: { url: string; alt: string; isPri
     alt: item.alt,
     isPrimary: item.isPrimary ?? false,
     sortOrder: idx + 1,
+    viewType: item.viewType ?? "main",
   }));
 }
 
