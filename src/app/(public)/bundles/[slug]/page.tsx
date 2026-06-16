@@ -7,18 +7,12 @@ import {
   getBundleBySlug,
   getActiveProducts,
   getCompatibilitySystems,
-  getActiveBundles,
 } from "@/lib/data";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 import { AddProductsToSelection } from "@/components/catalog/add-products-to-selection";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ArrowLeft, Package, ArrowUpRight } from "lucide-react";
-
-export async function generateStaticParams() {
-  const bundles = await getActiveBundles();
-  return bundles.map((b) => ({ slug: b.slug }));
-}
 
 export async function generateMetadata({
   params,

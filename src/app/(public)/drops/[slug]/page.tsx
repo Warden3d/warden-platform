@@ -7,7 +7,6 @@ import {
   getDropBySlug,
   getActiveProducts,
   getCompatibilitySystems,
-  getDrops,
 } from "@/lib/data";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
@@ -39,11 +38,6 @@ function formatShortDate(iso: string) {
     day: "numeric",
     year: "numeric",
   });
-}
-
-export async function generateStaticParams() {
-  const drops = await getDrops();
-  return drops.map((d) => ({ slug: d.slug }));
 }
 
 export async function generateMetadata({

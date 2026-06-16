@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { Container, Section } from "@/components/shared/container";
 import {
   getProductBySlug,
-  getActiveProducts,
   getCollections,
   getCategories,
   getCompatibilitySystems,
@@ -25,11 +24,6 @@ const systemMap: Record<string, "battletech-classic" | "alpha-strike" | "aerotec
   "comp-alpha-strike": "alpha-strike",
   "comp-aerotech": "aerotech",
 };
-
-export async function generateStaticParams() {
-  const products = await getActiveProducts();
-  return products.map((p) => ({ slug: p.slug }));
-}
 
 export async function generateMetadata({
   params,

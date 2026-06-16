@@ -11,11 +11,6 @@ import { ProductCard } from "@/components/catalog/product-card";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ArrowLeft } from "lucide-react";
 
-export async function generateStaticParams() {
-  const collections = await getCollections();
-  return collections.map((c) => ({ slug: c.slug }));
-}
-
 export async function generateMetadata({
   params,
 }: {
