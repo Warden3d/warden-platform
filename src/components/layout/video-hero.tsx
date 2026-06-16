@@ -9,18 +9,22 @@ const VIDEOS = [
 
 const COUNTER_KEY = "warden-video-idx";
 
-function pickVideo(): string {
+function pickRoundRobin(): string {
   if (typeof window === "undefined") return VIDEOS[0];
-  const idx = parseInt(localStorage.getItem(COUNTER_KEY) ?? "0", 10);
-  const next = (idx + 1) % VIDEOS.length;
-  localStorage.setItem(COUNTER_KEY, String(next));
-  return VIDEOS[idx % VIDEOS.length];
+  try {
+    const idx = parseInt(localStorage.getItem(COUNTER_KEY) ?? "0", 10);
+    const next = (idx + 1) % VIDEOS.length;
+    localStorage.setItem(COUNTER_KEY, String(next));
+    return VIDEOS[idx % VIDEOS.length];
+  } catch {
+    return VIDEOS[0];
+  }
 }
 
 export function VideoHero({ children }: { children: React.ReactNode }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [loaded, setLoaded] = useState(false);
-  const [src] = useState(pickVideo);
+  const [src] = useState(pickRoundRobin);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -37,7 +41,7 @@ export function VideoHero({ children }: { children: React.ReactNode }) {
       video.removeEventListener("canplay", onCanPlay);
       video.removeEventListener("error", onError);
     };
-  }, []);
+  }, [src]);
 
   return (
     <section className="relative overflow-hidden border-b border-border min-h-[80vh] flex items-center">
