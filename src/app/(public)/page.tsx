@@ -50,6 +50,72 @@ export default async function Home() {
         </Container>
       </VideoHero>
 
+      {/* ── WHAT IS WARDEN ── */}
+      <Section>
+        <Container>
+          <div className="max-w-3xl">
+            <Eyebrow className="text-warden-blue">{t("identityEyebrow")}</Eyebrow>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+              {t("identityTitle")}
+            </h2>
+            <p className="mt-6 text-base text-muted-foreground leading-relaxed">
+              {t("identityP1")}
+            </p>
+            <p className="mt-4 text-base text-muted-foreground leading-relaxed font-medium">
+              {t("identityP2")}
+            </p>
+            <p className="mt-4 text-base text-muted-foreground leading-relaxed">
+              {t("identityP3")}
+            </p>
+            <p className="mt-4 text-base text-muted-foreground leading-relaxed">
+              {t("identityP4")}
+            </p>
+            <p className="mt-6 text-data text-warden-blue text-center">
+              <em>{t("identityQuestion")}</em>
+            </p>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionDivider />
+
+      {/* ── VALUES CARDS ── */}
+      <Section>
+        <Container>
+          <div className="grid gap-px bg-border sm:grid-cols-3">
+            <div className="bg-warden-carbon p-8">
+              <span className="text-data text-warden-blue mb-4 block">01</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
+                {t("value1Title")}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("value1Desc")}
+              </p>
+            </div>
+            <div className="bg-warden-carbon p-8">
+              <span className="text-data text-warden-green mb-4 block">02</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
+                {t("value2Title")}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("value2Desc")}
+              </p>
+            </div>
+            <div className="bg-warden-carbon p-8">
+              <span className="text-data text-warden-ochre mb-4 block">03</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
+                {t("value3Title")}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("value3Desc")}
+              </p>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionDivider />
+
       {/* ── ACCESS BLOCKS ── */}
       <Section>
         <Container>

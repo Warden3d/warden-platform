@@ -90,7 +90,7 @@ export default async function ProductPage({
   return (
     <Section>
       <Container>
-        {/* Back link */}
+        {/* ── Back link ── */}
         <Link
           href="/catalog"
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
@@ -99,7 +99,7 @@ export default async function ProductPage({
           Volver al catálogo
         </Link>
 
-        {/* Hero: gallery + info */}
+        {/* ── Hero: gallery + info ── */}
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 mb-12 items-start">
           {/* Gallery */}
           <ProductGallery images={product.images} productName={product.name} />
@@ -127,9 +127,9 @@ export default async function ProductPage({
               <Link
                 href={
                   collection.slug === "warden-core"
-                    ? "/collections/warden-core"
+                    ? "/catalog?collection=col-warden-core"
                     : collection.slug === "licenses"
-                      ? "/collections/licenses"
+                      ? "/catalog?collection=col-licenses"
                       : `/collections/${collection.slug}`
                 }
                 className="mt-1 text-sm text-warden-blue hover:underline inline-flex items-center gap-1"
@@ -199,16 +199,24 @@ export default async function ProductPage({
           </div>
         </div>
 
-        {/* Description + Specs */}
+        {/* ── GAMEPLAY BENEFITS (what problem it solves) ── */}
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 mb-12">
-          <div>
-            <h2 className="text-spec-label text-muted-foreground mb-3">
-              Descripción
-            </h2>
-            <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">
-              {product.description}
-            </p>
+          <div className="space-y-8">
+            {/* Full description — narrative */}
+            <div>
+              <h2 className="text-spec-label text-muted-foreground mb-3">
+                Sobre este producto
+              </h2>
+              <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">
+                {product.description}
+              </p>
+            </div>
+
+            {/* Game features — specific benefits on the table */}
+            <GameFeaturesList features={product.gameFeatures} />
           </div>
+
+          {/* Technical data — secondary */}
           <div>
             <ProductSpecsPanel
               specs={product.specs}
@@ -219,12 +227,7 @@ export default async function ProductPage({
           </div>
         </div>
 
-        {/* Game Features */}
-        <div className="mb-12 max-w-lg">
-          <GameFeaturesList features={product.gameFeatures} />
-        </div>
-
-        {/* Related */}
+        {/* ── Related ── */}
         <RelatedProductsSection
           products={resolvedRelatedProducts}
           bundles={resolvedRelatedBundles}

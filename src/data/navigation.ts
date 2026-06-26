@@ -1,7 +1,7 @@
 import type { NavLink } from "@/types/warden";
 
 export const mainNavLinks: NavLink[] = [
-  { label: "Catálogo", href: "/collections", i18nKey: "nav.catalog" },
+  { label: "Catálogo", href: "/catalog", i18nKey: "nav.catalog" },
   { label: "Bundles", href: "/bundles", i18nKey: "nav.bundles" },
   { label: "Drops", href: "/drops", i18nKey: "nav.drops" },
   { label: "Comunidad", href: "/community-support", i18nKey: "nav.community" },
