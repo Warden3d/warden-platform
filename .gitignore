@@ -38,6 +38,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local backups
+.backups/
+
+# local server logs
+server.log
+
 # supabase
 supabase/.temp/
 
