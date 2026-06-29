@@ -117,8 +117,8 @@ export default async function ProductPage({
           <span className="text-foreground">{product.name}</span>
         </nav>
 
-        {/* ── HEADER: gallery + comercial info (40/60) ── */}
-        <div className="grid gap-6 lg:grid-cols-[2fr_3fr] lg:gap-10 mb-8 items-start">
+        {/* ── HEADER: gallery + comercial info (50/50) ── */}
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-10 mb-8 items-start">
           <ProductGallery images={product.images} productName={product.name} />
 
           <div className="flex flex-col gap-4">
