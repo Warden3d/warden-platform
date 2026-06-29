@@ -187,15 +187,10 @@ export default async function ProductPage({
                 productImage={product.images.find((img) => img.isPrimary)?.url}
               />
             </div>
-          </div>
-        </div>
 
-        {/* ── DESCRIPTION (collapsible) ── */}
-        <div className="mb-8">
-          <h2 className="text-spec-label text-muted-foreground mb-3 uppercase tracking-wider text-xs">
-            Descripción
-          </h2>
-          <ExpandableText text={product.description} maxLines={4} />
+            {/* Description (inline, expandable) */}
+            <ExpandableText text={product.description} maxLines={4} />
+          </div>
         </div>
 
         {/* ── RELATED PRODUCTS & BUNDLES (carousels) ── */}
