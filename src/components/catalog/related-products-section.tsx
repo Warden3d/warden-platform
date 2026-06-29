@@ -1,13 +1,14 @@
 import Link from "next/link";
 import type { Product, Bundle } from "@/types/warden";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
+import { ScrollableRow } from "@/components/catalog/scrollable-row";
 import { ChevronRight, Package } from "lucide-react";
 
 function RelatedProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group border border-border bg-warden-surface p-4 flex flex-col hover:border-warden-blue/20 transition-colors"
+      className="group border border-border bg-warden-surface p-4 flex flex-col hover:border-warden-blue/20 transition-colors w-[260px] snap-start shrink-0"
     >
       <div className="mb-2">
         <CompatibilityBadge
@@ -42,7 +43,7 @@ function RelatedBundleCard({ bundle }: { bundle: Bundle }) {
   return (
     <Link
       href="/bundles"
-      className="group border border-border bg-warden-surface p-4 flex flex-col hover:border-warden-blue/20 transition-colors"
+      className="group border border-border bg-warden-surface p-4 flex flex-col hover:border-warden-blue/20 transition-colors w-[260px] snap-start shrink-0"
     >
       <div className="flex items-center gap-2 mb-2">
         <Package className="size-4 text-warden-blue" />
@@ -83,30 +84,30 @@ export function RelatedProductsSection({
   if (products.length === 0 && bundles.length === 0) return null;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {products.length > 0 && (
         <div>
-          <h3 className="text-spec-label text-muted-foreground mb-4">
+          <h3 className="text-spec-label text-muted-foreground mb-3 uppercase tracking-wider text-xs">
             Productos relacionados
           </h3>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ScrollableRow>
             {products.map((p) => (
               <RelatedProductCard key={p.id} product={p} />
             ))}
-          </div>
+          </ScrollableRow>
         </div>
       )}
 
       {bundles.length > 0 && (
         <div>
-          <h3 className="text-spec-label text-muted-foreground mb-4">
+          <h3 className="text-spec-label text-muted-foreground mb-3 uppercase tracking-wider text-xs">
             Disponible en bundles
           </h3>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <ScrollableRow>
             {bundles.map((b) => (
               <RelatedBundleCard key={b.id} bundle={b} />
             ))}
-          </div>
+          </ScrollableRow>
         </div>
       )}
     </div>

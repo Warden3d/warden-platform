@@ -13,11 +13,12 @@ import {
 } from "@/lib/data";
 import { ProductGallery } from "@/components/catalog/product-gallery";
 import { ProductSpecsPanel } from "@/components/catalog/product-specs-panel";
-import { GameFeaturesList } from "@/components/catalog/game-features-list";
+import { ExpandableText } from "@/components/catalog/expandable-text";
+import { CollapsiblePanel } from "@/components/catalog/collapsible-panel";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 import { RelatedProductsSection } from "@/components/catalog/related-products-section";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
-import { ArrowLeft, ArrowUpRight, ExternalLink } from "lucide-react";
+import { Check, ExternalLink, ChevronRight } from "lucide-react";
 
 const systemMap: Record<string, "battletech-classic" | "alpha-strike" | "aerotech"> = {
   "comp-battletech-classic": "battletech-classic",
@@ -90,40 +91,14 @@ export default async function ProductPage({
   return (
     <Section>
       <Container>
-        {/* ── Back link ── */}
-        <Link
-          href="/catalog"
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-        >
-          <ArrowLeft className="size-4" />
-          Volver al catálogo
-        </Link>
-
-        {/* ── Hero: gallery + info ── */}
-        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 mb-12 items-start">
-          {/* Gallery */}
-          <ProductGallery images={product.images} productName={product.name} />
-
-          {/* Info */}
-          <div className="flex flex-col">
-            {/* Badges row */}
-            <div className="flex flex-wrap items-center gap-1.5 mb-3">
-              <CompatibilityBadge system={compatKey} />
-              {category && (
-                <TechnicalBadge variant="neutral">{category.name}</TechnicalBadge>
-              )}
-              {license && (
-                <TechnicalBadge variant="neutral">{license.name}</TechnicalBadge>
-              )}
-            </div>
-
-            {/* Name */}
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl leading-tight">
-              {product.name}
-            </h1>
-
-            {/* Collection */}
-            {collection && (
+        {/* ── Breadcrumb ── */}
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6" aria-label="Breadcrumb">
+          <Link href="/catalog" className="hover:text-foreground transition-colors">
+            Catálogo
+          </Link>
+          {collection && (
+            <>
+              <ChevronRight className="size-3 text-muted-foreground/40" />
               <Link
                 href={
                   collection.slug === "warden-core"
@@ -132,35 +107,78 @@ export default async function ProductPage({
                       ? "/catalog?collection=col-licenses"
                       : `/collections/${collection.slug}`
                 }
-                className="mt-1 text-sm text-warden-blue hover:underline inline-flex items-center gap-1"
+                className="hover:text-foreground transition-colors"
               >
                 {collection.name}
-                <ArrowUpRight className="size-3" />
               </Link>
-            )}
+            </>
+          )}
+          <ChevronRight className="size-3 text-muted-foreground/40" />
+          <span className="text-foreground">{product.name}</span>
+        </nav>
 
-            {/* Short description */}
-            <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+        {/* ── HEADER: gallery + comercial info (40/60) ── */}
+        <div className="grid gap-6 lg:grid-cols-[2fr_3fr] lg:gap-10 mb-8 items-start">
+          <ProductGallery images={product.images} productName={product.name} />
+
+          <div className="flex flex-col gap-4">
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              <CompatibilityBadge system={compatKey} />
+              {category && (
+                <TechnicalBadge variant="neutral">{category.name}</TechnicalBadge>
+              )}
+              {license && (
+                <TechnicalBadge variant="neutral">{license.name}</TechnicalBadge>
+              )}
+              {license?.website && (
+                <a
+                  href={license.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-warden-blue transition-colors ml-1"
+                >
+                  <ExternalLink className="size-3" />
+                  {license.name}
+                </a>
+              )}
+            </div>
+
+            <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl leading-tight">
+              {product.name}
+            </h1>
+
+            <p className="text-sm text-muted-foreground leading-relaxed">
               {product.shortDescription}
             </p>
 
-            {/* Price */}
-            <div className="mt-6">
-              <span className="text-2xl font-semibold text-foreground tracking-tight">
+            {/* Incluye */}
+            {product.gameFeatures.length > 0 && (
+              <div className="border border-border bg-warden-surface rounded-sm">
+                <div className="px-4 py-2 border-b border-border">
+                  <span className="text-spec-label text-muted-foreground text-xs uppercase tracking-wider">
+                    Incluye
+                  </span>
+                </div>
+                <ul className="px-4 py-3 space-y-1.5">
+                  {product.gameFeatures.map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-xs text-foreground/80 leading-relaxed">
+                      <Check className="size-3 text-warden-blue shrink-0 mt-0.5" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Price + CTA row */}
+            <div className="flex items-center gap-4 flex-wrap">
+              <span className="text-xl font-semibold text-foreground tracking-tight">
                 ${product.price.toFixed(2)}
+                <span className="text-spec-label text-muted-foreground text-xs ml-1.5 font-normal">
+                  USD
+                </span>
               </span>
-              <span className="text-spec-label text-muted-foreground ml-2">
-                USD
-              </span>
-            </div>
-
-            {/* Internal code */}
-            <p className="mt-1 text-[10px] text-muted-foreground/40 font-mono tracking-wider">
-              {product.internalCode}
-            </p>
-
-            {/* CTA */}
-            <div className="mt-6">
               <AddToSelectionButton
                 productId={product.id}
                 productName={product.name}
@@ -169,69 +187,61 @@ export default async function ProductPage({
                 productImage={product.images.find((img) => img.isPrimary)?.url}
               />
             </div>
-
-            {/* License website link */}
-            {license?.website && (
-              <div className="mt-4 pt-4 border-t border-border">
-                <a
-                  href={license.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-warden-blue transition-colors"
-                >
-                  <ExternalLink className="size-3" />
-                  Visitar web de {license.name}
-                </a>
-              </div>
-            )}
-
-            {/* Compat system description */}
-            {compatSystem && (
-              <div className="mt-4 pt-4 border-t border-border">
-                <p className="text-spec-label text-muted-foreground mb-1">
-                  Compatible con
-                </p>
-                <p className="text-xs text-muted-foreground/70 leading-relaxed">
-                  {compatSystem.description}
-                </p>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* ── GAMEPLAY BENEFITS (what problem it solves) ── */}
-        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 mb-12">
-          <div className="space-y-8">
-            {/* Full description — narrative */}
-            <div>
-              <h2 className="text-spec-label text-muted-foreground mb-3">
-                Sobre este producto
-              </h2>
-              <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">
-                {product.description}
-              </p>
+        {/* ── DESCRIPTION (collapsible) ── */}
+        <div className="mb-8">
+          <h2 className="text-spec-label text-muted-foreground mb-3 uppercase tracking-wider text-xs">
+            Descripción
+          </h2>
+          <ExpandableText text={product.description} maxLines={4} />
+        </div>
+
+        {/* ── RELATED PRODUCTS & BUNDLES (carousels) ── */}
+        <div className="mb-8">
+          <RelatedProductsSection
+            products={resolvedRelatedProducts}
+            bundles={resolvedRelatedBundles}
+          />
+        </div>
+
+        {/* ── EXPANDED INFO (progressive disclosure) ── */}
+        <div className="space-y-3 max-w-2xl">
+          {/* Características de juego */}
+          <CollapsiblePanel title="Características de juego">
+            <div className="space-y-2">
+              {product.scale && (
+                <div className="flex items-center justify-between gap-4 text-sm">
+                  <span className="text-muted-foreground">Escala</span>
+                  <span className="text-foreground/80">{product.scale}</span>
+                </div>
+              )}
+              {product.material && (
+                <div className="flex items-center justify-between gap-4 text-sm">
+                  <span className="text-muted-foreground">Material</span>
+                  <span className="text-foreground/80">{product.material}</span>
+                </div>
+              )}
+              {compatSystem && (
+                <div className="flex items-center justify-between gap-4 text-sm">
+                  <span className="text-muted-foreground">Compatibilidad</span>
+                  <span className="text-foreground/80">{compatSystem.name}</span>
+                </div>
+              )}
             </div>
+          </CollapsiblePanel>
 
-            {/* Game features — specific benefits on the table */}
-            <GameFeaturesList features={product.gameFeatures} />
-          </div>
-
-          {/* Technical data — secondary */}
-          <div>
+          {/* Especificaciones técnicas */}
+          <CollapsiblePanel title="Especificaciones técnicas">
             <ProductSpecsPanel
               specs={product.specs}
               scale={product.scale}
               material={product.material}
               dimensions={product.dimensions}
             />
-          </div>
+          </CollapsiblePanel>
         </div>
-
-        {/* ── Related ── */}
-        <RelatedProductsSection
-          products={resolvedRelatedProducts}
-          bundles={resolvedRelatedBundles}
-        />
       </Container>
     </Section>
   );
