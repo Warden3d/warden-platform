@@ -89,7 +89,7 @@ export default async function ProductPage({
   );
 
   return (
-    <Section>
+    <Section className="pt-12 md:pt-16">
       <Container>
         {/* ── Breadcrumb ── */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6" aria-label="Breadcrumb">
