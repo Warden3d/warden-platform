@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Container, Section } from "@/components/shared/container";
+import { Container, Section, SectionDivider } from "@/components/shared/container";
 import {
   getProductBySlug,
   getCollections,
@@ -17,8 +17,9 @@ import { ExpandableText } from "@/components/catalog/expandable-text";
 import { CollapsiblePanel } from "@/components/catalog/collapsible-panel";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 import { RelatedProductsSection } from "@/components/catalog/related-products-section";
-import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
-import { Check, ExternalLink, ChevronRight } from "lucide-react";
+import { CompatibilityBadge } from "@/components/catalog/technical-badge";
+import { WardenButton } from "@/components/ui/warden-button";
+import { Check, User, ChevronRight } from "lucide-react";
 
 const systemMap: Record<string, "battletech-classic" | "alpha-strike" | "aerotech"> = {
   "comp-battletech-classic": "battletech-classic",
@@ -117,78 +118,82 @@ export default async function ProductPage({
           <span className="text-foreground">{product.name}</span>
         </nav>
 
-        {/* ── HEADER: gallery + comercial info (50/50) ── */}
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-10 mb-8 items-start">
+        {/* ── HEADER: gallery + comercial info ── */}
+        <div className="grid gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12 mb-8 items-start">
           <ProductGallery images={product.images} productName={product.name} />
 
-          <div className="flex flex-col gap-4">
-            {/* Badges */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              <CompatibilityBadge system={compatKey} />
-              {category && (
-                <TechnicalBadge variant="neutral">{category.name}</TechnicalBadge>
-              )}
-              {license && (
-                <TechnicalBadge variant="neutral">{license.name}</TechnicalBadge>
-              )}
-              {license?.website && (
-                <a
-                  href={license.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-warden-blue transition-colors ml-1"
-                >
-                  <ExternalLink className="size-3" />
-                  {license.name}
-                </a>
-              )}
-            </div>
+          <div className="flex flex-col gap-5">
+            {/* ════ LEVEL 1: Identidad del producto ════ */}
+            <CompatibilityBadge system={compatKey} />
 
             <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl leading-tight">
               {product.name}
             </h1>
 
+            {license && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <User className="size-3.5 shrink-0" />
+                <span>Licensed by {license.name}</span>
+              </div>
+            )}
+
+            <SectionDivider />
+
+            {/* ════ LEVEL 2: Comprensión del producto ════ */}
             <p className="text-sm text-muted-foreground leading-relaxed">
               {product.shortDescription}
             </p>
 
-            {/* Incluye */}
+            {/* Características principales (provisional — sin iconografía definitiva) */}
             {product.gameFeatures.length > 0 && (
-              <div className="border border-border bg-warden-surface rounded-sm">
-                <div className="px-4 py-2 border-b border-border">
-                  <span className="text-spec-label text-muted-foreground text-xs uppercase tracking-wider">
-                    Incluye
-                  </span>
-                </div>
-                <ul className="px-4 py-3 space-y-1.5">
-                  {product.gameFeatures.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-xs text-foreground/80 leading-relaxed">
-                      <Check className="size-3 text-warden-blue shrink-0 mt-0.5" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="flex flex-col gap-2">
+                {product.gameFeatures.map((feature, idx) => (
+                  <div key={idx} className="flex items-start gap-2 text-xs text-foreground/70 leading-relaxed">
+                    <Check className="size-3 text-warden-blue shrink-0 mt-0.5" />
+                    <span>{feature}</span>
+                  </div>
+                ))}
               </div>
             )}
 
-            {/* Price + CTA row */}
-            <div className="flex items-center gap-4 flex-wrap">
-              <span className="text-xl font-semibold text-foreground tracking-tight">
-                ${product.price.toFixed(2)}
-                <span className="text-spec-label text-muted-foreground text-xs ml-1.5 font-normal">
-                  USD
+            {/* ════ LEVEL 3: Configuración (pendiente de desarrollo) ════ */}
+            {/* Placeholder para futuro selector de acabado, cantidad, etc. */}
+
+            {/* ════ LEVEL 4: Decisión de compra ════ */}
+            <div className="flex flex-col gap-3 pt-2">
+              {/* Precio */}
+              <div className="flex flex-col">
+                <span className="text-2xl font-semibold text-foreground tracking-tight">
+                  {product.price.toFixed(2).replace('.', ',')} €
                 </span>
-              </span>
+                <span className="text-xs text-muted-foreground mt-0.5">
+                  Impuestos no incluidos
+                </span>
+              </div>
+
+              {/* CTA principal — máximo protagonismo visual */}
               <AddToSelectionButton
                 productId={product.id}
                 productName={product.name}
                 unitPrice={product.price}
                 productSlug={product.slug}
                 productImage={product.images.find((img) => img.isPrimary)?.url}
+                fullWidth
+                className="h-12 text-base tracking-wider"
               />
+
+              {/* Acción secundaria */}
+              <WardenButton
+                href="/catalog"
+                variant="outline"
+                size="lg"
+                className="w-full"
+              >
+                Volver al catálogo
+              </WardenButton>
             </div>
 
-            {/* Description (inline, expandable) */}
+            {/* Description (inline, expandable) — se mantiene en cabecera */}
             <ExpandableText text={product.description} maxLines={4} />
           </div>
         </div>
