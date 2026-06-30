@@ -21,7 +21,7 @@ import { FinishSelector } from "@/components/shared/finish-selector";
 import { QuantitySelector } from "@/components/shared/quantity-selector";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
-import { Check, User, ChevronRight } from "lucide-react";
+import { Check, ChevronRight } from "lucide-react";
 
 const systemMap: Record<string, "battletech-classic" | "alpha-strike" | "aerotech"> = {
   "comp-battletech-classic": "battletech-classic",
@@ -122,23 +122,31 @@ export default async function ProductPage({
           <ProductGallery images={product.images} productName={product.name} />
 
           <div className="flex flex-col gap-5">
-            {/* ════ LEVEL 1: Identidad del producto ════ */}
+            {/* ════ IDENTIDAD DEL PRODUCTO ════ */}
             <CompatibilityBadge system={compatKey} />
 
             <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl leading-tight">
               {product.name}
             </h1>
 
-            {license && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <User className="size-3.5 shrink-0" />
-                <span>Licensed by {license.name}</span>
+            {(license || compatSystem) && (
+              <div className="flex flex-col gap-0.5">
+                {license && (
+                  <p className="text-sm text-muted-foreground">
+                    Licensed by {license.name}
+                  </p>
+                )}
+                {compatSystem && (
+                  <p className="text-sm text-muted-foreground">
+                    Designed by {compatSystem.name.replace(/ Classic$/, "")}
+                  </p>
+                )}
               </div>
             )}
 
             <SectionDivider />
 
-            {/* ════ LEVEL 2: Comprensión del producto ════ */}
+            {/* ════ INFORMACIÓN DESCRIPTIVA ════ */}
             <p className="text-sm text-muted-foreground leading-relaxed">
               {product.shortDescription}
             </p>
