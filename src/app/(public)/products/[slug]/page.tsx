@@ -162,9 +162,11 @@ export default async function ProductPage({
               </div>
             ) : null}
 
-            {/* ════ ZONA DE DECISIÓN COMERCIAL ════ */}
-            <div className="flex flex-col gap-5 pt-3">
+            {/* ════ BLOQUE COMERCIAL ════ */}
+            <div className="flex flex-col gap-4 pt-3">
               <FinishSelector />
+
+              <QuantitySelector />
 
               <div className="flex flex-col">
                 <span className="text-3xl font-bold text-foreground tracking-tight">
@@ -175,26 +177,26 @@ export default async function ProductPage({
                 </span>
               </div>
 
-              <QuantitySelector />
+              <div className="flex flex-col gap-2">
+                <AddToSelectionButton
+                  productId={product.id}
+                  productName={product.name}
+                  unitPrice={product.price}
+                  productSlug={product.slug}
+                  productImage={product.images.find((img) => img.isPrimary)?.url}
+                  fullWidth
+                  className="h-12 text-base"
+                />
 
-              <AddToSelectionButton
-                productId={product.id}
-                productName={product.name}
-                unitPrice={product.price}
-                productSlug={product.slug}
-                productImage={product.images.find((img) => img.isPrimary)?.url}
-                fullWidth
-                className="h-12 text-base"
-              />
-
-              <WardenButton
-                href="/catalog"
-                variant="outline"
-                size="lg"
-                className="w-full"
-              >
-                Volver al catálogo
-              </WardenButton>
+                <WardenButton
+                  href="/catalog"
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                >
+                  Volver al catálogo
+                </WardenButton>
+              </div>
             </div>
 
             {/* Description (inline, expandable) — se mantiene en cabecera */}
