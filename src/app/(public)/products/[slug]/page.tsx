@@ -163,39 +163,42 @@ export default async function ProductPage({
             ) : null}
 
             {/* ════ BLOQUE COMERCIAL ════ */}
-            <div className="flex flex-col gap-4 pt-3">
-              <FinishSelector />
-
-              <QuantitySelector />
-
-              <div className="flex flex-col">
-                <span className="text-3xl font-bold text-foreground tracking-tight">
-                  {product.price.toFixed(2).replace('.', ',')} €
-                </span>
-                <span className="text-xs text-muted-foreground mt-1">
-                  Impuestos no incluidos
-                </span>
+            <div className="grid grid-cols-2 gap-6 pt-3">
+              {/* Columna izquierda: configuración */}
+              <div className="flex flex-col gap-4">
+                <FinishSelector />
+                <QuantitySelector />
               </div>
 
-              <div className="flex flex-col gap-2">
-                <AddToSelectionButton
-                  productId={product.id}
-                  productName={product.name}
-                  unitPrice={product.price}
-                  productSlug={product.slug}
-                  productImage={product.images.find((img) => img.isPrimary)?.url}
-                  fullWidth
-                  className="h-12 text-base"
-                />
+              {/* Columna derecha: precio + acciones */}
+              <div className="flex flex-col items-end gap-3">
+                <div className="text-right">
+                  <span className="text-3xl font-bold text-foreground tracking-tight">
+                    {product.price.toFixed(2).replace('.', ',')} €
+                  </span>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Impuestos no incluidos
+                  </p>
+                </div>
 
-                <WardenButton
-                  href="/catalog"
-                  variant="outline"
-                  size="lg"
-                  className="w-full"
-                >
-                  Volver al catálogo
-                </WardenButton>
+                <div className="flex flex-col items-end gap-2">
+                  <AddToSelectionButton
+                    productId={product.id}
+                    productName={product.name}
+                    unitPrice={product.price}
+                    productSlug={product.slug}
+                    productImage={product.images.find((img) => img.isPrimary)?.url}
+                    className="h-12 text-base"
+                  />
+
+                  <WardenButton
+                    href="/catalog"
+                    variant="outline"
+                    size="lg"
+                  >
+                    Volver al catálogo
+                  </WardenButton>
+                </div>
               </div>
             </div>
 
