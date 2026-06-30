@@ -99,6 +99,27 @@ export interface ProductSpec {
   sortOrder: number;
 }
 
+// ─── ProductHighlight ────────────────────────────
+
+export const PRODUCT_HIGHLIGHT_TYPES = [
+  "scale",
+  "material",
+  "compatibility",
+  "assembly",
+  "printing",
+  "terrain",
+  "contents",
+  "dimensions",
+  "quality",
+] as const;
+
+export type ProductHighlightType = (typeof PRODUCT_HIGHLIGHT_TYPES)[number];
+
+export interface ProductHighlight {
+  type: ProductHighlightType;
+  label: string;
+}
+
 // ─── Product ─────────────────────────────────────
 
 export interface Product {
@@ -115,6 +136,7 @@ export interface Product {
   dimensions: Dimensions;
   price: number;
   gameFeatures: string[];
+  highlights?: ProductHighlight[];
   images: ProductImage[];
   status: ProductStatus;
   featured: boolean;

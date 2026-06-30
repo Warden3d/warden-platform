@@ -170,6 +170,12 @@ export const products: Product[] = [
       "No obstruyen las miniaturas colocadas en el hexágono",
       "Desarrollan pátina natural con el uso",
     ],
+    highlights: [
+      { type: "scale", label: "Escala 1:265" },
+      { type: "material", label: "Latón macizo" },
+      { type: "compatibility", label: "BattleTech Classic" },
+      { type: "contents", label: "12 marcadores" },
+    ],
     images: buildImages("prod-001", [
       { url: "/images/products/hex-markers-brass.svg", alt: "Hex Position Markers sobre un mapa hexagonal", isPrimary: true },
       { url: "/images/products/hex-markers-brass-angle.svg", alt: "Detalle de los marcadores de latón" },
@@ -213,6 +219,12 @@ export const products: Product[] = [
       "Eje de latón que mantiene la posición",
       "Numeración grabada por láser de alto contraste",
     ],
+    highlights: [
+      { type: "scale", label: "Escala 1:265" },
+      { type: "material", label: "Acrílico + latón" },
+      { type: "compatibility", label: "BattleTech Classic" },
+      { type: "quality", label: "Grabado láser" },
+    ],
     images: buildImages("prod-002", [
       { url: "/images/products/heat-dial.svg", alt: "Tactical Heat Dial sobre hoja de registro", isPrimary: true },
     ]),
@@ -255,6 +267,12 @@ export const products: Product[] = [
       "Acrílico transparente para visibilidad del terreno",
       "Funda de almacenamiento con tarjeta de referencia",
     ],
+    highlights: [
+      { type: "scale", label: "Escala 1:265" },
+      { type: "material", label: "Acrílico ahumado" },
+      { type: "compatibility", label: "Alpha Strike" },
+      { type: "contents", label: "5 plantillas" },
+    ],
     images: buildImages("prod-003", [
       { url: "/images/products/movement-templates.svg", alt: "Plantillas de movimiento Alpha Strike", isPrimary: true },
     ]),
@@ -295,6 +313,12 @@ export const products: Product[] = [
       "Topes táctiles en umbrales de blindaje",
       "Base organizadora alineada con hoja de registro estándar",
       "Resistencia ajustada para evitar desplazamiento accidental",
+    ],
+    highlights: [
+      { type: "scale", label: "Escala 1:265" },
+      { type: "material", label: "Aluminio" },
+      { type: "compatibility", label: "BattleTech Classic" },
+      { type: "contents", label: "8 deslizadores" },
     ],
     images: buildImages("prod-004", [
       { url: "/images/products/armor-sliders.svg", alt: "Deslizadores de blindaje sobre hoja de registro", isPrimary: true },
@@ -337,6 +361,12 @@ export const products: Product[] = [
       "Doble cara: estándar y LRM/SRM especiales",
       "Tamaño compacto para bandeja de dados",
     ],
+    highlights: [
+      { type: "scale", label: "Escala 1:265" },
+      { type: "material", label: "Acrílico + latón" },
+      { type: "compatibility", label: "BattleTech Classic" },
+      { type: "dimensions", label: "Ø 100 mm" },
+    ],
     images: buildImages("prod-005", [
       { url: "/images/products/cluster-wheel.svg", alt: "Cluster Hit Quick Wheel", isPrimary: true },
     ]),
@@ -378,6 +408,12 @@ export const products: Product[] = [
       "Velocidad en rueda giratoria de 16 incrementos",
       "Efectos de gravedad indicados por nivel",
       "Base compartida que encaja con hojas de registro",
+    ],
+    highlights: [
+      { type: "scale", label: "Escala 1:265" },
+      { type: "material", label: "Aluminio anodizado" },
+      { type: "compatibility", label: "AeroTech" },
+      { type: "dimensions", label: "180 × 120 mm" },
     ],
     images: buildImages("prod-006", [
       { url: "/images/products/altitude-tracker.svg", alt: "AeroTech Altitude and Velocity Tracker", isPrimary: true },
@@ -423,6 +459,12 @@ export const products: Product[] = [
       "Diseño original de Wasteland Studios",
       "Listo para imprimación y pintura acrílica",
     ],
+    highlights: [
+      { type: "scale", label: "Escala 1:265" },
+      { type: "material", label: "Resina PU" },
+      { type: "compatibility", label: "BattleTech Classic" },
+      { type: "printing", label: "Impresión 3D" },
+    ],
     images: buildImages("prod-007", [
       { url: "/images/products/wasteland-command-post.svg", alt: "Wasteland Command Post sin pintar", isPrimary: true },
     ]),
@@ -465,6 +507,12 @@ export const products: Product[] = [
       "Piezas combinables para cobertura total",
       "Diseño original de Wasteland Studios",
     ],
+    highlights: [
+      { type: "scale", label: "Escala 1:265" },
+      { type: "material", label: "Resina PU" },
+      { type: "compatibility", label: "Alpha Strike" },
+      { type: "terrain", label: "Terreno modular" },
+    ],
     images: buildImages("prod-008", [
       { url: "/images/products/scavenger-terrain-pack.svg", alt: "Scavenger's Terrain Pack completo", isPrimary: true },
     ]),
@@ -505,6 +553,12 @@ export const products: Product[] = [
       "Formato 22\" × 17\" estándar BattleTech",
       "Doble cara con variaciones de escenario",
       "Incluye marcadores de edificios y notas de escenario",
+    ],
+    highlights: [
+      { type: "scale", label: "Escala 1:265" },
+      { type: "material", label: "Papel 300 g/m²" },
+      { type: "compatibility", label: "BattleTech Classic" },
+      { type: "contents", label: "3 mapas modulares" },
     ],
     images: buildImages("prod-009", [
       { url: "/images/products/fallen-city-map-pack.svg", alt: "Fallen City Map Pack — mapa del centro urbano", isPrimary: true },

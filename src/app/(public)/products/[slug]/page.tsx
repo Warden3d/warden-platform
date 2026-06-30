@@ -17,6 +17,7 @@ import { ExpandableText } from "@/components/catalog/expandable-text";
 import { CollapsiblePanel } from "@/components/catalog/collapsible-panel";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 import { RelatedProductsSection } from "@/components/catalog/related-products-section";
+import { ProductHighlights } from "@/components/shared/product-highlights";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
 import { Check, User, ChevronRight } from "lucide-react";
@@ -144,8 +145,10 @@ export default async function ProductPage({
               {product.shortDescription}
             </p>
 
-            {/* Características principales (provisional — sin iconografía definitiva) */}
-            {product.gameFeatures.length > 0 && (
+            {/* Product Highlights */}
+            {product.highlights && product.highlights.length > 0 ? (
+              <ProductHighlights highlights={product.highlights} />
+            ) : product.gameFeatures.length > 0 ? (
               <div className="flex flex-col gap-2">
                 {product.gameFeatures.map((feature, idx) => (
                   <div key={idx} className="flex items-start gap-2 text-xs text-foreground/70 leading-relaxed">
@@ -154,7 +157,7 @@ export default async function ProductPage({
                   </div>
                 ))}
               </div>
-            )}
+            ) : null}
 
             {/* ════ LEVEL 3: Configuración (pendiente de desarrollo) ════ */}
             {/* Placeholder para futuro selector de acabado, cantidad, etc. */}
