@@ -143,6 +143,7 @@ export interface Product {
 
   internalCode: string;
   associatedLicenseId: string | null;
+  designerName?: string;
   weight: number;
   volume: number;
   printTime: number;

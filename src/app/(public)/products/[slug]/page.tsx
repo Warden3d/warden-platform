@@ -129,19 +129,16 @@ export default async function ProductPage({
               {product.name}
             </h1>
 
-            {(license || compatSystem) && (
-              <div className="flex flex-col gap-0.5">
-                {license && (
-                  <p className="text-sm text-muted-foreground">
-                    Licensed by {license.name}
-                  </p>
-                )}
-                {compatSystem && (
-                  <p className="text-sm text-muted-foreground">
-                    Designed by {compatSystem.name.replace(/ Classic$/, "")}
-                  </p>
-                )}
-              </div>
+            {/* Autoría dinámica: licencia O diseñador, nunca ambos */}
+            {license && !product.designerName && (
+              <p className="text-sm text-muted-foreground">
+                Licensed by {license.name}
+              </p>
+            )}
+            {!license && product.designerName && (
+              <p className="text-sm text-muted-foreground">
+                Designed by {product.designerName}
+              </p>
             )}
 
             <SectionDivider />
