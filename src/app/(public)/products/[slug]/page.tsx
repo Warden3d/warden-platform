@@ -5,7 +5,6 @@ import { Container, Section, SectionDivider } from "@/components/shared/containe
 import {
   getProductBySlug,
   getCollections,
-  getCategories,
   getCompatibilitySystems,
   getLicenses,
   getProductsByIds,
@@ -57,14 +56,12 @@ export default async function ProductPage({
   const [
     product,
     collections,
-    categories,
     compatibilitySystems,
     licenses,
     relatedBundles,
   ] = await Promise.all([
     getProductBySlug(slug),
     getCollections(),
-    getCategories(),
     getCompatibilitySystems(),
     getLicenses(),
     getBundles(),
@@ -73,7 +70,6 @@ export default async function ProductPage({
   if (!product || product.status !== "active") notFound();
 
   const collection = collections.find((c) => c.id === product.collectionId);
-  const category = categories.find((c) => c.id === product.categoryId);
   const compatSystem = compatibilitySystems.find(
     (c) => c.id === product.compatibilityId
   );
