@@ -52,7 +52,7 @@ export function AddToSelectionButton({
       )}
     >
       <Plus className={size === "default" ? "size-4" : "size-3"} />
-      {size === "default" ? "Añadir a Mi Selección" : "Añadir"}
+      {size === "default" ? "Añadir" : "Añadir"}
     </button>
   );
 }

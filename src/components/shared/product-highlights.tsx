@@ -31,18 +31,6 @@ const HIGHLIGHT_ICON: Record<
   quality: Award,
 };
 
-const HIGHLIGHT_LABEL_FALLBACK: Partial<Record<ProductHighlightType, string>> = {
-  scale: "Escala",
-  material: "Material",
-  compatibility: "Compatibilidad",
-  assembly: "Montaje",
-  printing: "Impresión",
-  terrain: "Terreno",
-  contents: "Contenido",
-  dimensions: "Dimensiones",
-  quality: "Calidad",
-};
-
 // ── Props ──
 
 interface ProductHighlightsProps {

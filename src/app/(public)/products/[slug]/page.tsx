@@ -17,6 +17,8 @@ import { CollapsiblePanel } from "@/components/catalog/collapsible-panel";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 import { RelatedProductsSection } from "@/components/catalog/related-products-section";
 import { ProductHighlights } from "@/components/shared/product-highlights";
+import { FinishSelector } from "@/components/shared/finish-selector";
+import { QuantitySelector } from "@/components/shared/quantity-selector";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
 import { Check, User, ChevronRight } from "lucide-react";
@@ -155,22 +157,21 @@ export default async function ProductPage({
               </div>
             ) : null}
 
-            {/* ════ LEVEL 3: Configuración (pendiente de desarrollo) ════ */}
-            {/* Placeholder para futuro selector de acabado, cantidad, etc. */}
+            {/* ════ ZONA DE DECISIÓN COMERCIAL ════ */}
+            <div className="flex flex-col gap-5 pt-3">
+              <FinishSelector />
 
-            {/* ════ LEVEL 4: Decisión de compra ════ */}
-            <div className="flex flex-col gap-3 pt-2">
-              {/* Precio */}
               <div className="flex flex-col">
-                <span className="text-2xl font-semibold text-foreground tracking-tight">
+                <span className="text-3xl font-bold text-foreground tracking-tight">
                   {product.price.toFixed(2).replace('.', ',')} €
                 </span>
-                <span className="text-xs text-muted-foreground mt-0.5">
+                <span className="text-xs text-muted-foreground mt-1">
                   Impuestos no incluidos
                 </span>
               </div>
 
-              {/* CTA principal — máximo protagonismo visual */}
+              <QuantitySelector />
+
               <AddToSelectionButton
                 productId={product.id}
                 productName={product.name}
@@ -178,10 +179,9 @@ export default async function ProductPage({
                 productSlug={product.slug}
                 productImage={product.images.find((img) => img.isPrimary)?.url}
                 fullWidth
-                className="h-12 text-base tracking-wider"
+                className="h-12 text-base"
               />
 
-              {/* Acción secundaria */}
               <WardenButton
                 href="/catalog"
                 variant="outline"
