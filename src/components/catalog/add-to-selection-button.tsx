@@ -13,6 +13,8 @@ export function AddToSelectionButton({
   size = "default",
   fullWidth = false,
   quantity = 1,
+  configKey,
+  configLabel,
   className,
 }: {
   productId: string;
@@ -23,6 +25,8 @@ export function AddToSelectionButton({
   size?: "default" | "sm";
   fullWidth?: boolean;
   quantity?: number;
+  configKey?: string;
+  configLabel?: string;
   className?: string;
 }) {
   const { addItem } = useSelection();
@@ -31,7 +35,6 @@ export function AddToSelectionButton({
     <button
       type="button"
       onClick={(e) => {
-        // Prevent parent link from navigating to product page
         e.preventDefault();
         e.stopPropagation();
         addItem({
@@ -39,6 +42,8 @@ export function AddToSelectionButton({
           productName,
           unitPrice,
           quantity,
+          configKey,
+          configLabel,
           productSlug,
           productImage,
         });

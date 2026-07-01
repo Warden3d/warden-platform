@@ -224,7 +224,7 @@ export function SelectionView({ products: catalogProducts }: { products: Product
 
             {enriched.map((item) => (
               <div
-                key={item.productId}
+                key={item.productId + (item.configKey ?? "")}
                 className="flex items-start gap-4 border border-border bg-warden-surface p-4"
               >
                 <ProductThumbnail product={item.product} />
@@ -242,15 +242,20 @@ export function SelectionView({ products: catalogProducts }: { products: Product
                       item.productName
                     )}
                   </h3>
-                  {item.product?.shortDescription && (
+                  {item.configLabel && (
+                    <p className="text-xs text-warden-blue mt-0.5 font-medium">
+                      {item.configLabel}
+                    </p>
+                  )}
+                  {!item.configLabel && item.product?.shortDescription && (
                     <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
                       {item.product.shortDescription}
                     </p>
                   )}
                   <p className="text-data text-foreground/80 mt-1">
-                    ${item.unitPrice.toFixed(2)}{" "}
+                    {item.unitPrice.toFixed(2).replace('.', ',')} €{" "}
                     <span className="text-spec-label text-muted-foreground">
-                      USD / unidad
+                      / unidad
                     </span>
                   </p>
                 </div>
@@ -260,7 +265,7 @@ export function SelectionView({ products: catalogProducts }: { products: Product
                     <button
                       type="button"
                       onClick={() =>
-                        updateQuantity(item.productId, item.quantity - 1)
+                        updateQuantity(item.productId, item.quantity - 1, item.configKey)
                       }
                       className="size-7 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors"
                       aria-label="Reducir cantidad"
@@ -273,7 +278,7 @@ export function SelectionView({ products: catalogProducts }: { products: Product
                     <button
                       type="button"
                       onClick={() =>
-                        updateQuantity(item.productId, item.quantity + 1)
+                        updateQuantity(item.productId, item.quantity + 1, item.configKey)
                       }
                       className="size-7 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors"
                       aria-label="Aumentar cantidad"
@@ -283,12 +288,12 @@ export function SelectionView({ products: catalogProducts }: { products: Product
                   </div>
 
                   <span className="text-data text-muted-foreground w-16 text-right tabular-nums">
-                    ${(item.unitPrice * item.quantity).toFixed(2)}
+                    {(item.unitPrice * item.quantity).toFixed(2).replace('.', ',')} €
                   </span>
 
                   <button
                     type="button"
-                    onClick={() => removeItem(item.productId)}
+                    onClick={() => removeItem(item.productId, item.configKey)}
                     className="size-8 flex items-center justify-center text-muted-foreground hover:text-destructive transition-colors"
                     aria-label={`Eliminar ${item.productName}`}
                   >

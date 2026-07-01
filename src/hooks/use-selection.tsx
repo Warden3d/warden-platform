@@ -15,14 +15,16 @@ export interface SelectionItem {
   quantity: number;
   productSlug?: string;
   productImage?: string;
+  configKey?: string;
+  configLabel?: string;
 }
 
 interface SelectionContextValue {
   items: SelectionItem[];
   addItem: (item: SelectionItem) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  isSelected: (productId: string) => boolean;
+  removeItem: (productId: string, configKey?: string) => void;
+  updateQuantity: (productId: string, quantity: number, configKey?: string) => void;
+  isSelected: (productId: string, configKey?: string) => boolean;
   clearAll: () => void;
   itemCount: number;
 }
@@ -82,15 +84,20 @@ function getServerSnapshot(): SelectionItem[] {
   return [];
 }
 
+/** Build a composite key from productId + optional configKey */
+function itemMatch(a: SelectionItem, b: { productId: string; configKey?: string }) {
+  return a.productId === b.productId && (a.configKey ?? "") === (b.configKey ?? "");
+}
+
 export function SelectionProvider({ children }: { children: ReactNode }) {
   const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const addItem = useCallback((item: SelectionItem) => {
     const current = getSnapshot();
-    const existing = current.find((i) => i.productId === item.productId);
+    const existing = current.find((i) => itemMatch(i, item));
     if (existing) {
       cachedItems = current.map((i) =>
-        i.productId === item.productId
+        itemMatch(i, item)
           ? { ...i, quantity: i.quantity + item.quantity }
           : i
       );
@@ -101,20 +108,27 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
     emitChange();
   }, []);
 
-  const removeItem = useCallback((productId: string) => {
-    cachedItems = getSnapshot().filter((i) => i.productId !== productId);
-    saveToStorage(cachedItems);
-    emitChange();
-  }, []);
+  const removeItem = useCallback(
+    (productId: string, configKey?: string) => {
+      cachedItems = getSnapshot().filter(
+        (i) => !itemMatch(i, { productId, configKey })
+      );
+      saveToStorage(cachedItems);
+      emitChange();
+    },
+    []
+  );
 
   const updateQuantity = useCallback(
-    (productId: string, quantity: number) => {
+    (productId: string, quantity: number, configKey?: string) => {
       const current = getSnapshot();
       if (quantity <= 0) {
-        cachedItems = current.filter((i) => i.productId !== productId);
+        cachedItems = current.filter(
+          (i) => !itemMatch(i, { productId, configKey })
+        );
       } else {
         cachedItems = current.map((i) =>
-          i.productId === productId ? { ...i, quantity } : i
+          itemMatch(i, { productId, configKey }) ? { ...i, quantity } : i
         );
       }
       saveToStorage(cachedItems);
@@ -124,7 +138,8 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
   );
 
   const isSelected = useCallback(
-    (productId: string) => items.some((i) => i.productId === productId),
+    (productId: string, configKey?: string) =>
+      items.some((i) => itemMatch(i, { productId, configKey })),
     [items]
   );
 
