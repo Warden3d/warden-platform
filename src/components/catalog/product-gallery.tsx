@@ -53,7 +53,7 @@ export function ProductGallery({
   return (
     <div className="space-y-3">
       {/* Main image */}
-      <div className="relative aspect-square border border-border bg-warden-carbon overflow-hidden group">
+      <div className="relative aspect-[4/3] border border-border bg-warden-carbon overflow-hidden group">
         <Image
           src={current.url}
           alt={current.alt || productName}
@@ -143,7 +143,7 @@ export function ProductGallery({
               aria-selected={selectedIndex === idx}
               aria-label={`Ver ${IMAGE_VIEW_LABELS[img.viewType] ?? `vista ${idx + 1}`}`}
               className={cn(
-                "relative size-[72px] shrink-0 border overflow-hidden transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50",
+                "relative size-[84px] shrink-0 border overflow-hidden transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50",
                 selectedIndex === idx
                   ? "border-warden-blue/60 ring-1 ring-warden-blue/30"
                   : "border-border hover:border-warden-blue/20 opacity-70 hover:opacity-100"
@@ -152,8 +152,8 @@ export function ProductGallery({
               <Image
                 src={img.url}
                 alt={img.alt || `${productName} — vista ${idx + 1}`}
-                width={72}
-                height={72}
+                width={84}
+                height={84}
                 className="size-full object-cover"
                 unoptimized={!isSupabaseUrl}
               />

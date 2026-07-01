@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { useProductConfig } from "@/contexts/product-config";
 import { ProductGallery } from "@/components/catalog/product-gallery";
 import type { ProductImage } from "@/types/warden";
@@ -18,17 +17,15 @@ export function GalleryWithVariant({
 
   // Filter images to only those relevant to the selected variant.
   // When no imageIndices declared, show all images.
-  const variantImages = useMemo(() => {
-    if (
-      selectedVariant?.imageIndices != null &&
-      selectedVariant.imageIndices.length > 0
-    ) {
-      return selectedVariant.imageIndices
+  const hasVariantImages =
+    selectedVariant?.imageIndices != null &&
+    selectedVariant.imageIndices.length > 0;
+
+  const variantImages = hasVariantImages
+    ? (selectedVariant!.imageIndices
         .map((idx) => images[idx])
-        .filter(Boolean) as ProductImage[];
-    }
-    return images;
-  }, [selectedVariant?.imageIndices, images]);
+        .filter(Boolean) as ProductImage[])
+    : images;
 
   return (
     <ProductGallery
