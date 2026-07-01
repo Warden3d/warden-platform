@@ -12,6 +12,7 @@ export function AddToSelectionButton({
   productImage,
   size = "default",
   fullWidth = false,
+  quantity = 1,
   className,
 }: {
   productId: string;
@@ -21,6 +22,7 @@ export function AddToSelectionButton({
   productImage?: string;
   size?: "default" | "sm";
   fullWidth?: boolean;
+  quantity?: number;
   className?: string;
 }) {
   const { addItem } = useSelection();
@@ -36,7 +38,7 @@ export function AddToSelectionButton({
           productId,
           productName,
           unitPrice,
-          quantity: 1,
+          quantity,
           productSlug,
           productImage,
         });

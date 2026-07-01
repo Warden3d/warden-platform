@@ -14,11 +14,10 @@ import { ProductGallery } from "@/components/catalog/product-gallery";
 import { ProductSpecsPanel } from "@/components/catalog/product-specs-panel";
 import { ExpandableText } from "@/components/catalog/expandable-text";
 import { CollapsiblePanel } from "@/components/catalog/collapsible-panel";
-import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 import { RelatedProductsSection } from "@/components/catalog/related-products-section";
 import { ProductHighlights } from "@/components/shared/product-highlights";
 import { FinishSelector } from "@/components/shared/finish-selector";
-import { QuantitySelector } from "@/components/shared/quantity-selector";
+import { ClientProductActions } from "@/components/product/client-product-actions";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
 import { Check, ChevronRight } from "lucide-react";
@@ -163,15 +162,10 @@ export default async function ProductPage({
             ) : null}
 
             {/* ════ BLOQUE COMERCIAL ════ */}
-            <div className="grid grid-cols-2 gap-6 pt-3">
-              {/* Columna izquierda: configuración */}
-              <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-5 pt-3">
+              {/* Fila 1: configuración + precio */}
+              <div className="grid grid-cols-2 gap-6">
                 <FinishSelector />
-                <QuantitySelector />
-              </div>
-
-              {/* Columna derecha: precio + acciones */}
-              <div className="flex flex-col items-end gap-3">
                 <div className="text-right">
                   <span className="text-3xl font-bold text-foreground tracking-tight">
                     {product.price.toFixed(2).replace('.', ',')} €
@@ -180,21 +174,25 @@ export default async function ProductPage({
                     Impuestos no incluidos
                   </p>
                 </div>
+              </div>
 
-                <div className="flex flex-col items-end gap-2">
-                  <AddToSelectionButton
-                    productId={product.id}
-                    productName={product.name}
-                    unitPrice={product.price}
-                    productSlug={product.slug}
-                    productImage={product.images.find((img) => img.isPrimary)?.url}
-                    className="h-12 text-base"
-                  />
+              {/* Fila 2: cantidad + añadir (misma línea) */}
+              <ClientProductActions
+                productId={product.id}
+                productName={product.name}
+                unitPrice={product.price}
+                productSlug={product.slug}
+                productImage={product.images.find((img) => img.isPrimary)?.url}
+              />
 
+              {/* Fila 3: volver al catálogo */}
+              <div className="flex justify-end">
+                <div className="w-48">
                   <WardenButton
                     href="/catalog"
                     variant="outline"
                     size="lg"
+                    className="h-9 w-full"
                   >
                     Volver al catálogo
                   </WardenButton>

@@ -91,11 +91,11 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
     if (existing) {
       cachedItems = current.map((i) =>
         i.productId === item.productId
-          ? { ...i, quantity: i.quantity + 1 }
+          ? { ...i, quantity: i.quantity + item.quantity }
           : i
       );
     } else {
-      cachedItems = [...current, { ...item, quantity: 1 }];
+      cachedItems = [...current, item];
     }
     saveToStorage(cachedItems);
     emitChange();
