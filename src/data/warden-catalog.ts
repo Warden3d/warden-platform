@@ -177,7 +177,7 @@ export const products: Product[] = [
       { type: "contents", label: "12 marcadores" },
     ],
     variants: [
-      { name: "Monocromo", price: 24.99, swatchColor: "#9CA3AF" },
+      { name: "Monocromo", price: 24.99, swatchColor: "#9CA3AF", imageIndices: [0, 1] },
     ],
     images: buildImages("prod-001", [
       { url: "/images/products/hex-markers-brass.svg", alt: "Hex Position Markers sobre un mapa hexagonal", isPrimary: true },
@@ -469,11 +469,14 @@ export const products: Product[] = [
       { type: "printing", label: "Impresión 3D" },
     ],
     variants: [
-      { name: "Monocromo", price: 44.99, swatchColor: "#9CA3AF", imageIndex: 0 },
-      { name: "Color", price: 54.99, swatchColor: "#3B82F6", imageIndex: 0 },
+      { name: "Monocromo", price: 44.99, swatchColor: "#9CA3AF", imageIndices: [0, 1] },
+      { name: "Color", price: 54.99, swatchColor: "#3B82F6", imageIndices: [2, 3] },
     ],
     images: buildImages("prod-007", [
-      { url: "/images/products/wasteland-command-post.svg", alt: "Wasteland Command Post sin pintar", isPrimary: true },
+      { url: "/images/products/wasteland-command-post.svg", alt: "Wasteland Command Post — Monocromo frontal", isPrimary: true },
+      { url: "/images/products/wasteland-command-post-angle.svg", alt: "Wasteland Command Post — Monocromo lateral" },
+      { url: "/images/products/wasteland-command-post-color.svg", alt: "Wasteland Command Post — Color frontal", isPrimary: true },
+      { url: "/images/products/wasteland-command-post-color-angle.svg", alt: "Wasteland Command Post — Color lateral" },
     ]),
     status: "active",
     featured: true,
@@ -521,11 +524,14 @@ export const products: Product[] = [
       { type: "terrain", label: "Terreno modular" },
     ],
     variants: [
-      { name: "Monocromo", price: 34.99, swatchColor: "#9CA3AF", imageIndex: 0 },
-      { name: "Color", price: 44.99, swatchColor: "#3B82F6", imageIndex: 0 },
+      { name: "Monocromo", price: 34.99, swatchColor: "#9CA3AF", imageIndices: [0, 1] },
+      { name: "Color", price: 44.99, swatchColor: "#3B82F6", imageIndices: [2, 3] },
     ],
     images: buildImages("prod-008", [
-      { url: "/images/products/scavenger-terrain-pack.svg", alt: "Scavenger's Terrain Pack completo", isPrimary: true },
+      { url: "/images/products/scavenger-terrain-pack.svg", alt: "Scavenger's Terrain Pack — Monocromo frontal", isPrimary: true },
+      { url: "/images/products/scavenger-terrain-pack-angle.svg", alt: "Scavenger's Terrain Pack — Monocromo lateral" },
+      { url: "/images/products/scavenger-terrain-pack-color.svg", alt: "Scavenger's Terrain Pack — Color frontal", isPrimary: true },
+      { url: "/images/products/scavenger-terrain-pack-color-angle.svg", alt: "Scavenger's Terrain Pack — Color lateral" },
     ]),
     status: "active",
     featured: false,

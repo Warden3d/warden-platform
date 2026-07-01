@@ -126,7 +126,7 @@ export interface ProductVariant {
   name: string;
   price: number;
   swatchColor?: string;
-  imageIndex?: number;
+  imageIndices?: number[];
 }
 
 // ─── Product ─────────────────────────────────────
