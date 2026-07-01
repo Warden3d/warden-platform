@@ -120,6 +120,15 @@ export interface ProductHighlight {
   label: string;
 }
 
+// ─── ProductVariant ──────────────────────────────
+
+export interface ProductVariant {
+  name: string;
+  price: number;
+  swatchColor?: string;
+  imageIndex?: number;
+}
+
 // ─── Product ─────────────────────────────────────
 
 export interface Product {
@@ -137,6 +146,7 @@ export interface Product {
   price: number;
   gameFeatures: string[];
   highlights?: ProductHighlight[];
+  variants?: ProductVariant[];
   images: ProductImage[];
   status: ProductStatus;
   featured: boolean;

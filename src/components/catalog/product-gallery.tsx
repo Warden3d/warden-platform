@@ -24,12 +24,14 @@ function GalleryFallback({ productName }: { productName: string }) {
 export function ProductGallery({
   images,
   productName,
+  defaultIndex = 0,
 }: {
   images: ProductImage[];
   productName: string;
+  defaultIndex?: number;
 }) {
   const sorted = [...images].sort((a, b) => a.sortOrder - b.sortOrder);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(defaultIndex);
 
   const handlePrev = useCallback(() => {
     setSelectedIndex((prev) => (prev > 0 ? prev - 1 : sorted.length - 1));

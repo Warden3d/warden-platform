@@ -10,7 +10,6 @@ import {
   getProductsByIds,
   getBundles,
 } from "@/lib/data";
-import { ProductGallery } from "@/components/catalog/product-gallery";
 import { ProductSpecsPanel } from "@/components/catalog/product-specs-panel";
 import { ExpandableText } from "@/components/catalog/expandable-text";
 import { CollapsiblePanel } from "@/components/catalog/collapsible-panel";
@@ -20,6 +19,9 @@ import { FinishSelector } from "@/components/shared/finish-selector";
 import { ClientProductActions } from "@/components/product/client-product-actions";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
+import { ProductConfigProvider } from "@/contexts/product-config";
+import { DynamicPrice } from "@/components/product/dynamic-price";
+import { GalleryWithVariant } from "@/components/product/gallery-with-variant";
 import { Check, ChevronRight } from "lucide-react";
 
 const systemMap: Record<string, "battletech-classic" | "alpha-strike" | "aerotech"> = {
@@ -87,6 +89,8 @@ export default async function ProductPage({
     product.relatedBundleIds.includes(b.id)
   );
 
+  const variants = product.variants ?? [];
+
   return (
     <Section className="pt-12 md:pt-16">
       <Container>
@@ -117,8 +121,9 @@ export default async function ProductPage({
         </nav>
 
         {/* ── HEADER: gallery + comercial info ── */}
+        <ProductConfigProvider variants={variants}>
         <div className="grid gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12 mb-8 items-start">
-          <ProductGallery images={product.images} productName={product.name} />
+          <GalleryWithVariant images={product.images} productName={product.name} />
 
           <div className="flex flex-col gap-5">
             {/* ════ IDENTIDAD DEL PRODUCTO ════ */}
@@ -162,18 +167,11 @@ export default async function ProductPage({
             ) : null}
 
             {/* ════ BLOQUE COMERCIAL ════ */}
-            <div className="flex flex-col gap-5 pt-3">
+            <div className="flex flex-col gap-5 pt-8">
               {/* Fila 1: configuración + precio */}
               <div className="grid grid-cols-2 gap-6">
                 <FinishSelector />
-                <div className="text-right">
-                  <span className="text-3xl font-bold text-foreground tracking-tight">
-                    {product.price.toFixed(2).replace('.', ',')} €
-                  </span>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Impuestos no incluidos
-                  </p>
-                </div>
+                <DynamicPrice />
               </div>
 
               {/* Fila 2: cantidad + añadir (misma línea) */}
@@ -204,6 +202,7 @@ export default async function ProductPage({
             <ExpandableText text={product.description} maxLines={4} />
           </div>
         </div>
+        </ProductConfigProvider>
 
         {/* ── RELATED PRODUCTS & BUNDLES (carousels) ── */}
         <div className="mb-8">

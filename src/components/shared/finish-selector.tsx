@@ -1,51 +1,69 @@
+"use client";
+
 import { cn } from "@/lib/utils";
+import { useProductConfig } from "@/contexts/product-config";
 
-// ── Types ──
-
-interface FinishOption {
-  name: string;
-  color: string;
-}
+// ── Props ──
 
 interface FinishSelectorProps {
-  finishes?: FinishOption[];
+  label?: string;
   className?: string;
 }
 
-// ── Default finishes from Master Design Reference ──
-
-const DEFAULT_FINISHES: FinishOption[] = [
-  { name: "Gris", color: "#9CA3AF" },
-  { name: "Industrial", color: "#6B7280" },
-  { name: "Arena", color: "#D4A574" },
-  { name: "Negro", color: "#1F2937" },
-];
-
 // ── Component ──
+// PCM States:
+//   A (no variants)  → render nothing
+//   B (1 variant)    → info text, no selector
+//   C / D (2+ vars)  → interactive swatch selector
 
 export function FinishSelector({
-  finishes = DEFAULT_FINISHES,
+  label = "Acabado",
   className,
 }: FinishSelectorProps) {
+  const { variants, selectedIdx, selectVariant } = useProductConfig();
+
+  // ── State A: no variants → nothing ──
+  if (variants.length === 0) return null;
+
+  // ── State B: single variant → info text ──
+  if (variants.length === 1) {
+    return (
+      <div className={cn("flex flex-col gap-2", className)}>
+        <span className="text-spec-label text-muted-foreground uppercase tracking-wider">
+          {label}
+        </span>
+        <span className="text-sm text-foreground/80">{variants[0].name}</span>
+      </div>
+    );
+  }
+
+  // ── State C/D: multiple variants → interactive selector ──
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       <span className="text-spec-label text-muted-foreground uppercase tracking-wider">
-        Acabado
+        {label}
       </span>
-      <div className="flex items-center gap-3">
-        {finishes.map((f) => (
+      <div className="flex items-center gap-2">
+        {variants.map((v, idx) => (
           <button
-            key={f.name}
+            key={v.name}
             type="button"
-            disabled
-            aria-label={`Acabado ${f.name}`}
-            className="flex items-center gap-1.5 group cursor-not-allowed opacity-70"
+            onClick={() => selectVariant(idx)}
+            aria-label={`${label}: ${v.name}`}
+            className={cn(
+              "flex items-center gap-1.5 rounded-sm border px-2.5 py-1.5 text-xs transition-all duration-150",
+              idx === selectedIdx
+                ? "border-warden-blue/60 bg-warden-blue/10 text-foreground"
+                : "border-border text-muted-foreground hover:border-warden-blue/30 hover:text-foreground"
+            )}
           >
-            <span
-              className="size-5 rounded-full border border-border/60 shrink-0"
-              style={{ backgroundColor: f.color }}
-            />
-            <span className="text-xs text-muted-foreground">{f.name}</span>
+            {v.swatchColor && (
+              <span
+                className="size-3.5 rounded-full shrink-0"
+                style={{ backgroundColor: v.swatchColor }}
+              />
+            )}
+            {v.name}
           </button>
         ))}
       </div>

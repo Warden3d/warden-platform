@@ -176,6 +176,9 @@ export const products: Product[] = [
       { type: "compatibility", label: "BattleTech Classic" },
       { type: "contents", label: "12 marcadores" },
     ],
+    variants: [
+      { name: "Monocromo", price: 24.99, swatchColor: "#9CA3AF" },
+    ],
     images: buildImages("prod-001", [
       { url: "/images/products/hex-markers-brass.svg", alt: "Hex Position Markers sobre un mapa hexagonal", isPrimary: true },
       { url: "/images/products/hex-markers-brass-angle.svg", alt: "Detalle de los marcadores de latón" },
@@ -465,6 +468,10 @@ export const products: Product[] = [
       { type: "compatibility", label: "BattleTech Classic" },
       { type: "printing", label: "Impresión 3D" },
     ],
+    variants: [
+      { name: "Monocromo", price: 44.99, swatchColor: "#9CA3AF", imageIndex: 0 },
+      { name: "Color", price: 54.99, swatchColor: "#3B82F6", imageIndex: 0 },
+    ],
     images: buildImages("prod-007", [
       { url: "/images/products/wasteland-command-post.svg", alt: "Wasteland Command Post sin pintar", isPrimary: true },
     ]),
@@ -512,6 +519,10 @@ export const products: Product[] = [
       { type: "material", label: "Resina PU" },
       { type: "compatibility", label: "Alpha Strike" },
       { type: "terrain", label: "Terreno modular" },
+    ],
+    variants: [
+      { name: "Monocromo", price: 34.99, swatchColor: "#9CA3AF", imageIndex: 0 },
+      { name: "Color", price: 44.99, swatchColor: "#3B82F6", imageIndex: 0 },
     ],
     images: buildImages("prod-008", [
       { url: "/images/products/scavenger-terrain-pack.svg", alt: "Scavenger's Terrain Pack completo", isPrimary: true },
