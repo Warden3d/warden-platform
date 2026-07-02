@@ -5,7 +5,6 @@ import { Container, Section, SectionDivider } from "@/components/shared/containe
 import {
   getProductBySlug,
   getCollections,
-  getCompatibilitySystems,
   getLicenses,
   getProductsByIds,
   getBundles,
@@ -59,13 +58,11 @@ export default async function ProductPage({
   const [
     product,
     collections,
-    compatibilitySystems,
     licenses,
     relatedBundles,
   ] = await Promise.all([
     getProductBySlug(slug),
     getCollections(),
-    getCompatibilitySystems(),
     getLicenses(),
     getBundles(),
   ]);
@@ -73,9 +70,6 @@ export default async function ProductPage({
   if (!product || product.status !== "active") notFound();
 
   const collection = collections.find((c) => c.id === product.collectionId);
-  const compatSystem = compatibilitySystems.find(
-    (c) => c.id === product.compatibilityId
-  );
   const license = product.associatedLicenseId
     ? licenses.find((l) => l.id === product.associatedLicenseId)
     : null;
@@ -197,49 +191,17 @@ export default async function ProductPage({
                 </div>
               </div>
             </div>
-
-            {/* Description (inline, expandable) — se mantiene en cabecera */}
-            <ExpandableText text={product.description} maxLines={4} />
           </div>
         </div>
         </ProductConfigProvider>
 
-        {/* ── RELATED PRODUCTS & BUNDLES (carousels) ── */}
-        <div className="mb-8">
-          <RelatedProductsSection
-            products={resolvedRelatedProducts}
-            bundles={resolvedRelatedBundles}
-          />
-        </div>
+        {/* ════ BLOQUES INFORMATIVOS (ancho completo) ════ */}
+        <div className="space-y-6 mb-12">
+          {/* Descripción */}
+          <ExpandableText text={product.description} maxLines={6} />
 
-        {/* ── EXPANDED INFO (progressive disclosure) ── */}
-        <div className="space-y-3 max-w-2xl">
-          {/* Características de juego */}
-          <CollapsiblePanel title="Características de juego">
-            <div className="space-y-2">
-              {product.scale && (
-                <div className="flex items-center justify-between gap-4 text-sm">
-                  <span className="text-muted-foreground">Escala</span>
-                  <span className="text-foreground/80">{product.scale}</span>
-                </div>
-              )}
-              {product.material && (
-                <div className="flex items-center justify-between gap-4 text-sm">
-                  <span className="text-muted-foreground">Material</span>
-                  <span className="text-foreground/80">{product.material}</span>
-                </div>
-              )}
-              {compatSystem && (
-                <div className="flex items-center justify-between gap-4 text-sm">
-                  <span className="text-muted-foreground">Compatibilidad</span>
-                  <span className="text-foreground/80">{compatSystem.name}</span>
-                </div>
-              )}
-            </div>
-          </CollapsiblePanel>
-
-          {/* Especificaciones técnicas */}
-          <CollapsiblePanel title="Especificaciones técnicas">
+          {/* Información del producto */}
+          <CollapsiblePanel title="Información del producto" defaultOpen={false}>
             <ProductSpecsPanel
               specs={product.specs}
               scale={product.scale}
@@ -247,6 +209,45 @@ export default async function ProductPage({
               dimensions={product.dimensions}
             />
           </CollapsiblePanel>
+
+          {/* Contenido del set */}
+          <CollapsiblePanel title="Contenido del set" defaultOpen={false}>
+            <ul className="space-y-2">
+              {product.gameFeatures.map((feature, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-sm text-foreground/80 leading-relaxed">
+                  <Check className="size-4 text-warden-blue shrink-0 mt-0.5" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </CollapsiblePanel>
+
+          {/* Colecciones compatibles */}
+          <CollapsiblePanel title="Colecciones compatibles" defaultOpen={false}>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+              {[collection].filter(Boolean).map((col) => (
+                <div
+                  key={col!.id}
+                  className="flex flex-col items-center gap-2 rounded-sm border border-border bg-warden-surface p-4 text-center"
+                >
+                  <div className="size-10 rounded-full bg-warden-elevated flex items-center justify-center text-muted-foreground text-xs font-bold uppercase">
+                    {col!.name.slice(0, 2)}
+                  </div>
+                  <span className="text-xs text-foreground/80 leading-tight">
+                    {col!.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </CollapsiblePanel>
+        </div>
+
+        {/* ════ PRODUCTOS RELACIONADOS ════ */}
+        <div className="mb-8">
+          <RelatedProductsSection
+            products={resolvedRelatedProducts}
+            bundles={resolvedRelatedBundles}
+          />
         </div>
       </Container>
     </Section>
