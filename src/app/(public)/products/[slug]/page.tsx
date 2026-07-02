@@ -198,12 +198,12 @@ export default async function ProductPage({
         {/* ════ BLOQUES INFORMATIVOS (ancho completo) ════ */}
         <div className="space-y-6 mb-12">
           {/* Información adicional */}
-          <CollapsiblePanel title="Información adicional" defaultOpen={false} icon={FileText}>
+          <CollapsiblePanel title="Información adicional" defaultOpen={false} icon={<FileText className="size-3.5 shrink-0" />}>
             <ExpandableText text={product.description} maxLines={6} />
           </CollapsiblePanel>
 
           {/* Información del producto */}
-          <CollapsiblePanel title="Información del producto" defaultOpen={false} icon={Info}>
+          <CollapsiblePanel title="Información del producto" defaultOpen={false} icon={<Info className="size-3.5 shrink-0" />}>
             <ProductSpecsPanel
               specs={product.specs}
               scale={product.scale}
@@ -213,7 +213,7 @@ export default async function ProductPage({
           </CollapsiblePanel>
 
           {/* Contenido del set */}
-          <CollapsiblePanel title="Contenido del set" defaultOpen={false} icon={PackageIcon}>
+          <CollapsiblePanel title="Contenido del set" defaultOpen={false} icon={<PackageIcon className="size-3.5 shrink-0" />}>
             <ul className="space-y-2">
               {product.gameFeatures.map((feature, idx) => (
                 <li key={idx} className="flex items-start gap-2 text-sm text-foreground/80 leading-relaxed">
@@ -225,7 +225,7 @@ export default async function ProductPage({
           </CollapsiblePanel>
 
           {/* Colecciones compatibles */}
-          <CollapsiblePanel title="Colecciones compatibles" defaultOpen={false} icon={Layers}>
+          <CollapsiblePanel title="Colecciones compatibles" defaultOpen={false} icon={<Layers className="size-3.5 shrink-0" />}>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {[collection].filter(Boolean).map((col) => (
                 <div

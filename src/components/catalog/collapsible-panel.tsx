@@ -9,7 +9,7 @@ interface CollapsiblePanelProps {
   children: React.ReactNode;
   defaultOpen?: boolean;
   className?: string;
-  icon?: React.ComponentType<{ className?: string }>;
+  icon?: React.ReactNode;
 }
 
 export function CollapsiblePanel({
@@ -17,7 +17,7 @@ export function CollapsiblePanel({
   children,
   defaultOpen = false,
   className,
-  icon: Icon,
+  icon,
 }: CollapsiblePanelProps) {
   const [open, setOpen] = useState(defaultOpen);
 
@@ -30,7 +30,7 @@ export function CollapsiblePanel({
         aria-expanded={open}
       >
         <span className="flex items-center gap-2">
-          {Icon && <Icon className="size-3.5 shrink-0" />}
+          {icon}
           <span>{title}</span>
         </span>
         <ChevronDown
