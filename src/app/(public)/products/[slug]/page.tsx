@@ -21,7 +21,7 @@ import { WardenButton } from "@/components/ui/warden-button";
 import { ProductConfigProvider } from "@/contexts/product-config";
 import { DynamicPrice } from "@/components/product/dynamic-price";
 import { GalleryWithVariant } from "@/components/product/gallery-with-variant";
-import { Check, ChevronRight } from "lucide-react";
+import { Check, ChevronRight, FileText, Info, Package as PackageIcon, Layers } from "lucide-react";
 
 const systemMap: Record<string, "battletech-classic" | "alpha-strike" | "aerotech"> = {
   "comp-battletech-classic": "battletech-classic",
@@ -198,12 +198,12 @@ export default async function ProductPage({
         {/* ════ BLOQUES INFORMATIVOS (ancho completo) ════ */}
         <div className="space-y-6 mb-12">
           {/* Información adicional */}
-          <CollapsiblePanel title="Información adicional" defaultOpen={false}>
+          <CollapsiblePanel title="Información adicional" defaultOpen={false} icon={FileText}>
             <ExpandableText text={product.description} maxLines={6} />
           </CollapsiblePanel>
 
           {/* Información del producto */}
-          <CollapsiblePanel title="Información del producto" defaultOpen={false}>
+          <CollapsiblePanel title="Información del producto" defaultOpen={false} icon={Info}>
             <ProductSpecsPanel
               specs={product.specs}
               scale={product.scale}
@@ -213,7 +213,7 @@ export default async function ProductPage({
           </CollapsiblePanel>
 
           {/* Contenido del set */}
-          <CollapsiblePanel title="Contenido del set" defaultOpen={false}>
+          <CollapsiblePanel title="Contenido del set" defaultOpen={false} icon={PackageIcon}>
             <ul className="space-y-2">
               {product.gameFeatures.map((feature, idx) => (
                 <li key={idx} className="flex items-start gap-2 text-sm text-foreground/80 leading-relaxed">
@@ -225,7 +225,7 @@ export default async function ProductPage({
           </CollapsiblePanel>
 
           {/* Colecciones compatibles */}
-          <CollapsiblePanel title="Colecciones compatibles" defaultOpen={false}>
+          <CollapsiblePanel title="Colecciones compatibles" defaultOpen={false} icon={Layers}>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {[collection].filter(Boolean).map((col) => (
                 <div
