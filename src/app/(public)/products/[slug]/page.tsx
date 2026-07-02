@@ -197,8 +197,10 @@ export default async function ProductPage({
 
         {/* ════ BLOQUES INFORMATIVOS (ancho completo) ════ */}
         <div className="space-y-6 mb-12">
-          {/* Descripción */}
-          <ExpandableText text={product.description} maxLines={6} />
+          {/* Información adicional */}
+          <CollapsiblePanel title="Información adicional" defaultOpen={false}>
+            <ExpandableText text={product.description} maxLines={6} />
+          </CollapsiblePanel>
 
           {/* Información del producto */}
           <CollapsiblePanel title="Información del producto" defaultOpen={false}>
