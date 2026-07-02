@@ -10,6 +10,9 @@ function RelatedProductCard({ product }: { product: Product }) {
       href={`/products/${product.slug}`}
       className="group border border-border bg-warden-surface p-4 flex flex-col hover:border-warden-blue/20 transition-colors w-[260px] snap-start shrink-0"
     >
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-eyebrow text-muted-foreground">Producto</span>
+      </div>
       <div className="mb-2">
         <CompatibilityBadge
           system={
@@ -81,35 +84,24 @@ export function RelatedProductsSection({
   products: Product[];
   bundles: Bundle[];
 }) {
-  if (products.length === 0 && bundles.length === 0) return null;
+  const hasProducts = products.length > 0;
+  const hasBundles = bundles.length > 0;
+
+  if (!hasProducts && !hasBundles) return null;
 
   return (
-    <div className="space-y-6">
-      {products.length > 0 && (
-        <div>
-          <h3 className="text-spec-label text-muted-foreground mb-3 uppercase tracking-wider text-xs">
-            Productos relacionados
-          </h3>
-          <ScrollableRow>
-            {products.map((p) => (
-              <RelatedProductCard key={p.id} product={p} />
-            ))}
-          </ScrollableRow>
-        </div>
-      )}
-
-      {bundles.length > 0 && (
-        <div>
-          <h3 className="text-spec-label text-muted-foreground mb-3 uppercase tracking-wider text-xs">
-            Disponible en bundles
-          </h3>
-          <ScrollableRow>
-            {bundles.map((b) => (
-              <RelatedBundleCard key={b.id} bundle={b} />
-            ))}
-          </ScrollableRow>
-        </div>
-      )}
+    <div className="space-y-4">
+      <h3 className="text-spec-label text-muted-foreground mb-3 uppercase tracking-wider text-xs">
+        También puede interesarte
+      </h3>
+      <ScrollableRow>
+        {products.map((p) => (
+          <RelatedProductCard key={p.id} product={p} />
+        ))}
+        {bundles.map((b) => (
+          <RelatedBundleCard key={b.id} bundle={b} />
+        ))}
+      </ScrollableRow>
     </div>
   );
 }
