@@ -15,17 +15,16 @@ export function GalleryWithVariant({
 }: GalleryWithVariantProps) {
   const { selectedVariant } = useProductConfig();
 
-  // Filter images to only those relevant to the selected variant.
-  // When no imageIndices declared, show all images.
-  const hasVariantImages =
-    selectedVariant?.imageIndices != null &&
-    selectedVariant.imageIndices.length > 0;
+  // Show variant-specific images when the product declares imageIndices.
+  // Otherwise fall back to all product images.
+  let variantImages: ProductImage[] = images;
 
-  const variantImages = hasVariantImages
-    ? (selectedVariant!.imageIndices
-        .map((idx) => images[idx])
-        .filter(Boolean) as ProductImage[])
-    : images;
+  const indices = selectedVariant?.imageIndices;
+  if (indices != null && indices.length > 0) {
+    variantImages = indices
+      .map((idx) => images[idx])
+      .filter((img): img is ProductImage => img != null);
+  }
 
   return (
     <ProductGallery
