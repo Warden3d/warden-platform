@@ -167,12 +167,6 @@ export function ProductGallery({
         </div>
       )}
 
-      {/* Alt text caption */}
-      {current.alt && (
-        <p className="text-[10px] text-muted-foreground/40 text-center italic">
-          {current.alt}
-        </p>
-      )}
     </div>
   );
 }

@@ -199,7 +199,7 @@ export default async function ProductPage({
         <div className="space-y-6 mb-12">
           {/* Información adicional */}
           <CollapsiblePanel title="Información adicional" defaultOpen={false} icon={<FileText className="size-3.5 shrink-0" />}>
-            <ExpandableText text={product.description} maxLines={6} />
+            <ExpandableText text={product.description} maxLines={6} expandable={false} />
           </CollapsiblePanel>
 
           {/* Información del producto */}
