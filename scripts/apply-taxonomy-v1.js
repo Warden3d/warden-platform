@@ -7,11 +7,11 @@ let content = fs.readFileSync("src/data/warden-catalog.ts", "utf8");
 
 const moves = [
   // prod-001: Hex Position Markers — markers, not scenery
-  { slug: "hex-position-markers-brass", newCategory: "cat-complementarios", removeType: true },
+  { slug: "hex-position-markers-brass", newCategory: "cat-accesorios", removeType: true },
   // prod-003: Movement Templates — measuring tools, not terrain
-  { slug: "alpha-strike-movement-templates", newCategory: "cat-complementarios", removeType: true },
+  { slug: "alpha-strike-movement-templates", newCategory: "cat-accesorios", removeType: true },
   // prod-006: Altitude Tracker — tracking tool, not maps
-  { slug: "aerotech-altitude-tracker", newCategory: "cat-complementarios", removeType: true },
+  { slug: "aerotech-altitude-tracker", newCategory: "cat-accesorios", removeType: true },
 ];
 
 for (const m of moves) {

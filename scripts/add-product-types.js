@@ -71,8 +71,9 @@ export const productTypes: ProductType[] = [
   { id: "type-map-modular",          categoryId: "cat-mapas",            name: "Modular" },
 
   // Complementarios (provisional)
-  { id: "type-comp-seguimiento",     categoryId: "cat-complementarios",  name: "Seguimiento" },
-  { id: "type-comp-consulta",        categoryId: "cat-complementarios",  name: "Consulta Rápida" },
+  // Complementarios → Accesorios (obsoleto, mantenido como referencia histórica)
+  { id: "type-comp-seguimiento",     categoryId: "cat-accesorios",  name: "Seguimiento" },
+  { id: "type-comp-consulta",        categoryId: "cat-accesorios",  name: "Consulta Rápida" },
 ];
 `;
 
