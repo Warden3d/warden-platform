@@ -40,22 +40,10 @@ export function CatalogFilters({
 }: CatalogFiltersProps) {
   return (
     <div className="space-y-5">
-      {/* Clear all */}
-      {hasActiveFilters && (
-        <button
-          type="button"
-          onClick={onClear}
-          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
-        >
-          <X className="size-3" />
-          Limpiar filtros
-        </button>
-      )}
-
-      {/* Category */}
+      {/* 1. Categorías */}
       <fieldset>
         <legend className="text-spec-label text-muted-foreground mb-2.5">
-          Categoría
+          Categorías
         </legend>
         <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filtrar por categoría">
           {categories.map((cat) => (
@@ -77,12 +65,12 @@ export function CatalogFilters({
         </div>
       </fieldset>
 
-      {/* Compatibility */}
+      {/* 2. Sistema de juego */}
       <fieldset>
         <legend className="text-spec-label text-muted-foreground mb-2.5">
-          Compatibilidad
+          Sistema de juego
         </legend>
-        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filtrar por compatibilidad">
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filtrar por sistema de juego">
           {compatibilitySystems.map((comp) => (
             <button
               type="button"
@@ -110,7 +98,7 @@ export function CatalogFilters({
         </div>
       </fieldset>
 
-      {/* Collection */}
+      {/* 3. Colección */}
       <fieldset>
         <legend className="text-spec-label text-muted-foreground mb-2.5">
           Colección
@@ -134,6 +122,32 @@ export function CatalogFilters({
           ))}
         </div>
       </fieldset>
+
+      {/* 4. Tipo (arquitectura futura) */}
+      <fieldset>
+        <legend className="text-spec-label text-muted-foreground mb-2.5">
+          Tipo
+        </legend>
+      </fieldset>
+
+      {/* 5. Precio (arquitectura futura) */}
+      <fieldset>
+        <legend className="text-spec-label text-muted-foreground mb-2.5">
+          Precio
+        </legend>
+      </fieldset>
+
+      {/* 6. Reset Filters (siempre al final) */}
+      {hasActiveFilters && (
+        <button
+          type="button"
+          onClick={onClear}
+          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+        >
+          <X className="size-3" />
+          Limpiar filtros
+        </button>
+      )}
     </div>
   );
 }
