@@ -18,6 +18,7 @@ import type {
   License,
   Bundle,
   Drop,
+  ProductType,
 } from "@/types/warden";
 
 import {
@@ -28,6 +29,7 @@ import {
   licenses as initialLicenses,
   bundles as initialBundles,
   drops as initialDrops,
+  productTypes as initialProductTypes,
 } from "@/data/warden-catalog";
 
 // ── Catalog (mutable) ────────────────────────────────────────────────
@@ -40,10 +42,11 @@ const drops: Drop[] = JSON.parse(JSON.stringify(initialDrops));
 
 const collections: Collection[] = JSON.parse(JSON.stringify(initialCollections));
 const categories: Category[] = JSON.parse(JSON.stringify(initialCategories));
-const compatibilitySystems: CompatibilitySystem[] = JSON.parse(
+let compatibilitySystems: CompatibilitySystem[] = JSON.parse(
   JSON.stringify(initialCompatibilitySystems)
 );
-const licenses: License[] = JSON.parse(JSON.stringify(initialLicenses));
+let productTypes: ProductType[] = JSON.parse(JSON.stringify(initialProductTypes));
+let licenses: License[] = JSON.parse(JSON.stringify(initialLicenses));
 
 // ── Requests store ───────────────────────────────────────────────────
 
@@ -213,6 +216,10 @@ export function getCategories(): Category[] {
 
 export function getCompatibilitySystems(): CompatibilitySystem[] {
   return compatibilitySystems;
+}
+
+export function getProductTypes(): ProductType[] {
+  return productTypes;
 }
 
 export function getLicenses(): License[] {

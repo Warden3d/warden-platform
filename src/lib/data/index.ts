@@ -15,6 +15,7 @@ import type {
   ProductSpec,
   Bundle,
   Drop,
+  ProductType,
 } from "@/types/warden";
 
 // ── Mock data (fallback) — read from mutable in-memory store ─────────────────
@@ -23,6 +24,7 @@ import {
   getCollections as getStoreCollections,
   getCategories as getStoreCategories,
   getCompatibilitySystems as getStoreCompatibilitySystems,
+  getProductTypes as getStoreProductTypes,
   getLicenses as getStoreLicenses,
   getBundles as getStoreBundles,
   getDrops as getStoreDrops,
@@ -525,6 +527,12 @@ export async function getCollections(): Promise<Collection[]> {
 export async function getCategories(): Promise<Category[]> {
   if (!isSupabaseConfigured()) return getStoreCategories();
   return loadCategoriesFromSupabase();
+}
+
+export async function getProductTypes(): Promise<ProductType[]> {
+  if (!isSupabaseConfigured()) return getStoreProductTypes();
+  // TODO: fetch from Supabase
+  return getStoreProductTypes();
 }
 
 export async function getCompatibilitySystems(): Promise<CompatibilitySystem[]> {

@@ -5,6 +5,8 @@ import { Container, Section, SectionDivider } from "@/components/shared/containe
 import {
   getProductBySlug,
   getCollections,
+  getCategories,
+  getProductTypes,
   getLicenses,
   getProductsByIds,
   getBundles,
@@ -58,11 +60,15 @@ export default async function ProductPage({
   const [
     product,
     collections,
+    categories,
+    productTypes,
     licenses,
     relatedBundles,
   ] = await Promise.all([
     getProductBySlug(slug),
     getCollections(),
+    getCategories(),
+    getProductTypes(),
     getLicenses(),
     getBundles(),
   ]);
@@ -70,6 +76,8 @@ export default async function ProductPage({
   if (!product || product.status !== "active") notFound();
 
   const collection = collections.find((c) => c.id === product.collectionId);
+  const productCategory = categories.find((c) => c.id === product.categoryId);
+  const productType = productTypes.find((t) => t.id === product.typeId);
   const license = product.associatedLicenseId
     ? licenses.find((l) => l.id === product.associatedLicenseId)
     : null;
@@ -197,22 +205,24 @@ export default async function ProductPage({
 
         {/* ════ BLOQUES INFORMATIVOS (ancho completo) ════ */}
         <div className="space-y-6 mb-12">
-          {/* Información adicional */}
-          <CollapsiblePanel title="Información adicional" defaultOpen={false} icon={<FileText className="size-3.5 shrink-0" />}>
-            <ExpandableText text={product.description} maxLines={6} expandable={false} />
-          </CollapsiblePanel>
-
-          {/* Información del producto */}
+          {/* 1. Información del producto */}
           <CollapsiblePanel title="Información del producto" defaultOpen={false} icon={<Info className="size-3.5 shrink-0" />}>
             <ProductSpecsPanel
               specs={product.specs}
               scale={product.scale}
               material={product.material}
               dimensions={product.dimensions}
+              categoryName={productCategory?.name}
+              typeName={productType?.name}
             />
           </CollapsiblePanel>
 
-          {/* Contenido del set */}
+          {/* 2. Información adicional */}
+          <CollapsiblePanel title="Información adicional" defaultOpen={false} icon={<FileText className="size-3.5 shrink-0" />}>
+            <ExpandableText text={product.description} maxLines={6} expandable={false} />
+          </CollapsiblePanel>
+
+          {/* 3. Contenido del set */}
           <CollapsiblePanel title="Contenido del set" defaultOpen={false} icon={<PackageIcon className="size-3.5 shrink-0" />}>
             <ul className="space-y-2">
               {product.gameFeatures.map((feature, idx) => (
