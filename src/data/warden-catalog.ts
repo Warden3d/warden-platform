@@ -8,6 +8,7 @@ import type {
   ProductSpec,
   Bundle,
   Drop,
+  ProductType,
 } from "@/types/warden";
 
 // ─────────────────────────────────────────────────
@@ -159,6 +160,7 @@ export const products: Product[] = [
       "Juego de doce marcadores de latón macizo diseñados para BattleTech Classic y Alpha Strike. Cada marcador se asienta al ras dentro de un hexágono estándar de 1.25 pulgadas, proporcionando indicaciones visuales claras para el estado de la unidad, bloqueo de línea de visión y condiciones del terreno sin obstruir las miniaturas. Cuatro formas diferenciadas táctilmente para identificar cada tipo sin necesidad de mirarlos. El latón natural desarrolla pátina con el uso, dando a cada juego un carácter único que refleja su historia en la mesa de juego.",
     collectionId: "col-warden-core",
     categoryId: "cat-escenografia",
+    typeId: "type-esc-accesorio",
     compatibilityId: "comp-battletech-classic",
     scale: "1:265",
     material: "Latón macizo sin recubrimiento",
@@ -211,6 +213,7 @@ export const products: Product[] = [
       "Dial de acrílico de doble capa que registra la escala de calor de 0 a 30 con números de alto contraste. Diseñado para reemplazar las hojas de papel o los rastreadores digitales, manteniendo la gestión térmica de cada piloto física, visible y táctil. El anillo exterior marca los umbrales de apagado por calor y explosión de munición en rojo de advertencia. El dial gira suavemente sobre un eje de latón y mantiene la posición incluso si se golpea la mesa.",
     collectionId: "col-warden-core",
     categoryId: "cat-complementarios",
+    typeId: "type-comp-seguimiento",
     compatibilityId: "comp-battletech-classic",
     scale: "1:265",
     material: "Acrílico láser cortado, doble capa con eje de latón",
@@ -259,6 +262,7 @@ export const products: Product[] = [
       "Juego de cinco plantillas de movimiento cortadas por láser en acrílico ahumado, calibradas para los modos de movimiento de Alpha Strike: Stand Still, Walk, Run, Jump y Sprint. Cada plantilla lleva grabada la abreviatura del modo de movimiento y el valor TMM (Target Movement Modifier) correspondiente, eliminando las consultas a la tabla durante la partida. El juego incluye una funda de almacenamiento con tarjeta de referencia rápida. Las plantillas son transparentes para permitir ver el terreno debajo durante la colocación.",
     collectionId: "col-warden-core",
     categoryId: "cat-terreno",
+    typeId: "type-ter-plantilla",
     compatibilityId: "comp-alpha-strike",
     scale: "1:265",
     material: "Acrílico ahumado con grabado láser",
@@ -306,6 +310,7 @@ export const products: Product[] = [
       "Juego de ocho minideslizadores que reemplazan las hojas de registro de papel para el control de blindaje en BattleMechs. Cada deslizador cubre una localización de blindaje (Cabeza, Tórax Central, Tórax Izquierdo/Derecho, Brazos, Piernas) con topes táctiles en los umbrales clave. La base se alinea con el diseño estándar de la hoja de registro para mantener los ocho deslizadores organizados durante la partida. Fabricado en compuesto de aluminio con numeración grabada por láser. Los deslizadores se mueven con la presión justa: no se desplazan accidentalmente pero se ajustan sin esfuerzo.",
     collectionId: "col-warden-core",
     categoryId: "cat-complementarios",
+    typeId: "type-comp-seguimiento",
     compatibilityId: "comp-battletech-classic",
     scale: "1:265",
     material: "Compuesto de aluminio con grabado láser",
@@ -353,6 +358,7 @@ export const products: Product[] = [
       "Rueda giratoria compacta que muestra la tabla de impactos de ráfaga (Cluster Hits Table) para salvas de misiles de 2 a 40. Gira el anillo exterior hasta el tamaño de la salva y lee el número de impactos para cualquier resultado de 2 a 12. Sin necesidad de hojear reglamentos ni tablas laminadas. Doble cara: una cara para ráfaga estándar, la reversa para casos especiales de LRM/SRM. Cabe en la esquina de cualquier bandeja de dados. El mecanismo de latón garantiza un giro suave y duradero.",
     collectionId: "col-warden-core",
     categoryId: "cat-complementarios",
+    typeId: "type-comp-consulta",
     compatibilityId: "comp-battletech-classic",
     scale: "1:265",
     material: "Eje de latón con platos de acrílico",
@@ -401,6 +407,7 @@ export const products: Product[] = [
       "Panel de doble seguimiento diseñado para el combate atmosférico de AeroTech. El deslizador de altitud abarca 10 niveles atmosféricos con los efectos de gravedad correspondientes indicados en cada escalón. El rastreador de velocidad utiliza una rueda giratoria con 16 incrementos de velocidad. Ambos componentes se acoplan a una base compartida que encaja junto a las hojas de registro estándar. Fabricado en aluminio de precisión con acabado anodizado y marcas grabadas que no se borran con el uso.",
     collectionId: "col-warden-core",
     categoryId: "cat-mapas",
+    typeId: "type-map-modular",
     compatibilityId: "comp-aerotech",
     scale: "1:265",
     material: "Aluminio anodizado con marcas grabadas",
@@ -451,6 +458,7 @@ export const products: Product[] = [
       "Puesto de mando fortificado diseñado por Wasteland Studios para sus líneas de escenografía post-apocalíptica. La estructura mide 150 × 100 mm en base y presenta muros de hormigón agrietado, barricadas de metralla y una antena parabólica inclinada. El interior es accesible para colocar miniaturas de infantería o marcadores de cuartel general. Compatible con mapas de hexágono estándar y sistemas de juego BattleTech Classic. Suministrado sin pintar, listo para imprimación y pintura acrílica.",
     collectionId: "col-licenses",
     categoryId: "cat-escenografia",
+    typeId: "type-esc-militar",
     compatibilityId: "comp-battletech-classic",
     scale: "1:265",
     material: "Resina de poliuretano, suministrada sin pintar",
@@ -506,6 +514,7 @@ export const products: Product[] = [
       "Pack de siete piezas de terreno modular diseñado por Wasteland Studios para crear tableros de juego ambientados en zonas devastadas. Incluye dos montones de escombros, un vehículo civil abandonado a escala 1:265, tres barricadas de hormigón armado y una excavadora oxidada que funciona como cobertura total. Todas las piezas encajan en hexágonos estándar de 1.25\" y pueden combinarse entre sí para formar obstáculos más grandes. Suministradas sin pintar en resina gris.",
     collectionId: "col-licenses",
     categoryId: "cat-terreno",
+    typeId: "type-ter-ruinas",
     compatibilityId: "comp-alpha-strike",
     scale: "1:265",
     material: "Resina de poliuretano, suministrada sin pintar",
@@ -560,6 +569,7 @@ export const products: Product[] = [
       "Tres mapas modulares de doble cara diseñados en colaboración con Wasteland Studios. Representan una ciudad caída dividida en tres sectores: zona industrial con almacenes y grúas derrumbadas, centro urbano con edificios gubernamentales semiderruidos, y periferia residencial con calles bloqueadas por escombros. Cada mapa mide 22\" × 17\" (estándar BattleTech) e incluye marcadores de edificios, zonas de entrada y salida, y notas de escenario en los bordes. Impresos en papel satinado de 300 g/m² con plegado resistente.",
     collectionId: "col-licenses",
     categoryId: "cat-mapas",
+    typeId: "type-map-modular",
     compatibilityId: "comp-battletech-classic",
     scale: "1:265",
     material: "Papel satinado de 300 g/m², impresión digital",
@@ -682,6 +692,39 @@ export const drops: Drop[] = [
 export function getActiveProducts(): Product[] {
   return products.filter((p) => p.status === "active");
 }
+
+// ─────────────────────────────────────────────────
+// Product Types
+// ─────────────────────────────────────────────────
+// ⚠ Provisional — pendiente de revisión de taxonomía para Mapas, Escenarios y Complementarios
+
+export const productTypes: ProductType[] = [
+  // Escenografía
+  { id: "type-esc-urbano",           categoryId: "cat-escenografia",     name: "Urbano" },
+  { id: "type-esc-comercial",        categoryId: "cat-escenografia",     name: "Comercial" },
+  { id: "type-esc-industrial",       categoryId: "cat-escenografia",     name: "Industrial" },
+  { id: "type-esc-militar",          categoryId: "cat-escenografia",     name: "Militar" },
+  { id: "type-esc-administrativo",   categoryId: "cat-escenografia",     name: "Administrativo" },
+  { id: "type-esc-infraestructura",  categoryId: "cat-escenografia",     name: "Infraestructura" },
+  { id: "type-esc-accesorio",        categoryId: "cat-escenografia",     name: "Accesorio" },
+
+  // Terreno
+  { id: "type-ter-bosque",           categoryId: "cat-terreno",          name: "Bosque" },
+  { id: "type-ter-colina",           categoryId: "cat-terreno",          name: "Colina" },
+  { id: "type-ter-agua",             categoryId: "cat-terreno",          name: "Agua" },
+  { id: "type-ter-carretera",        categoryId: "cat-terreno",          name: "Carretera" },
+  { id: "type-ter-puente",           categoryId: "cat-terreno",          name: "Puente" },
+  { id: "type-ter-ruinas",           categoryId: "cat-terreno",          name: "Ruinas" },
+  { id: "type-ter-obstaculo",        categoryId: "cat-terreno",          name: "Obstáculo" },
+  { id: "type-ter-plantilla",        categoryId: "cat-terreno",          name: "Plantilla" },
+
+  // Mapas (provisional)
+  { id: "type-map-modular",          categoryId: "cat-mapas",            name: "Modular" },
+
+  // Complementarios (provisional)
+  { id: "type-comp-seguimiento",     categoryId: "cat-complementarios",  name: "Seguimiento" },
+  { id: "type-comp-consulta",        categoryId: "cat-complementarios",  name: "Consulta Rápida" },
+];
 
 export function getProductBySlug(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);

@@ -13,6 +13,7 @@ export const productFormSchema = z.object({
   description: z.string().min(10, "Mínimo 10 caracteres").max(10000),
   collectionId: z.string().min(1, "Selecciona una colección"),
   categoryId: z.string().min(1, "Selecciona una categoría"),
+  typeId: z.string().optional(),
   compatibilityId: z.string().min(1, "Selecciona un sistema"),
   scale: z.string().min(1).max(50),
   material: z.string().min(1).max(200),

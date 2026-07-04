@@ -120,6 +120,14 @@ export interface ProductHighlight {
   label: string;
 }
 
+// ─── ProductType ─────────────────────────────────
+
+export interface ProductType {
+  id: string;
+  categoryId: string;
+  name: string;
+}
+
 // ─── ProductVariant ──────────────────────────────
 
 export interface ProductVariant {
@@ -139,6 +147,7 @@ export interface Product {
   description: string;
   collectionId: string;
   categoryId: string;
+  typeId: string;
   compatibilityId: string;
   scale: string;
   material: string;

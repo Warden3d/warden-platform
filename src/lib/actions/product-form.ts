@@ -130,6 +130,7 @@ export async function createProduct(
     relatedProductIds: parseIds(d.relatedProductIds ?? ""),
     relatedBundleIds: parseIds(d.relatedBundleIds ?? ""),
     relatedDropIds: parseIds(d.relatedDropIds ?? ""),
+    typeId: d.typeId ?? "",
     images: [],
     specs: [],
   });
@@ -192,6 +193,7 @@ export async function updateProduct(
     relatedProductIds: parseIds(d.relatedProductIds ?? ""),
     relatedBundleIds: parseIds(d.relatedBundleIds ?? ""),
     relatedDropIds: parseIds(d.relatedDropIds ?? ""),
+    typeId: d.typeId ?? "",
     images: processedImages,
     specs: [],
   });

@@ -38,6 +38,7 @@ interface ProductRow {
   description: string;
   collection_id: string | null;
   category_id: string | null;
+  type_id: string | null;
   compatibility_id: string | null;
   scale: string;
   material: string;
@@ -177,6 +178,7 @@ function mapProductRow(
     description: row.description,
     collectionId: row.collection_id ?? "",
     categoryId: row.category_id ?? "",
+    typeId: row.type_id ?? "",
     compatibilityId: row.compatibility_id ?? "",
     scale: row.scale,
     material: row.material,
