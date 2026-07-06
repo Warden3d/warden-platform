@@ -25,7 +25,7 @@ interface CatalogFiltersProps {
 // ── Shared button geometry ──
 
 const BTN =
-  "w-full px-3 py-2.5 text-[13px] leading-snug text-center border rounded-sm transition-all duration-150 " +
+  "w-full px-2 py-2.5 text-[12px] leading-snug text-center border rounded-sm transition-all duration-150 " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50 " +
   "focus-visible:ring-offset-1 focus-visible:ring-offset-warden-carbon";
 
