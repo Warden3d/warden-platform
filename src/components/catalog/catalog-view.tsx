@@ -1,6 +1,6 @@
 "use client";
 
-import type { Product, Category, CompatibilitySystem, Collection, ProductType } from "@/types/warden";
+import type { Product, Category, CompatibilitySystem, Collection, License, ProductType } from "@/types/warden";
 import { useCatalogFilters, type CatalogFilters as CatalogFiltersState } from "@/hooks/use-catalog-filters";
 import { SearchBar } from "@/components/catalog/search-bar";
 import { ResultsCounter } from "@/components/catalog/results-counter";
@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/catalog/empty-state";
 import { CatalogFilters as FilterPanel } from "@/components/catalog/catalog-filters";
 import { CatalogProductCard } from "@/components/catalog/catalog-product-card";
 import { ProductGrid } from "@/components/catalog/product-grid";
+import { useMemo, useCallback } from "react";
 import { SlidersHorizontal } from "lucide-react";
 
 interface CatalogViewProps {
@@ -15,6 +16,7 @@ interface CatalogViewProps {
   categories: Category[];
   compatibilitySystems: CompatibilitySystem[];
   collections: Collection[];
+  licenses: License[];
   productTypes: ProductType[];
   initialFilters?: Partial<CatalogFiltersState>;
   title: string;
@@ -26,6 +28,7 @@ export function CatalogView({
   categories,
   compatibilitySystems,
   collections,
+  licenses,
   productTypes,
   initialFilters,
   title,
@@ -45,6 +48,23 @@ export function CatalogView({
     filteredProducts,
   } = useCatalogFilters(products, initialFilters);
 
+  // Procedence resolver
+  const colMap = useMemo(() => new Map(collections.map((c) => [c.id, c.name])), [collections]);
+  const licMap = useMemo(() => new Map(licenses.map((l) => [l.id, l.name])), [licenses]);
+
+  const getProcedence = useCallback(
+    (product: Product): string | undefined => {
+      // Licensed product → use license name
+      if (product.associatedLicenseId) {
+        const lic = licMap.get(product.associatedLicenseId);
+        if (lic) return lic;
+      }
+      // Otherwise → use collection name
+      const col = colMap.get(product.collectionId);
+      return col;
+    },
+    [colMap, licMap]
+  );
   return (
     <div>
       {/* Header */}
@@ -106,7 +126,7 @@ export function CatalogView({
           {filteredProducts.length > 0 ? (
             <ProductGrid>
               {filteredProducts.map((product) => (
-                <CatalogProductCard key={product.id} product={product} />
+                <CatalogProductCard key={product.id} product={product} procedence={getProcedence(product)} />
               ))}
             </ProductGrid>
           ) : (

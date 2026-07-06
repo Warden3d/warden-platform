@@ -4,7 +4,13 @@ import type { Product } from "@/types/warden";
 import { ProductCard } from "@/components/catalog/product-card";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 
-export function CatalogProductCard({ product }: { product: Product }) {
+export function CatalogProductCard({
+  product,
+  procedence,
+}: {
+  product: Product;
+  procedence?: string;
+}) {
   const primaryImage = product.images.find((img) => img.isPrimary);
 
   return (
@@ -13,6 +19,7 @@ export function CatalogProductCard({ product }: { product: Product }) {
       variant="default"
       showImage
       showPrice
+      procedence={procedence}
       actions={
         <AddToSelectionButton
           productId={product.id}

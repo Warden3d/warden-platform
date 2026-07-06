@@ -112,6 +112,7 @@ export default async function LicensesPage() {
             compatibilitySystems={compatibilitySystems}
             collections={collections}
             productTypes={productTypes}
+            licenses={licenses}
             initialFilters={{ collectionId: collection?.id }}
             title=""
           />

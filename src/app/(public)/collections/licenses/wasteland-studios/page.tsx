@@ -97,6 +97,7 @@ export default async function WastelandStudiosPage() {
           compatibilitySystems={compatibilitySystems}
           collections={collections}
           productTypes={productTypes}
+          licenses={licenses}
           title={`${licenseProducts.length} ${licenseProducts.length === 1 ? "Producto" : "Productos"}`}
           description="Productos desarrollados en colaboración con Wasteland Studios, manteniendo los estándares de precisión WARDEN."
         />

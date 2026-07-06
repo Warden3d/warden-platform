@@ -8,6 +8,7 @@ import {
   getCategories,
   getCompatibilitySystems,
   getProductTypes,
+  getLicenses,
 } from "@/lib/data";
 import { ArrowLeft } from "lucide-react";
 
@@ -18,13 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default async function WardenCorePage() {
-  const [products, collections, categories, compatibilitySystems, productTypes] =
+  const [products, collections, categories, compatibilitySystems, productTypes, licenses] =
     await Promise.all([
       getProductsByCollection("warden-core"),
       getCollections(),
       getCategories(),
       getCompatibilitySystems(),
       getProductTypes(),
+      getLicenses(),
     ]);
 
   const collection = collections.find((c) => c.slug === "warden-core");
@@ -45,6 +47,7 @@ export default async function WardenCorePage() {
           compatibilitySystems={compatibilitySystems}
           collections={collections}
           productTypes={productTypes}
+          licenses={licenses}
           initialFilters={{ collectionId: collection?.id }}
           title={collection?.name ?? "WARDEN Core"}
           description={collection?.description}

@@ -2,9 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/types/warden";
 import { cn } from "@/lib/utils";
-import { CompatibilityBadge } from "@/components/catalog/technical-badge";
-import { WardenButton } from "@/components/ui/warden-button";
-import { Package, ChevronRight } from "lucide-react";
+import { Package } from "lucide-react";
 
 export interface ProductCardProps {
   product: Product;
@@ -15,6 +13,24 @@ export interface ProductCardProps {
   showSpecs?: boolean;
   actions?: React.ReactNode;
   className?: string;
+  /**
+   * Procedence label shown as an overlay on the image (e.g. "WARDEN CORE", "Wasteland Studios").
+   * When omitted, no badge is rendered.
+   */
+  procedence?: string;
+}
+
+function CompatibilityLabel({ name }: { name: string }) {
+  const short =
+    name === "BattleTech Classic" ? "BT Classic"
+    : name === "Alpha Strike" ? "Alpha Strike"
+    : name === "AeroTech" ? "AeroTech"
+    : name;
+  return (
+    <span className="inline-block px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider rounded-sm border border-border/40 text-muted-foreground/80 leading-none">
+      {short}
+    </span>
+  );
 }
 
 export function ProductCard({
@@ -23,22 +39,15 @@ export function ProductCard({
   variant = "default",
   showImage = variant === "default" || variant === "detailed",
   showPrice = variant === "default" || variant === "detailed",
-  showSpecs = variant === "detailed",
   actions,
   className,
+  procedence,
 }: ProductCardProps) {
   const primaryImage = product.images.find((img) => img.isPrimary);
   const isSupabaseUrl =
     primaryImage?.url &&
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
     primaryImage.url.includes(process.env.NEXT_PUBLIC_SUPABASE_URL);
-
-  const compatSlug =
-    product.compatibilityId === "comp-battletech-classic"
-      ? "battletech-classic"
-      : product.compatibilityId === "comp-alpha-strike"
-        ? "alpha-strike"
-        : "aerotech";
 
   const content = (
     <div
@@ -48,7 +57,7 @@ export function ProductCard({
       )}
     >
       {showImage && (
-        <div className="aspect-[4/3] bg-warden-carbon border-b border-border overflow-hidden">
+        <div className="relative aspect-[4/3] bg-warden-carbon border-b border-border overflow-hidden">
           {primaryImage ? (
             <Image
               src={primaryImage.url}
@@ -67,6 +76,15 @@ export function ProductCard({
               </span>
             </div>
           )}
+
+          {/* Procedence overlay — top-left */}
+          {procedence && (
+            <div className="absolute top-3 left-3 z-10">
+              <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-warden-carbon/80 text-foreground/90 backdrop-blur-sm border border-border/40 leading-none">
+                {procedence}
+              </span>
+            </div>
+          )}
         </div>
       )}
 
@@ -76,74 +94,41 @@ export function ProductCard({
           variant !== "compact" && "p-4"
         )}
       >
-        {/* Badges row */}
+        {/* Game-system badges */}
         <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
-          <CompatibilityBadge system={compatSlug} />
+          <CompatibilityLabel
+            name={
+              product.compatibilityId === "comp-battletech-classic"
+                ? "BattleTech Classic"
+                : product.compatibilityId === "comp-alpha-strike"
+                  ? "Alpha Strike"
+                  : "AeroTech"
+            }
+          />
         </div>
 
         {/* Name */}
         <h3
           className={cn(
             "font-semibold text-foreground tracking-tight leading-snug transition-colors group-hover:text-warden-blue",
-            variant === "compact" ? "text-base" : "text-sm"
+            variant === "compact" ? "text-base" : "text-sm",
+            "line-clamp-2 min-h-[2.5em]" // stable height for short/long names
           )}
         >
           {product.name}
         </h3>
 
-        {/* Short description */}
-        <p
-          className={cn(
-            "text-muted-foreground leading-relaxed line-clamp-2",
-            variant === "compact" ? "mt-3 text-sm" : "mt-1.5 text-xs"
+        {/* Price + Actions row */}
+        <div className="mt-auto pt-3 flex items-end justify-between gap-3">
+          <div className="flex-1 min-w-0">
+            {actions}
+          </div>
+          {showPrice && (
+            <span className="text-data text-foreground/90 shrink-0 text-right">
+              {product.price.toFixed(2)} €
+            </span>
           )}
-        >
-          {product.shortDescription}
-        </p>
-
-        {/* Specs */}
-        {showSpecs && product.specs.length > 0 && (
-          <div className="mt-4 pt-3 border-t border-border">
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
-              {product.specs.slice(0, 4).map((spec) => (
-                <div key={spec.id}>
-                  <dt className="text-spec-label text-muted-foreground">
-                    {spec.specKey}
-                  </dt>
-                  <dd className="text-data text-foreground/90">
-                    {spec.specValue}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        )}
-
-        {/* Price */}
-        {showPrice && (
-          <div className="mt-3">
-            <span className="text-data text-foreground/90">
-              ${product.price.toFixed(2)}
-            </span>
-            <span className="text-spec-label text-muted-foreground ml-1">
-              USD
-            </span>
-          </div>
-        )}
-
-        {/* Actions */}
-        {(actions || variant === "compact") && (
-          <div className="mt-auto pt-4 flex items-center gap-2">
-            {variant === "compact" ? (
-              <WardenButton variant="ghost" size="sm" className="group/btn">
-                Ver detalles
-                <ChevronRight className="size-3.5 transition-transform group-hover/btn:translate-x-0.5" />
-              </WardenButton>
-            ) : (
-              actions
-            )}
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
