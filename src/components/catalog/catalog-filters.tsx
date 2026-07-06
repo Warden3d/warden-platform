@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import type { Category, CompatibilitySystem, Collection, ProductType } from "@/types/warden";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
+import { PriceRangeSlider } from "@/components/catalog/price-range-slider";
 
 interface CatalogFiltersProps {
   categories: Category[];
@@ -14,10 +15,14 @@ interface CatalogFiltersProps {
   activeTypeId: string | null;
   activeCompatibilityId: string | null;
   activeCollectionId: string | null;
+  activePriceMin: number | null;
+  activePriceMax: number | null;
+  priceBounds: { min: number; max: number };
   onCategoryChange: (id: string | null) => void;
   onTypeChange: (id: string | null) => void;
   onCompatibilityChange: (id: string | null) => void;
   onCollectionChange: (id: string | null) => void;
+  onPriceChange: (min: number | null, max: number | null) => void;
   onClear: () => void;
   hasActiveFilters: boolean;
 }
@@ -49,10 +54,14 @@ export function CatalogFilters({
   activeTypeId,
   activeCompatibilityId,
   activeCollectionId,
+  activePriceMin,
+  activePriceMax,
+  priceBounds,
   onCategoryChange,
   onTypeChange,
   onCompatibilityChange,
   onCollectionChange,
+  onPriceChange,
   onClear,
   hasActiveFilters,
 }: CatalogFiltersProps) {
@@ -190,11 +199,19 @@ export function CatalogFilters({
         </div>
       </fieldset>
 
-      {/* ── 5. Precio (arquitectura futura) ── */}
+      {/* ── 5. Precio ── */}
       <fieldset>
         <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
           Precio
         </legend>
+        <PriceRangeSlider
+          min={priceBounds.min}
+          max={priceBounds.max}
+          valueMin={activePriceMin}
+          valueMax={activePriceMax}
+          onChange={onPriceChange}
+          formatPrice={(v) => `${v.toFixed(2)} €`}
+        />
       </fieldset>
     </div>
   );

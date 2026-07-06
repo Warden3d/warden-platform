@@ -33,11 +33,13 @@ export function CatalogView({
 }: CatalogViewProps) {
   const {
     filters,
+    priceBounds,
     setSearch,
     setCategoryId,
     setTypeId,
     setCompatibilityId,
     setCollectionId,
+    setPriceRange,
     clearFilters,
     hasActiveFilters,
     filteredProducts,
@@ -85,10 +87,14 @@ export function CatalogView({
               activeTypeId={filters.typeId}
               activeCompatibilityId={filters.compatibilityId}
               activeCollectionId={filters.collectionId}
+              activePriceMin={filters.priceMin}
+              activePriceMax={filters.priceMax}
+              priceBounds={priceBounds}
               onCategoryChange={setCategoryId}
               onTypeChange={setTypeId}
               onCompatibilityChange={setCompatibilityId}
               onCollectionChange={setCollectionId}
+              onPriceChange={setPriceRange}
               onClear={clearFilters}
               hasActiveFilters={hasActiveFilters}
             />

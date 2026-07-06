@@ -9,6 +9,8 @@ export interface CatalogFilters {
   typeId: string | null;
   compatibilityId: string | null;
   collectionId: string | null;
+  priceMin: number | null;
+  priceMax: number | null;
 }
 
 const EMPTY_FILTERS: CatalogFilters = {
@@ -17,6 +19,8 @@ const EMPTY_FILTERS: CatalogFilters = {
   typeId: null,
   compatibilityId: null,
   collectionId: null,
+  priceMin: null,
+  priceMax: null,
 };
 
 export function useCatalogFilters(
@@ -27,6 +31,16 @@ export function useCatalogFilters(
     ...EMPTY_FILTERS,
     ...initialFilters,
   });
+
+  // Stable price bounds from the full product set
+  const priceBounds = useMemo(() => {
+    const prices = products.map((p) => p.price).filter((p) => p > 0);
+    if (prices.length === 0) return { min: 0, max: 100 };
+    return {
+      min: Math.floor(Math.min(...prices) * 100) / 100,
+      max: Math.ceil(Math.max(...prices) * 100) / 100,
+    };
+  }, [products]);
 
   const deferredSearch = useDeferredValue(filters.search);
 
@@ -64,6 +78,10 @@ export function useCatalogFilters(
     }));
   }, []);
 
+  const setPriceRange = useCallback((min: number | null, max: number | null) => {
+    setFilters((prev) => ({ ...prev, priceMin: min, priceMax: max }));
+  }, []);
+
   const clearFilters = useCallback(() => {
     setFilters({ ...EMPTY_FILTERS, ...initialFilters });
   }, [initialFilters]);
@@ -73,7 +91,9 @@ export function useCatalogFilters(
     filters.categoryId !== null ||
     filters.typeId !== null ||
     filters.compatibilityId !== null ||
-    filters.collectionId !== null;
+    filters.collectionId !== null ||
+    (filters.priceMin !== null && filters.priceMin > priceBounds.min) ||
+    (filters.priceMax !== null && filters.priceMax < priceBounds.max);
 
   const filteredProducts = useMemo(() => {
     let result = products;
@@ -106,17 +126,27 @@ export function useCatalogFilters(
       result = result.filter((p) => p.collectionId === filters.collectionId);
     }
 
+    if (filters.priceMin !== null) {
+      result = result.filter((p) => p.price >= filters.priceMin!);
+    }
+
+    if (filters.priceMax !== null) {
+      result = result.filter((p) => p.price <= filters.priceMax!);
+    }
+
     return result;
   }, [products, deferredSearch, filters]);
 
   return {
     filters,
+    priceBounds,
     deferredSearch,
     setSearch,
     setCategoryId,
     setTypeId,
     setCompatibilityId,
     setCollectionId,
+    setPriceRange,
     clearFilters,
     hasActiveFilters,
     filteredProducts,
