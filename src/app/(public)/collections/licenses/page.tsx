@@ -8,6 +8,7 @@ import {
   getCategories,
   getCompatibilitySystems,
   getLicenses,
+  getProductTypes,
 } from "@/lib/data";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ArrowLeft, ChevronRight, ExternalLink } from "lucide-react";
@@ -19,13 +20,14 @@ export const metadata: Metadata = {
 };
 
 export default async function LicensesPage() {
-  const [products, collections, categories, compatibilitySystems, licenses] =
+  const [products, collections, categories, compatibilitySystems, licenses, productTypes] =
     await Promise.all([
       getProductsByCollection("licenses"),
       getCollections(),
       getCategories(),
       getCompatibilitySystems(),
       getLicenses(),
+      getProductTypes(),
     ]);
 
   const collection = collections.find((c) => c.slug === "licenses");
@@ -109,6 +111,7 @@ export default async function LicensesPage() {
             categories={categories}
             compatibilitySystems={compatibilitySystems}
             collections={collections}
+            productTypes={productTypes}
             initialFilters={{ collectionId: collection?.id }}
             title=""
           />

@@ -1,6 +1,6 @@
 "use client";
 
-import type { Product, Category, CompatibilitySystem, Collection } from "@/types/warden";
+import type { Product, Category, CompatibilitySystem, Collection, ProductType } from "@/types/warden";
 import { useCatalogFilters, type CatalogFilters as CatalogFiltersState } from "@/hooks/use-catalog-filters";
 import { SearchBar } from "@/components/catalog/search-bar";
 import { ResultsCounter } from "@/components/catalog/results-counter";
@@ -15,6 +15,7 @@ interface CatalogViewProps {
   categories: Category[];
   compatibilitySystems: CompatibilitySystem[];
   collections: Collection[];
+  productTypes: ProductType[];
   initialFilters?: Partial<CatalogFiltersState>;
   title: string;
   description?: string;
@@ -25,6 +26,7 @@ export function CatalogView({
   categories,
   compatibilitySystems,
   collections,
+  productTypes,
   initialFilters,
   title,
   description,
@@ -33,6 +35,7 @@ export function CatalogView({
     filters,
     setSearch,
     setCategoryId,
+    setTypeId,
     setCompatibilityId,
     setCollectionId,
     clearFilters,
@@ -77,10 +80,14 @@ export function CatalogView({
               categories={categories}
               compatibilitySystems={compatibilitySystems}
               collections={collections}
+              productTypes={productTypes}
+              products={products}
               activeCategoryId={filters.categoryId}
+              activeTypeId={filters.typeId}
               activeCompatibilityId={filters.compatibilityId}
               activeCollectionId={filters.collectionId}
               onCategoryChange={setCategoryId}
+              onTypeChange={setTypeId}
               onCompatibilityChange={setCompatibilityId}
               onCollectionChange={setCollectionId}
               onClear={clearFilters}

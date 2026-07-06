@@ -9,6 +9,7 @@ import {
   getCompatibilitySystems,
   getBundles,
   getDrops,
+  getProductTypes,
 } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Shield, Gauge, Box, Rocket } from "lucide-react";
@@ -24,7 +25,7 @@ interface PageProps {
 }
 
 export default async function CatalogPage({ searchParams }: PageProps) {
-  const [products, collections, categories, compatibilitySystems, bundles, drops] =
+  const [products, collections, categories, compatibilitySystems, bundles, drops, productTypes] =
     await Promise.all([
       getActiveProducts(),
       getCollections(),
@@ -32,6 +33,7 @@ export default async function CatalogPage({ searchParams }: PageProps) {
       getCompatibilitySystems(),
       getBundles(),
       getDrops(),
+      getProductTypes(),
     ]);
 
   const { collection } = await searchParams;
@@ -144,6 +146,7 @@ export default async function CatalogPage({ searchParams }: PageProps) {
           categories={categories}
           compatibilitySystems={compatibilitySystems}
           collections={collections}
+          productTypes={productTypes}
           initialFilters={{ collectionId: initialCollectionId }}
           title="Catálogo"
           description="Explora todos los productos WARDEN. Usa los filtros para acotar por categoría, sistema de juego o colección."

@@ -8,6 +8,7 @@ import {
   getCategories,
   getCompatibilitySystems,
   getLicenses,
+  getProductTypes,
 } from "@/lib/data";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ArrowLeft, ExternalLink } from "lucide-react";
@@ -19,13 +20,14 @@ export const metadata: Metadata = {
 };
 
 export default async function WastelandStudiosPage() {
-  const [products, collections, categories, compatibilitySystems, licenses] =
+  const [products, collections, categories, compatibilitySystems, licenses, productTypes] =
     await Promise.all([
       getProducts(),
       getCollections(),
       getCategories(),
       getCompatibilitySystems(),
       getLicenses(),
+      getProductTypes(),
     ]);
 
   const license = licenses.find((l) => l.id === "lic-wasteland-studios");
@@ -94,6 +96,7 @@ export default async function WastelandStudiosPage() {
           categories={categories}
           compatibilitySystems={compatibilitySystems}
           collections={collections}
+          productTypes={productTypes}
           title={`${licenseProducts.length} ${licenseProducts.length === 1 ? "Producto" : "Productos"}`}
           description="Productos desarrollados en colaboración con Wasteland Studios, manteniendo los estándares de precisión WARDEN."
         />

@@ -6,6 +6,7 @@ import type { Product } from "@/types/warden";
 export interface CatalogFilters {
   search: string;
   categoryId: string | null;
+  typeId: string | null;
   compatibilityId: string | null;
   collectionId: string | null;
 }
@@ -13,6 +14,7 @@ export interface CatalogFilters {
 const EMPTY_FILTERS: CatalogFilters = {
   search: "",
   categoryId: null,
+  typeId: null,
   compatibilityId: null,
   collectionId: null,
 };
@@ -36,6 +38,18 @@ export function useCatalogFilters(
     setFilters((prev) => ({
       ...prev,
       categoryId: prev.categoryId === categoryId ? null : categoryId,
+      // Clear type when category changes (Fase 4)
+      typeId:
+        prev.categoryId === categoryId
+          ? prev.typeId // toggling same category off → keep type (will be cleared by categoryId=null)
+          : null, // selecting a new category → clear type
+    }));
+  }, []);
+
+  const setTypeId = useCallback((typeId: string | null) => {
+    setFilters((prev) => ({
+      ...prev,
+      typeId: prev.typeId === typeId ? null : typeId,
     }));
   }, []);
 
@@ -62,6 +76,7 @@ export function useCatalogFilters(
   const hasActiveFilters =
     deferredSearch.length > 0 ||
     filters.categoryId !== null ||
+    filters.typeId !== null ||
     filters.compatibilityId !== null ||
     filters.collectionId !== null;
 
@@ -82,6 +97,10 @@ export function useCatalogFilters(
       result = result.filter((p) => p.categoryId === filters.categoryId);
     }
 
+    if (filters.typeId) {
+      result = result.filter((p) => p.typeId === filters.typeId);
+    }
+
     if (filters.compatibilityId) {
       result = result.filter(
         (p) => p.compatibilityId === filters.compatibilityId
@@ -100,6 +119,7 @@ export function useCatalogFilters(
     deferredSearch,
     setSearch,
     setCategoryId,
+    setTypeId,
     setCompatibilityId,
     setCollectionId,
     clearFilters,
