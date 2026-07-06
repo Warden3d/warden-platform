@@ -81,7 +81,6 @@ export function CatalogView({
               compatibilitySystems={compatibilitySystems}
               collections={collections}
               productTypes={productTypes}
-              products={products}
               activeCategoryId={filters.categoryId}
               activeTypeId={filters.typeId}
               activeCompatibilityId={filters.compatibilityId}

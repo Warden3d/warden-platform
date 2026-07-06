@@ -38,11 +38,6 @@ export function useCatalogFilters(
     setFilters((prev) => ({
       ...prev,
       categoryId: prev.categoryId === categoryId ? null : categoryId,
-      // Clear type when category changes (Fase 4)
-      typeId:
-        prev.categoryId === categoryId
-          ? prev.typeId // toggling same category off → keep type (will be cleared by categoryId=null)
-          : null, // selecting a new category → clear type
     }));
   }, []);
 
