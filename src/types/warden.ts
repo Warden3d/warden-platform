@@ -90,35 +90,21 @@ export interface Dimensions {
 }
 
 // ─── ProductSpecs ────────────────────────────────
+// Canonical model for all product specifications.
+// Every view (PDP, Product Card, Bundles, Drops, API)
+// reads from this single source and filters by `visibility`.
 
 export interface ProductSpec {
   id: string;
   productId: string;
-  specKey: string;
-  specValue: string;
+  key: string;               // semantic identifier, e.g. "content", "material"
+  label: string;             // human-readable label, e.g. "Contenido", "Material"
+  value: string;             // display value, e.g. "12 marcadores", "Latón macizo"
+  visibility: SpecVisibility[];  // where this spec appears
   sortOrder: number;
 }
 
-// ─── ProductHighlight ────────────────────────────
-
-export const PRODUCT_HIGHLIGHT_TYPES = [
-  "scale",
-  "material",
-  "compatibility",
-  "assembly",
-  "printing",
-  "terrain",
-  "contents",
-  "dimensions",
-  "quality",
-] as const;
-
-export type ProductHighlightType = (typeof PRODUCT_HIGHLIGHT_TYPES)[number];
-
-export interface ProductHighlight {
-  type: ProductHighlightType;
-  label: string;
-}
+export type SpecVisibility = "card" | "pdp" | "bundle" | "drop" | "api";
 
 // ─── ProductType ─────────────────────────────────
 
@@ -154,7 +140,6 @@ export interface Product {
   dimensions: Dimensions;
   price: number;
   gameFeatures: string[];
-  highlights?: ProductHighlight[];
   variants?: ProductVariant[];
   images: ProductImage[];
   status: ProductStatus;

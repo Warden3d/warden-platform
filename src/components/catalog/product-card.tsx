@@ -112,11 +112,27 @@ export function ProductCard({
           className={cn(
             "font-semibold text-foreground tracking-tight leading-snug transition-colors group-hover:text-warden-blue",
             variant === "compact" ? "text-base" : "text-sm",
-            "line-clamp-2 min-h-[2.5em]" // stable height for short/long names
+            "line-clamp-2 min-h-[2.5em]"
           )}
         >
           {product.name}
         </h3>
+
+        {/* Quick specs (top 3 from specs with card visibility) */}
+        {product.specs.filter((s) => s.visibility.includes("card")).length > 0 && (
+          <div className="mt-2 space-y-0.5">
+            {product.specs
+              .filter((s) => s.visibility.includes("card"))
+              .sort((a, b) => a.sortOrder - b.sortOrder)
+              .slice(0, 3)
+              .map((s) => (
+                <div key={s.id} className="flex items-baseline gap-1.5 text-[11px]">
+                  <span className="text-muted-foreground/60 shrink-0">{s.label}:</span>
+                  <span className="text-foreground/70">{s.value}</span>
+                </div>
+              ))}
+          </div>
+        )}
 
         {/* Price + Actions row */}
         <div className="mt-auto pt-3 flex items-end justify-between gap-3">

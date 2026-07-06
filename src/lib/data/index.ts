@@ -16,6 +16,7 @@ import type {
   Bundle,
   Drop,
   ProductType,
+  SpecVisibility,
 } from "@/types/warden";
 
 // ── Mock data (fallback) — read from mutable in-memory store ─────────────────
@@ -77,8 +78,10 @@ interface ProductImageRow {
 interface ProductSpecRow {
   id: string;
   product_id: string;
-  spec_key: string;
+  spec_key: string;    // maps to `key` in TS
+  spec_label: string;  // maps to `label`
   spec_value: string;
+  visibility: string[] | null;
   sort_order: number;
 }
 
@@ -223,8 +226,10 @@ function mapSpecRow(row: ProductSpecRow): ProductSpec {
   return {
     id: row.id,
     productId: row.product_id,
-    specKey: row.spec_key,
-    specValue: row.spec_value,
+    key: row.spec_key,
+    label: row.spec_label ?? "",
+    value: row.spec_value,
+    visibility: (row.visibility ?? ["pdp"]) as SpecVisibility[],
     sortOrder: row.sort_order,
   };
 }

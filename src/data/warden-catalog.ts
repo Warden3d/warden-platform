@@ -9,6 +9,7 @@ import type {
   Bundle,
   Drop,
   ProductType,
+  SpecVisibility,
 } from "@/types/warden";
 
 // ─────────────────────────────────────────────────
@@ -134,12 +135,21 @@ function buildImages(productId: string, items: { url: string; alt: string; isPri
 // Helper to build product specs
 // ─────────────────────────────────────────────────
 
-function buildSpecs(productId: string, entries: Record<string, string>): ProductSpec[] {
-  return Object.entries(entries).map(([specKey, specValue], idx) => ({
+type SpecEntry = {
+  key: string;
+  label: string;
+  value: string;
+  visibility?: SpecVisibility[];
+};
+
+function buildSpecs(productId: string, entries: SpecEntry[]): ProductSpec[] {
+  return entries.map((entry, idx) => ({
     id: `spec-${productId}-${idx + 1}`,
     productId,
-    specKey,
-    specValue,
+    key: entry.key,
+    label: entry.label,
+    value: entry.value,
+    visibility: entry.visibility ?? ["pdp"],
     sortOrder: idx + 1,
   }));
 }
@@ -172,12 +182,6 @@ export const products: Product[] = [
       "No obstruyen las miniaturas colocadas en el hexágono",
       "Desarrollan pátina natural con el uso",
     ],
-    highlights: [
-      { type: "scale", label: "Escala 1:265" },
-      { type: "material", label: "Latón macizo" },
-      { type: "compatibility", label: "BattleTech Classic" },
-      { type: "contents", label: "12 marcadores" },
-    ],
     variants: [
       { name: "Monocromo", price: 24.99, swatchColor: "#9CA3AF", imageIndices: [0, 1] },
     ],
@@ -196,12 +200,12 @@ export const products: Product[] = [
     relatedProductIds: ["prod-002", "prod-004", "prod-005"],
     relatedBundleIds: ["bundle-001", "bundle-002"],
     relatedDropIds: ["drop-001"],
-    specs: buildSpecs("prod-001", {
-      "Contenido": "12 marcadores (4 estado, 4 LOS, 4 terreno)",
-      "Peso unitario": "~4 g por marcador",
-      "Acabado": "Latón natural, sin lacar",
-      "Compatibilidad": "BattleTech Classic, Alpha Strike",
-    }),
+    specs: buildSpecs("prod-001", [
+      { key: "content", label: "Contenido", value: "12 marcadores (4 estado, 4 LOS, 4 terreno)", visibility: ["card","pdp"] },
+      { key: "weight", label: "Peso unitario", value: "~4 g por marcador", visibility: ["pdp"] },
+      { key: "finish", label: "Acabado", value: "Latón natural, sin lacar", visibility: ["card","pdp"] },
+      { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic, Alpha Strike", visibility: ["pdp"] }
+    ]),
   },
   {
     id: "prod-002",
@@ -225,12 +229,6 @@ export const products: Product[] = [
       "Eje de latón que mantiene la posición",
       "Numeración grabada por láser de alto contraste",
     ],
-    highlights: [
-      { type: "scale", label: "Escala 1:265" },
-      { type: "material", label: "Acrílico + latón" },
-      { type: "compatibility", label: "BattleTech Classic" },
-      { type: "quality", label: "Grabado láser" },
-    ],
     images: buildImages("prod-002", [
       { url: "/images/products/heat-dial.svg", alt: "Tactical Heat Dial sobre hoja de registro", isPrimary: true },
     ]),
@@ -245,12 +243,12 @@ export const products: Product[] = [
     relatedProductIds: ["prod-001", "prod-004", "prod-005"],
     relatedBundleIds: ["bundle-001", "bundle-002"],
     relatedDropIds: [],
-    specs: buildSpecs("prod-002", {
-      "Rango de calor": "0 a 30",
-      "Advertencias": "Apagado en 14, explosión en 26",
-      "Diámetro": "85 mm (3.35\")",
-      "Grosor": "6 mm (doble capa)",
-    }),
+    specs: buildSpecs("prod-002", [
+      { key: "content", label: "Contenido", value: "1 dial acrílico de doble capa", visibility: ["card","pdp"] },
+      { key: "scale", label: "Rango", value: "0–30 de calor", visibility: ["pdp"] },
+      { key: "material", label: "Material", value: "Acrílico transparente", visibility: ["card","pdp"] },
+      { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] }
+    ]),
   },
   {
     id: "prod-003",
@@ -274,12 +272,6 @@ export const products: Product[] = [
       "Acrílico transparente para visibilidad del terreno",
       "Funda de almacenamiento con tarjeta de referencia",
     ],
-    highlights: [
-      { type: "scale", label: "Escala 1:265" },
-      { type: "material", label: "Acrílico ahumado" },
-      { type: "compatibility", label: "Alpha Strike" },
-      { type: "contents", label: "5 plantillas" },
-    ],
     images: buildImages("prod-003", [
       { url: "/images/products/movement-templates.svg", alt: "Plantillas de movimiento Alpha Strike", isPrimary: true },
     ]),
@@ -294,11 +286,12 @@ export const products: Product[] = [
     relatedProductIds: [],
     relatedBundleIds: [],
     relatedDropIds: [],
-    specs: buildSpecs("prod-003", {
-      "Contenido": "5 plantillas + funda con tarjeta de referencia",
-      "Incluye": "Stand Still, Walk, Run, Jump, Sprint",
-      "Material": "Acrílico ahumado de 3 mm",
-    }),
+    specs: buildSpecs("prod-003", [
+      { key: "content", label: "Contenido", value: "5 plantillas acrílicas", visibility: ["card","pdp"] },
+      { key: "material", label: "Material", value: "Acrílico transparente", visibility: ["card","pdp"] },
+      { key: "compatibility", label: "Compatibilidad", value: "Alpha Strike", visibility: ["pdp"] },
+      { key: "finish", label: "Acabado", value: "Marcas TMM grabadas", visibility: ["pdp"] }
+    ]),
   },
   {
     id: "prod-004",
@@ -322,12 +315,6 @@ export const products: Product[] = [
       "Base organizadora alineada con hoja de registro estándar",
       "Resistencia ajustada para evitar desplazamiento accidental",
     ],
-    highlights: [
-      { type: "scale", label: "Escala 1:265" },
-      { type: "material", label: "Aluminio" },
-      { type: "compatibility", label: "BattleTech Classic" },
-      { type: "contents", label: "8 deslizadores" },
-    ],
     images: buildImages("prod-004", [
       { url: "/images/products/armor-sliders.svg", alt: "Deslizadores de blindaje sobre hoja de registro", isPrimary: true },
     ]),
@@ -342,11 +329,12 @@ export const products: Product[] = [
     relatedProductIds: ["prod-001", "prod-002", "prod-005"],
     relatedBundleIds: ["bundle-001"],
     relatedDropIds: [],
-    specs: buildSpecs("prod-004", {
-      "Contenido": "8 deslizadores + base organizadora",
-      "Localizaciones": "Cabeza, CT, LT, RT, LA, RA, LL, RL",
-      "Material": "Compuesto de aluminio con grabado láser",
-    }),
+    specs: buildSpecs("prod-004", [
+      { key: "content", label: "Contenido", value: "8 deslizadores de blindaje", visibility: ["card","pdp"] },
+      { key: "material", label: "Material", value: "Plástico rígido", visibility: ["card","pdp"] },
+      { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] },
+      { key: "finish", label: "Acabado", value: "Escala impresa", visibility: ["pdp"] }
+    ]),
   },
   {
     id: "prod-005",
@@ -370,12 +358,6 @@ export const products: Product[] = [
       "Doble cara: estándar y LRM/SRM especiales",
       "Tamaño compacto para bandeja de dados",
     ],
-    highlights: [
-      { type: "scale", label: "Escala 1:265" },
-      { type: "material", label: "Acrílico + latón" },
-      { type: "compatibility", label: "BattleTech Classic" },
-      { type: "dimensions", label: "Ø 100 mm" },
-    ],
     images: buildImages("prod-005", [
       { url: "/images/products/cluster-wheel.svg", alt: "Cluster Hit Quick Wheel", isPrimary: true },
     ]),
@@ -390,12 +372,12 @@ export const products: Product[] = [
     relatedProductIds: ["prod-001", "prod-002", "prod-004"],
     relatedBundleIds: ["bundle-001"],
     relatedDropIds: [],
-    specs: buildSpecs("prod-005", {
-      "Rango de salvas": "2 a 40 misiles",
-      "Caras": "Dos caras (estándar y LRM/SRM)",
-      "Diámetro": "100 mm (3.94\")",
-      "Mecanismo": "Eje de latón",
-    }),
+    specs: buildSpecs("prod-005", [
+      { key: "content", label: "Contenido", value: "1 rueda giratoria", visibility: ["card","pdp"] },
+      { key: "material", label: "Material", value: "Plástico con eje metálico", visibility: ["card","pdp"] },
+      { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] },
+      { key: "finish", label: "Acabado", value: "Sistema de clic por incremento", visibility: ["pdp"] }
+    ]),
   },
   {
     id: "prod-006",
@@ -419,12 +401,6 @@ export const products: Product[] = [
       "Efectos de gravedad indicados por nivel",
       "Base compartida que encaja con hojas de registro",
     ],
-    highlights: [
-      { type: "scale", label: "Escala 1:265" },
-      { type: "material", label: "Aluminio anodizado" },
-      { type: "compatibility", label: "AeroTech" },
-      { type: "dimensions", label: "180 × 120 mm" },
-    ],
     images: buildImages("prod-006", [
       { url: "/images/products/altitude-tracker.svg", alt: "AeroTech Altitude and Velocity Tracker", isPrimary: true },
     ]),
@@ -439,12 +415,12 @@ export const products: Product[] = [
     relatedProductIds: [],
     relatedBundleIds: [],
     relatedDropIds: [],
-    specs: buildSpecs("prod-006", {
-      "Altitud": "0 a 10 niveles atmosféricos",
-      "Velocidad": "16 incrementos (rueda giratoria)",
-      "Base": "180 × 120 mm",
-      "Material": "Aluminio anodizado",
-    }),
+    specs: buildSpecs("prod-006", [
+      { key: "content", label: "Contenido", value: "1 panel de doble seguimiento", visibility: ["card","pdp"] },
+      { key: "material", label: "Material", value: "Panel multicapa", visibility: ["card","pdp"] },
+      { key: "scale", label: "Altitud", value: "0–10 niveles", visibility: ["pdp"] },
+      { key: "compatibility", label: "Compatibilidad", value: "AeroTech", visibility: ["pdp"] }
+    ]),
   },
 
   // ── Wasteland Studios (Licensed) ──────────────
@@ -470,12 +446,6 @@ export const products: Product[] = [
       "Diseño original de Wasteland Studios",
       "Listo para imprimación y pintura acrílica",
     ],
-    highlights: [
-      { type: "scale", label: "Escala 1:265" },
-      { type: "material", label: "Resina PU" },
-      { type: "compatibility", label: "BattleTech Classic" },
-      { type: "printing", label: "Impresión 3D" },
-    ],
     variants: [
       { name: "Monocromo", price: 44.99, swatchColor: "#9CA3AF", imageIndices: [0, 1] },
       { name: "Color", price: 54.99, swatchColor: "#3B82F6", imageIndices: [2, 3] },
@@ -497,12 +467,12 @@ export const products: Product[] = [
     relatedProductIds: ["prod-008", "prod-009"],
     relatedBundleIds: [],
     relatedDropIds: ["drop-002"],
-    specs: buildSpecs("prod-007", {
-      "Material": "Resina de poliuretano",
-      "Base": "150 × 100 mm",
-      "Pintado": "No, suministrado sin pintar",
-      "Escala": "1:265 (compatible BattleTech)",
-    }),
+    specs: buildSpecs("prod-007", [
+      { key: "content", label: "Contenido", value: "1 puesto de mando prefabricado", visibility: ["card","pdp"] },
+      { key: "material", label: "Material", value: "Resina", visibility: ["card","pdp"] },
+      { key: "scale", label: "Huella", value: "4 × 4 hexágonos", visibility: ["pdp"] },
+      { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] }
+    ]),
   },
   {
     id: "prod-008",
@@ -526,12 +496,6 @@ export const products: Product[] = [
       "Piezas combinables para cobertura total",
       "Diseño original de Wasteland Studios",
     ],
-    highlights: [
-      { type: "scale", label: "Escala 1:265" },
-      { type: "material", label: "Resina PU" },
-      { type: "compatibility", label: "Alpha Strike" },
-      { type: "terrain", label: "Terreno modular" },
-    ],
     variants: [
       { name: "Monocromo", price: 34.99, swatchColor: "#9CA3AF", imageIndices: [0, 1] },
       { name: "Color", price: 44.99, swatchColor: "#3B82F6", imageIndices: [2, 3] },
@@ -553,11 +517,12 @@ export const products: Product[] = [
     relatedProductIds: ["prod-007", "prod-009"],
     relatedBundleIds: [],
     relatedDropIds: ["drop-002"],
-    specs: buildSpecs("prod-008", {
-      "Contenido": "7 piezas (2 escombros, 1 vehículo, 3 barricadas, 1 excavadora)",
-      "Material": "Resina de poliuretano",
-      "Pintado": "No, suministrado sin pintar",
-    }),
+    specs: buildSpecs("prod-008", [
+      { key: "content", label: "Contenido", value: "Pack de terreno modular", visibility: ["card","pdp"] },
+      { key: "pieces", label: "Piezas", value: "12 piezas de escombros", visibility: ["card","pdp"] },
+      { key: "material", label: "Material", value: "Resina", visibility: ["pdp"] },
+      { key: "compatibility", label: "Compatibilidad", value: "Alpha Strike", visibility: ["pdp"] }
+    ]),
   },
   {
     id: "prod-009",
@@ -581,12 +546,6 @@ export const products: Product[] = [
       "Doble cara con variaciones de escenario",
       "Incluye marcadores de edificios y notas de escenario",
     ],
-    highlights: [
-      { type: "scale", label: "Escala 1:265" },
-      { type: "material", label: "Papel 300 g/m²" },
-      { type: "compatibility", label: "BattleTech Classic" },
-      { type: "contents", label: "3 mapas modulares" },
-    ],
     images: buildImages("prod-009", [
       { url: "/images/products/fallen-city-map-pack.svg", alt: "Fallen City Map Pack — mapa del centro urbano", isPrimary: true },
     ]),
@@ -601,12 +560,12 @@ export const products: Product[] = [
     relatedProductIds: ["prod-007", "prod-008"],
     relatedBundleIds: [],
     relatedDropIds: ["drop-002"],
-    specs: buildSpecs("prod-009", {
-      "Formato": "22\" × 17\" (560 × 432 mm)",
-      "Incluye": "3 mapas modulares de doble cara",
-      "Sectores": "Industrial, centro urbano, periferia residencial",
-      "Papel": "Satinado 300 g/m²",
-    }),
+    specs: buildSpecs("prod-009", [
+      { key: "content", label: "Contenido", value: "3 mapas modulares", visibility: ["card","pdp"] },
+      { key: "format", label: "Zonas", value: "Industrial, centro y periferia", visibility: ["card","pdp"] },
+      { key: "material", label: "Formato", value: "Mapa plegable", visibility: ["pdp"] },
+      { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] }
+    ]),
   },
 ];
 

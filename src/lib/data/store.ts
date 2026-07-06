@@ -19,6 +19,7 @@ import type {
   Bundle,
   Drop,
   ProductType,
+  SpecVisibility,
 } from "@/types/warden";
 
 import {
@@ -268,6 +269,7 @@ export function createProduct(data: Omit<Product, "id" | "images" | "specs"> & {
     ...spec,
     id: `spec-${id}-${i + 1}`,
     productId: id,
+    visibility: (spec.visibility ?? ["pdp"]) as SpecVisibility[],
     sortOrder: spec.sortOrder ?? i + 1,
   }));
 

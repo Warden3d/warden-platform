@@ -155,8 +155,8 @@ export default async function ProductPage({
             </p>
 
             {/* Product Highlights */}
-            {product.highlights && product.highlights.length > 0 ? (
-              <ProductHighlights highlights={product.highlights} />
+            {product.specs.filter((s) => s.visibility.includes("pdp")).length > 0 ? (
+              <ProductHighlights specs={product.specs.filter((s) => s.visibility.includes("pdp"))} />
             ) : product.gameFeatures.length > 0 ? (
               <div className="flex flex-col gap-2">
                 {product.gameFeatures.map((feature, idx) => (
@@ -209,9 +209,6 @@ export default async function ProductPage({
           <CollapsiblePanel title="Información del producto" defaultOpen={false} icon={<Info className="size-3.5 shrink-0" />}>
             <ProductSpecsPanel
               specs={product.specs}
-              scale={product.scale}
-              material={product.material}
-              dimensions={product.dimensions}
               categoryName={productCategory?.name}
               typeName={productType?.name}
             />

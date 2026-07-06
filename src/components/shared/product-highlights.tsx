@@ -1,4 +1,4 @@
-import type { ProductHighlight, ProductHighlightType } from "@/types/warden";
+import type { ProductSpec } from "@/types/warden";
 import {
   Ruler,
   Box,
@@ -12,21 +12,18 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// ── Internal mapping: domain type → lucide-react icon ──
-// The data model never depends on the icon library.
-// This mapping is the single source of truth for the relationship.
-
-const HIGHLIGHT_ICON: Record<
-  ProductHighlightType,
-  React.ComponentType<{ className?: string }>
-> = {
+// ── Internal mapping: spec key → lucide-react icon ──
+const SPEC_ICON: Record<string, React.ComponentType<{ className?: string }>> = {
   scale: Ruler,
   material: Box,
+  content: Package,
+  pieces: Package,
+  finish: Wrench,
+  weight: Box,
   compatibility: Crosshair,
   assembly: Wrench,
   printing: Printer,
   terrain: Mountain,
-  contents: Package,
   dimensions: Maximize2,
   quality: Award,
 };
@@ -34,17 +31,17 @@ const HIGHLIGHT_ICON: Record<
 // ── Props ──
 
 interface ProductHighlightsProps {
-  highlights: ProductHighlight[];
+  specs: ProductSpec[];
   className?: string;
 }
 
 // ── Component ──
 
 export function ProductHighlights({
-  highlights,
+  specs,
   className,
 }: ProductHighlightsProps) {
-  if (highlights.length === 0) return null;
+  if (specs.length === 0) return null;
 
   return (
     <div
@@ -53,16 +50,16 @@ export function ProductHighlights({
         className
       )}
     >
-      {highlights.map((h, idx) => {
-        const Icon = HIGHLIGHT_ICON[h.type];
+      {specs.map((s) => {
+        const Icon = SPEC_ICON[s.key] ?? Package;
         return (
           <div
-            key={idx}
+            key={s.id}
             className="flex flex-col items-center gap-2 rounded-sm border border-border bg-warden-surface p-3 text-center"
           >
             <Icon className="size-5 text-warden-blue shrink-0" />
             <span className="text-[11px] text-foreground/80 leading-tight font-medium">
-              {h.label}
+              {s.value}
             </span>
           </div>
         );

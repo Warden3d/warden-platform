@@ -11,32 +11,23 @@ function SpecRow({ label, value }: { label: string; value: string }) {
 
 export function ProductSpecsPanel({
   specs,
-  scale,
-  material,
-  dimensions,
   categoryName,
   typeName,
 }: {
   specs: ProductSpec[];
-  scale: string;
-  material: string;
-  dimensions: { height: number; width: number; depth: number };
   categoryName?: string;
   typeName?: string;
 }) {
+  // Filter specs visible in PDP
+  const pdpSpecs = specs.filter((s) => s.visibility.includes("pdp"));
+
   return (
     <div className="border border-border bg-warden-surface">
       <dl className="divide-y divide-border">
         {categoryName && <SpecRow label="Categoría" value={categoryName} />}
         {typeName && <SpecRow label="Tipología" value={typeName} />}
-        <SpecRow label="Sistema de juego" value={scale} />
-        <SpecRow label="Material" value={material} />
-        <SpecRow
-          label="Dimensiones"
-          value={`${dimensions.width} × ${dimensions.depth} × ${dimensions.height} mm`}
-        />
-        {specs.map((spec) => (
-          <SpecRow key={spec.id} label={spec.specKey} value={spec.specValue} />
+        {pdpSpecs.map((s) => (
+          <SpecRow key={s.id} label={s.label} value={s.value} />
         ))}
       </dl>
     </div>
