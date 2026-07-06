@@ -147,7 +147,6 @@ export default async function CatalogPage({ searchParams }: PageProps) {
           compatibilitySystems={compatibilitySystems}
           collections={collections}
           productTypes={productTypes}
-          initialFilters={{ collectionId: initialCollectionId }}
           title="Catálogo"
           description="Explora todos los productos WARDEN. Usa los filtros para acotar por categoría, sistema de juego o colección."
         />
