@@ -244,19 +244,27 @@ export default async function ProductPage({
           {/* Colecciones compatibles */}
           <CollapsiblePanel title="Colecciones compatibles" defaultOpen={false} icon={<Layers className="size-3.5 shrink-0" />}>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-              {[collection].filter(Boolean).map((col) => (
-                <div
-                  key={col!.id}
-                  className="flex flex-col items-center gap-2 rounded-sm border border-border bg-warden-surface p-4 text-center"
-                >
-                  <div className="size-10 rounded-full bg-warden-elevated flex items-center justify-center text-muted-foreground text-xs font-bold uppercase">
-                    {col!.name.slice(0, 2)}
-                  </div>
-                  <span className="text-xs text-foreground/80 leading-tight">
-                    {col!.name}
-                  </span>
-                </div>
-              ))}
+              {[collection].filter(Boolean).map((col) => {
+                const href = col!.slug === "warden-core"
+                  ? "/catalog?collection=col-warden-core"
+                  : col!.slug === "licenses"
+                    ? "/catalog?collection=col-licenses"
+                    : `/catalog?collection=${col!.id}`;
+                return (
+                  <Link
+                    key={col!.id}
+                    href={href}
+                    className="flex flex-col items-center gap-2 rounded-sm border border-border bg-warden-surface p-4 text-center hover:border-warden-blue/20 transition-colors group"
+                  >
+                    <div className="size-10 rounded-full bg-warden-elevated flex items-center justify-center text-muted-foreground text-xs font-bold uppercase group-hover:bg-warden-blue/10 transition-colors">
+                      {col!.name.slice(0, 2)}
+                    </div>
+                    <span className="text-xs text-foreground/80 leading-tight group-hover:text-warden-blue transition-colors">
+                      {col!.name}
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
           </CollapsiblePanel>
         </div>

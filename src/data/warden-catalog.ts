@@ -202,7 +202,7 @@ export const products: Product[] = [
     relatedDropIds: ["drop-001"],
     specs: buildSpecs("prod-001", [
       { key: "content", label: "Contenido", value: "12 marcadores (4 estado, 4 LOS, 4 terreno)", visibility: ["card","pdp", "contents"] },
-      { key: "weight", label: "Peso unitario", value: "~4 g por marcador", visibility: ["pdp"] },
+      { key: "weight", label: "Peso unitario", value: "~4 g por marcador", visibility: ["api"] },
       { key: "finish", label: "Acabado", value: "Latón natural, sin lacar", visibility: ["card","pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic, Alpha Strike", visibility: ["pdp"] }
     ]),
