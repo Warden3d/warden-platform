@@ -23,7 +23,7 @@ import { WardenButton } from "@/components/ui/warden-button";
 import { ProductConfigProvider } from "@/contexts/product-config";
 import { DynamicPrice } from "@/components/product/dynamic-price";
 import { GalleryWithVariant } from "@/components/product/gallery-with-variant";
-import { Check, ChevronRight, FileText, Info, Package as PackageIcon, Layers } from "lucide-react";
+import { ChevronRight, FileText, Info, Package as PackageIcon, Layers } from "lucide-react";
 
 const systemMap: Record<string, "battletech-classic" | "alpha-strike" | "aerotech"> = {
   "comp-battletech-classic": "battletech-classic",
@@ -224,17 +224,22 @@ export default async function ProductPage({
             <ExpandableText text={product.description} maxLines={6} expandable={false} />
           </CollapsiblePanel>
 
-          {/* 3. Contenido del set */}
-          <CollapsiblePanel title="Contenido del set" defaultOpen={false} icon={<PackageIcon className="size-3.5 shrink-0" />}>
-            <ul className="space-y-2">
-              {product.gameFeatures.map((feature, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-sm text-foreground/80 leading-relaxed">
-                  <Check className="size-4 text-warden-blue shrink-0 mt-0.5" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
+          {/* 3. Contenido del producto */}
+          {product.specs.filter((s) => s.visibility.includes("contents")).length > 0 && (
+          <CollapsiblePanel title="Contenido del producto" defaultOpen={false} icon={<PackageIcon className="size-3.5 shrink-0" />}>
+            <div className="divide-y divide-border">
+              {product.specs
+                .filter((s) => s.visibility.includes("contents"))
+                .sort((a, b) => a.sortOrder - b.sortOrder)
+                .map((s) => (
+                  <div key={s.id} className="flex items-center justify-between gap-4 px-5 py-3 text-sm">
+                    <span className="text-muted-foreground">{s.label}</span>
+                    <span className="text-foreground/80 text-right">{s.value}</span>
+                  </div>
+                ))}
+            </div>
           </CollapsiblePanel>
+          )}
 
           {/* Colecciones compatibles */}
           <CollapsiblePanel title="Colecciones compatibles" defaultOpen={false} icon={<Layers className="size-3.5 shrink-0" />}>

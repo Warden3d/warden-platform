@@ -201,7 +201,7 @@ export const products: Product[] = [
     relatedBundleIds: ["bundle-001", "bundle-002"],
     relatedDropIds: ["drop-001"],
     specs: buildSpecs("prod-001", [
-      { key: "content", label: "Contenido", value: "12 marcadores (4 estado, 4 LOS, 4 terreno)", visibility: ["card","pdp"] },
+      { key: "content", label: "Contenido", value: "12 marcadores (4 estado, 4 LOS, 4 terreno)", visibility: ["card","pdp", "contents"] },
       { key: "weight", label: "Peso unitario", value: "~4 g por marcador", visibility: ["pdp"] },
       { key: "finish", label: "Acabado", value: "Latón natural, sin lacar", visibility: ["card","pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic, Alpha Strike", visibility: ["pdp"] }
@@ -244,7 +244,7 @@ export const products: Product[] = [
     relatedBundleIds: ["bundle-001", "bundle-002"],
     relatedDropIds: [],
     specs: buildSpecs("prod-002", [
-      { key: "content", label: "Contenido", value: "1 dial acrílico de doble capa", visibility: ["card","pdp"] },
+      { key: "content", label: "Contenido", value: "1 dial acrílico de doble capa", visibility: ["card","pdp", "contents"] },
       { key: "scale", label: "Rango", value: "0–30 de calor", visibility: ["pdp"] },
       { key: "material", label: "Material", value: "Acrílico transparente", visibility: ["card","pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] }
@@ -287,7 +287,7 @@ export const products: Product[] = [
     relatedBundleIds: [],
     relatedDropIds: [],
     specs: buildSpecs("prod-003", [
-      { key: "content", label: "Contenido", value: "5 plantillas acrílicas", visibility: ["card","pdp"] },
+      { key: "content", label: "Contenido", value: "5 plantillas acrílicas", visibility: ["card","pdp", "contents"] },
       { key: "material", label: "Material", value: "Acrílico transparente", visibility: ["card","pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "Alpha Strike", visibility: ["pdp"] },
       { key: "finish", label: "Acabado", value: "Marcas TMM grabadas", visibility: ["pdp"] }
@@ -330,7 +330,7 @@ export const products: Product[] = [
     relatedBundleIds: ["bundle-001"],
     relatedDropIds: [],
     specs: buildSpecs("prod-004", [
-      { key: "content", label: "Contenido", value: "8 deslizadores de blindaje", visibility: ["card","pdp"] },
+      { key: "content", label: "Contenido", value: "8 deslizadores de blindaje", visibility: ["card","pdp", "contents"] },
       { key: "material", label: "Material", value: "Plástico rígido", visibility: ["card","pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] },
       { key: "finish", label: "Acabado", value: "Escala impresa", visibility: ["pdp"] }
@@ -373,7 +373,7 @@ export const products: Product[] = [
     relatedBundleIds: ["bundle-001"],
     relatedDropIds: [],
     specs: buildSpecs("prod-005", [
-      { key: "content", label: "Contenido", value: "1 rueda giratoria", visibility: ["card","pdp"] },
+      { key: "content", label: "Contenido", value: "1 rueda giratoria", visibility: ["card","pdp", "contents"] },
       { key: "material", label: "Material", value: "Plástico con eje metálico", visibility: ["card","pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] },
       { key: "finish", label: "Acabado", value: "Sistema de clic por incremento", visibility: ["pdp"] }
@@ -416,7 +416,7 @@ export const products: Product[] = [
     relatedBundleIds: [],
     relatedDropIds: [],
     specs: buildSpecs("prod-006", [
-      { key: "content", label: "Contenido", value: "1 panel de doble seguimiento", visibility: ["card","pdp"] },
+      { key: "content", label: "Contenido", value: "1 panel de doble seguimiento", visibility: ["card","pdp", "contents"] },
       { key: "material", label: "Material", value: "Panel multicapa", visibility: ["card","pdp"] },
       { key: "scale", label: "Altitud", value: "0–10 niveles", visibility: ["pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "AeroTech", visibility: ["pdp"] }
@@ -468,7 +468,7 @@ export const products: Product[] = [
     relatedBundleIds: [],
     relatedDropIds: ["drop-002"],
     specs: buildSpecs("prod-007", [
-      { key: "content", label: "Contenido", value: "1 puesto de mando prefabricado", visibility: ["card","pdp"] },
+      { key: "content", label: "Contenido", value: "1 puesto de mando prefabricado", visibility: ["card","pdp", "contents"] },
       { key: "material", label: "Material", value: "Resina", visibility: ["card","pdp"] },
       { key: "scale", label: "Huella", value: "4 × 4 hexágonos", visibility: ["pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] }
@@ -518,8 +518,8 @@ export const products: Product[] = [
     relatedBundleIds: [],
     relatedDropIds: ["drop-002"],
     specs: buildSpecs("prod-008", [
-      { key: "content", label: "Contenido", value: "Pack de terreno modular", visibility: ["card","pdp"] },
-      { key: "pieces", label: "Piezas", value: "12 piezas de escombros", visibility: ["card","pdp"] },
+      { key: "content", label: "Contenido", value: "Pack de terreno modular", visibility: ["card","pdp", "contents"] },
+      { key: "pieces", label: "Piezas", value: "12 piezas de escombros", visibility: ["card","pdp", "contents"] },
       { key: "material", label: "Material", value: "Resina", visibility: ["pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "Alpha Strike", visibility: ["pdp"] }
     ]),
@@ -561,7 +561,7 @@ export const products: Product[] = [
     relatedBundleIds: [],
     relatedDropIds: ["drop-002"],
     specs: buildSpecs("prod-009", [
-      { key: "content", label: "Contenido", value: "3 mapas modulares", visibility: ["card","pdp"] },
+      { key: "content", label: "Contenido", value: "3 mapas modulares", visibility: ["card","pdp", "contents"] },
       { key: "format", label: "Zonas", value: "Industrial, centro y periferia", visibility: ["card","pdp"] },
       { key: "material", label: "Formato", value: "Mapa plegable", visibility: ["pdp"] },
       { key: "compatibility", label: "Compatibilidad", value: "BattleTech Classic", visibility: ["pdp"] }

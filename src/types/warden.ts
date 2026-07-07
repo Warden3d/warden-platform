@@ -104,7 +104,7 @@ export interface ProductSpec {
   sortOrder: number;
 }
 
-export type SpecVisibility = "card" | "pdp" | "bundle" | "drop" | "api";
+export type SpecVisibility = "card" | "pdp" | "contents" | "bundle" | "drop" | "api";
 
 // ─── ProductType ─────────────────────────────────
 
