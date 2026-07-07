@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Container, Section, SectionDivider } from "@/components/shared/container";
+import { Container, Section } from "@/components/shared/container";
 import {
   getProductBySlug,
   getCollections,
@@ -128,47 +128,52 @@ export default async function ProductPage({
           <GalleryWithVariant images={product.images} productName={product.name} />
 
           <div className="flex flex-col gap-5">
-            {/* ════ IDENTIDAD DEL PRODUCTO ════ */}
-            <CompatibilityBadge system={compatKey} />
+            {/* ════ CABECERA DEL PRODUCTO (Especificación PDP §5) ════ */}
 
+            {/* 5.1 — Procedencia */}
+            {license && !product.designerName ? (
+              <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                Licensed by {license.name}
+              </p>
+            ) : (
+              collection && (
+                <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                  {collection.name}
+                </p>
+              )
+            )}
+
+            {/* 5.2 — Nombre */}
             <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl leading-tight">
               {product.name}
             </h1>
 
-            {/* Autoría dinámica: licencia O diseñador, nunca ambos */}
-            {license && !product.designerName && (
-              <p className="text-sm text-muted-foreground">
-                Licensed by {license.name}
-              </p>
-            )}
-            {!license && product.designerName && (
-              <p className="text-sm text-muted-foreground">
-                Designed by {product.designerName}
-              </p>
-            )}
-
-            <SectionDivider />
-
-            {/* ════ INFORMACIÓN DESCRIPTIVA ════ */}
+            {/* 5.3 — Descripción breve */}
             <p className="text-sm text-muted-foreground leading-relaxed">
               {product.shortDescription}
             </p>
 
-            {/* Product Highlights */}
-            {product.specs.filter((s) => s.visibility.includes("pdp")).length > 0 ? (
-              <ProductHighlights specs={product.specs.filter((s) => s.visibility.includes("pdp"))} />
-            ) : product.gameFeatures.length > 0 ? (
-              <div className="flex flex-col gap-2">
-                {product.gameFeatures.map((feature, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-foreground/70 leading-relaxed">
-                    <Check className="size-3 text-warden-blue shrink-0 mt-0.5" />
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-            ) : null}
+            {/* D15 — Compatibilidad como información secundaria */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              <CompatibilityBadge system={compatKey} />
+            </div>
 
-            {/* ════ BLOQUE COMERCIAL ════ */}
+            {/* 5.4 — Especificaciones rápidas (máx. 4) */}
+            {(() => {
+              const pdpSpecs = product.specs.filter((s) => s.visibility.includes("pdp"));
+              return pdpSpecs.length > 0 ? (
+                <ProductHighlights specs={pdpSpecs.slice(0, 4)} />
+              ) : null;
+            })()}
+
+            {/* Autoría: diseñador (si no hay licencia) */}
+            {!license && product.designerName && (
+              <p className="text-xs text-muted-foreground/60">
+                Designed by {product.designerName}
+              </p>
+            )}
+
+            {/* ════ BLOQUE COMERCIAL (5.5–5.7) ════ */}
             <div className="flex flex-col gap-5 pt-8">
               {/* Fila 1: configuración + precio */}
               <div className="grid grid-cols-2 gap-6">
