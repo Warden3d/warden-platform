@@ -405,7 +405,7 @@ export default function AboutPage() {
                 compatibilidad y guías de uso.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <WardenButton href="/collections">
+                <WardenButton href="/catalog">
                   Ir al catálogo
                   <ChevronRight className="size-4" />
                 </WardenButton>

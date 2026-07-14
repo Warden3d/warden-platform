@@ -110,7 +110,7 @@ export default async function ProductPage({
                     ? "/catalog?collection=col-warden-core"
                     : collection.slug === "licenses"
                       ? "/catalog?collection=col-licenses"
-                      : `/collections/${collection.slug}`
+                      : `/catalog?collection=${collection.id}`
                 }
                 className="hover:text-foreground transition-colors"
               >

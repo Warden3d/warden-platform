@@ -11,7 +11,7 @@ export const mainNavLinks: NavLink[] = [
 
 export const footerNavLinks = {
   products: [
-    { label: "Colecciones", href: "/collections", i18nKey: "footer.collections" },
+    { label: "Colecciones", href: "/catalog", i18nKey: "footer.collections" },
     { label: "Bundles", href: "/bundles", i18nKey: "footer.bundles" },
     { label: "Drops", href: "/drops", i18nKey: "footer.drops" },
     { label: "Mi Selección", href: "/selection", i18nKey: "footer.mySelection" },
@@ -23,6 +23,6 @@ export const footerNavLinks = {
   ],
   legal: [
     { label: "Sobre WARDEN", href: "/about", i18nKey: "footer.about" },
-    { label: "Licencias", href: "/collections/licenses", i18nKey: "footer.licenses" },
+    { label: "Licencias", href: "/catalog?collection=col-licenses", i18nKey: "footer.licenses" },
   ],
 };

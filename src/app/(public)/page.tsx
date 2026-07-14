@@ -34,7 +34,7 @@ export default async function Home() {
               {t("heroDesc")}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <WardenButton href="/collections">
+              <WardenButton href="/catalog">
                 {t("exploreCollections")}
                 <ChevronRight className="size-4" />
               </WardenButton>
@@ -122,7 +122,7 @@ export default async function Home() {
           <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-4">
             {/* Warden Core */}
             <Link
-              href="/collections/warden-core"
+              href="/catalog?collection=col-warden-core"
               className="group bg-warden-carbon p-6 transition-colors hover:bg-warden-surface"
             >
               <Shield className="size-5 text-warden-ochre mb-5" />
@@ -140,7 +140,7 @@ export default async function Home() {
 
             {/* Licensed Universes */}
             <Link
-              href="/collections/licenses"
+              href="/catalog?collection=col-licenses"
               className="group bg-warden-carbon p-6 transition-colors hover:bg-warden-surface"
             >
               <Gauge className="size-5 text-warden-green mb-5" />
