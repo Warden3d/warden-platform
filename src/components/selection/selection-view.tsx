@@ -190,7 +190,7 @@ export function SelectionView({ products: catalogProducts }: { products: Product
   }
 
   return (
-    <Section>
+    <Section className="pt-10 md:pt-16">
       <Container>
         <div className="max-w-3xl mb-4">
           <div className="flex items-center gap-3 mb-3">
