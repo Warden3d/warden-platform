@@ -594,6 +594,11 @@ export const bundles: Bundle[] = [
     images: bundleImage,
     status: "active",
     featured: true,
+    specs: buildSpecs("bundle-001", [
+      { key: "content", label: "Contenido", value: "4 productos básicos de BattleTech Classic", visibility: ["bundle","contents"] },
+      { key: "savings", label: "Ahorro", value: "15 % respecto a la compra individual", visibility: ["bundle"] },
+      { key: "theme", label: "Temática", value: "BattleTech Classic — Kit completo", visibility: ["bundle"] },
+    ]),
   },
   {
     id: "bundle-002",
@@ -608,6 +613,11 @@ export const bundles: Bundle[] = [
     images: starterImage,
     status: "active",
     featured: false,
+    specs: buildSpecs("bundle-002", [
+      { key: "content", label: "Contenido", value: "2 herramientas esenciales", visibility: ["bundle","contents"] },
+      { key: "savings", label: "Ahorro", value: "10 % respecto a la compra individual", visibility: ["bundle"] },
+      { key: "theme", label: "Temática", value: "Inicio — Punto de entrada", visibility: ["bundle"] },
+    ]),
   },
 ];
 

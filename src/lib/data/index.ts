@@ -287,6 +287,7 @@ function mapBundleRow(
     discountLabel: row.discount_label,
     productIds,
     images,
+    specs: [],
     status: row.status,
     featured: row.featured,
   };

@@ -171,6 +171,7 @@ export interface Bundle {
   discountLabel: string | null;
   productIds: string[];
   images: ProductImage[];
+  specs: ProductSpec[];
   status: ProductStatus;
   featured: boolean;
 }

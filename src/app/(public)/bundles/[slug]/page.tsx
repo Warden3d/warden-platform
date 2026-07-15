@@ -6,13 +6,19 @@ import { Container, Section } from "@/components/shared/container";
 import {
   getBundleBySlug,
   getActiveProducts,
+  getProductsByIds,
   getCompatibilitySystems,
 } from "@/lib/data";
-import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
-import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
+import { ProductSpecsPanel } from "@/components/catalog/product-specs-panel";
+import { ExpandableText } from "@/components/catalog/expandable-text";
+import { CollapsiblePanel } from "@/components/catalog/collapsible-panel";
+import { RelatedProductsSection } from "@/components/catalog/related-products-section";
+import { ProductHighlights } from "@/components/shared/product-highlights";
 import { AddProductsToSelection } from "@/components/catalog/add-products-to-selection";
+import { CatalogProductCard } from "@/components/catalog/catalog-product-card";
 import { WardenButton } from "@/components/ui/warden-button";
-import { ArrowLeft, Package, ArrowUpRight } from "lucide-react";
+import { ProductGallery } from "@/components/catalog/product-gallery";
+import { ChevronRight, FileText, Info, Package as PackageIcon, Layers } from "lucide-react";
 
 export async function generateMetadata({
   params,
@@ -59,211 +65,159 @@ export default async function BundleDetailPage({
     .map((id) => compatibilitySystems.find((c) => c.id === id))
     .filter(Boolean);
 
+  // Related products from bundle contents
+  const relatedProductIds = bundleProducts
+    .flatMap((p) => p.relatedProductIds)
+    .filter((id, idx, arr) => arr.indexOf(id) === idx)
+    .filter((id) => !bundle.productIds.includes(id));
+
+  const relatedProducts =
+    relatedProductIds.length > 0
+      ? allProducts.filter(
+          (p) => relatedProductIds.includes(p.id) && p.status === "active"
+        )
+      : [];
+
   return (
-    <Section>
+    <Section className="pt-12 md:pt-16">
       <Container>
-        <Link
-          href="/bundles"
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-        >
-          <ArrowLeft className="size-4" />
-          Todos los bundles
-        </Link>
+        {/* ── Breadcrumb ── */}
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6" aria-label="Breadcrumb">
+          <Link href="/bundles" className="hover:text-foreground transition-colors">
+            Bundles
+          </Link>
+          <ChevronRight className="size-3 text-muted-foreground/40" />
+          <span className="text-foreground">{bundle.name}</span>
+        </nav>
 
-        {/* Hero */}
-        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 mb-12 items-start">
-          {/* Visual */}
-          <div className="aspect-square border border-border bg-warden-surface overflow-hidden flex items-center justify-center">
-            <div className="text-center px-4">
-              <Package className="size-12 text-warden-ochre/40 mx-auto mb-4" />
-              <p className="text-eyebrow text-muted-foreground/40 max-w-[260px] mx-auto leading-relaxed">
-                {bundle.name}
-              </p>
-            </div>
-          </div>
+        {/* ── HEADER: gallery + comercial info ── */}
+        <div className="grid gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12 mb-8 items-start">
+          <ProductGallery images={bundle.images} productName={bundle.name} />
 
-          {/* Info */}
-          <div className="flex flex-col">
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <TechnicalBadge variant="ochre">Bundle</TechnicalBadge>
-              {bundle.theme && (
-                <TechnicalBadge variant="neutral">{bundle.theme}</TechnicalBadge>
-              )}
-            </div>
+          <div className="flex flex-col gap-5">
+            {/* ════ CABECERA (CEM: Commercial Entity) ════ */}
 
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl leading-tight">
+            {/* Procedencia */}
+            <p className="text-[11px] font-medium uppercase tracking-wider text-warden-ochre/80">
+              Bundle
+            </p>
+
+            {/* Nombre */}
+            <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl leading-tight">
               {bundle.name}
             </h1>
 
-            <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+            {/* Descripción breve */}
+            <p className="text-sm text-muted-foreground leading-relaxed">
               {bundle.description}
             </p>
 
-            {/* Price */}
-            <div className="mt-6">
-              <span className="text-2xl font-semibold text-foreground tracking-tight">
-                ${bundle.price.toFixed(2)}
-              </span>
-              <span className="text-spec-label text-muted-foreground ml-2">
-                USD
-              </span>
-              {totalIndividual > bundle.price && (
-                <div className="mt-1 flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground/50 line-through">
-                    ${totalIndividual.toFixed(2)}
-                  </span>
-                  <span className="text-eyebrow text-warden-green">
-                    {bundle.discountLabel}
-                  </span>
-                </div>
-              )}
-            </div>
+            {/* Especificaciones rápidas (máx. 4) */}
+            {(() => {
+              const bundleSpecs = bundle.specs.filter((s) => s.visibility.includes("bundle"));
+              return bundleSpecs.length > 0 ? (
+                <ProductHighlights specs={bundleSpecs.slice(0, 4)} />
+              ) : null;
+            })()}
 
-            {/* Bundle-wide CTA */}
-            <div className="mt-6">
+            {/* ════ BLOQUE COMERCIAL ════ */}
+            <div className="flex flex-col gap-5 pt-8">
+              {/* Precio + descuento */}
+              <div>
+                <span className="text-2xl font-semibold text-foreground tracking-tight">
+                  {bundle.price.toFixed(2)} €
+                </span>
+                {totalIndividual > bundle.price && (
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground/50 line-through">
+                      {totalIndividual.toFixed(2)} €
+                    </span>
+                    <span className="text-eyebrow text-warden-green">
+                      {bundle.discountLabel}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* CTA — Añadir bundle completo a Mi Selección */}
               <AddProductsToSelection
                 products={bundleProducts}
                 label="Añadir bundle a Mi Selección"
               />
-            </div>
 
-            {/* Compatibility */}
-            {compatSystems.length > 0 && (
-              <div className="mt-6 pt-4 border-t border-border space-y-2">
-                <p className="text-spec-label text-muted-foreground">
-                  Sistemas compatibles
-                </p>
-                <div className="flex flex-wrap items-center gap-2">
-                  {compatSystems.map(
-                    (cs) =>
-                      cs && (
-                        <CompatibilityBadge
-                          key={cs.id}
-                          system={
-                            cs.slug as
-                              | "battletech-classic"
-                              | "alpha-strike"
-                              | "aerotech"
-                          }
-                        />
-                      )
-                  )}
+              {/* Volver al catálogo */}
+              <div className="flex justify-end">
+                <div className="w-48">
+                  <WardenButton
+                    href="/catalog"
+                    variant="outline"
+                    size="lg"
+                    className="h-9 w-full"
+                  >
+                    Volver al catálogo
+                  </WardenButton>
                 </div>
-                {compatSystems.map(
-                  (cs) =>
-                    cs && (
-                      <p
-                        key={cs.id}
-                        className="text-xs text-muted-foreground/60 leading-relaxed"
-                      >
-                        {cs.description}
-                      </p>
-                    )
-                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
 
-        {/* Included Products */}
-        <div className="mb-12">
-          <h2 className="text-xl font-semibold tracking-tight text-foreground mb-2">
-            Productos incluidos
-          </h2>
-          <p className="text-sm text-muted-foreground mb-8">
-            {bundleProducts.length} productos — añade cada uno a tu selección o
-            adquiere el bundle completo.
-          </p>
+        {/* ════ BLOQUES INFORMATIVOS (ancho completo) ════ */}
+        <div className="space-y-6 mb-12">
+          {/* 1. Información del producto */}
+          <CollapsiblePanel title="Información del producto" defaultOpen={false} icon={<Info className="size-3.5 shrink-0" />}>
+            <ProductSpecsPanel
+              specs={bundle.specs}
+            />
+          </CollapsiblePanel>
 
-          {bundleProducts.length > 0 ? (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {bundleProducts.map((product) => {
-                const compatSystem = compatibilitySystems.find(
-                  (c) => c.id === product.compatibilityId
-                );
-                const primaryImage = product.images.find(
-                  (img) => img.isPrimary
-                );
+          {/* 2. Información adicional */}
+          <CollapsiblePanel title="Información adicional" defaultOpen={false} icon={<FileText className="size-3.5 shrink-0" />}>
+            <ExpandableText text={bundle.description} maxLines={6} expandable={false} />
+          </CollapsiblePanel>
 
-                return (
-                  <div
-                    key={product.id}
-                    className="border border-border bg-warden-surface p-5 flex flex-col"
-                  >
-                    <div className="mb-3 flex items-start justify-between gap-2">
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        {compatSystem && (
-                          <CompatibilityBadge
-                            system={
-                              compatSystem.slug as
-                                | "battletech-classic"
-                                | "alpha-strike"
-                                | "aerotech"
-                            }
-                          />
-                        )}
-                      </div>
-                      <span className="text-data text-foreground/80 shrink-0">
-                        ${product.price.toFixed(2)}
-                      </span>
-                    </div>
+          {/* 3. Contenido del producto (productos incluidos) */}
+          {bundleProducts.length > 0 && (
+            <CollapsiblePanel title="Contenido del producto" defaultOpen={false} icon={<PackageIcon className="size-3.5 shrink-0" />}>
+              <div className="p-4">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {bundleProducts.map((product) => (
+                    <CatalogProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              </div>
+            </CollapsiblePanel>
+          )}
 
-                    <Link
-                      href={`/products/${product.slug}`}
-                      className="group inline"
-                    >
-                      <h3 className="font-semibold text-sm text-foreground group-hover:text-warden-blue transition-colors leading-snug">
-                        {product.name}
-                      </h3>
-                    </Link>
-
-                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">
-                      {product.shortDescription}
-                    </p>
-
-                    <div className="mt-4 pt-3 border-t border-border flex items-center gap-2">
-                      <WardenButton
-                        variant="ghost"
-                        size="sm"
-                        href={`/products/${product.slug}`}
+          {/* Colecciones compatibles */}
+          {compatSystems.length > 0 && (
+            <CollapsiblePanel title="Colecciones compatibles" defaultOpen={false} icon={<Layers className="size-3.5 shrink-0" />}>
+              <div className="flex flex-wrap gap-2 p-4">
+                {compatSystems.map(
+                  (cs) =>
+                    cs && (
+                      <span
+                        key={cs.id}
+                        className="inline-block px-3 py-1 text-xs font-medium uppercase tracking-wider rounded-sm border border-border/40 text-muted-foreground/80"
                       >
-                        Ver producto
-                        <ArrowUpRight className="size-3" />
-                      </WardenButton>
-                      <div className="ml-auto">
-                        <AddToSelectionButton
-                          productId={product.id}
-                          productName={product.name}
-                          unitPrice={product.price}
-                          productSlug={product.slug}
-                          productImage={primaryImage?.url}
-                          size="sm"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="text-center py-12 border border-border bg-warden-surface">
-              <p className="text-sm text-muted-foreground">
-                Este bundle no tiene productos asignados actualmente.
-              </p>
-            </div>
+                        {cs.name}
+                      </span>
+                    )
+                )}
+              </div>
+            </CollapsiblePanel>
           )}
         </div>
 
-        {/* CTA footer */}
-        <div className="border-t border-border pt-8 flex flex-wrap gap-3">
-          <WardenButton href="/selection" variant="ochre">
-            Ir a Mi Selección
-            <ArrowUpRight className="size-4" />
-          </WardenButton>
-          <WardenButton href="/catalog" variant="outline">
-            Explorar catálogo completo
-          </WardenButton>
-        </div>
+        {/* ════ PRODUCTOS RELACIONADOS ════ */}
+        {relatedProducts.length > 0 && (
+          <div className="mb-8">
+            <RelatedProductsSection
+              products={relatedProducts}
+              bundles={[]}
+            />
+          </div>
+        )}
       </Container>
     </Section>
   );
