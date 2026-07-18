@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X, Minus } from "lucide-react";
 import { useState } from "react";
 import { useSelection } from "@/hooks/use-selection";
+import { useHideOnScrollDown } from "@/hooks/use-hide-on-scroll-down";
 import { mainNavLinks } from "@/data/navigation";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 
@@ -15,9 +16,20 @@ export function Header() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { itemCount } = useSelection();
+  const headerVisible = useHideOnScrollDown();
+  const showHeader = mobileOpen ? true : headerVisible;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-warden-carbon/95 backdrop-blur supports-[backdrop-filter]:bg-warden-carbon/85">
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full border-b border-border bg-warden-carbon/95 backdrop-blur supports-[backdrop-filter]:bg-warden-carbon/85",
+        "transition-transform duration-300 ease-in-out",
+        "max-lg:-translate-y-full",
+        "max-lg:data-[visible=true]:translate-y-0",
+        "lg:translate-y-0"
+      )}
+      data-visible={showHeader}
+    >
       <div className="page-container flex h-14 items-center justify-between">
         {/* Logo + brand mark */}
         <Link href="/" className="flex items-center gap-3 shrink-0">
