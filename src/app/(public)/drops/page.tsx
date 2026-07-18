@@ -149,7 +149,7 @@ function ActiveCampaignLanding({
         body={`${productCount} producto${productCount !== 1 ? "s" : ""} exclusivo${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas.`}
         visual={
           heroImage ? (
-            <div className="relative w-full aspect-[4/3] overflow-hidden border border-border">
+            <div className="relative w-full aspect-video overflow-hidden border border-border">
               <Image
                 src={heroImage}
                 alt={activeDrop.name}
@@ -160,7 +160,7 @@ function ActiveCampaignLanding({
             </div>
           ) : undefined
         }
-        className="py-12 md:py-16"
+        className="py-10 md:py-12"
       />
 
       {/* ── ESCENARIO — gran formato visual ── */}
@@ -170,7 +170,7 @@ function ActiveCampaignLanding({
         body="Sumérgete en una campaña de edición limitada. Cada pieza ha sido seleccionada para contar una historia."
         visual={
           scenarioImage ? (
-            <div className="relative w-full aspect-[4/3] overflow-hidden border border-border">
+            <div className="relative w-full aspect-video overflow-hidden border border-border">
               <Image
                 src={scenarioImage}
                 alt={activeDrop.theme ?? activeDrop.name}
@@ -182,7 +182,7 @@ function ActiveCampaignLanding({
           ) : undefined
         }
         visualPosition="left"
-        className="py-12 md:py-16 bg-warden-surface/30"
+        className="py-10 md:py-12 bg-warden-surface/30"
       />
 
       {/* ── GALERÍA ── */}
@@ -190,13 +190,13 @@ function ActiveCampaignLanding({
         <CampaignGallery
           images={allImages}
           columns={Math.min(allImages.length as 2 | 3 | 4, 3) as 2 | 3 | 4}
-          className="py-12 md:py-16"
+          className="py-10 md:py-12"
         />
       )}
 
       {/* ── CONTENIDO DEL DROP ── */}
       {featuredProducts.length > 0 && (
-        <section className="py-14 md:py-20 bg-warden-surface/30">
+        <section className="py-10 md:py-14 bg-warden-surface/30">
           <Container>
             <div className="max-w-3xl mb-8">
               <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre/70 mb-3">
@@ -217,10 +217,10 @@ function ActiveCampaignLanding({
                 return (
                   <div
                     key={product.id}
-                    className="border border-border bg-warden-surface p-5 flex flex-col"
+                    className="flex flex-col"
                   >
                     {primaryImage && (
-                      <div className="relative w-full aspect-square mb-3 overflow-hidden border border-border bg-warden-carbon">
+                      <div className="relative w-full aspect-video mb-3 overflow-hidden border border-border bg-warden-carbon">
                         <Image
                           src={primaryImage.url}
                           alt={primaryImage.alt || product.name}
@@ -253,20 +253,9 @@ function ActiveCampaignLanding({
                       </h3>
                     </Link>
 
-                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">
+                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed line-clamp-2">
                       {product.shortDescription}
                     </p>
-
-                    <div className="mt-4 pt-3 border-t border-border">
-                      <WardenButton
-                        variant="ghost"
-                        size="sm"
-                        href={`/products/${product.slug}`}
-                      >
-                        Ver producto
-                        <ChevronRight className="size-3" />
-                      </WardenButton>
-                    </div>
                   </div>
                 );
               })}
@@ -281,7 +270,7 @@ function ActiveCampaignLanding({
         description="Accede a la ficha comercial para configurar tu selección y solicitar presupuesto."
         ctaLabel="Ir a la PDP Comercial"
         ctaHref={`/drops/${activeDrop.slug}`}
-        className="py-14 md:py-20"
+        className="py-10 md:py-14"
       />
     </>
   );
