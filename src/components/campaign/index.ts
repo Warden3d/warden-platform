@@ -3,3 +3,5 @@ export { CampaignStoryBlock } from "./campaign-story-block";
 export { CampaignFeatureBlock } from "./campaign-feature-block";
 export { CampaignGallery } from "./campaign-gallery";
 export { CampaignCta } from "./campaign-cta";
+export { CampaignTrailer } from "./campaign-trailer";
+export { HeroWithTrailer } from "./hero-with-trailer";

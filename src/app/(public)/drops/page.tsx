@@ -15,10 +15,10 @@ import Image from "next/image";
 
 // ── Campaign blocks ────────────────────────────
 import {
-  CampaignHero,
   CampaignStoryBlock,
   CampaignGallery,
   CampaignCta,
+  HeroWithTrailer,
 } from "@/components/campaign";
 
 export const metadata: Metadata = {
@@ -135,13 +135,15 @@ function ActiveCampaignLanding({
   return (
     <>
       {/* ── HERO ── */}
-      <CampaignHero
+      <HeroWithTrailer
         title={activeDrop.name}
         subtitle={activeDrop.description}
         imageUrl={heroImage}
-        ctaLabel="Ir a la PDP Comercial"
+        ctaLabel="Explore the Drop"
         ctaHref={`/drops/${activeDrop.slug}`}
         theme={activeDrop.theme ?? undefined}
+        trailerSrc="/videos/battle-of-tukayyid.mp4"
+        trailerPoster={heroImage}
       />
 
       {/* ── PRESENTACIÓN — gran formato visual ── */}

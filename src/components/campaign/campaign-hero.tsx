@@ -12,6 +12,10 @@ interface CampaignHeroProps {
   videoUrl?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** Label for the trailer button. When provided together with `onTrailerClick`, renders a secondary "▶ Trailer" button. */
+  trailerLabel?: string;
+  /** Callback when the trailer button is clicked. Opens the CampaignTrailer modal. */
+  onTrailerClick?: () => void;
   theme?: string;
   className?: string;
 }
@@ -24,9 +28,12 @@ interface CampaignHeroProps {
  * - Fallback image
  * - Title + subtitle
  * - Primary CTA linking to the PDP
+ * - Secondary "Trailer" button that opens a video modal
  *
  * @param videoUrl - When provided, renders a <video> behind the overlay. Ignored for now (structure-ready).
  * @param imageUrl - Fallback image when no video, or when video isn't loaded yet.
+ * @param trailerLabel - When set alongside `onTrailerClick`, renders a secondary trailer button.
+ * @param onTrailerClick - Callback to open the CampaignTrailer modal.
  * @param theme - Optional CSS class modifier for tint/overlay.
  */
 export function CampaignHero({
@@ -34,8 +41,10 @@ export function CampaignHero({
   subtitle,
   imageUrl,
   videoUrl,
-  ctaLabel = "Ver lanzamiento",
+  ctaLabel = "Explore the Drop",
   ctaHref,
+  trailerLabel = "▶ Trailer",
+  onTrailerClick,
   theme,
   className,
 }: CampaignHeroProps) {
@@ -92,11 +101,22 @@ export function CampaignHero({
         </p>
 
         {ctaHref && (
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <WardenButton href={ctaHref} size="lg">
               {ctaLabel}
               <ChevronRight className="size-4" />
             </WardenButton>
+            {onTrailerClick && (
+              <WardenButton
+                type="button"
+                variant="outline"
+                size="lg"
+                onClick={onTrailerClick}
+                className="border-white/20 text-white hover:bg-white/10 hover:border-white/40"
+              >
+                {trailerLabel}
+              </WardenButton>
+            )}
           </div>
         )}
       </div>
