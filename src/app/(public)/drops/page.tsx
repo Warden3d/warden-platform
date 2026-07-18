@@ -2,16 +2,30 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
-import { getDrops, getActiveProducts, getCompatibilitySystems } from "@/lib/data";
-import type { Drop, CompatibilitySystem } from "@/types/warden";
+import {
+  getDrops,
+  getActiveProducts,
+  getCompatibilitySystems,
+} from "@/lib/data";
+import type { Drop, CompatibilitySystem, ProductImage, Product } from "@/types/warden";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
-import { ChevronRight, Timer, Archive } from "lucide-react";
+import { ChevronRight, Timer, Layers, Sparkles, Crosshair } from "lucide-react";
+import Image from "next/image";
+
+// ── Campaign blocks ────────────────────────────
+import {
+  CampaignHero,
+  CampaignStoryBlock,
+  CampaignFeatureBlock,
+  CampaignGallery,
+  CampaignCta,
+} from "@/components/campaign";
 
 export const metadata: Metadata = {
-  title: "Drops",
+  title: "Drops — Campañas WARDEN",
   description:
-    "Lanzamientos temporales y ediciones limitadas de WARDEN. Disponibilidad por tiempo limitado en ediciones especiales y nuevos productos.",
+    "Lanzamientos temporales y ediciones limitadas de accesorios 3D para BattleTech. Cada campaña presenta una experiencia narrativa única.",
 };
 
 function formatDate(iso: string) {
@@ -22,7 +36,8 @@ function formatDate(iso: string) {
   });
 }
 
-function DropCard({
+// ── Compact DropCard for secondary listing ─────
+function CompactDropCard({
   drop,
   compatSystems,
   variant,
@@ -36,20 +51,20 @@ function DropCard({
   return (
     <Link
       href={`/drops/${drop.slug}`}
-      className={`group flex flex-col border p-6 transition-colors ${
+      className={`group flex flex-col border p-5 transition-colors ${
         isMuted
-          ? "border-border bg-warden-surface/50 opacity-55 hover:opacity-80"
+          ? "border-border bg-warden-surface/40 opacity-60 hover:opacity-90"
           : variant === "live"
             ? "border-warden-blue/30 bg-warden-surface hover:border-warden-blue/50"
             : "border-border bg-warden-surface hover:border-warden-blue/20"
       }`}
     >
       {/* Header row */}
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-2">
         {variant === "live" && (
           <span className="inline-flex items-center gap-1.5 text-eyebrow text-warden-blue">
             <span className="size-1.5 rounded-full bg-warden-blue animate-pulse" />
-            Activo ahora
+            Activo
           </span>
         )}
         {variant === "upcoming" && (
@@ -58,64 +73,33 @@ function DropCard({
         {variant === "ended" && (
           <span className="text-eyebrow text-muted-foreground">Finalizado</span>
         )}
-
-        {drop.theme && (
+        {drop.theme && !isMuted && (
           <TechnicalBadge variant={variant === "live" ? "blue" : "neutral"}>
             {drop.theme}
           </TechnicalBadge>
         )}
       </div>
 
-      <h2
-        className={`text-lg font-semibold tracking-tight leading-snug transition-colors ${
-          isMuted
-            ? "text-muted-foreground"
-            : "text-foreground group-hover:text-warden-blue"
+      <h3
+        className={`text-sm font-semibold leading-snug transition-colors ${
+          isMuted ? "text-muted-foreground" : "text-foreground group-hover:text-warden-blue"
         }`}
       >
         {drop.name}
-      </h2>
+      </h3>
 
-      <p
-        className={`mt-2 text-sm leading-relaxed flex-1 line-clamp-2 ${
-          isMuted ? "text-muted-foreground/60" : "text-muted-foreground"
-        }`}
-      >
+      <p className="mt-1 text-xs text-muted-foreground line-clamp-1 leading-relaxed flex-1">
         {drop.description}
       </p>
 
-      {/* Compatibility */}
-      {compatSystems.length > 0 && !isMuted && (
-        <div className="mt-3 flex flex-wrap items-center gap-1.5">
-          {compatSystems.map(
-            (cs) =>
-              cs && (
-                <CompatibilityBadge
-                  key={cs.id}
-                  system={
-                    cs.slug as
-                      | "battletech-classic"
-                      | "alpha-strike"
-                      | "aerotech"
-                  }
-                />
-              )
-          )}
-        </div>
-      )}
-
-      {/* Dates */}
-      <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-spec-label text-muted-foreground">
-          <Timer className="size-3.5" />
-          <span>
-            {formatDate(drop.startsAt)}
-            {drop.endsAt && <> — {formatDate(drop.endsAt)}</>}
-          </span>
-        </div>
+      <div className="mt-3 pt-2 border-t border-border flex items-center justify-between">
+        <span className="text-spec-label text-muted-foreground">
+          {formatDate(drop.startsAt)}
+          {drop.endsAt && <> — {formatDate(drop.endsAt)}</>}
+        </span>
         {!isMuted && (
           <span className="text-xs text-warden-blue inline-flex items-center gap-0.5">
-            Ver drop <ChevronRight className="size-3" />
+            Ver <ChevronRight className="size-3" />
           </span>
         )}
       </div>
@@ -123,6 +107,200 @@ function DropCard({
   );
 }
 
+// ── Drop data helpers ──────────────────────────
+function getDropCompatSystems(
+  drop: Drop,
+  fetchedProducts: Product[],
+  compatibilitySystems: CompatibilitySystem[]
+): CompatibilitySystem[] {
+  const dropProducts = fetchedProducts.filter((p) =>
+    drop.productIds.includes(p.id)
+  );
+  const compatIds = [
+    ...new Set(dropProducts.map((p) => p.compatibilityId)),
+  ];
+  return compatIds
+    .map((id) => compatibilitySystems.find((c) => c.id === id))
+    .filter(Boolean) as CompatibilitySystem[];
+}
+
+function getAllDropImages(drop: Drop, products: Array<{ id: string; images: ProductImage[] }>): Array<{ url: string; alt: string }> {
+  const dropProducts = products.filter((p) => drop.productIds.includes(p.id));
+  const images: Array<{ url: string; alt: string }> = [];
+  for (const p of dropProducts) {
+    for (const img of p.images) {
+      images.push({ url: img.url, alt: img.alt });
+    }
+  }
+  return images.slice(0, 6); // Max 6 for the gallery
+}
+
+// ── Active campaign landing ────────────────────
+function ActiveCampaignLanding({
+  activeDrop,
+  featuredProducts,
+  compatibilitySystems,
+}: {
+  activeDrop: Drop;
+  featuredProducts: Array<{ id: string; name: string; slug: string; shortDescription: string; images: ProductImage[]; compatibilityId: string }>;
+  compatibilitySystems: CompatibilitySystem[];
+}) {
+  const productCount = featuredProducts.length;
+  const allImages = getAllDropImages(activeDrop, featuredProducts);
+
+  // Feature items based on available data
+  const features = [
+    {
+      icon: <Crosshair className="size-4" />,
+      title: "Edición limitada",
+      description: `Campaña con ${productCount} producto${productCount !== 1 ? "s" : ""} exclusivo${productCount !== 1 ? "s" : ""}. Disponible durante la ventana del lanzamiento.`,
+    },
+    {
+      icon: <Sparkles className="size-4" />,
+      title: activeDrop.theme ?? "Temática exclusiva",
+      description: `Sumérgete en una experiencia única con esta colección de productos seleccionados para esta campaña.`,
+    },
+    {
+      icon: <Layers className="size-4" />,
+      title: "Acceso al catálogo",
+      description: "Todos los productos estarán disponibles en el catálogo general tras finalizar la campaña.",
+    },
+  ];
+
+  return (
+    <>
+      {/* ── HERO ── */}
+      <CampaignHero
+        title={activeDrop.name}
+        subtitle={activeDrop.description}
+        imageUrl={activeDrop.thumbnailUrl || undefined}
+        ctaHref={`/drops/${activeDrop.slug}`}
+        ctaLabel="Ir a la PDP Comercial"
+        theme={activeDrop.theme ?? undefined}
+      />
+
+      {/* ── PRESENTACIÓN ── */}
+      <CampaignStoryBlock
+        eyebrow="Lanzamiento"
+        title={activeDrop.name}
+        body={activeDrop.description}
+        body2={`Una campaña con ${productCount} producto${productCount !== 1 ? "s" : ""} diseñado${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas. Cada producto refleja la identidad y el espíritu de esta edición limitada.`}
+      />
+
+      {/* ── ESCENARIO / HIGHLIGHTS ── */}
+      <CampaignFeatureBlock
+        eyebrow="Escenario"
+        title="Sobre esta campaña"
+        features={features}
+      />
+
+      {/* ── CONTENIDO DEL DROP ── */}
+      {featuredProducts.length > 0 && (
+        <section className="py-16 md:py-24 bg-warden-surface/30">
+          <Container>
+            <div className="max-w-3xl mb-10">
+              <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre/70 mb-3">
+                Contenido
+              </p>
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl leading-tight text-foreground">
+                Productos incluidos
+              </h2>
+              <p className="mt-3 text-base text-muted-foreground leading-relaxed">
+                {productCount} producto{productCount !== 1 ? "s" : ""} disponible{productCount !== 1 ? "s" : ""} en esta campaña.
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredProducts.map((product) => {
+                const compatSystem = compatibilitySystems.find(
+                  (c) => c.id === product.compatibilityId
+                );
+                const primaryImage = product.images.find((img) => img.isPrimary);
+
+                return (
+                  <div
+                    key={product.id}
+                    className="border border-border bg-warden-surface p-5 flex flex-col"
+                  >
+                    {/* Image placeholder */}
+                    {primaryImage && (
+                      <div className="relative w-full aspect-square mb-3 overflow-hidden border border-border bg-warden-carbon">
+                        <Image
+                          src={primaryImage.url}
+                          alt={primaryImage.alt || product.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                      </div>
+                    )}
+
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      {compatSystem && (
+                        <CompatibilityBadge
+                          system={
+                            compatSystem.slug as
+                              | "battletech-classic"
+                              | "alpha-strike"
+                              | "aerotech"
+                          }
+                        />
+                      )}
+                    </div>
+
+                    <Link
+                      href={`/products/${product.slug}`}
+                      className="group inline"
+                    >
+                      <h3 className="font-semibold text-sm leading-snug text-foreground group-hover:text-warden-blue transition-colors">
+                        {product.name}
+                      </h3>
+                    </Link>
+
+                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">
+                      {product.shortDescription}
+                    </p>
+
+                    <div className="mt-4 pt-3 border-t border-border">
+                      <WardenButton
+                        variant="ghost"
+                        size="sm"
+                        href={`/products/${product.slug}`}
+                      >
+                        Ver producto
+                        <ChevronRight className="size-3" />
+                      </WardenButton>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* ── GALERÍA ── */}
+      {allImages.length > 0 && (
+        <CampaignGallery
+          eyebrow="Galería"
+          title="Imágenes de la campaña"
+          images={allImages}
+          columns={Math.min(allImages.length as 2 | 3 | 4, 3) as 2 | 3 | 4}
+        />
+      )}
+
+      {/* ── CTA → PDP ── */}
+      <CampaignCta
+        title={`Consigue ${activeDrop.name}`}
+        description="Accede a la ficha comercial del drop para configurar tu selección y solicitar presupuesto."
+        ctaLabel="Ir a la PDP Comercial"
+        ctaHref={`/drops/${activeDrop.slug}`}
+      />
+    </>
+  );
+}
+
+// ── Page ───────────────────────────────────────
 export default async function DropsPage() {
   const [drops, products, compatibilitySystems] = await Promise.all([
     getDrops(),
@@ -135,29 +313,91 @@ export default async function DropsPage() {
   const ended = drops.filter((d) => d.status === "ended");
   const hasActive = live.length > 0 || upcoming.length > 0;
 
-  function getDropCompatSystems(drop: Drop): CompatibilitySystem[] {
-    const dropProducts = products.filter((p) => drop.productIds.includes(p.id));
-    const compatIds = [...new Set(dropProducts.map((p) => p.compatibilityId))];
-    return compatIds
-      .map((id) => compatibilitySystems.find((c) => c.id === id))
-      .filter(Boolean) as CompatibilitySystem[];
+  const activeDrop = live[0] ?? upcoming[0] ?? null;
+
+  if (activeDrop) {
+    const featuredProducts = products.filter((p) =>
+      activeDrop.productIds.includes(p.id)
+    );
+
+    return (
+      <>
+        {/* ── Campaign Landing ── */}
+        <ActiveCampaignLanding
+          activeDrop={activeDrop}
+          featuredProducts={featuredProducts}
+          compatibilitySystems={compatibilitySystems}
+        />
+
+        {/* ── Other drops (compact listing) ── */}
+        {(upcoming.length > (upcoming[0] === activeDrop ? 0 : 1) || ended.length > 0) && (
+          <Section>
+            <Container>
+              <SectionDivider className="mb-10" />
+
+              {/* Other upcoming */}
+              {upcoming.filter((d) => d.id !== activeDrop.id).length > 0 && (
+                <div className="mb-10">
+                  <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <Timer className="size-4 text-muted-foreground" />
+                    Próximos lanzamientos
+                  </h2>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {upcoming
+                      .filter((d) => d.id !== activeDrop.id)
+                      .map((drop) => (
+                        <CompactDropCard
+                          key={drop.id}
+                          drop={drop}
+                          compatSystems={getDropCompatSystems(drop, products, compatibilitySystems)}
+                          variant="upcoming"
+                        />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Previous drops */}
+              {ended.length > 0 && (
+                <div>
+                  <h2 className="text-lg font-semibold text-foreground/60 mb-4 flex items-center gap-2">
+                    <Layers className="size-4 text-muted-foreground" />
+                    Drops anteriores
+                  </h2>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {ended.map((drop) => (
+                      <CompactDropCard
+                        key={drop.id}
+                        drop={drop}
+                        compatSystems={getDropCompatSystems(drop, products, compatibilitySystems)}
+                        variant="ended"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </Container>
+          </Section>
+        )}
+      </>
+    );
   }
 
+  // ── Fallback: no active drops ────────────────
   return (
     <Section>
       <Container>
-        {/* ── No drops at all ──────────────────────── */}
         {!hasActive && ended.length === 0 && (
           <div className="text-center py-20 max-w-lg mx-auto">
             <div className="size-16 mx-auto mb-6 rounded-full border border-border bg-warden-surface flex items-center justify-center">
               <Timer className="size-7 text-muted-foreground/40" />
             </div>
             <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-              Drops
+              Campañas WARDEN
             </h1>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-              Los drops son lanzamientos periódicos de ediciones especiales y
-              productos de temporada. Cuando haya un drop activo, aparecerá aquí.
+              Las campañas son lanzamientos periódicos de ediciones especiales y
+              productos de temporada. Cuando haya una campaña activa, aparecerá aquí.
             </p>
             <p className="mt-2 text-xs text-muted-foreground/60">
               Mientras tanto, puedes explorar el catálogo permanente o nuestros
@@ -175,18 +415,16 @@ export default async function DropsPage() {
           </div>
         )}
 
-        {/* ── Only ended drops remain ──────────────── */}
         {!hasActive && ended.length > 0 && (
           <>
             <div className="max-w-2xl mb-14">
-              <Eyebrow>Lanzamientos temporales</Eyebrow>
+              <Eyebrow>Campañas temporales</Eyebrow>
               <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                Drops
+                Campañas WARDEN
               </h1>
               <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-                No hay drops activos en este momento. Los drops son lanzamientos
-                periódicos de duración limitada. Todos los productos de drops
-                anteriores pueden seguir adquiriéndose a través del catálogo
+                No hay campañas activas en este momento. Todos los productos de
+                campañas anteriores pueden seguir adquiriéndose a través del catálogo
                 general.
               </p>
             </div>
@@ -205,107 +443,21 @@ export default async function DropsPage() {
               <div>
                 <SectionDivider className="mb-8" />
                 <h2 className="text-xl font-semibold text-foreground/60 mb-6 flex items-center gap-2">
-                  <Archive className="size-5" />
-                  Drops anteriores
+                  <Layers className="size-5" />
+                  Campañas anteriores
                 </h2>
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {ended.map((drop) => (
-                    <DropCard
+                    <CompactDropCard
                       key={drop.id}
                       drop={drop}
-                      compatSystems={getDropCompatSystems(drop)}
+                      compatSystems={getDropCompatSystems(drop, products, compatibilitySystems)}
                       variant="ended"
                     />
                   ))}
                 </div>
               </div>
             )}
-          </>
-        )}
-
-        {/* ── Has active drops ─────────────────────── */}
-        {hasActive && (
-          <>
-            <div className="max-w-3xl mb-14">
-              <Eyebrow className="text-warden-blue">Lanzamientos temporales</Eyebrow>
-              <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                Drops
-              </h1>
-              <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-                Lanzamientos por tiempo limitado. Cada drop está disponible
-                durante una ventana definida. Los productos pueden adquirirse
-                individualmente durante el período activo.
-              </p>
-            </div>
-
-            {/* Live */}
-            {live.length > 0 && (
-              <div className="mb-10">
-                <h2 className="text-xl font-semibold text-foreground mb-5 flex items-center gap-2">
-                  <span className="size-2 rounded-full bg-warden-blue animate-pulse" />
-                  Activos
-                </h2>
-                <div className="grid gap-6 sm:grid-cols-2">
-                  {live.map((drop) => (
-                    <DropCard
-                      key={drop.id}
-                      drop={drop}
-                      compatSystems={getDropCompatSystems(drop)}
-                      variant="live"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Upcoming */}
-            {upcoming.length > 0 && (
-              <div className="mb-10">
-                <SectionDivider className="mb-8" />
-                <h2 className="text-xl font-semibold text-foreground mb-5 flex items-center gap-2">
-                  <Timer className="size-5 text-muted-foreground" />
-                  Próximos
-                </h2>
-                <div className="grid gap-6 sm:grid-cols-2">
-                  {upcoming.map((drop) => (
-                    <DropCard
-                      key={drop.id}
-                      drop={drop}
-                      compatSystems={getDropCompatSystems(drop)}
-                      variant="upcoming"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Past */}
-            {ended.length > 0 && (
-              <div>
-                <SectionDivider className="mb-8" />
-                <h2 className="text-xl font-semibold text-foreground/60 mb-5 flex items-center gap-2">
-                  <Archive className="size-5 text-muted-foreground" />
-                  Anteriores
-                </h2>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {ended.map((drop) => (
-                    <DropCard
-                      key={drop.id}
-                      drop={drop}
-                      compatSystems={getDropCompatSystems(drop)}
-                      variant="ended"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div className="mt-12 flex flex-wrap gap-3">
-              <WardenButton href="/catalog" variant="outline">
-                Explorar catálogo
-                <ChevronRight className="size-4" />
-              </WardenButton>
-            </div>
           </>
         )}
       </Container>
