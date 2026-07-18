@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import { X } from "lucide-react";
+import { X, Maximize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CampaignTrailerProps {
@@ -30,14 +30,23 @@ function isEmbedUrl(url: string): boolean {
   return /youtube\.com\/embed|youtu\.be|vimeo\.com/.test(url);
 }
 
+/** Cross-browser fullscreen request for a video element */
+function requestVideoFullscreen(video: HTMLVideoElement) {
+  if (video.requestFullscreen) {
+    video.requestFullscreen();
+  } else if ((video as unknown as { webkitRequestFullscreen: () => void }).webkitRequestFullscreen) {
+    (video as unknown as { webkitRequestFullscreen: () => void }).webkitRequestFullscreen();
+  }
+}
+
 /**
- * CampaignTrailer — Full-screen modal video player.
+ * CampaignTrailer — Full-screen modal video player with auto-fullscreen.
  *
- * - Dark overlay, centered 16:9 player
- * - Lazy-load: video is NOT fetched until `isOpen` becomes true
+ * - Dark overlay with centered 16:9 player
+ * - When the native <video> starts playing, it auto-requests fullscreen
+ * - YouTube/Vimeo iframes use allowFullScreen natively
  * - ESC / click-outside / close button to dismiss
- * - Focus trap for accessibility
- * - Responsive: 80% width desktop, full-width mobile
+ * - On fullscreen exit, the modal stays visible so the user can resume or close
  */
 export function CampaignTrailer({
   title,
@@ -48,13 +57,13 @@ export function CampaignTrailer({
 }: CampaignTrailerProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
   // ── Trap focus on open, restore on close ──
   useEffect(() => {
     if (isOpen) {
       previousFocusRef.current = document.activeElement as HTMLElement;
-      // Small delay so the modal renders before focusing
       requestAnimationFrame(() => closeButtonRef.current?.focus());
     } else if (previousFocusRef.current) {
       previousFocusRef.current.focus();
@@ -89,6 +98,20 @@ export function CampaignTrailer({
     [onClose]
   );
 
+  // ── Auto-fullscreen when native video starts playing ──
+  const handleVideoPlay = useCallback(() => {
+    if (videoRef.current) {
+      requestVideoFullscreen(videoRef.current);
+    }
+  }, []);
+
+  // ── Manual fullscreen button for the player container ──
+  const handleManualFullscreen = useCallback(() => {
+    if (videoRef.current) {
+      requestVideoFullscreen(videoRef.current);
+    }
+  }, []);
+
   if (!isOpen) return null;
 
   const embed = isEmbedUrl(videoSrc);
@@ -116,7 +139,7 @@ export function CampaignTrailer({
       {/* ── Player container (16:9) ── */}
       <div
         className={cn(
-          "relative w-full max-w-[80vw] aspect-video bg-black rounded-sm overflow-hidden shadow-2xl",
+          "relative w-full max-w-[80vw] aspect-video bg-black rounded-sm overflow-hidden shadow-2xl group",
           "md:max-w-[80vw]",
           "sm:max-w-[90vw]",
           "max-[480px]:max-w-[98vw]"
@@ -131,16 +154,31 @@ export function CampaignTrailer({
             className="absolute inset-0 size-full"
           />
         ) : (
-          <video
-            src={videoSrc}
-            poster={poster}
-            controls
-            autoPlay
-            className="absolute inset-0 size-full object-contain bg-black"
-            aria-label={title}
-          >
-            Tu navegador no soporta la reproducción de vídeo.
-          </video>
+          <>
+            <video
+              ref={videoRef}
+              src={videoSrc}
+              poster={poster}
+              controls
+              autoPlay
+              playsInline
+              onPlay={handleVideoPlay}
+              className="absolute inset-0 size-full object-contain bg-black"
+              aria-label={title}
+            >
+              Tu navegador no soporta la reproducción de vídeo.
+            </video>
+
+            {/* Fullscreen toggle (visible on hover) */}
+            <button
+              type="button"
+              onClick={handleManualFullscreen}
+              aria-label="Pantalla completa"
+              className="absolute bottom-4 right-4 z-10 size-9 flex items-center justify-center rounded-sm bg-black/50 text-white/70 hover:bg-black/70 hover:text-white transition-all opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+            >
+              <Maximize2 className="size-4" />
+            </button>
+          </>
         )}
       </div>
     </div>
