@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SelectionView } from "@/components/selection/selection-view";
-import { getActiveProducts } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Mi Selección",
@@ -9,6 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default async function SelectionPage() {
-  const products = await getActiveProducts();
-  return <SelectionView products={products} />;
+  return <SelectionView />;
 }

@@ -193,13 +193,17 @@ export interface Drop {
 
 // ─── SelectionItem ───────────────────────────────
 
+export type EntityType = "product" | "bundle" | "drop";
+
 export interface SelectionItem {
-  productId: string;
-  productName: string;
+  id: string;
+  entityId: string;
+  entityType: EntityType;
+  name: string;
   quantity: number;
   unitPrice: number;
-  productSlug?: string;
-  productImage?: string;
+  slug?: string;
+  image?: string;
 }
 
 // ─── SupportRequest ─────────────────────────────

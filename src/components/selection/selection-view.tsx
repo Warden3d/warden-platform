@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
 import { SelectionSummary } from "@/components/shared/selection-summary";
-import type { Product } from "@/types/warden";
+import type { SelectionItem } from "@/types/warden";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { WardenButton } from "@/components/ui/warden-button";
@@ -30,15 +30,13 @@ const QUERY_TYPES = [
   { value: "other", label: "Otro" },
 ] as const;
 
-function ProductThumbnail({ product }: { product?: Product }) {
-  const primaryImage = product?.images.find((img) => img.isPrimary);
-
-  if (primaryImage) {
+function ItemThumbnail({ item }: { item: SelectionItem }) {
+  if (item.image) {
     return (
       <div className="relative shrink-0 size-16 bg-warden-carbon border border-border overflow-hidden">
         <Image
-          src={primaryImage.url}
-          alt={primaryImage.alt || product?.name || "Producto"}
+          src={item.image}
+          alt={item.name}
           fill
           className="object-cover"
           sizes="64px"
@@ -47,7 +45,7 @@ function ProductThumbnail({ product }: { product?: Product }) {
     );
   }
 
-  const initials = product?.name
+  const initials = item.name
     .split(" ")
     .slice(0, 2)
     .map((w) => w[0])
@@ -61,18 +59,13 @@ function ProductThumbnail({ product }: { product?: Product }) {
   );
 }
 
-export function SelectionView({ products: catalogProducts }: { products: Product[] }) {
+export function SelectionView() {
   const { items, updateQuantity, removeItem, clearAll } = useSelection();
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-
-  const enriched = items.map((item) => {
-    const prod = catalogProducts.find((p) => p.id === item.productId);
-    return { ...item, product: prod };
-  });
 
   const subtotal = items.reduce(
     (sum, item) => sum + item.unitPrice * item.quantity,
@@ -222,34 +215,35 @@ export function SelectionView({ products: catalogProducts }: { products: Product
               </button>
             </div>
 
-            {enriched.map((item) => (
+            {items.map((item) => (
               <div
-                key={item.productId + (item.configKey ?? "")}
+                key={item.entityId + item.entityType}
                 className="flex items-start gap-4 border border-border bg-warden-surface p-4"
               >
-                <ProductThumbnail product={item.product} />
+                <ItemThumbnail item={item} />
 
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-semibold text-foreground">
-                    {item.product ? (
+                    {item.slug ? (
                       <Link
-                        href={`/products/${item.product.slug}`}
+                        href={
+                          item.entityType === "product"
+                            ? `/products/${item.slug}`
+                            : item.entityType === "bundle"
+                              ? `/bundles/${item.slug}`
+                              : `/drops/${item.slug}`
+                        }
                         className="hover:text-warden-blue transition-colors"
                       >
-                        {item.productName}
+                        {item.name}
                       </Link>
                     ) : (
-                      item.productName
+                      item.name
                     )}
                   </h3>
-                  {item.configLabel && (
-                    <p className="text-xs text-warden-blue mt-0.5 font-medium">
-                      {item.configLabel}
-                    </p>
-                  )}
-                  {!item.configLabel && item.product?.shortDescription && (
-                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-                      {item.product.shortDescription}
+                  {item.entityType !== "product" && (
+                    <p className="text-xs text-warden-ochre/70 mt-0.5 font-medium uppercase tracking-wider">
+                      {item.entityType === "bundle" ? "Bundle" : "Drop"}
                     </p>
                   )}
                   <p className="text-data text-foreground/80 mt-1">
@@ -265,7 +259,7 @@ export function SelectionView({ products: catalogProducts }: { products: Product
                     <button
                       type="button"
                       onClick={() =>
-                        updateQuantity(item.productId, item.quantity - 1, item.configKey)
+                        updateQuantity(item.entityId, item.entityType, item.quantity - 1)
                       }
                       className="size-7 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors"
                       aria-label="Reducir cantidad"
@@ -278,7 +272,7 @@ export function SelectionView({ products: catalogProducts }: { products: Product
                     <button
                       type="button"
                       onClick={() =>
-                        updateQuantity(item.productId, item.quantity + 1, item.configKey)
+                        updateQuantity(item.entityId, item.entityType, item.quantity + 1)
                       }
                       className="size-7 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors"
                       aria-label="Aumentar cantidad"
@@ -293,9 +287,9 @@ export function SelectionView({ products: catalogProducts }: { products: Product
 
                   <button
                     type="button"
-                    onClick={() => removeItem(item.productId, item.configKey)}
+                    onClick={() => removeItem(item.entityId, item.entityType)}
                     className="size-8 flex items-center justify-center text-muted-foreground hover:text-destructive transition-colors"
-                    aria-label={`Eliminar ${item.productName}`}
+                    aria-label={`Eliminar ${item.name}`}
                   >
                     <Trash2 className="size-4" />
                   </button>

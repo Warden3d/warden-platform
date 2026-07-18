@@ -23,27 +23,19 @@ export function ClientProductActions({
   const [quantity, setQuantity] = useState(1);
   const { selectedVariant, variants } = useProductConfig();
 
-  // Build config info from active variant
-  const hasVariants = variants.length > 1;
-  const configKey = hasVariants ? selectedVariant?.name?.toLowerCase() : undefined;
-  const configLabel = hasVariants && selectedVariant
-    ? `Acabado: ${selectedVariant.name}`
-    : undefined;
-
   return (
     <div className="grid grid-cols-2 gap-6">
       <QuantitySelector value={quantity} onChange={setQuantity} />
       <div className="flex items-end justify-end">
         <div className="w-48">
           <AddToSelectionButton
-            productId={productId}
-            productName={productName}
+            entityId={productId}
+            entityType="product"
+            name={productName}
             unitPrice={selectedVariant?.price ?? unitPrice}
-            productSlug={productSlug}
-            productImage={productImage}
+            slug={productSlug}
+            image={productImage}
             quantity={quantity}
-            configKey={configKey}
-            configLabel={configLabel}
             className="h-9 w-full text-sm"
           />
         </div>

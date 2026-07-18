@@ -14,7 +14,7 @@ import { ExpandableText } from "@/components/catalog/expandable-text";
 import { CollapsiblePanel } from "@/components/catalog/collapsible-panel";
 import { RelatedProductsSection } from "@/components/catalog/related-products-section";
 import { ProductHighlights } from "@/components/shared/product-highlights";
-import { AddProductsToSelection } from "@/components/catalog/add-products-to-selection";
+import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 import { CatalogProductCard } from "@/components/catalog/catalog-product-card";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ProductGallery } from "@/components/catalog/product-gallery";
@@ -122,27 +122,27 @@ export default async function BundleDetailPage({
 
             {/* ════ BLOQUE COMERCIAL ════ */}
             <div className="flex flex-col gap-5 pt-8">
-              {/* Precio + descuento */}
+              {/* Precio + ahorro en euros */}
               <div>
                 <span className="text-2xl font-semibold text-foreground tracking-tight">
                   {bundle.price.toFixed(2)} €
                 </span>
                 {totalIndividual > bundle.price && (
-                  <div className="mt-1 flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground/50 line-through">
-                      {totalIndividual.toFixed(2)} €
-                    </span>
-                    <span className="text-eyebrow text-warden-green">
-                      {bundle.discountLabel}
-                    </span>
-                  </div>
+                  <p className="mt-1 text-sm text-warden-green">
+                    Ahorra {(totalIndividual - bundle.price).toFixed(2)} € frente a la compra individual
+                  </p>
                 )}
               </div>
 
-              {/* CTA — Añadir bundle completo a Mi Selección */}
-              <AddProductsToSelection
-                products={bundleProducts}
-                label="Añadir bundle a Mi Selección"
+              {/* CTA — Añadir Bundle como entidad única */}
+              <AddToSelectionButton
+                entityId={bundle.id}
+                entityType="bundle"
+                name={bundle.name}
+                unitPrice={bundle.price}
+                slug={bundle.slug}
+                image={bundle.images.find((img) => img.isPrimary)?.url}
+                fullWidth
               />
 
               {/* Volver al catálogo */}

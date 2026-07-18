@@ -7,24 +7,16 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
+import type { SelectionItem, EntityType } from "@/types/warden";
 
-export interface SelectionItem {
-  productId: string;
-  productName: string;
-  unitPrice: number;
-  quantity: number;
-  productSlug?: string;
-  productImage?: string;
-  configKey?: string;
-  configLabel?: string;
-}
+export type { SelectionItem, EntityType };
 
 interface SelectionContextValue {
   items: SelectionItem[];
-  addItem: (item: SelectionItem) => void;
-  removeItem: (productId: string, configKey?: string) => void;
-  updateQuantity: (productId: string, quantity: number, configKey?: string) => void;
-  isSelected: (productId: string, configKey?: string) => boolean;
+  addItem: (item: Omit<SelectionItem, "id">) => void;
+  removeItem: (entityId: string, entityType: EntityType) => void;
+  updateQuantity: (entityId: string, entityType: EntityType, quantity: number) => void;
+  isSelected: (entityId: string, entityType: EntityType) => boolean;
   clearAll: () => void;
   itemCount: number;
 }
@@ -36,6 +28,7 @@ const STORAGE_KEY = "warden-selection";
 let cachedItems: SelectionItem[] = [];
 let listeners: (() => void)[] = [];
 let isInitialized = false;
+let idCounter = Date.now();
 
 function initStorage() {
   if (isInitialized || typeof window === "undefined") return;
@@ -45,7 +38,22 @@ function initStorage() {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed)) {
-        cachedItems = parsed;
+        // Migrate legacy items (old shape had productId instead of entityId)
+        cachedItems = parsed.map((item: Record<string, unknown>) => {
+          if ((item as Record<string, unknown>).productId && !(item as Record<string, unknown>).entityId) {
+            return {
+              id: ((item as Record<string, unknown>).id as string) ?? `legacy-${Date.now()}`,
+              entityId: (item as Record<string, unknown>).productId as string,
+              entityType: "product" as EntityType,
+              name: (item as Record<string, unknown>).productName as string,
+              quantity: (item as Record<string, unknown>).quantity as number,
+              unitPrice: (item as Record<string, unknown>).unitPrice as number,
+              slug: (item as Record<string, unknown>).productSlug as string | undefined,
+              image: (item as Record<string, unknown>).productImage as string | undefined,
+            } satisfies SelectionItem;
+          }
+          return item as unknown as SelectionItem;
+        });
       }
     }
   } catch {
@@ -84,16 +92,16 @@ function getServerSnapshot(): SelectionItem[] {
   return [];
 }
 
-/** Build a composite key from productId + optional configKey */
-function itemMatch(a: SelectionItem, b: { productId: string; configKey?: string }) {
-  return a.productId === b.productId && (a.configKey ?? "") === (b.configKey ?? "");
+function itemMatch(a: SelectionItem, b: { entityId: string; entityType: EntityType }) {
+  return a.entityId === b.entityId && a.entityType === b.entityType;
 }
 
 export function SelectionProvider({ children }: { children: ReactNode }) {
   const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  const addItem = useCallback((item: SelectionItem) => {
+  const addItem = useCallback((item: Omit<SelectionItem, "id">) => {
     const current = getSnapshot();
+    const id = `sel-${++idCounter}`;
     const existing = current.find((i) => itemMatch(i, item));
     if (existing) {
       cachedItems = current.map((i) =>
@@ -102,16 +110,16 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
           : i
       );
     } else {
-      cachedItems = [...current, item];
+      cachedItems = [...current, { ...item, id }];
     }
     saveToStorage(cachedItems);
     emitChange();
   }, []);
 
   const removeItem = useCallback(
-    (productId: string, configKey?: string) => {
+    (entityId: string, entityType: EntityType) => {
       cachedItems = getSnapshot().filter(
-        (i) => !itemMatch(i, { productId, configKey })
+        (i) => !itemMatch(i, { entityId, entityType })
       );
       saveToStorage(cachedItems);
       emitChange();
@@ -120,15 +128,15 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
   );
 
   const updateQuantity = useCallback(
-    (productId: string, quantity: number, configKey?: string) => {
+    (entityId: string, entityType: EntityType, quantity: number) => {
       const current = getSnapshot();
       if (quantity <= 0) {
         cachedItems = current.filter(
-          (i) => !itemMatch(i, { productId, configKey })
+          (i) => !itemMatch(i, { entityId, entityType })
         );
       } else {
         cachedItems = current.map((i) =>
-          itemMatch(i, { productId, configKey }) ? { ...i, quantity } : i
+          itemMatch(i, { entityId, entityType }) ? { ...i, quantity } : i
         );
       }
       saveToStorage(cachedItems);
@@ -138,8 +146,8 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
   );
 
   const isSelected = useCallback(
-    (productId: string, configKey?: string) =>
-      items.some((i) => itemMatch(i, { productId, configKey })),
+    (entityId: string, entityType: EntityType) =>
+      items.some((i) => itemMatch(i, { entityId, entityType })),
     [items]
   );
 

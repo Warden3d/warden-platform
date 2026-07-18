@@ -10,7 +10,6 @@ import {
 } from "@/lib/data";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
-import { AddProductsToSelection } from "@/components/catalog/add-products-to-selection";
 import { WardenButton } from "@/components/ui/warden-button";
 import {
   ArrowLeft,
@@ -213,9 +212,13 @@ export default async function DropDetailPage({
             {/* CTA for live drops */}
             {isLive && (
               <div className="mt-6">
-                <AddProductsToSelection
-                  products={dropProducts}
-                  label="Añadir productos del drop"
+                <AddToSelectionButton
+                  entityId={drop.id}
+                  entityType="drop"
+                  name={drop.name}
+                  unitPrice={0}
+                  slug={drop.slug}
+                  fullWidth
                 />
               </div>
             )}
@@ -372,11 +375,12 @@ export default async function DropDetailPage({
                       </WardenButton>
                       <div className="ml-auto">
                         <AddToSelectionButton
-                          productId={product.id}
-                          productName={product.name}
+                          entityId={product.id}
+                          entityType="product"
+                          name={product.name}
                           unitPrice={product.price}
-                          productSlug={product.slug}
-                          productImage={primaryImage?.url}
+                          slug={product.slug}
+                          image={primaryImage?.url}
                           size="sm"
                         />
                       </div>
@@ -397,9 +401,13 @@ export default async function DropDetailPage({
         {/* CTA footer */}
         <div className="border-t border-border pt-8 flex flex-wrap gap-3">
           {isLive && (
-            <AddProductsToSelection
-              products={dropProducts}
-              label="Añadir productos del drop"
+            <AddToSelectionButton
+              entityId={drop.id}
+              entityType="drop"
+              name={drop.name}
+              unitPrice={0}
+              slug={drop.slug}
+              fullWidth
             />
           )}
           <WardenButton href="/catalog" variant="outline">

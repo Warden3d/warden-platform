@@ -3,30 +3,29 @@
 import { cn } from "@/lib/utils";
 import { useSelection } from "@/hooks/use-selection";
 import { Plus } from "lucide-react";
+import type { EntityType } from "@/types/warden";
 
 export function AddToSelectionButton({
-  productId,
-  productName,
+  entityId,
+  entityType = "product",
+  name,
   unitPrice,
-  productSlug,
-  productImage,
+  slug,
+  image,
   size = "default",
   fullWidth = false,
   quantity = 1,
-  configKey,
-  configLabel,
   className,
 }: {
-  productId: string;
-  productName: string;
+  entityId: string;
+  entityType?: EntityType;
+  name: string;
   unitPrice: number;
-  productSlug?: string;
-  productImage?: string;
+  slug?: string;
+  image?: string;
   size?: "default" | "sm";
   fullWidth?: boolean;
   quantity?: number;
-  configKey?: string;
-  configLabel?: string;
   className?: string;
 }) {
   const { addItem } = useSelection();
@@ -38,17 +37,16 @@ export function AddToSelectionButton({
         e.preventDefault();
         e.stopPropagation();
         addItem({
-          productId,
-          productName,
+          entityId,
+          entityType,
+          name,
           unitPrice,
           quantity,
-          configKey,
-          configLabel,
-          productSlug,
-          productImage,
+          slug,
+          image,
         });
       }}
-      aria-label={`Añadir ${productName} a Mi Selección`}
+      aria-label={`Añadir ${name} a Mi Selección`}
       className={cn(
         "inline-flex items-center justify-center gap-2 rounded-sm font-medium transition-all duration-150 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50 focus-visible:ring-offset-1 focus-visible:ring-offset-warden-carbon bg-warden-blue text-warden-carbon hover:bg-warden-blue/90",
         size === "default"

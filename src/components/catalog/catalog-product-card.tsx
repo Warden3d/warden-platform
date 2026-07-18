@@ -22,11 +22,12 @@ export function CatalogProductCard({
       procedence={procedence}
       actions={
         <AddToSelectionButton
-          productId={product.id}
-          productName={product.name}
+          entityId={product.id}
+          entityType="product"
+          name={product.name}
           unitPrice={product.price}
-          productSlug={product.slug}
-          productImage={primaryImage?.url}
+          slug={product.slug}
+          image={primaryImage?.url}
           size="sm"
         />
       }

@@ -768,10 +768,13 @@ export interface SelectionRequestInput {
   queryType: string;
   message: string;
   selections: Array<{
-    productId: string;
-    productName: string;
+    entityId: string;
+    entityType: string;
+    name: string;
     quantity: number;
     unitPrice: number;
+    slug?: string;
+    image?: string;
   }>;
 }
 

@@ -28,10 +28,13 @@ export async function submitSelection(
   if (!message || message.length < 5) errors.message = ["Message is required."];
 
   let selections: Array<{
-    productId: string;
-    productName: string;
+    entityId: string;
+    entityType: string;
+    name: string;
     quantity: number;
     unitPrice: number;
+    slug?: string;
+    image?: string;
   }> = [];
 
   try {
