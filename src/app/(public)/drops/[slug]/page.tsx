@@ -302,9 +302,6 @@ export default async function DropDetailPage({
                 const compatSystem = compatibilitySystems.find(
                   (c) => c.id === product.compatibilityId
                 );
-                const primaryImage = product.images.find(
-                  (img) => img.isPrimary
-                );
 
                 return (
                   <div
@@ -328,15 +325,6 @@ export default async function DropDetailPage({
                           />
                         )}
                       </div>
-                      <span
-                        className={`text-data shrink-0 ${
-                          isEnded
-                            ? "text-muted-foreground/50"
-                            : "text-foreground/80"
-                        }`}
-                      >
-                        ${product.price.toFixed(2)}
-                      </span>
                     </div>
 
                     <Link
@@ -364,7 +352,7 @@ export default async function DropDetailPage({
                       {product.shortDescription}
                     </p>
 
-                    <div className="mt-4 pt-3 border-t border-border flex items-center gap-2">
+                    <div className="mt-4 pt-3 border-t border-border">
                       <WardenButton
                         variant="ghost"
                         size="sm"
@@ -373,17 +361,6 @@ export default async function DropDetailPage({
                         Ver producto
                         <ArrowUpRight className="size-3" />
                       </WardenButton>
-                      <div className="ml-auto">
-                        <AddToSelectionButton
-                          entityId={product.id}
-                          entityType="product"
-                          name={product.name}
-                          unitPrice={product.price}
-                          slug={product.slug}
-                          image={primaryImage?.url}
-                          size="sm"
-                        />
-                      </div>
                     </div>
                   </div>
                 );
@@ -398,23 +375,11 @@ export default async function DropDetailPage({
           )}
         </div>
 
-        {/* CTA footer */}
+        {/* Navegación inferior */}
         <div className="border-t border-border pt-8 flex flex-wrap gap-3">
-          {isLive && (
-            <AddToSelectionButton
-              entityId={drop.id}
-              entityType="drop"
-              name={drop.name}
-              unitPrice={0}
-              slug={drop.slug}
-              fullWidth
-            />
-          )}
-          <WardenButton href="/catalog" variant="outline">
-            Explorar catálogo
-          </WardenButton>
           <WardenButton href="/drops" variant="ghost">
-            Ver todos los drops
+            <ArrowLeft className="size-4" />
+            Ver todos los Drops
           </WardenButton>
         </div>
       </Container>
