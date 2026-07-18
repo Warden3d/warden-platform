@@ -139,6 +139,8 @@ function ActiveCampaignLanding({
         title={activeDrop.name}
         subtitle={activeDrop.description}
         imageUrl={heroImage}
+        ctaLabel="Ir a la PDP Comercial"
+        ctaHref={`/drops/${activeDrop.slug}`}
         theme={activeDrop.theme ?? undefined}
       />
 
