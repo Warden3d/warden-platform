@@ -7,17 +7,16 @@ import {
   getActiveProducts,
   getCompatibilitySystems,
 } from "@/lib/data";
-import type { Drop, CompatibilitySystem, ProductImage, Product } from "@/types/warden";
+import type { Drop, CompatibilitySystem, ProductImage } from "@/types/warden";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
-import { ChevronRight, Timer, Layers, Sparkles, Crosshair } from "lucide-react";
+import { ChevronRight, Timer, Layers } from "lucide-react";
 import Image from "next/image";
 
 // ── Campaign blocks ────────────────────────────
 import {
   CampaignHero,
   CampaignStoryBlock,
-  CampaignFeatureBlock,
   CampaignGallery,
   CampaignCta,
 } from "@/components/campaign";
@@ -39,11 +38,9 @@ function formatDate(iso: string) {
 // ── Compact DropCard for secondary listing ─────
 function CompactDropCard({
   drop,
-  compatSystems,
   variant,
 }: {
   drop: Drop;
-  compatSystems: CompatibilitySystem[];
   variant: "live" | "upcoming" | "ended";
 }) {
   const isMuted = variant === "ended";
@@ -108,22 +105,6 @@ function CompactDropCard({
 }
 
 // ── Drop data helpers ──────────────────────────
-function getDropCompatSystems(
-  drop: Drop,
-  fetchedProducts: Product[],
-  compatibilitySystems: CompatibilitySystem[]
-): CompatibilitySystem[] {
-  const dropProducts = fetchedProducts.filter((p) =>
-    drop.productIds.includes(p.id)
-  );
-  const compatIds = [
-    ...new Set(dropProducts.map((p) => p.compatibilityId)),
-  ];
-  return compatIds
-    .map((id) => compatibilitySystems.find((c) => c.id === id))
-    .filter(Boolean) as CompatibilitySystem[];
-}
-
 function getAllDropImages(drop: Drop, products: Array<{ id: string; images: ProductImage[] }>): Array<{ url: string; alt: string }> {
   const dropProducts = products.filter((p) => drop.productIds.includes(p.id));
   const images: Array<{ url: string; alt: string }> = [];
@@ -147,25 +128,9 @@ function ActiveCampaignLanding({
 }) {
   const productCount = featuredProducts.length;
   const allImages = getAllDropImages(activeDrop, featuredProducts);
-
-  // Feature items based on available data
-  const features = [
-    {
-      icon: <Crosshair className="size-4" />,
-      title: "Edición limitada",
-      description: `Campaña con ${productCount} producto${productCount !== 1 ? "s" : ""} exclusivo${productCount !== 1 ? "s" : ""}. Disponible durante la ventana del lanzamiento.`,
-    },
-    {
-      icon: <Sparkles className="size-4" />,
-      title: activeDrop.theme ?? "Temática exclusiva",
-      description: `Sumérgete en una experiencia única con esta colección de productos seleccionados para esta campaña.`,
-    },
-    {
-      icon: <Layers className="size-4" />,
-      title: "Acceso al catálogo",
-      description: "Todos los productos estarán disponibles en el catálogo general tras finalizar la campaña.",
-    },
-  ];
+  const heroImage = activeDrop.thumbnailUrl || undefined;
+  const scenarioImage =
+    featuredProducts[0]?.images.find((img) => img.isPrimary)?.url || heroImage;
 
   return (
     <>
@@ -173,41 +138,73 @@ function ActiveCampaignLanding({
       <CampaignHero
         title={activeDrop.name}
         subtitle={activeDrop.description}
-        imageUrl={activeDrop.thumbnailUrl || undefined}
-        ctaHref={`/drops/${activeDrop.slug}`}
-        ctaLabel="Ir a la PDP Comercial"
+        imageUrl={heroImage}
         theme={activeDrop.theme ?? undefined}
       />
 
-      {/* ── PRESENTACIÓN ── */}
+      {/* ── PRESENTACIÓN — gran formato visual ── */}
       <CampaignStoryBlock
         eyebrow="Lanzamiento"
         title={activeDrop.name}
-        body={activeDrop.description}
-        body2={`Una campaña con ${productCount} producto${productCount !== 1 ? "s" : ""} diseñado${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas. Cada producto refleja la identidad y el espíritu de esta edición limitada.`}
+        body={`${productCount} producto${productCount !== 1 ? "s" : ""} exclusivo${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas.`}
+        visual={
+          heroImage ? (
+            <div className="relative w-full aspect-[4/3] overflow-hidden border border-border">
+              <Image
+                src={heroImage}
+                alt={activeDrop.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+          ) : undefined
+        }
+        className="py-12 md:py-16"
       />
 
-      {/* ── ESCENARIO / HIGHLIGHTS ── */}
-      <CampaignFeatureBlock
-        eyebrow="Escenario"
-        title="Sobre esta campaña"
-        features={features}
+      {/* ── ESCENARIO — gran formato visual ── */}
+      <CampaignStoryBlock
+        eyebrow="El escenario"
+        title={activeDrop.theme ?? "Una experiencia única"}
+        body="Sumérgete en una campaña de edición limitada. Cada pieza ha sido seleccionada para contar una historia."
+        visual={
+          scenarioImage ? (
+            <div className="relative w-full aspect-[4/3] overflow-hidden border border-border">
+              <Image
+                src={scenarioImage}
+                alt={activeDrop.theme ?? activeDrop.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+          ) : undefined
+        }
+        visualPosition="left"
+        className="py-12 md:py-16 bg-warden-surface/30"
       />
+
+      {/* ── GALERÍA ── */}
+      {allImages.length > 0 && (
+        <CampaignGallery
+          images={allImages}
+          columns={Math.min(allImages.length as 2 | 3 | 4, 3) as 2 | 3 | 4}
+          className="py-12 md:py-16"
+        />
+      )}
 
       {/* ── CONTENIDO DEL DROP ── */}
       {featuredProducts.length > 0 && (
-        <section className="py-16 md:py-24 bg-warden-surface/30">
+        <section className="py-14 md:py-20 bg-warden-surface/30">
           <Container>
-            <div className="max-w-3xl mb-10">
+            <div className="max-w-3xl mb-8">
               <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre/70 mb-3">
                 Contenido
               </p>
               <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl leading-tight text-foreground">
                 Productos incluidos
               </h2>
-              <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-                {productCount} producto{productCount !== 1 ? "s" : ""} disponible{productCount !== 1 ? "s" : ""} en esta campaña.
-              </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -222,7 +219,6 @@ function ActiveCampaignLanding({
                     key={product.id}
                     className="border border-border bg-warden-surface p-5 flex flex-col"
                   >
-                    {/* Image placeholder */}
                     {primaryImage && (
                       <div className="relative w-full aspect-square mb-3 overflow-hidden border border-border bg-warden-carbon">
                         <Image
@@ -279,22 +275,13 @@ function ActiveCampaignLanding({
         </section>
       )}
 
-      {/* ── GALERÍA ── */}
-      {allImages.length > 0 && (
-        <CampaignGallery
-          eyebrow="Galería"
-          title="Imágenes de la campaña"
-          images={allImages}
-          columns={Math.min(allImages.length as 2 | 3 | 4, 3) as 2 | 3 | 4}
-        />
-      )}
-
-      {/* ── CTA → PDP ── */}
+      {/* ── CTA FINAL ── */}
       <CampaignCta
-        title={`Consigue ${activeDrop.name}`}
-        description="Accede a la ficha comercial del drop para configurar tu selección y solicitar presupuesto."
+        title={activeDrop.name}
+        description="Accede a la ficha comercial para configurar tu selección y solicitar presupuesto."
         ctaLabel="Ir a la PDP Comercial"
         ctaHref={`/drops/${activeDrop.slug}`}
+        className="py-14 md:py-20"
       />
     </>
   );
@@ -349,7 +336,6 @@ export default async function DropsPage() {
                         <CompactDropCard
                           key={drop.id}
                           drop={drop}
-                          compatSystems={getDropCompatSystems(drop, products, compatibilitySystems)}
                           variant="upcoming"
                         />
                       ))}
@@ -369,7 +355,6 @@ export default async function DropsPage() {
                       <CompactDropCard
                         key={drop.id}
                         drop={drop}
-                        compatSystems={getDropCompatSystems(drop, products, compatibilitySystems)}
                         variant="ended"
                       />
                     ))}
@@ -451,7 +436,7 @@ export default async function DropsPage() {
                     <CompactDropCard
                       key={drop.id}
                       drop={drop}
-                      compatSystems={getDropCompatSystems(drop, products, compatibilitySystems)}
+
                       variant="ended"
                     />
                   ))}
