@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { CampaignHero } from "@/components/campaign/campaign-hero";
 import { CampaignTrailer } from "@/components/campaign/campaign-trailer";
 
@@ -17,12 +17,11 @@ interface HeroWithTrailerProps {
   trailerPoster?: string;
 }
 
+const TRAILER_OPEN_DELAY = 200; // ms — matches the CSS transition + gives time for button feedback
+
 /**
- * HeroWithTrailer — Combines CampaignHero + CampaignTrailer state.
- *
- * Renders the hero with a "▶ Trailer" button that opens a video modal.
- * The trailer video is lazy-loaded (only fetched when user clicks play).
- * All hero props pass through to CampaignHero.
+ * HeroWithTrailer — Combines CampaignHero + CampaignTrailer state
+ * with a micro-interaction on the trailer button.
  */
 export function HeroWithTrailer({
   title,
@@ -35,6 +34,46 @@ export function HeroWithTrailer({
   trailerPoster,
 }: HeroWithTrailerProps) {
   const [trailerOpen, setTrailerOpen] = useState(false);
+  const [trailerClicked, setTrailerClicked] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const handleTrailerClick = useCallback(() => {
+    if (!trailerSrc) return;
+
+    if (reducedMotion) {
+      // No animation — open immediately
+      setTrailerOpen(true);
+      return;
+    }
+
+    // 1. Button feedback (CSS transition handles the scale)
+    setTrailerClicked(true);
+
+    // 2. Brief delay for the button animation to play, then open trailer
+    timeoutRef.current = setTimeout(() => {
+      setTrailerOpen(true);
+      // Reset button state after the trailer is open
+      requestAnimationFrame(() => setTrailerClicked(false));
+    }, TRAILER_OPEN_DELAY);
+  }, [trailerSrc, reducedMotion]);
+
+  // ── Cleanup timeout on unmount ──
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   return (
     <>
@@ -45,7 +84,8 @@ export function HeroWithTrailer({
         ctaLabel={ctaLabel}
         ctaHref={ctaHref}
         theme={theme}
-        onTrailerClick={trailerSrc ? () => setTrailerOpen(true) : undefined}
+        trailerClicked={trailerClicked}
+        onTrailerClick={trailerSrc ? handleTrailerClick : undefined}
       />
 
       {trailerSrc && (

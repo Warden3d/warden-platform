@@ -16,6 +16,8 @@ interface CampaignHeroProps {
   trailerLabel?: string;
   /** Callback when the trailer button is clicked. Opens the CampaignTrailer modal. */
   onTrailerClick?: () => void;
+  /** Whether the trailer button has been clicked (triggers micro-animation). Managed by HeroWithTrailer. */
+  trailerClicked?: boolean;
   theme?: string;
   className?: string;
 }
@@ -45,6 +47,7 @@ export function CampaignHero({
   ctaHref,
   trailerLabel = "▶ Trailer",
   onTrailerClick,
+  trailerClicked,
   theme,
   className,
 }: CampaignHeroProps) {
@@ -112,7 +115,11 @@ export function CampaignHero({
                 variant="outline"
                 size="lg"
                 onClick={onTrailerClick}
-                className="border-white/20 text-white hover:bg-white/10 hover:border-white/40"
+                className={cn(
+                  "border-white/20 text-white hover:bg-white/10 hover:border-white/40",
+                  "transition-[transform,background,border-color] duration-100 ease-in-out",
+                  trailerClicked && "scale-[0.97]"
+                )}
               >
                 {trailerLabel}
               </WardenButton>

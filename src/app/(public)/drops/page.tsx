@@ -15,10 +15,14 @@ import Image from "next/image";
 
 // ── Campaign blocks ────────────────────────────
 import {
-  CampaignStoryBlock,
   CampaignGallery,
   CampaignCta,
   HeroWithTrailer,
+  CampaignStorySection,
+  CampaignScenarioSection,
+  CampaignDesignSection,
+  CampaignCommunitySection,
+  CampaignDevelopmentSection,
 } from "@/components/campaign";
 
 export const metadata: Metadata = {
@@ -146,47 +150,81 @@ function ActiveCampaignLanding({
         trailerPoster={heroImage}
       />
 
-      {/* ── PRESENTACIÓN — gran formato visual ── */}
-      <CampaignStoryBlock
+      {/* ── STORY — presentación de la campaña ── */}
+      <CampaignStorySection
         eyebrow="Lanzamiento"
         title={activeDrop.name}
         body={`${productCount} producto${productCount !== 1 ? "s" : ""} exclusivo${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas.`}
-        visual={
-          heroImage ? (
-            <div className="relative w-full aspect-video overflow-hidden border border-border">
-              <Image
-                src={heroImage}
-                alt={activeDrop.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-          ) : undefined
-        }
-        className="py-10 md:py-12"
+        placeholder
       />
 
-      {/* ── ESCENARIO — gran formato visual ── */}
-      <CampaignStoryBlock
+      {/* ── SCENARIO — contexto del proyecto ── */}
+      <CampaignScenarioSection
         eyebrow="El escenario"
         title={activeDrop.theme ?? "Una experiencia única"}
         body="Sumérgete en una campaña de edición limitada. Cada pieza ha sido seleccionada para contar una historia."
-        visual={
-          scenarioImage ? (
-            <div className="relative w-full aspect-video overflow-hidden border border-border">
-              <Image
-                src={scenarioImage}
-                alt={activeDrop.theme ?? activeDrop.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-          ) : undefined
-        }
-        visualPosition="left"
-        className="py-10 md:py-12 bg-warden-surface/30"
+        imageUrl={scenarioImage}
+        imageAlt={activeDrop.theme ?? activeDrop.name}
+        imagePosition="left"
+        placeholder
+      />
+
+      {/* ── DESIGN — proceso de diseño ── */}
+      <CampaignDesignSection
+        eyebrow="Diseño"
+        title="Exploración de producto"
+        description="Renders y fotografías conceptuales del proceso de diseño. [Contenido provisional — se sustituirá por el material definitivo de la campaña.]"
+        items={featuredProducts.slice(0, 6).map((p) => ({
+          imageUrl: p.images.find((img) => img.isPrimary)?.url ?? "",
+          imageAlt: p.name,
+          caption: p.name,
+        }))}
+        placeholder
+      />
+
+      {/* ── COMMUNITY — comunidad ── */}
+      <CampaignCommunitySection
+        eyebrow="Comunidad"
+        title="Hecho para la comunidad"
+        description="Colabora con otros coleccionistas y comparte tu experiencia. [Sección preparada para futuras campañas participativas.]"
+        testimonials={[
+          {
+            quote: "Contenido placeholder — aquí aparecerán testimonios reales de la comunidad cuando la campaña esté activa.",
+            author: "Usuario WARDEN",
+            role: "Coleccionista",
+          },
+          {
+            quote: "Las campañas de edición limitada de WARDEN ofrecen una experiencia única para los aficionados a BattleTech.",
+            author: "Usuario WARDEN",
+            role: "Coleccionista",
+          },
+        ]}
+        placeholder
+      />
+
+      {/* ── DEVELOPMENT — proceso de creación ── */}
+      <CampaignDevelopmentSection
+        eyebrow="Desarrollo"
+        title="Proceso de creación"
+        description="Cronología provisional del desarrollo. Será sustituida por la línea de tiempo real de la campaña."
+        entries={[
+          {
+            date: "Fase 1 — placeholder",
+            title: "Concepto y diseño inicial",
+            description: "Datos provisionales. Aquí se describirá el proceso real de diseño y desarrollo de la campaña.",
+          },
+          {
+            date: "Fase 2 — placeholder",
+            title: "Prototipado y pruebas",
+            description: "Datos provisionales. Se detallarán las iteraciones de prototipado, pruebas de ajuste y validación de materiales.",
+          },
+          {
+            date: "Fase 3 — placeholder",
+            title: "Producción y lanzamiento",
+            description: "Datos provisionales. Información sobre el proceso de producción, control de calidad y preparación del lanzamiento.",
+          },
+        ]}
+        placeholder
       />
 
       {/* ── GALERÍA ── */}

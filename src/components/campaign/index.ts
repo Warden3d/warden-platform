@@ -5,3 +5,8 @@ export { CampaignGallery } from "./campaign-gallery";
 export { CampaignCta } from "./campaign-cta";
 export { CampaignTrailer } from "./campaign-trailer";
 export { HeroWithTrailer } from "./hero-with-trailer";
+export { CampaignStorySection } from "./campaign-story-section";
+export { CampaignScenarioSection } from "./campaign-scenario-section";
+export { CampaignDesignSection } from "./campaign-design-section";
+export { CampaignCommunitySection } from "./campaign-community-section";
+export { CampaignDevelopmentSection } from "./campaign-development-section";
