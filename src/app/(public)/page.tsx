@@ -1,24 +1,32 @@
-import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
-import { getActiveProducts } from "@/lib/data";
+import { getActiveProducts, getDrops } from "@/lib/data";
 
 import { ProductCard } from "@/components/catalog/product-card";
 import { WardenButton } from "@/components/ui/warden-button";
-import { DataPanel, DataRow } from "@/components/shared/data-panel";
 import { VideoHero } from "@/components/layout/video-hero";
 
-import { ChevronRight, ArrowUpRight, Gauge, Box, Shield } from "lucide-react";
+import { ChevronRight, CalendarDays, Timer } from "lucide-react";
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("es-ES", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 export default async function Home() {
   const t = await getTranslations("home");
   const c = await getTranslations("common");
   const products = await getActiveProducts();
   const featuredProducts = products.filter((p) => p.featured);
+  const [drops] = await Promise.all([getDrops()]);
+  const latestDrop = drops.find((d) => d.status === "live") ?? drops.find((d) => d.status === "upcoming") ?? null;
 
   return (
     <>
-      {/* ── HERO (video background) ── */}
+      {/* ── 1. HERO ── */}
       <VideoHero>
         <Container>
           <div className="py-24 md:py-32 lg:py-36 max-w-4xl">
@@ -38,202 +46,18 @@ export default async function Home() {
                 {t("exploreCollections")}
                 <ChevronRight className="size-4" />
               </WardenButton>
-              <WardenButton href="/about" variant="outline">
+              <WardenButton href="/drops" variant="outline">
                 {t("ourApproach")}
-              </WardenButton>
-              <WardenButton href="/selection" variant="ghost">
-                {t("goToMySelection")}
-                <ArrowUpRight className="size-3.5" />
               </WardenButton>
             </div>
           </div>
         </Container>
       </VideoHero>
 
-      {/* ── WHAT IS WARDEN ── */}
+      {/* ── 2. THREE RULES WE NEVER BREAK ── */}
       <Section>
         <Container>
-          <div className="max-w-3xl">
-            <Eyebrow className="text-warden-blue">{t("identityEyebrow")}</Eyebrow>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              {t("identityTitle")}
-            </h2>
-            <p className="mt-6 text-base text-muted-foreground leading-relaxed">
-              {t("identityP1")}
-            </p>
-            <p className="mt-4 text-base text-muted-foreground leading-relaxed font-medium">
-              {t("identityP2")}
-            </p>
-            <p className="mt-4 text-base text-muted-foreground leading-relaxed">
-              {t("identityP3")}
-            </p>
-            <p className="mt-4 text-base text-muted-foreground leading-relaxed">
-              {t("identityP4")}
-            </p>
-            <p className="mt-6 text-data text-warden-blue text-center">
-              <em>{t("identityQuestion")}</em>
-            </p>
-          </div>
-        </Container>
-      </Section>
-
-      <SectionDivider />
-
-      {/* ── VALUES CARDS ── */}
-      <Section>
-        <Container>
-          <div className="grid gap-px bg-border sm:grid-cols-3">
-            <div className="bg-warden-carbon p-8">
-              <span className="text-data text-warden-blue mb-4 block">01</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
-                {t("value1Title")}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t("value1Desc")}
-              </p>
-            </div>
-            <div className="bg-warden-carbon p-8">
-              <span className="text-data text-warden-green mb-4 block">02</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
-                {t("value2Title")}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t("value2Desc")}
-              </p>
-            </div>
-            <div className="bg-warden-carbon p-8">
-              <span className="text-data text-warden-ochre mb-4 block">03</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
-                {t("value3Title")}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t("value3Desc")}
-              </p>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      <SectionDivider />
-
-      {/* ── ACCESS BLOCKS ── */}
-      <Section>
-        <Container>
-          <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-4">
-            {/* Warden Core */}
-            <Link
-              href="/catalog?collection=col-warden-core"
-              className="group bg-warden-carbon p-6 transition-colors hover:bg-warden-surface"
-            >
-              <Shield className="size-5 text-warden-ochre mb-5" />
-              <Eyebrow>{t("wardenCore.eyebrow")}</Eyebrow>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-warden-blue transition-colors">
-                {t("wardenCore.title")}
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                {t("wardenCore.desc")}
-              </p>
-              <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-warden-blue uppercase tracking-wider">
-                {c("viewCollection")} <ChevronRight className="size-3" />
-              </span>
-            </Link>
-
-            {/* Licensed Universes */}
-            <Link
-              href="/catalog?collection=col-licenses"
-              className="group bg-warden-carbon p-6 transition-colors hover:bg-warden-surface"
-            >
-              <Gauge className="size-5 text-warden-green mb-5" />
-              <Eyebrow>{t("licensedUniverses.eyebrow")}</Eyebrow>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-warden-green transition-colors">
-                {t("licensedUniverses.title")}
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                {t("licensedUniverses.desc")}
-              </p>
-              <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-warden-green uppercase tracking-wider">
-                {c("learnMore")} <ChevronRight className="size-3" />
-              </span>
-            </Link>
-
-            {/* Bundles */}
-            <Link
-              href="/bundles"
-              className="group bg-warden-carbon p-6 transition-colors hover:bg-warden-surface"
-            >
-              <Box className="size-5 text-warden-blue mb-5" />
-              <Eyebrow>{t("bundles.eyebrow")}</Eyebrow>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-warden-blue transition-colors">
-                {t("bundles.title")}
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                {t("bundles.desc")}
-              </p>
-              <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-warden-blue uppercase tracking-wider">
-                {c("viewBundles")} <ChevronRight className="size-3" />
-              </span>
-            </Link>
-
-            {/* Community Support */}
-            <Link
-              href="/community-support"
-              className="group bg-warden-carbon p-6 transition-colors hover:bg-warden-surface"
-            >
-              <svg
-                className="size-5 text-muted-foreground mb-5 group-hover:text-foreground transition-colors"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              <Eyebrow>{t("communitySupport.eyebrow")}</Eyebrow>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-foreground transition-colors">
-                {t("communitySupport.title")}
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                {t("communitySupport.desc")}
-              </p>
-              <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground uppercase tracking-wider group-hover:text-foreground transition-colors">
-                {c("getSupport")} <ChevronRight className="size-3" />
-              </span>
-            </Link>
-          </div>
-        </Container>
-      </Section>
-
-      <SectionDivider />
-
-      {/* ── FEATURED PRODUCTS ── */}
-      <Section>
-        <Container>
-          <div className="mb-12">
-            <Eyebrow>{t("featuredEyebrow")}</Eyebrow>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              {t("featuredTitle")}
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-              {t("featuredDesc")}
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} variant="compact" />
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      <SectionDivider />
-
-      {/* ── DESIGN PRINCIPLES ── */}
-      <Section>
-        <Container>
-          <div className="mb-12">
+          <div className="mb-10">
             <Eyebrow className="text-warden-blue">{t("designPrinciplesEyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
               {t("designPrinciplesTitle")}
@@ -274,39 +98,78 @@ export default async function Home() {
 
       <SectionDivider />
 
-      {/* ── SYSTEMS ── */}
+      {/* ── 3. FEATURED PRODUCTS ── */}
       <Section>
         <Container>
-          <div className="mb-12">
-            <Eyebrow>{t("systemsEyebrow")}</Eyebrow>
+          <div className="mb-8">
+            <Eyebrow>{t("featuredEyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              {t("systemsTitle")}
+              {t("featuredTitle")}
             </h2>
           </div>
-
-          <div className="grid gap-6 sm:grid-cols-3">
-            <DataPanel label="BattleTech Classic" className="border-warden-ochre/20">
-              <DataRow label="Scale" value="1 hex = 30 m" />
-              <DataRow label="Units" value="Lance / Company" />
-              <DataRow label="Tools" value="4 products" />
-            </DataPanel>
-            <DataPanel label="Alpha Strike" className="border-warden-blue/20">
-              <DataRow label="Scale" value="Abstract" />
-              <DataRow label="Units" value="Company / Battalion" />
-              <DataRow label="Tools" value="1 product" />
-            </DataPanel>
-            <DataPanel label="AeroTech" className="border-warden-green/20">
-              <DataRow label="Scale" value="Atmospheric / Space" />
-              <DataRow label="Units" value="Fighter / Squadron" />
-              <DataRow label="Tools" value="2 products" />
-            </DataPanel>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} variant="compact" />
+            ))}
+          </div>
+          <div className="mt-6">
+            <WardenButton href="/catalog" variant="outline">
+              {c("viewCollection")} <ChevronRight className="size-4" />
+            </WardenButton>
           </div>
         </Container>
       </Section>
 
       <SectionDivider />
 
-      {/* ── HOW IT WORKS ── */}
+      {/* ── 4. LATEST DROP (placeholder) ── */}
+      <Section>
+        <Container>
+          {latestDrop ? (
+            <div className="border border-border bg-warden-surface p-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre/70 mb-2">
+                  {latestDrop.status === "live" ? "Drop activo" : "Próximo drop"}
+                </p>
+                <h3 className="text-xl font-semibold tracking-tight text-foreground">
+                  {latestDrop.name}
+                </h3>
+                <p className="mt-1.5 text-sm text-muted-foreground max-w-xl">
+                  {latestDrop.description}
+                </p>
+                <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
+                  <span className="inline-flex items-center gap-1">
+                    <CalendarDays className="size-3.5" />
+                    {formatDate(latestDrop.startsAt)}
+                  </span>
+                  {latestDrop.endsAt && (
+                    <span className="inline-flex items-center gap-1">
+                      <Timer className="size-3.5" />
+                      {formatDate(latestDrop.endsAt)}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <WardenButton href={`/drops/${latestDrop.slug}`} size="lg" className="shrink-0">
+                Ver drop <ChevronRight className="size-4" />
+              </WardenButton>
+            </div>
+          ) : (
+            <div className="border border-dashed border-border/50 p-8 text-center">
+              <p className="text-xs text-muted-foreground/50 uppercase tracking-widest">
+                Próximo drop
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                El próximo lanzamiento aparecerá aquí.
+              </p>
+            </div>
+          )}
+        </Container>
+      </Section>
+
+      <SectionDivider />
+
+      {/* ── 5. HOW WARDEN WORKS ── */}
       <Section>
         <Container>
           <div className="max-w-3xl">
@@ -317,7 +180,7 @@ export default async function Home() {
             <p className="mt-2 text-sm text-muted-foreground">
               {t("processDesc")}
             </p>
-            <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            <div className="mt-8 grid gap-6 sm:grid-cols-3">
               <div>
                 <span className="text-data text-warden-blue block mb-2">01</span>
                 <h4 className="text-sm font-semibold text-foreground">
