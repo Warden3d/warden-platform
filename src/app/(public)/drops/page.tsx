@@ -23,7 +23,7 @@ import {
   CampaignDesignSection,
   CampaignGalleryPreview,
   CampaignCommunitySection,
-  CampaignDevelopmentSection,
+  CampaignTimeline,
 } from "@/components/campaign";
 
 export const metadata: Metadata = {
@@ -216,29 +216,33 @@ function ActiveCampaignLanding({
         placeholder
       />
 
-      {/* ── DEVELOPMENT — proceso de creación ── */}
-      <CampaignDevelopmentSection
-        eyebrow="Desarrollo"
-        title="Proceso de creación"
-        description="Cronología provisional del desarrollo. Será sustituida por la línea de tiempo real de la campaña."
-        entries={[
+      {/* ── TIMELINE — evolución del proyecto ── */}
+      <CampaignTimeline
+        eyebrow="Historia"
+        title="Evolución del proyecto"
+        description="Cada campaña tiene una historia distinta. Esta línea temporal muestra el proceso detrás de este lanzamiento."
+        milestones={[
           {
-            date: "Fase 1 — placeholder",
-            title: "Concepto y diseño inicial",
-            description: "Datos provisionales. Aquí se describirá el proceso real de diseño y desarrollo de la campaña.",
+            date: "Fase 1",
+            title: "Concepto inicial",
+            description: "Datos provisionales. Aquí se describirá el origen real de la campaña: idea inicial, primeros bocetos o inspiración.",
           },
           {
-            date: "Fase 2 — placeholder",
-            title: "Prototipado y pruebas",
-            description: "Datos provisionales. Se detallarán las iteraciones de prototipado, pruebas de ajuste y validación de materiales.",
+            date: "Fase 2",
+            title: "Desarrollo y prototipado",
+            description: "Datos provisionales. Proceso de diseño, iteraciones, prototipado y pruebas de ajuste.",
           },
           {
-            date: "Fase 3 — placeholder",
-            title: "Producción y lanzamiento",
-            description: "Datos provisionales. Información sobre el proceso de producción, control de calidad y preparación del lanzamiento.",
+            date: "Fase 3",
+            title: "Producción",
+            description: "Datos provisionales. Fabricación, control de calidad y preparación para el lanzamiento.",
+          },
+          {
+            date: "Fase 4",
+            title: "Lanzamiento",
+            description: "Datos provisionales. La campaña ya está disponible. Accede a la PDP Comercial para más información.",
           },
         ]}
-        placeholder
       />
 
       {/* ── GALERÍA ── */}
@@ -319,12 +323,21 @@ function ActiveCampaignLanding({
         </section>
       )}
 
-      {/* ── CTA FINAL ── */}
+      {/* ── CTA FINAL — cierre de la campaña ── */}
       <CampaignCta
         title={activeDrop.name}
-        description="Accede a la ficha comercial para configurar tu selección y solicitar presupuesto."
-        ctaLabel="Ir a la PDP Comercial"
+        closing={`${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} en una campaña de edición limitada. Todo el contenido ha sido seleccionado para ofrecer una experiencia única dentro del universo BattleTech.`}
+        highlights={[
+          ...(activeDrop.theme ? [{ label: "Temática", value: activeDrop.theme, icon: <span>◆</span> }] : []),
+          { label: "Estado", value: activeDrop.status === "live" ? "Disponible" : activeDrop.status === "upcoming" ? "Próximo" : "Finalizado" },
+          { label: "Productos", value: `${productCount}` },
+          ...(compatibilitySystems.length > 0
+            ? [{ label: "Compatibilidad", value: compatibilitySystems.map((cs: { name: string }) => cs.name).join(", ") }]
+            : []),
+        ]}
+        ctaLabel="Discover the Drop"
         ctaHref={`/drops/${activeDrop.slug}`}
+        status={activeDrop.status}
         className="py-10 md:py-14"
       />
     </>

@@ -12,3 +12,4 @@ export { CampaignDesignSection } from "./campaign-design-section";
 export { CampaignCommunitySection } from "./campaign-community-section";
 export { CampaignDevelopmentSection } from "./campaign-development-section";
 export { CampaignGalleryPreview } from "./campaign-gallery-preview";
+export { CampaignTimeline } from "./campaign-timeline";
