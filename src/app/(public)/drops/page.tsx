@@ -18,9 +18,10 @@ import {
   CampaignGallery,
   CampaignCta,
   HeroWithTrailer,
-  CampaignStorySection,
+  CampaignOrigins,
   CampaignScenarioSection,
   CampaignDesignSection,
+  CampaignGalleryPreview,
   CampaignCommunitySection,
   CampaignDevelopmentSection,
 } from "@/components/campaign";
@@ -150,11 +151,14 @@ function ActiveCampaignLanding({
         trailerPoster={heroImage}
       />
 
-      {/* ── STORY — presentación de la campaña ── */}
-      <CampaignStorySection
-        eyebrow="Lanzamiento"
+      {/* ── ORIGINS — origen de la campaña ── */}
+      <CampaignOrigins
+        eyebrow="Orígenes"
         title={activeDrop.name}
-        body={`${productCount} producto${productCount !== 1 ? "s" : ""} exclusivo${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas.`}
+        body={`${productCount} producto${productCount !== 1 ? "s" : ""} exclusivo${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas. Sumérgete en una campaña que combina diseño, narrativa y artesanía.`}
+        body2="Contenido placeholder — aquí se explicará el origen real de la campaña: nacimiento del proyecto, inspiración o recuperación de un escenario clásico."
+        imageUrl={heroImage}
+        imageAlt={activeDrop.name}
         placeholder
       />
 
@@ -169,7 +173,7 @@ function ActiveCampaignLanding({
         placeholder
       />
 
-      {/* ── DESIGN — proceso de diseño ── */}
+      {/* ── DESIGN — trabajo de diseño ── */}
       <CampaignDesignSection
         eyebrow="Diseño"
         title="Exploración de producto"
@@ -181,6 +185,16 @@ function ActiveCampaignLanding({
         }))}
         placeholder
       />
+
+      {/* ── GALLERY PREVIEW — galería editorial ── */}
+      {allImages.length > 0 && (
+        <CampaignGalleryPreview
+          eyebrow="Galería"
+          title="Avance visual"
+          images={allImages.slice(0, 5)}
+          placeholder
+        />
+      )}
 
       {/* ── COMMUNITY — comunidad ── */}
       <CampaignCommunitySection
@@ -231,7 +245,6 @@ function ActiveCampaignLanding({
       {allImages.length > 0 && (
         <CampaignGallery
           images={allImages}
-          columns={Math.min(allImages.length as 2 | 3 | 4, 3) as 2 | 3 | 4}
           className="py-10 md:py-12"
         />
       )}
