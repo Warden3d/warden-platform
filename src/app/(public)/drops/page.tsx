@@ -21,9 +21,6 @@ import {
   CampaignOrigins,
   CampaignScenarioSection,
   CampaignDesignSection,
-  CampaignGalleryPreview,
-  CampaignCommunitySection,
-  CampaignTimeline,
 } from "@/components/campaign";
 
 export const metadata: Metadata = {
@@ -151,98 +148,35 @@ function ActiveCampaignLanding({
         trailerPoster={heroImage}
       />
 
-      {/* ── ORIGINS — origen de la campaña ── */}
+      {/* ── ORIGINS — qué es, por qué existe ── */}
       <CampaignOrigins
-        eyebrow="Orígenes"
+        eyebrow={activeDrop.theme ?? "Edición limitada"}
         title={activeDrop.name}
-        body={`${productCount} producto${productCount !== 1 ? "s" : ""} exclusivo${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas. Sumérgete en una campaña que combina diseño, narrativa y artesanía.`}
-        body2="Contenido placeholder — aquí se explicará el origen real de la campaña: nacimiento del proyecto, inspiración o recuperación de un escenario clásico."
+        body={`${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} diseñada${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas de BattleTech. Una edición que recupera la esencia del universo clásico con el acabado y la precisión de WARDEN.`}
         imageUrl={heroImage}
         imageAlt={activeDrop.name}
-        placeholder
       />
 
-      {/* ── SCENARIO — contexto del proyecto ── */}
+      {/* ── SCENARIO ── */}
       <CampaignScenarioSection
         eyebrow="El escenario"
         title={activeDrop.theme ?? "Una experiencia única"}
-        body="Sumérgete en una campaña de edición limitada. Cada pieza ha sido seleccionada para contar una historia."
+        body="Cada pieza transporta al universo de la campaña. Los diseños evocan la atmósfera, la escala y la narrativa del escenario original."
         imageUrl={scenarioImage}
         imageAlt={activeDrop.theme ?? activeDrop.name}
         imagePosition="left"
-        placeholder
       />
 
-      {/* ── DESIGN — trabajo de diseño ── */}
+      {/* ── DESIGN BY WARDEN ── */}
       <CampaignDesignSection
-        eyebrow="Diseño"
-        title="Exploración de producto"
-        description="Renders y fotografías conceptuales del proceso de diseño. [Contenido provisional — se sustituirá por el material definitivo de la campaña.]"
+        eyebrow="Design by WARDEN"
+        title="Trabajo de diseño"
+        description="Renders y detalles del proceso creativo. Cada pieza ha sido revisada para ofrecer la mejor experiencia de impresión y juego."
         items={featuredProducts.slice(0, 6).map((p) => ({
           imageUrl: p.images.find((img) => img.isPrimary)?.url ?? "",
           imageAlt: p.name,
           caption: p.name,
         }))}
-        placeholder
-      />
-
-      {/* ── GALLERY PREVIEW — galería editorial ── */}
-      {allImages.length > 0 && (
-        <CampaignGalleryPreview
-          eyebrow="Galería"
-          title="Avance visual"
-          images={allImages.slice(0, 5)}
-          placeholder
-        />
-      )}
-
-      {/* ── COMMUNITY — comunidad ── */}
-      <CampaignCommunitySection
-        eyebrow="Comunidad"
-        title="Hecho para la comunidad"
-        description="Colabora con otros coleccionistas y comparte tu experiencia. [Sección preparada para futuras campañas participativas.]"
-        testimonials={[
-          {
-            quote: "Contenido placeholder — aquí aparecerán testimonios reales de la comunidad cuando la campaña esté activa.",
-            author: "Usuario WARDEN",
-            role: "Coleccionista",
-          },
-          {
-            quote: "Las campañas de edición limitada de WARDEN ofrecen una experiencia única para los aficionados a BattleTech.",
-            author: "Usuario WARDEN",
-            role: "Coleccionista",
-          },
-        ]}
-        placeholder
-      />
-
-      {/* ── TIMELINE — evolución del proyecto ── */}
-      <CampaignTimeline
-        eyebrow="Historia"
-        title="Evolución del proyecto"
-        description="Cada campaña tiene una historia distinta. Esta línea temporal muestra el proceso detrás de este lanzamiento."
-        milestones={[
-          {
-            date: "Fase 1",
-            title: "Concepto inicial",
-            description: "Datos provisionales. Aquí se describirá el origen real de la campaña: idea inicial, primeros bocetos o inspiración.",
-          },
-          {
-            date: "Fase 2",
-            title: "Desarrollo y prototipado",
-            description: "Datos provisionales. Proceso de diseño, iteraciones, prototipado y pruebas de ajuste.",
-          },
-          {
-            date: "Fase 3",
-            title: "Producción",
-            description: "Datos provisionales. Fabricación, control de calidad y preparación para el lanzamiento.",
-          },
-          {
-            date: "Fase 4",
-            title: "Lanzamiento",
-            description: "Datos provisionales. La campaña ya está disponible. Accede a la PDP Comercial para más información.",
-          },
-        ]}
       />
 
       {/* ── GALERÍA ── */}
@@ -323,10 +257,10 @@ function ActiveCampaignLanding({
         </section>
       )}
 
-      {/* ── CTA FINAL — cierre de la campaña ── */}
+      {/* ── CTA FINAL ── */}
       <CampaignCta
         title={activeDrop.name}
-        closing={`${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} en una campaña de edición limitada. Todo el contenido ha sido seleccionado para ofrecer una experiencia única dentro del universo BattleTech.`}
+        closing={`${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} en una edición limitada. Todo el contenido ha sido seleccionado para ofrecer una experiencia única dentro del universo BattleTech.`}
         highlights={[
           ...(activeDrop.theme ? [{ label: "Temática", value: activeDrop.theme, icon: <span>◆</span> }] : []),
           { label: "Estado", value: activeDrop.status === "live" ? "Disponible" : activeDrop.status === "upcoming" ? "Próximo" : "Finalizado" },
