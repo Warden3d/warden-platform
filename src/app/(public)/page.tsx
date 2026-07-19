@@ -29,19 +29,19 @@ export default async function Home() {
       {/* ── 1. HERO ── */}
       <VideoHero>
         <Container>
-          <div className="py-24 md:py-32 lg:py-36 max-w-4xl">
+          <div className="pt-14 md:pt-20 pb-20 md:pb-28 max-w-lg">
             <Eyebrow className="text-warden-blue">
               {t("heroEyebrow")}
             </Eyebrow>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl leading-tight">
               {t("heroTitle1")}
               <br />
               <span className="text-warden-blue">{t("heroTitle2")}</span>
             </h1>
-            <p className="mt-6 max-w-2xl text-base text-muted-foreground leading-relaxed">
+            <p className="mt-3 max-w-md text-sm text-muted-foreground/80 leading-relaxed">
               {t("heroDesc")}
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-3">
               <WardenButton href="/catalog">
                 {t("exploreCollections")}
                 <ChevronRight className="size-4" />
