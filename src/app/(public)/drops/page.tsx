@@ -8,20 +8,15 @@ import {
   getCompatibilitySystems,
 } from "@/lib/data";
 import type { Drop, CompatibilitySystem, ProductImage } from "@/types/warden";
-import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
+import { TechnicalBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ChevronRight, Timer, Layers } from "lucide-react";
-import Image from "next/image";
 
 // ── Campaign blocks ────────────────────────────
 import {
-  CampaignGallery,
-  CampaignCta,
-  HeroWithTrailer,
-  CampaignOrigins,
-  CampaignScenarioSection,
-  CampaignDesignSection,
+  CampaignRenderer,
 } from "@/components/campaign";
+import type { CampaignConfig } from "@/types/campaign";
 
 export const metadata: Metadata = {
   title: "Drops — Campañas WARDEN",
@@ -118,164 +113,152 @@ function getAllDropImages(drop: Drop, products: Array<{ id: string; images: Prod
   return images.slice(0, 6); // Max 6 for the gallery
 }
 
-// ── Active campaign landing ────────────────────
-function ActiveCampaignLanding({
-  activeDrop,
-  featuredProducts,
-  compatibilitySystems,
-}: {
-  activeDrop: Drop;
-  featuredProducts: Array<{ id: string; name: string; slug: string; shortDescription: string; images: ProductImage[]; compatibilityId: string }>;
-  compatibilitySystems: CompatibilitySystem[];
-}) {
+// ── Active campaign landing (declarative) ──────
+function buildCampaignConfig(
+  activeDrop: Drop,
+  featuredProducts: Array<{ id: string; name: string; slug: string; shortDescription: string; images: ProductImage[]; compatibilityId: string }>,
+  compatibilitySystems: CompatibilitySystem[]
+): CampaignConfig {
   const productCount = featuredProducts.length;
   const allImages = getAllDropImages(activeDrop, featuredProducts);
   const heroImage = activeDrop.thumbnailUrl || undefined;
   const scenarioImage =
     featuredProducts[0]?.images.find((img) => img.isPrimary)?.url || heroImage;
 
-  return (
-    <>
-      {/* ── HERO ── */}
-      <HeroWithTrailer
-        title={activeDrop.name}
-        subtitle={activeDrop.description}
-        imageUrl={heroImage}
-        ctaLabel="Explore the Drop"
-        ctaHref={`/drops/${activeDrop.slug}`}
-        theme={activeDrop.theme ?? undefined}
-        trailerSrc="/videos/battle-of-tukayyid.mp4"
-        trailerPoster={heroImage}
-      />
-
-      {/* ── ORIGINS — qué es, por qué existe ── */}
-      <CampaignOrigins
-        eyebrow={activeDrop.theme ?? "Edición limitada"}
-        title={activeDrop.name}
-        body={`${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} diseñada${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas de BattleTech. Una edición que recupera la esencia del universo clásico con el acabado y la precisión de WARDEN.`}
-        imageUrl={heroImage}
-        imageAlt={activeDrop.name}
-      />
-
-      {/* ── SCENARIO ── */}
-      <CampaignScenarioSection
-        eyebrow="El escenario"
-        title={activeDrop.theme ?? "Una experiencia única"}
-        body="Cada pieza transporta al universo de la campaña. Los diseños evocan la atmósfera, la escala y la narrativa del escenario original."
-        imageUrl={scenarioImage}
-        imageAlt={activeDrop.theme ?? activeDrop.name}
-        imagePosition="left"
-      />
-
-      {/* ── DESIGN BY WARDEN ── */}
-      <CampaignDesignSection
-        eyebrow="Design by WARDEN"
-        title="Trabajo de diseño"
-        description="Renders y detalles del proceso creativo. Cada pieza ha sido revisada para ofrecer la mejor experiencia de impresión y juego."
-        items={featuredProducts.slice(0, 6).map((p) => ({
-          imageUrl: p.images.find((img) => img.isPrimary)?.url ?? "",
-          imageAlt: p.name,
-          caption: p.name,
-        }))}
-      />
-
-      {/* ── GALERÍA ── */}
-      {allImages.length > 0 && (
-        <CampaignGallery
-          images={allImages}
-          className="py-10 md:py-12"
-        />
-      )}
-
-      {/* ── CONTENIDO DEL DROP ── */}
-      {featuredProducts.length > 0 && (
-        <section className="py-10 md:py-14 bg-warden-surface/30">
-          <Container>
-            <div className="max-w-3xl mb-8">
-              <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre/70 mb-3">
-                Contenido
-              </p>
-              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl leading-tight text-foreground">
-                Productos incluidos
-              </h2>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {featuredProducts.map((product) => {
-                const compatSystem = compatibilitySystems.find(
-                  (c) => c.id === product.compatibilityId
-                );
-                const primaryImage = product.images.find((img) => img.isPrimary);
-
-                return (
-                  <div
-                    key={product.id}
-                    className="flex flex-col"
-                  >
-                    {primaryImage && (
-                      <div className="relative w-full aspect-video mb-3 overflow-hidden border border-border bg-warden-carbon">
-                        <Image
-                          src={primaryImage.url}
-                          alt={primaryImage.alt || product.name}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      </div>
-                    )}
-
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      {compatSystem && (
-                        <CompatibilityBadge
-                          system={
-                            compatSystem.slug as
-                              | "battletech-classic"
-                              | "alpha-strike"
-                              | "aerotech"
-                          }
-                        />
-                      )}
-                    </div>
-
-                    <Link
-                      href={`/products/${product.slug}`}
-                      className="group inline"
-                    >
-                      <h3 className="font-semibold text-sm leading-snug text-foreground group-hover:text-warden-blue transition-colors">
-                        {product.name}
-                      </h3>
-                    </Link>
-
-                    <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                      {product.shortDescription}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </Container>
-        </section>
-      )}
-
-      {/* ── CTA FINAL ── */}
-      <CampaignCta
-        title={activeDrop.name}
-        closing={`${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} en una edición limitada. Todo el contenido ha sido seleccionado para ofrecer una experiencia única dentro del universo BattleTech.`}
-        highlights={[
-          ...(activeDrop.theme ? [{ label: "Temática", value: activeDrop.theme, icon: <span>◆</span> }] : []),
-          { label: "Estado", value: activeDrop.status === "live" ? "Disponible" : activeDrop.status === "upcoming" ? "Próximo" : "Finalizado" },
-          { label: "Productos", value: `${productCount}` },
-          ...(compatibilitySystems.length > 0
-            ? [{ label: "Compatibilidad", value: compatibilitySystems.map((cs: { name: string }) => cs.name).join(", ") }]
-            : []),
-        ]}
-        ctaLabel="Discover the Drop"
-        ctaHref={`/drops/${activeDrop.slug}`}
-        status={activeDrop.status}
-        className="py-10 md:py-14"
-      />
-    </>
-  );
+  return {
+    metadata: {
+      id: activeDrop.id,
+      slug: activeDrop.slug,
+      name: activeDrop.name,
+      subtitle: activeDrop.description,
+      status: activeDrop.status,
+      ctaLabel: "Discover the Drop",
+      pdpSlug: activeDrop.slug,
+    },
+    assets: {
+      heroImage,
+      trailerVideo: "/videos/battle-of-tukayyid.mp4",
+      trailerPoster: heroImage,
+      images: allImages,
+      renders: featuredProducts.slice(0, 6).map((p) => ({
+        url: p.images.find((img) => img.isPrimary)?.url ?? "",
+        alt: p.name,
+        caption: p.name,
+      })),
+    },
+    blocks: [
+      {
+        type: "hero",
+        props: {
+          title: activeDrop.name,
+          subtitle: activeDrop.description,
+          imageUrl: heroImage,
+          ctaLabel: "Explore the Drop",
+          ctaHref: `/drops/${activeDrop.slug}`,
+          theme: activeDrop.theme ?? undefined,
+          trailerSrc: "/videos/battle-of-tukayyid.mp4",
+          trailerPoster: heroImage,
+        },
+      },
+      {
+        type: "origins",
+        props: {
+          eyebrow: activeDrop.theme ?? "Edición limitada",
+          title: activeDrop.name,
+          body: `${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} diseñada${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas de BattleTech. Una edición que recupera la esencia del universo clásico con el acabado y la precisión de WARDEN.`,
+          imageUrl: heroImage,
+          imageAlt: activeDrop.name,
+        },
+      },
+      {
+        type: "scenario",
+        props: {
+          eyebrow: "El escenario",
+          title: activeDrop.theme ?? "Una experiencia única",
+          body: "Cada pieza transporta al universo de la campaña. Los diseños evocan la atmósfera, la escala y la narrativa del escenario original.",
+          imageUrl: scenarioImage,
+          imageAlt: activeDrop.theme ?? activeDrop.name,
+          imagePosition: "left",
+        },
+      },
+      {
+        type: "design",
+        props: {
+          eyebrow: "Design by WARDEN",
+          title: "Trabajo de diseño",
+          description: "Renders y detalles del proceso creativo. Cada pieza ha sido revisada para ofrecer la mejor experiencia de impresión y juego.",
+          items: featuredProducts.slice(0, 6).map((p) => ({
+            imageUrl: p.images.find((img) => img.isPrimary)?.url ?? "",
+            imageAlt: p.name,
+            caption: p.name,
+          })),
+        },
+      },
+      ...(allImages.length > 0
+        ? [
+            {
+              type: "gallery" as const,
+              props: { images: allImages },
+            },
+          ]
+        : []),
+      ...(featuredProducts.length > 0
+        ? [
+            {
+              type: "products" as const,
+              props: {
+                products: featuredProducts.map((p) => ({
+                  id: p.id,
+                  name: p.name,
+                  slug: p.slug,
+                  shortDescription: p.shortDescription,
+                  imageUrl: p.images.find((img) => img.isPrimary)?.url,
+                  imageAlt: p.images.find((img) => img.isPrimary)?.alt,
+                  compatSystem: compatibilitySystems.find(
+                    (c) => c.id === p.compatibilityId
+                  ) ?? null,
+                })),
+              },
+            },
+          ]
+        : []),
+      {
+        type: "cta",
+        props: {
+          title: activeDrop.name,
+          closing: `${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} en una edición limitada. Todo el contenido ha sido seleccionado para ofrecer una experiencia única dentro del universo BattleTech.`,
+          highlights: [
+            ...(activeDrop.theme
+              ? [{ label: "Temática", value: activeDrop.theme, icon: "◆" }]
+              : []),
+            {
+              label: "Estado",
+              value:
+                activeDrop.status === "live"
+                  ? "Disponible"
+                  : activeDrop.status === "upcoming"
+                    ? "Próximo"
+                    : "Finalizado",
+            },
+            { label: "Productos", value: `${productCount}` },
+            ...(compatibilitySystems.length > 0
+              ? [
+                  {
+                    label: "Compatibilidad",
+                    value: compatibilitySystems
+                      .map((cs) => cs.name)
+                      .join(", "),
+                  },
+                ]
+              : []),
+          ],
+          ctaLabel: "Discover the Drop",
+          ctaHref: `/drops/${activeDrop.slug}`,
+          status: activeDrop.status,
+        },
+      },
+    ],
+  };
 }
 
 // ── Page ───────────────────────────────────────
@@ -300,11 +283,9 @@ export default async function DropsPage() {
 
     return (
       <>
-        {/* ── Campaign Landing ── */}
-        <ActiveCampaignLanding
-          activeDrop={activeDrop}
-          featuredProducts={featuredProducts}
-          compatibilitySystems={compatibilitySystems}
+        {/* ── Campaign Landing (declarative) ── */}
+        <CampaignRenderer
+          config={buildCampaignConfig(activeDrop, featuredProducts, compatibilitySystems)}
         />
 
         {/* ── Other drops (compact listing) ── */}

@@ -13,3 +13,5 @@ export { CampaignCommunitySection } from "./campaign-community-section";
 export { CampaignDevelopmentSection } from "./campaign-development-section";
 export { CampaignGalleryPreview } from "./campaign-gallery-preview";
 export { CampaignTimeline } from "./campaign-timeline";
+export { CampaignProductsSection } from "./campaign-products-section";
+export { CampaignRenderer } from "./campaign-renderer";
