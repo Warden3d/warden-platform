@@ -29,17 +29,17 @@ export default async function Home() {
       {/* ── 1. HERO ── */}
       <VideoHero>
         <Container>
-          <div className="pt-14 md:pt-20 pb-20 md:pb-28 max-w-lg">
+          <div className="pt-12 md:pt-16 pb-20 md:pb-28 max-w-lg">
             <Eyebrow className="text-warden-blue">
-              {t("heroEyebrow")}
+              Built for BattleTech
             </Eyebrow>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl leading-tight">
-              {t("heroTitle1")}
+              Terrain designed
               <br />
-              <span className="text-warden-blue">{t("heroTitle2")}</span>
+              <span className="text-warden-blue">to play.</span>
             </h1>
             <p className="mt-3 max-w-md text-sm text-muted-foreground/80 leading-relaxed">
-              {t("heroDesc")}
+              Functional scenery, terrain and gaming tools created for BattleTech. Designed for the table, manufactured on demand and built for continuous use.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <WardenButton href="/catalog">

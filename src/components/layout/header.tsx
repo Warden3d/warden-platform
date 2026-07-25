@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
@@ -31,16 +32,16 @@ export function Header() {
       data-visible={showHeader}
     >
       <div className="page-container flex h-14 items-center justify-between">
-        {/* Logo + brand mark */}
-        <Link href="/" className="flex items-center gap-3 shrink-0">
-          <div className="flex items-center gap-1.5">
-            <span className="block h-4 w-0.5 bg-warden-blue" />
-            <span className="block h-4 w-0.5 bg-warden-green" />
-            <span className="block h-4 w-0.5 bg-warden-ochre" />
-          </div>
-          <span className="text-sm font-semibold tracking-[0.15em] uppercase text-foreground">
-            WARDEN
-          </span>
+        {/* Logo */}
+        <Link href="/" className="flex items-center shrink-0">
+          <Image
+            src="/images/logo/wd-logov4.1.png"
+            alt="WARDEN"
+            height={24}
+            width={161}
+            className="h-6 w-auto"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -61,7 +62,7 @@ export function Header() {
                     : "text-muted-foreground hover:text-foreground hover:bg-warden-elevated"
                 )}
               >
-                {link.i18nKey ? t(link.i18nKey as any) : link.label}
+                {link.i18nKey ? t(link.i18nKey as string & {}) : link.label}
               </Link>
             );
           })}
@@ -122,7 +123,7 @@ export function Header() {
                       : "text-muted-foreground hover:text-foreground hover:bg-warden-elevated"
                   )}
                 >
-                  {link.i18nKey ? t(link.i18nKey as any) : link.label}
+                  {link.i18nKey ? t(link.i18nKey as string & {}) : link.label}
                 </Link>
               );
             })}
