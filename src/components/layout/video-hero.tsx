@@ -29,6 +29,15 @@ export function VideoHero({ children }: { children: React.ReactNode }) {
       {/* Dark overlay — uniform for centered brand composition */}
       <div className="absolute inset-0 bg-warden-carbon/70" />
 
+      {/* Radial blue atmosphere — localized behind central content */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 50% 50% at 50% 45%, rgba(30,64,110,0.35) 0%, rgba(20,40,80,0.15) 40%, transparent 70%)",
+        }}
+      />
+
       {/* Content */}
       <div className="relative z-10 w-full">{children}</div>
     </section>
