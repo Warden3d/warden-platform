@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
 import { getActiveProducts, getDrops } from "@/lib/data";
@@ -6,7 +5,7 @@ import { getActiveProducts, getDrops } from "@/lib/data";
 import { ProductCard } from "@/components/catalog/product-card";
 import { WardenButton } from "@/components/ui/warden-button";
 import { VideoHero } from "@/components/layout/video-hero";
-
+import { HeroBrand } from "@/components/layout/hero-brand";
 import { ChevronRight, CalendarDays, Timer } from "lucide-react";
 
 function formatDate(iso: string) {
@@ -29,25 +28,7 @@ export default async function Home() {
     <>
       {/* ── 1. HERO ── */}
       <VideoHero>
-        <div className="flex flex-col items-center justify-center min-h-[80vh] px-6 text-center">
-          <Image
-            src="/images/logo/wd-logov4.1.png"
-            alt="WARDEN"
-            width={1034}
-            height={154}
-            className="h-16 w-auto md:h-20 lg:h-24"
-            priority
-          />
-          <p className="mt-8 text-xs font-semibold tracking-[0.25em] uppercase text-foreground/90 md:text-sm">
-            {t("heroSlogan")}
-          </p>
-          <div className="mt-8">
-            <WardenButton href="/catalog">
-              {t("exploreCollections")}
-              <ChevronRight className="size-4" />
-            </WardenButton>
-          </div>
-        </div>
+        <HeroBrand />
       </VideoHero>
 
       {/* ── 2. THREE RULES WE NEVER BREAK ── */}
