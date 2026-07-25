@@ -9,22 +9,22 @@ export function HeroBrand() {
   const t = useTranslations("home");
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] px-6 text-center">
+    <div className="flex flex-col items-center justify-start pt-[22vh] min-h-[80vh] px-6 text-center">
       <Image
         src="/images/logo/wd-logov4.1.png"
         alt="WARDEN"
         width={1034}
         height={154}
-        className="w-[50vw] max-w-[540px] min-w-[200px] h-auto md:w-[45vw] lg:w-[42vw]"
+        className="w-[60vw] max-w-[620px] min-w-[220px] h-auto"
         priority
       />
-      <p className="mt-10 text-sm font-semibold tracking-[0.3em] uppercase text-foreground/90 md:text-base lg:text-lg">
+      <p className="mt-14 text-sm font-bold tracking-[0.35em] uppercase text-foreground md:text-lg lg:text-xl">
         {t("heroSlogan")}
       </p>
-      <div className="mt-10">
-        <WardenButton href="/catalog" className="text-sm md:text-base px-6 py-2.5 md:px-8 md:py-3">
+      <div className="mt-14">
+        <WardenButton href="/catalog" className="text-base md:text-lg px-8 py-3 md:px-10 md:py-3.5">
           {t("exploreCollections")}
-          <ChevronRight className="size-4" />
+          <ChevronRight className="size-4 md:size-5" />
         </WardenButton>
       </div>
     </div>
