@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
 import { getActiveProducts, getDrops } from "@/lib/data";
@@ -28,30 +29,25 @@ export default async function Home() {
     <>
       {/* ── 1. HERO ── */}
       <VideoHero>
-        <Container>
-          <div className="pt-12 md:pt-16 pb-20 md:pb-28 max-w-lg">
-            <Eyebrow className="text-warden-blue">
-              Built for BattleTech
-            </Eyebrow>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl leading-tight">
-              Terrain designed
-              <br />
-              <span className="text-warden-blue">to play.</span>
-            </h1>
-            <p className="mt-3 max-w-md text-sm text-muted-foreground/80 leading-relaxed">
-              Functional scenery, terrain and gaming tools created for BattleTech. Designed for the table, manufactured on demand and built for continuous use.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <WardenButton href="/catalog">
-                {t("exploreCollections")}
-                <ChevronRight className="size-4" />
-              </WardenButton>
-              <WardenButton href="/drops" variant="outline">
-                {t("ourApproach")}
-              </WardenButton>
-            </div>
+        <div className="flex flex-col items-center justify-center min-h-[80vh] px-6 text-center">
+          <Image
+            src="/images/logo/wd-logov4.1.png"
+            alt="WARDEN"
+            width={1034}
+            height={154}
+            className="h-16 w-auto md:h-20 lg:h-24"
+            priority
+          />
+          <p className="mt-8 text-xs font-semibold tracking-[0.25em] uppercase text-foreground/90 md:text-sm">
+            {t("heroSlogan")}
+          </p>
+          <div className="mt-8">
+            <WardenButton href="/catalog">
+              {t("exploreCollections")}
+              <ChevronRight className="size-4" />
+            </WardenButton>
           </div>
-        </Container>
+        </div>
       </VideoHero>
 
       {/* ── 2. THREE RULES WE NEVER BREAK ── */}
