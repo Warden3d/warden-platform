@@ -34,7 +34,7 @@ export function VideoHero({ children }: { children: React.ReactNode }) {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 60% 55% at 50% 42%, rgba(15,35,75,0.5) 0%, rgba(10,25,55,0.25) 35%, rgba(8,18,40,0.08) 60%, transparent 80%)",
+            "radial-gradient(ellipse 80% 70% at 50% 38%, rgba(15,35,75,0.35) 0%, rgba(12,28,60,0.18) 30%, rgba(8,20,45,0.06) 55%, transparent 75%)",
         }}
       />
 
