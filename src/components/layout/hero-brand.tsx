@@ -21,7 +21,7 @@ export function HeroBrand() {
       <p className="mt-14 text-base font-bold tracking-[0.35em] uppercase text-foreground md:text-lg lg:text-2xl">
         {t("heroSlogan")}
       </p>
-      <p className="mt-5 max-w-md text-sm text-white/70 leading-relaxed md:text-base">
+      <p className="mt-5 max-w-sm text-sm font-medium text-white/85 leading-relaxed md:text-base" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}>
         {t("heroDescriptor")}
       </p>
       <div className="mt-14">
