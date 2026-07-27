@@ -106,22 +106,22 @@
     "featuredEyebrow": "Destacados",
     "featuredTitle": "Probados sobre la mesa",
     "featuredDesc": "Nuestras herramientas más usadas, testadas en miles de sesiones de juego.",
-    "designPrinciplesEyebrow": "Design Principles",
-    "designPrinciplesTitle": "Three rules we never break",
+    "designPrinciplesEyebrow": "WHAT DEFINES US",
+    "designPrinciplesTitle": "Three principles built into every WARDEN design",
     "principle1": {
       "number": "01",
-      "title": "Diseñar para jugar",
-      "desc": "Cada producto WARDEN parte de un problema de juego. Si una herramienta no acelera una fase, clarifica una regla o reduce la carga cognitiva, no se fabrica. Sin decoración. Sin relleno. Solo función."
+      "title": "Designed around the game",
+      "desc": "Every product begins with how BattleTech and Alpha Strike are actually played. Scale, footprint, elevation, line of sight and miniature placement are considered from the first design decision."
     },
     "principle2": {
       "number": "02",
-      "title": "Construir para durar",
-      "desc": "Latón, aluminio y acrílico mecanizados con tolerancias precisas. Cada material se selecciona por sus propiedades mecánicas y se valida en cientos de sesiones. Una herramienta WARDEN debe sobrevivir a la campaña."
+      "title": "Built for real play",
+      "desc": "WARDEN products are designed to be handled, transported and used game after game. Robustness, practicality and durability are built into every design from the start."
     },
     "principle3": {
       "number": "03",
-      "title": "Evolucionar sin perder identidad",
-      "desc": "Nuevos productos, nuevos sistemas, nuevos materiales — pero el mismo compromiso con la claridad, la compatibilidad y la coherencia. Cada colección añade capacidad sin fragmentar la experiencia."
+      "title": "Designed to work together",
+      "desc": "Scenery, terrain, maps and gaming tools are designed as parts of a coherent tabletop system, making it easier to build, expand and adapt your BattleTech and Alpha Strike tables over time."
     },
     "systemsEyebrow": "Sistemas de juego",
     "systemsTitle": "Compatible en todo el espectro",

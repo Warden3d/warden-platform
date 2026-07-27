@@ -106,22 +106,22 @@
     "featuredEyebrow": "Featured",
     "featuredTitle": "Battle-tested",
     "featuredDesc": "Our most used tools, tested across thousands of game sessions.",
-    "designPrinciplesEyebrow": "Design Principles",
-    "designPrinciplesTitle": "Three rules we never break",
+    "designPrinciplesEyebrow": "WHAT DEFINES US",
+    "designPrinciplesTitle": "Three principles built into every WARDEN design",
     "principle1": {
       "number": "01",
-      "title": "Design to play",
-      "desc": "Every WARDEN product starts with a gameplay problem. If a tool doesn't speed up a phase, clarify a rule, or reduce cognitive load, it doesn't get made. No decoration. No filler. Just function."
+      "title": "Designed around the game",
+      "desc": "Every product begins with how BattleTech and Alpha Strike are actually played. Scale, footprint, elevation, line of sight and miniature placement are considered from the first design decision."
     },
     "principle2": {
       "number": "02",
-      "title": "Build to last",
-      "desc": "Brass, aluminum and acrylic machined with precise tolerances. Each material is selected for its mechanical properties and validated across hundreds of sessions. A WARDEN tool must survive the campaign."
+      "title": "Built for real play",
+      "desc": "WARDEN products are designed to be handled, transported and used game after game. Robustness, practicality and durability are built into every design from the start."
     },
     "principle3": {
       "number": "03",
-      "title": "Evolve without losing identity",
-      "desc": "New products, new systems, new materials — but the same commitment to clarity, compatibility and coherence. Each collection adds capability without fragmenting the experience."
+      "title": "Designed to work together",
+      "desc": "Scenery, terrain, maps and gaming tools are designed as parts of a coherent tabletop system, making it easier to build, expand and adapt your BattleTech and Alpha Strike tables over time."
     },
     "systemsEyebrow": "Game systems",
     "systemsTitle": "Compatible across the spectrum",
