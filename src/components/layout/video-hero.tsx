@@ -12,7 +12,7 @@ export function VideoHero({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <section className="relative overflow-hidden border-b border-border min-h-[80vh]">
+    <section className="relative overflow-hidden border-b border-border min-h-[calc(100dvh-56px)]">
       {/* Video background */}
       <video
         ref={videoRef}

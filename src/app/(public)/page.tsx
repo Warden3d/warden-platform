@@ -22,16 +22,55 @@ export default async function Home() {
   const products = await getActiveProducts();
   const featuredProducts = products.filter((p) => p.featured);
   const [drops] = await Promise.all([getDrops()]);
-  const latestDrop = drops.find((d) => d.status === "live") ?? drops.find((d) => d.status === "upcoming") ?? null;
+  const activeDrop = drops.find((d) => d.status === "live") ?? null;
 
   return (
     <>
-      {/* ── 1. HERO ── */}
+      {/* ── 1. HERO — full first viewport ── */}
       <VideoHero>
         <HeroBrand />
       </VideoHero>
 
-      {/* ── 2. WHAT DEFINES US ── */}
+      {/* ── 2. ACTIVE DROP (conditional) ── */}
+      {activeDrop && (
+        <>
+          <Section>
+            <Container>
+              <div className="border border-border bg-warden-surface p-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre/70 mb-2">
+                    {"Drop activo"}
+                  </p>
+                  <h3 className="text-xl font-semibold tracking-tight text-foreground">
+                    {activeDrop.name}
+                  </h3>
+                  <p className="mt-1.5 text-sm text-muted-foreground max-w-xl">
+                    {activeDrop.description}
+                  </p>
+                  <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
+                    <span className="inline-flex items-center gap-1">
+                      <CalendarDays className="size-3.5" />
+                      {formatDate(activeDrop.startsAt)}
+                    </span>
+                    {activeDrop.endsAt && (
+                      <span className="inline-flex items-center gap-1">
+                        <Timer className="size-3.5" />
+                        {formatDate(activeDrop.endsAt)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <WardenButton href={`/drops/${activeDrop.slug}`} size="lg" className="shrink-0">
+                  Ver drop <ChevronRight className="size-4" />
+                </WardenButton>
+              </div>
+            </Container>
+          </Section>
+          <SectionDivider />
+        </>
+      )}
+
+      {/* ── 3. WHAT DEFINES US ── */}
       <Section className="pt-12 md:pt-16 pb-20 md:pb-28">
         <Container>
           <div className="mb-10">
@@ -97,7 +136,7 @@ export default async function Home() {
 
       <SectionDivider />
 
-      {/* ── 3. FEATURED PRODUCTS ── */}
+      {/* ── 4. FEATURED PRODUCTS ── */}
       <Section>
         <Container>
           <div className="mb-8">
@@ -116,53 +155,6 @@ export default async function Home() {
               {c("viewCollection")} <ChevronRight className="size-4" />
             </WardenButton>
           </div>
-        </Container>
-      </Section>
-
-      <SectionDivider />
-
-      {/* ── 4. LATEST DROP (placeholder) ── */}
-      <Section>
-        <Container>
-          {latestDrop ? (
-            <div className="border border-border bg-warden-surface p-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre/70 mb-2">
-                  {latestDrop.status === "live" ? "Drop activo" : "Próximo drop"}
-                </p>
-                <h3 className="text-xl font-semibold tracking-tight text-foreground">
-                  {latestDrop.name}
-                </h3>
-                <p className="mt-1.5 text-sm text-muted-foreground max-w-xl">
-                  {latestDrop.description}
-                </p>
-                <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
-                  <span className="inline-flex items-center gap-1">
-                    <CalendarDays className="size-3.5" />
-                    {formatDate(latestDrop.startsAt)}
-                  </span>
-                  {latestDrop.endsAt && (
-                    <span className="inline-flex items-center gap-1">
-                      <Timer className="size-3.5" />
-                      {formatDate(latestDrop.endsAt)}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <WardenButton href={`/drops/${latestDrop.slug}`} size="lg" className="shrink-0">
-                Ver drop <ChevronRight className="size-4" />
-              </WardenButton>
-            </div>
-          ) : (
-            <div className="border border-dashed border-border/50 p-8 text-center">
-              <p className="text-xs text-muted-foreground/50 uppercase tracking-widest">
-                Próximo drop
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                El próximo lanzamiento aparecerá aquí.
-              </p>
-            </div>
-          )}
         </Container>
       </Section>
 

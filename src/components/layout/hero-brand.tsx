@@ -9,7 +9,7 @@ export function HeroBrand() {
   const t = useTranslations("home");
 
   return (
-    <div className="flex flex-col items-center justify-start pt-[18vh] min-h-[80vh] px-6 text-center">
+    <div className="flex flex-col items-center justify-start pt-[28vh] min-h-[calc(100dvh-56px)] px-6 text-center">
       <Image
         src="/images/logo/wd-logov4.1.png"
         alt="WARDEN"
