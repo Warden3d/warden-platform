@@ -4,6 +4,7 @@ import { getActiveProducts, getDrops } from "@/lib/data";
 
 import { ProductCard } from "@/components/catalog/product-card";
 import { WardenButton } from "@/components/ui/warden-button";
+import Image from "next/image";
 import { VideoHero } from "@/components/layout/video-hero";
 import { HeroBrand } from "@/components/layout/hero-brand";
 import { ChevronRight, CalendarDays, Timer } from "lucide-react";
@@ -71,64 +72,67 @@ export default async function Home() {
       )}
 
       {/* ── 3. WHAT DEFINES US ── */}
-      <Section className="pt-12 md:pt-16 pb-20 md:pb-28">
+      <Section className="py-16 md:py-20">
         <Container>
-          <div className="mb-10">
-            <Eyebrow className="text-warden-blue">{t("designPrinciplesEyebrow")}</Eyebrow>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              {t("designPrinciplesTitle")}
-            </h2>
-          </div>
-
-          <div className="grid gap-px bg-border sm:grid-cols-3">
-            {/* 01 — Designed around the game */}
-            <div className="bg-warden-carbon p-8">
-              <svg className="mb-2 size-8 text-warden-blue" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="14,2 25,8 25,20 14,26 3,20 3,8" />
-                <line x1="14" y1="2" x2="14" y2="26" />
-                <circle cx="14" cy="14" r="2" />
-              </svg>
-              <span className="text-data text-warden-blue mb-1 block">{t("principle1.number")}</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2 mt-0">
-                {t("principle1.title")}
-              </h3>
-              <p className="text-sm text-white/60 leading-relaxed">
-                {t("principle1.desc")}
-              </p>
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+            {/* Left: Image */}
+            <div className="relative aspect-[4/5] overflow-hidden rounded-sm w-full">
+              <Image
+                src="/images/what-defines-us/scenery-city.png"
+                alt="WARDEN modular science-fiction city scenery arranged as a BattleTech tabletop environment."
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              {/* Subtle gradient fade on right edge for integration */}
+              <div className="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-warden-carbon/60 via-warden-carbon/20 to-transparent pointer-events-none hidden md:block" />
             </div>
 
-            {/* 02 — Built for real play */}
-            <div className="bg-warden-carbon p-8">
-              <svg className="mb-2 size-8 text-warden-green" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="4,6 11,4 11,22 4,24" />
-                <polygon points="17,4 24,6 24,24 17,22" />
-                <line x1="11" y1="10" x2="17" y2="10" />
-                <line x1="11" y1="18" x2="17" y2="18" />
-                <circle cx="14" cy="14" r="2.5" />
-              </svg>
-              <span className="text-data text-warden-green mb-1 block">{t("principle2.number")}</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2 mt-0">
-                {t("principle2.title")}
-              </h3>
-              <p className="text-sm text-white/60 leading-relaxed">
-                {t("principle2.desc")}
-              </p>
-            </div>
+            {/* Right: Content */}
+            <div className="flex flex-col gap-y-6 md:gap-y-8">
+              <div>
+                <Eyebrow className="text-warden-blue">{t("designPrinciplesEyebrow")}</Eyebrow>
+                <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                  {t("designPrinciplesTitle")}
+                </h2>
+              </div>
 
-            {/* 03 — Designed to work together */}
-            <div className="bg-warden-carbon p-8">
-              <svg className="mb-2 size-8 text-warden-ochre" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="3,10 7,8 11,10 11,15 7,17 3,15" />
-                <polygon points="11,10 15,8 19,10 19,15 15,17 11,15" />
-                <polygon points="19,10 23,8 27,10 27,15 23,17 19,15" />
-              </svg>
-              <span className="text-data text-warden-ochre mb-1 block">{t("principle3.number")}</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2 mt-0">
-                {t("principle3.title")}
-              </h3>
-              <p className="text-sm text-white/60 leading-relaxed">
-                {t("principle3.desc")}
-              </p>
+              {/* 01 */}
+              <div>
+                <span className="text-data text-warden-blue block mb-1">{t("principle1.number")}</span>
+                <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                  {t("principle1.title")}
+                </h3>
+                <p className="mt-1.5 text-sm text-white/60 leading-relaxed">
+                  {t("principle1.desc")}
+                </p>
+              </div>
+
+              <hr className="border-t border-border/50" />
+
+              {/* 02 */}
+              <div>
+                <span className="text-data text-warden-green block mb-1">{t("principle2.number")}</span>
+                <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                  {t("principle2.title")}
+                </h3>
+                <p className="mt-1.5 text-sm text-white/60 leading-relaxed">
+                  {t("principle2.desc")}
+                </p>
+              </div>
+
+              <hr className="border-t border-border/50" />
+
+              {/* 03 */}
+              <div>
+                <span className="text-data text-warden-ochre block mb-1">{t("principle3.number")}</span>
+                <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                  {t("principle3.title")}
+                </h3>
+                <p className="mt-1.5 text-sm text-white/60 leading-relaxed">
+                  {t("principle3.desc")}
+                </p>
+              </div>
             </div>
           </div>
         </Container>
