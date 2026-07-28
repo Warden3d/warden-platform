@@ -44,13 +44,13 @@ export default async function Home() {
           <div className="grid gap-px bg-border sm:grid-cols-3">
             {/* 01 — Designed around the game */}
             <div className="bg-warden-carbon p-8">
-              <svg className="mb-4 size-7 text-warden-blue" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="mb-2 size-8 text-warden-blue" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="14,2 25,8 25,20 14,26 3,20 3,8" />
                 <line x1="14" y1="2" x2="14" y2="26" />
                 <circle cx="14" cy="14" r="2" />
               </svg>
-              <span className="text-data text-warden-blue mb-4 block">{t("principle1.number")}</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
+              <span className="text-data text-warden-blue mb-1 block">{t("principle1.number")}</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2 mt-0">
                 {t("principle1.title")}
               </h3>
               <p className="text-sm text-white/60 leading-relaxed">
@@ -60,14 +60,15 @@ export default async function Home() {
 
             {/* 02 — Built for real play */}
             <div className="bg-warden-carbon p-8">
-              <svg className="mb-4 size-7 text-warden-green" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M7,8 L21,8 L21,24 L7,24 Z" />
-                <path d="M10,4 L18,4" />
-                <line x1="14" y1="12" x2="14" y2="20" />
-                <line x1="10.5" y1="16" x2="17.5" y2="16" />
+              <svg className="mb-2 size-8 text-warden-green" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="4,6 11,4 11,22 4,24" />
+                <polygon points="17,4 24,6 24,24 17,22" />
+                <line x1="11" y1="10" x2="17" y2="10" />
+                <line x1="11" y1="18" x2="17" y2="18" />
+                <circle cx="14" cy="14" r="2.5" />
               </svg>
-              <span className="text-data text-warden-green mb-4 block">{t("principle2.number")}</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
+              <span className="text-data text-warden-green mb-1 block">{t("principle2.number")}</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2 mt-0">
                 {t("principle2.title")}
               </h3>
               <p className="text-sm text-white/60 leading-relaxed">
@@ -77,15 +78,13 @@ export default async function Home() {
 
             {/* 03 — Designed to work together */}
             <div className="bg-warden-carbon p-8">
-              <svg className="mb-4 size-7 text-warden-ochre" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="9,4 16,4 19,8 16,12 9,12 6,8" />
-                <polygon points="13,14 20,14 23,18 20,22 13,22 10,18" />
-                <polygon points="4,16 11,16 14,20 11,24 4,24 1,20" />
-                <line x1="16" y1="12" x2="13" y2="14" />
-                <line x1="10" y1="12" x2="11" y2="16" />
+              <svg className="mb-2 size-8 text-warden-ochre" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="3,10 7,8 11,10 11,15 7,17 3,15" />
+                <polygon points="11,10 15,8 19,10 19,15 15,17 11,15" />
+                <polygon points="19,10 23,8 27,10 27,15 23,17 19,15" />
               </svg>
-              <span className="text-data text-warden-ochre mb-4 block">{t("principle3.number")}</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
+              <span className="text-data text-warden-ochre mb-1 block">{t("principle3.number")}</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2 mt-0">
                 {t("principle3.title")}
               </h3>
               <p className="text-sm text-white/60 leading-relaxed">
