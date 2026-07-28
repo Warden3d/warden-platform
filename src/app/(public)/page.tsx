@@ -44,13 +44,13 @@ export default async function Home() {
           <div className="grid gap-px bg-border sm:grid-cols-3">
             {/* 01 — Designed around the game */}
             <div className="bg-warden-carbon p-8">
-              <svg className="mb-4 size-7 text-warden-blue" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="mb-2 size-9 text-warden-blue" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="14,2 25,8 25,20 14,26 3,20 3,8" />
                 <line x1="14" y1="2" x2="14" y2="26" />
                 <circle cx="14" cy="14" r="2" />
               </svg>
-              <span className="text-data text-warden-blue mb-4 block">{t("principle1.number")}</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
+              <span className="text-data text-warden-blue mb-1 block">{t("principle1.number")}</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2 mt-0">
                 {t("principle1.title")}
               </h3>
               <p className="text-sm text-white/60 leading-relaxed">
@@ -60,14 +60,18 @@ export default async function Home() {
 
             {/* 02 — Built for real play */}
             <div className="bg-warden-carbon p-8">
-              <svg className="mb-4 size-7 text-warden-green" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M7,8 L21,8 L21,24 L7,24 Z" />
-                <path d="M10,4 L18,4" />
-                <line x1="14" y1="12" x2="14" y2="20" />
-                <line x1="10.5" y1="16" x2="17.5" y2="16" />
+              <svg className="mb-2 size-9 text-warden-green" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3,8 L10,4 L10,14 L3,18 Z" />
+                <path d="M18,4 L25,8 L25,18 L18,14 Z" />
+                <line x1="10" y1="4" x2="18" y2="4" />
+                <line x1="10" y1="14" x2="18" y2="14" />
+                <line x1="6" y1="20" x2="6" y2="25" />
+                <line x1="22" y1="20" x2="22" y2="25" />
+                <line x1="4" y1="25" x2="8" y2="25" />
+                <line x1="20" y1="25" x2="24" y2="25" />
               </svg>
-              <span className="text-data text-warden-green mb-4 block">{t("principle2.number")}</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
+              <span className="text-data text-warden-green mb-1 block">{t("principle2.number")}</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2 mt-0">
                 {t("principle2.title")}
               </h3>
               <p className="text-sm text-white/60 leading-relaxed">
@@ -77,15 +81,16 @@ export default async function Home() {
 
             {/* 03 — Designed to work together */}
             <div className="bg-warden-carbon p-8">
-              <svg className="mb-4 size-7 text-warden-ochre" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="9,4 16,4 19,8 16,12 9,12 6,8" />
-                <polygon points="13,14 20,14 23,18 20,22 13,22 10,18" />
-                <polygon points="4,16 11,16 14,20 11,24 4,24 1,20" />
-                <line x1="16" y1="12" x2="13" y2="14" />
-                <line x1="10" y1="12" x2="11" y2="16" />
+              <svg className="mb-2 size-9 text-warden-ochre" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="14,2 20,5.5 20,12.5 14,16 8,12.5 8,5.5" />
+                <polygon points="6,14 12,17.5 12,24.5 6,28 0,24.5 0,17.5" />
+                <polygon points="22,14 28,17.5 28,24.5 22,28 16,24.5 16,17.5" />
+                <line x1="14" y1="16" x2="12" y2="14" />
+                <line x1="14" y1="16" x2="16" y2="14" />
+                <line x1="12" y1="24.5" x2="16" y2="24.5" />
               </svg>
-              <span className="text-data text-warden-ochre mb-4 block">{t("principle3.number")}</span>
-              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
+              <span className="text-data text-warden-ochre mb-1 block">{t("principle3.number")}</span>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground mb-2 mt-0">
                 {t("principle3.title")}
               </h3>
               <p className="text-sm text-white/60 leading-relaxed">
