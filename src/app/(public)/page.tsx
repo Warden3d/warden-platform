@@ -29,13 +29,13 @@ export default async function Home() {
         <>
           <Section className="pt-20 md:pt-24 pb-8 md:pb-10">
             <div className="mx-auto max-w-[90rem] px-6 lg:px-10">
-              <div className="relative overflow-hidden rounded-sm border border-border aspect-[16/6] md:aspect-[16/5] min-h-[330px] md:min-h-[430px]">
+              <div className="relative overflow-hidden rounded-sm border border-border w-full h-auto md:h-[460px] min-h-[280px]">
                 {/* Panoramic background */}
                 <Image
                   src="/images/drops/active-drop-bg.png"
                   alt="WARDEN modular science-fiction command complex arranged on a BattleTech tabletop map."
                   fill
-                  className="object-cover object-[65%_center] md:object-[50%_center]"
+                  className="object-cover object-center"
                   sizes="100vw"
                   priority
                 />
@@ -50,7 +50,7 @@ export default async function Home() {
                         <span className="inline-block size-1.5 rounded-full bg-warden-ochre animate-pulse opacity-80" />
                         ACTIVE DROP
                       </p>
-                      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
+                      <h2 className="text-[1.65rem] md:text-[2.0625rem] font-semibold tracking-tight text-foreground">
                         {activeDrop.name}
                       </h2>
                       <p className="mt-2 text-sm text-white/70 leading-relaxed line-clamp-2">
