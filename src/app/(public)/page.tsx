@@ -7,7 +7,7 @@ import { WardenButton } from "@/components/ui/warden-button";
 import Image from "next/image";
 import { VideoHero } from "@/components/layout/video-hero";
 import { HeroBrand } from "@/components/layout/hero-brand";
-import { ChevronRight, CalendarDays, Timer } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("es-ES", {
@@ -32,42 +32,53 @@ export default async function Home() {
         <HeroBrand />
       </VideoHero>
 
-      {/* ── 2. ACTIVE DROP (conditional) ── */}
+      {/* ── 2. ACTIVE DROP (conditional — contained module) ── */}
       {activeDrop && (
         <>
-          <Section>
+          <Section className="py-12 md:py-16">
             <Container>
-              <div className="border border-border bg-warden-surface p-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre/70 mb-2">
-                    {"Drop activo"}
-                  </p>
-                  <h3 className="text-xl font-semibold tracking-tight text-foreground">
-                    {activeDrop.name}
-                  </h3>
-                  <p className="mt-1.5 text-sm text-muted-foreground max-w-xl">
-                    {activeDrop.description}
-                  </p>
-                  <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="inline-flex items-center gap-1">
-                      <CalendarDays className="size-3.5" />
-                      {formatDate(activeDrop.startsAt)}
-                    </span>
-                    {activeDrop.endsAt && (
-                      <span className="inline-flex items-center gap-1">
-                        <Timer className="size-3.5" />
-                        {formatDate(activeDrop.endsAt)}
-                      </span>
-                    )}
+              <div className="relative overflow-hidden rounded-sm border border-border aspect-[16/7] md:aspect-[16/6.5] min-h-[280px] md:min-h-[360px]">
+                {/* Panoramic background */}
+                <Image
+                  src="/images/drops/active-drop-bg.png"
+                  alt="WARDEN modular science-fiction command complex arranged on a BattleTech tabletop map."
+                  fill
+                  className="object-cover object-[65%_center] md:object-[50%_center]"
+                  sizes="100vw"
+                  priority
+                />
+                {/* Extra dark gradient overlay on left for legibility */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent pointer-events-none" />
+
+                {/* Content: left-aligned, in the dark zone */}
+                <div className="relative z-10 h-full flex items-center">
+                  <div className="w-full px-8 md:px-12">
+                    <div className="max-w-[400px] lg:max-w-[440px]">
+                      <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre mb-2">
+                        ACTIVE DROP
+                      </p>
+                      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
+                        {activeDrop.name}
+                      </h2>
+                      <p className="mt-2 text-sm text-white/70 leading-relaxed line-clamp-2">
+                        {activeDrop.description}
+                      </p>
+                      {activeDrop.endsAt && (
+                        <p className="mt-2 text-xs text-white/50">
+                          Closes on {formatDate(activeDrop.endsAt)}
+                        </p>
+                      )}
+                      <div className="mt-5">
+                        <WardenButton href="/drops">
+                          Explore the Drop <ChevronRight className="size-4" />
+                        </WardenButton>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <WardenButton href={`/drops/${activeDrop.slug}`} size="lg" className="shrink-0">
-                  Ver drop <ChevronRight className="size-4" />
-                </WardenButton>
               </div>
             </Container>
           </Section>
-          <SectionDivider />
         </>
       )}
 
