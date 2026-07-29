@@ -628,13 +628,13 @@ export const bundles: Bundle[] = [
 export const drops: Drop[] = [
   {
     id: "drop-001",
-    slug: "hex-markers-steel-edition",
-    name: "Hex Markers — Steel Edition",
+    slug: "city-sector-command-complex",
+    name: "City Sector — Command Complex",
     description:
-      "Edición limitada de nuestros Hex Position Markers en acero ennegrecido. La misma precisión de ajuste, un carácter material diferente. Esta tirada está limitada a 200 juegos y no se repondrá en este acabado. Cada juego incluye un certificado de autenticación numerado.",
-    theme: "Ediciones Especiales",
-    startsAt: "2026-07-15T17:00:00Z",
-    endsAt: "2026-07-31T23:59:59Z",
+      "A modular urban sector designed for tactical engagements. Expand your battlefield with detailed structures, defensive positions and interconnected terrain elements built for BattleTech and Alpha Strike.",
+    theme: "City Terrain",
+    startsAt: "2026-07-20T17:00:00Z",
+    endsAt: "2026-08-10T23:59:59Z",
     status: "live",
     thumbnailUrl: "/images/drops/steel-edition.svg",
     productIds: ["prod-001"],

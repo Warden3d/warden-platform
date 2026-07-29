@@ -9,14 +9,6 @@ import { VideoHero } from "@/components/layout/video-hero";
 import { HeroBrand } from "@/components/layout/hero-brand";
 import { ChevronRight } from "lucide-react";
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("es-ES", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
 export default async function Home() {
   const t = await getTranslations("home");
   const c = await getTranslations("common");
@@ -35,9 +27,9 @@ export default async function Home() {
       {/* ── 2. ACTIVE DROP (conditional — contained module) ── */}
       {activeDrop && (
         <>
-          <Section className="py-12 md:py-16">
-            <Container>
-              <div className="relative overflow-hidden rounded-sm border border-border aspect-[16/7] md:aspect-[16/6.5] min-h-[280px] md:min-h-[360px]">
+          <Section className="pt-20 md:pt-24 pb-8 md:pb-10">
+            <div className="mx-auto max-w-[90rem] px-6 lg:px-10">
+              <div className="relative overflow-hidden rounded-sm border border-border aspect-[16/6] md:aspect-[16/5] min-h-[330px] md:min-h-[430px]">
                 {/* Panoramic background */}
                 <Image
                   src="/images/drops/active-drop-bg.png"
@@ -52,9 +44,10 @@ export default async function Home() {
 
                 {/* Content: left-aligned, in the dark zone */}
                 <div className="relative z-10 h-full flex items-center">
-                  <div className="w-full px-8 md:px-12">
-                    <div className="max-w-[400px] lg:max-w-[440px]">
-                      <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre mb-2">
+                  <div className="w-full px-8 md:px-14">
+                    <div className="max-w-[440px] lg:max-w-[500px]">
+                      <p className="flex items-center gap-2 text-sm md:text-base font-semibold uppercase tracking-[0.25em] text-warden-ochre mb-3">
+                        <span className="inline-block size-1.5 rounded-full bg-warden-ochre animate-pulse opacity-80" />
                         ACTIVE DROP
                       </p>
                       <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
@@ -63,12 +56,10 @@ export default async function Home() {
                       <p className="mt-2 text-sm text-white/70 leading-relaxed line-clamp-2">
                         {activeDrop.description}
                       </p>
-                      {activeDrop.endsAt && (
-                        <p className="mt-2 text-xs text-white/50">
-                          Closes on {formatDate(activeDrop.endsAt)}
-                        </p>
-                      )}
-                      <div className="mt-5">
+                      <p className="mt-2 text-xs text-white/50">
+                        Reservations close August 31, 2026
+                      </p>
+                      <div className="mt-4">
                         <WardenButton href="/drops">
                           Explore the Drop <ChevronRight className="size-4" />
                         </WardenButton>
@@ -77,7 +68,7 @@ export default async function Home() {
                   </div>
                 </div>
               </div>
-            </Container>
+            </div>
           </Section>
         </>
       )}
