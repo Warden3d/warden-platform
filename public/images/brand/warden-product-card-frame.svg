@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 360 540"
+     fill="none"
+     color="#48B8F5"
+     role="presentation"
+     aria-hidden="true"
+     preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="warden-edge" x1="18" y1="8" x2="342" y2="532" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#20333E"/>
+      <stop offset=".26" stop-color="#456170"/>
+      <stop offset=".55" stop-color="#172832"/>
+      <stop offset=".82" stop-color="#3B5260"/>
+      <stop offset="1" stop-color="#182730"/>
+    </linearGradient>
+    <linearGradient id="warden-accent" x1="55" y1="0" x2="306" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="currentColor" stop-opacity=".12"/>
+      <stop offset=".5" stop-color="currentColor" stop-opacity=".9"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity=".1"/>
+    </linearGradient>
+    <filter id="warden-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.2"/>
+    </filter>
+    <pattern id="warden-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M0 0V6" stroke="currentColor" stroke-width=".75" opacity=".32"/>
+    </pattern>
+  </defs>
+
+  <!-- Main double contour. All strokes remain crisp when the SVG is resized. -->
+  <g vector-effect="non-scaling-stroke" stroke-linejoin="miter">
+    <path d="M25 6H111L125 18H331L351 38V100L356 106V467L350 473V510L334 527H126L112 534H26L8 516V449L3 443V97L8 91V30Z"
+          stroke="url(#warden-edge)" stroke-width="2.2"/>
+    <path d="M29 14H108L121 25H326L343 42V103L348 109V463L342 469V505L329 518H123L109 526H31L16 511V453L11 447V101L16 95V35Z"
+          stroke="#263D49" stroke-width="1"/>
+    <path d="M34 22H104L117 32H321L336 47V108L341 114V458L335 464V500L324 511H120L106 519H36L23 506V457L18 451V106L23 100V40Z"
+          stroke="#132630" stroke-width=".8" opacity=".9"/>
+
+    <!-- Corner bevel highlights -->
+    <g stroke="currentColor" stroke-width="1.15" opacity=".34">
+      <path d="M25 6 8 30V91M111 6l14 12"/>
+      <path d="m331 18 20 20v62M334 527l16-17v-37"/>
+      <path d="m126 527-14 7H26L8 516v-67"/>
+    </g>
+
+    <!-- Upper technical rail -->
+    <path d="M39 8H106L120 20H232L244 13H319L338 32"
+          stroke="#35505E" stroke-width="4.2" opacity=".65"/>
+    <path d="M55 11H104L118 23H228L241 16H303"
+          stroke="url(#warden-accent)" stroke-width="1.2"/>
+    <path d="M148 19H215" stroke="currentColor" stroke-width="1" opacity=".25"/>
+    <path d="M158 15h10l4 4h31l4-4h10" stroke="#58707C" stroke-width=".7" opacity=".42"/>
+
+    <!-- Side service notches -->
+    <g stroke="#37515E" stroke-width="1" opacity=".78">
+      <path d="M8 65H2v44l6 7M351 72h6v44l-6 7"/>
+      <path d="M8 426H2v35l6 8M350 429h7v35l-7 8"/>
+    </g>
+    <g fill="currentColor" opacity=".45" stroke="none">
+      <path d="M4 74h2v20H4zM354 82h2v18h-2zM4 433h2v16H4zM354 437h2v16h-2z"/>
+    </g>
+
+    <!-- Lower armor plates -->
+    <path d="M21 493v14l14 14h73l15-8h89l11 7h103l13-14v-17"
+          stroke="#344C58" stroke-width="3.4" opacity=".55"/>
+    <path d="M28 505h78l14-7h96l10 7h94"
+          stroke="url(#warden-accent)" stroke-width="1.1"/>
+    <path d="M48 517h55l13-7h29M232 511h84"
+          stroke="#617581" stroke-width=".75" opacity=".38"/>
+
+    <!-- Micro geometry: deliberately subtle at card size -->
+    <g stroke="currentColor" stroke-width=".8" opacity=".32">
+      <path d="M45 16h25m-18-4-4 4 4 4m11-8 4 4-4 4"/>
+      <path d="M274 20h42m-37-4 4 4-4 4m10-8 4 4-4 4m10-8 4 4-4 4"/>
+      <path d="M40 511h25m-21-4-4 4 4 4m8-8-4 4 4 4m8-8-4 4 4 4"/>
+      <path d="M267 514h48m-42-4 4 4-4 4m11-8 4 4-4 4m11-8 4 4-4 4"/>
+    </g>
+
+    <!-- Vent / hatch details -->
+    <path d="M135 10h87l8 7h-103z" fill="url(#warden-hatch)" stroke="#233945" stroke-width=".7" opacity=".7"/>
+    <path d="M72 524h37l10-5H65z" fill="url(#warden-hatch)" stroke="#233945" stroke-width=".7" opacity=".65"/>
+    <path d="M236 519h61l9 5h-78z" fill="url(#warden-hatch)" stroke="#233945" stroke-width=".7" opacity=".65"/>
+
+    <!-- Controlled accent sparks -->
+    <g fill="currentColor" stroke="none">
+      <circle cx="40" cy="17" r="1.25"/>
+      <circle cx="321" cy="27" r="1.1"/>
+      <circle cx="29" cy="497" r="1.1"/>
+      <circle cx="327" cy="498" r="1.2"/>
+    </g>
+    <path d="M113 23H242" stroke="currentColor" stroke-width="2.4" opacity=".12" filter="url(#warden-glow)"/>
+  </g>
+</svg>

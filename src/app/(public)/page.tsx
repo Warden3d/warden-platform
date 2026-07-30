@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
 import { getActiveProducts, getDrops } from "@/lib/data";
 
-import { ProductCard } from "@/components/catalog/product-card";
+import { WardenCard } from "@/components/catalog/warden-card";
 import { WardenButton } from "@/components/ui/warden-button";
 import Image from "next/image";
 import { VideoHero } from "@/components/layout/video-hero";
@@ -151,9 +151,9 @@ export default async function Home() {
               {t("featuredTitle")}
             </h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} variant="compact" />
+              <WardenCard key={product.id} product={product} />
             ))}
           </div>
           <div className="mt-6">
