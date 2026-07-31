@@ -129,13 +129,14 @@ export function WardenCard({ product, className }: WardenCardProps) {
 
             {/* Price + CTA — pushed to bottom by mt-auto */}
             <div className="mt-auto flex items-center justify-between gap-2 border-t border-[hsl(215_10%_17%)] pt-3">
-              <span className="shrink-0 text-data text-foreground/90">
+              <span className="shrink-0 pl-3 text-base font-semibold text-foreground">
                 {product.price.toFixed(2)} €
               </span>
               <WardenButton
                 href={`/products/${product.slug}`}
                 variant="outline"
                 size="sm"
+                className="border-warden-blue/50 text-warden-blue hover:border-warden-blue hover:text-[hsl(210_42%_68%)]"
               >
                 View product
               </WardenButton>
