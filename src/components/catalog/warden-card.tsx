@@ -10,6 +10,11 @@ import { WardenButton } from "@/components/ui/warden-button";
 export interface WardenCardProps {
   product: Product;
   className?: string;
+  /**
+   * R077 — imagen real en ventana interior independiente (prueba visual).
+   * Solo se pasa a la primera Product Card; las demás no lo reciben.
+   */
+  windowImage?: { src: string; alt: string };
 }
 
 // ─── Badge colour per system ───────────────────
@@ -40,7 +45,7 @@ const objectPositions: Record<string, string> = {};
 
 // ─── Card component ────────────────────────────
 
-export function WardenCard({ product, className }: WardenCardProps) {
+export function WardenCard({ product, className, windowImage }: WardenCardProps) {
   const primaryImage = product.images.find((img) => img.isPrimary);
   const isSupabaseUrl =
     primaryImage?.url &&
@@ -71,7 +76,22 @@ export function WardenCard({ product, className }: WardenCardProps) {
             className="relative block aspect-[4/3] overflow-hidden"
             tabIndex={-1}
           >
-            {primaryImage ? (
+            {windowImage ? (
+              /* ── R077 — Ventana interior independiente (solo 1.ª tarjeta) ──
+                 Márgenes 32px laterales y 46px superior (dentro de los bordes
+                 interiores del marco v2-2: izq ~20-26px, der ~21px, top ~42px).
+                 Inferior 6px: pegada a la línea separadora. */
+              <div className="absolute inset-x-8 top-[46px] bottom-1.5 overflow-hidden rounded-[5px] border border-[hsl(215_20%_50%_/_0.35)] bg-[hsl(220_10%_5%)]">
+                <Image
+                  src={windowImage.src}
+                  alt={windowImage.alt}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  unoptimized
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
+              </div>
+            ) : primaryImage ? (
               <Image
                 src={primaryImage.url}
                 alt={primaryImage.alt || product.name}

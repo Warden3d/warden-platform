@@ -14,6 +14,27 @@ export default async function Home() {
   const c = await getTranslations("common");
   const products = await getActiveProducts();
   const featuredProducts = products.filter((p) => p.featured);
+
+  // R077 — Imágenes reales de prueba en ventana interior (4 fichas).
+  // El texto del producto no coincide con las imágenes: son pruebas visuales.
+  const CARD_WINDOW_IMAGES = [
+    {
+      src: "/images/products/warden-conjunto-urbano-card.jpg",
+      alt: "WARDEN modular urban district scenery on a BattleTech tabletop.",
+    },
+    {
+      src: "/images/products/warden-complejo-industrial-card.jpg",
+      alt: "WARDEN industrial complex scenery on a BattleTech tabletop.",
+    },
+    {
+      src: "/images/products/warden-base-fortificada-card.jpg",
+      alt: "WARDEN fortified base scenery on a BattleTech tabletop.",
+    },
+    {
+      src: "/images/products/warden-sector-urbano-completo-card.jpg",
+      alt: "WARDEN complete urban sector scenery on a BattleTech tabletop.",
+    },
+  ];
   const [drops] = await Promise.all([getDrops()]);
   const activeDrop = drops.find((d) => d.status === "live") ?? null;
 
@@ -156,8 +177,14 @@ export default async function Home() {
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredProducts.map((product) => (
-              <WardenCard key={product.id} product={product} />
+            {featuredProducts.map((product, index) => (
+              <WardenCard
+                key={product.id}
+                product={product}
+                windowImage={
+                  CARD_WINDOW_IMAGES[index]
+                }
+              />
             ))}
           </div>
           <div className="mt-6">
