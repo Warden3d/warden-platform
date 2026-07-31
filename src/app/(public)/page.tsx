@@ -7,7 +7,7 @@ import { WardenButton } from "@/components/ui/warden-button";
 import Image from "next/image";
 import { VideoHero } from "@/components/layout/video-hero";
 import { HeroBrand } from "@/components/layout/hero-brand";
-import { ChevronRight } from "lucide-react";
+import { Boxes, ChevronRight } from "lucide-react";
 
 export default async function Home() {
   const t = await getTranslations("home");
@@ -164,7 +164,7 @@ export default async function Home() {
       <SectionDivider />
 
       {/* ── 4. FEATURED PRODUCTS ── */}
-      <Section>
+      <Section className="pb-14 md:pb-20">
         <Container>
           <div className="mb-8">
             <Eyebrow>{t("featuredEyebrow")}</Eyebrow>
@@ -187,9 +187,16 @@ export default async function Home() {
               />
             ))}
           </div>
-          <div className="mt-6">
-            <WardenButton href="/catalog" variant="outline">
-              {c("viewCollection")} <ChevronRight className="size-4" />
+          <div className="mt-6 flex justify-center">
+            <WardenButton
+              href="/catalog"
+              variant="outline"
+              size="lg"
+              className="border-[hsl(210_45%_60%)] bg-[hsl(220_10%_9%)] px-8 text-[hsl(210_50%_74%)] hover:border-[hsl(210_55%_70%)] hover:bg-[hsl(220_10%_11%)] hover:text-white hover:shadow-[0_0_14px_hsl(210_70%_60%_/_0.35)]"
+            >
+              <Boxes className="size-4" aria-hidden="true" />
+              {c("viewFullCatalog")}
+              <ChevronRight className="size-4" aria-hidden="true" />
             </WardenButton>
           </div>
         </Container>
