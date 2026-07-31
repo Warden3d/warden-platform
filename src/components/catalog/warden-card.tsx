@@ -11,8 +11,8 @@ export interface WardenCardProps {
   product: Product;
   className?: string;
   /**
-   * R077 — imagen real en ventana interior independiente (prueba visual).
-   * Solo se pasa a la primera Product Card; las demás no lo reciben.
+   * R077 — imagen real en ventana interior (prueba visual, 4 fichas).
+   * No coincide con el texto del producto: son pruebas de encuadre.
    */
   windowImage?: { src: string; alt: string };
 }
@@ -77,11 +77,11 @@ export function WardenCard({ product, className, windowImage }: WardenCardProps)
             tabIndex={-1}
           >
             {windowImage ? (
-              /* ── R077 — Ventana interior independiente (solo 1.ª tarjeta) ──
-                 Márgenes 32px laterales y 46px superior (dentro de los bordes
-                 interiores del marco v2-2: izq ~20-26px, der ~21px, top ~42px).
-                 Inferior 6px: pegada a la línea separadora. */
-              <div className="absolute inset-x-8 top-[46px] bottom-1.5 overflow-hidden rounded-[5px] border border-[hsl(215_20%_50%_/_0.35)] bg-[hsl(220_10%_5%)]">
+              /* ── R077 — Imagen contenida dentro del marco v2 decorativo ──
+                 Márgenes: 16px laterales, 32px superior (bajo la pestaña),
+                 0px inferior: pegada al borde donde arranca el contenido.
+                 Esquinas redondeadas 8px. */
+              <div className="absolute inset-x-4 top-8 bottom-0 overflow-hidden rounded-[8px] bg-[hsl(220_10%_5%)]">
                 <Image
                   src={windowImage.src}
                   alt={windowImage.alt}
@@ -113,9 +113,6 @@ export function WardenCard({ product, className, windowImage }: WardenCardProps)
               </div>
             )}
           </Link>
-
-          {/* ── Separator — aligns with content padding below ── */}
-          <div className="mx-5 h-px bg-[hsl(215_12%_20%)]" />
 
           {/* ── Text content block with interior safe zone ── */}
           {/*
@@ -167,7 +164,7 @@ export function WardenCard({ product, className, windowImage }: WardenCardProps)
         {/* Layer 2 — SVG frame overlay (decorative, on top of content) */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/brand/warden-product-card-frame-v2-2.svg"
+          src="/images/brand/warden-product-card-frame-v2.svg"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full pointer-events-none z-20 select-none"
