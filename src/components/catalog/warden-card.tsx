@@ -147,7 +147,7 @@ export function WardenCard({ product, className }: WardenCardProps) {
         {/* Layer 2 — SVG frame overlay (decorative, on top of content) */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/brand/warden-product-card-frame-v2.svg"
+          src="/images/brand/warden-product-card-frame-v2-2.svg"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full pointer-events-none z-20 select-none"

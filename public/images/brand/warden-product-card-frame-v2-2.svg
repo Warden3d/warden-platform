@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 360 540"
+     fill="none"
+     color="#48B8F5"
+     role="presentation"
+     aria-hidden="true"
+     preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="warden-v2-edge" x1="12" y1="8" x2="346" y2="532"
+                    gradientUnits="userSpaceOnUse">
+      <stop stop-color="#253A46"/>
+      <stop offset=".28" stop-color="#49606C"/>
+      <stop offset=".58" stop-color="#1B2D36"/>
+      <stop offset=".84" stop-color="#3A505C"/>
+      <stop offset="1" stop-color="#1A2B34"/>
+    </linearGradient>
+    <linearGradient id="warden-v2-accent" x1="88" y1="0" x2="277" y2="0"
+                    gradientUnits="userSpaceOnUse">
+      <stop stop-color="currentColor" stop-opacity=".08"/>
+      <stop offset=".5" stop-color="currentColor" stop-opacity=".72"/>
+      <stop offset="1" stop-color="currentColor" stop-opacity=".08"/>
+    </linearGradient>
+  </defs>
+
+  <g vector-effect="non-scaling-stroke" stroke-linejoin="miter">
+    <!-- Silueta principal: laterales rectos y cortes concentrados en las esquinas -->
+    <path d="M24 6H111L125 18H332L352 38V506L333 527H126L112 534H25L8 517V31Z"
+          stroke="url(#warden-v2-edge)"
+          stroke-width="2.2"/>
+
+    <!-- Segundo contorno breve, paralelo y limpio -->
+    <g stroke="#405965" stroke-width="1" opacity=".72">
+      <path d="M28 14H108L122 25H327L343 42V105"/>
+      <path d="M343 435V502L329 518H127"/>
+      <path d="M108 526H30L16 512V436"/>
+      <path d="M16 105V36L29 22"/>
+    </g>
+
+    <!-- Línea interior parcial; termina antes de precio y botón -->
+    <path d="M25 425V48L33 39H103L117 49H318L334 57V425"
+          stroke="#29414C"
+          stroke-width=".85"
+          opacity=".62"/>
+
+    <!-- Placa técnica superior, alineada con el borde -->
+    <path d="M43 8H106L120 20H230L242 14H316"
+          stroke="#38515D"
+          stroke-width="3"
+          opacity=".65"/>
+    <path d="M92 20H119L126 24H226L234 20H270"
+          stroke="url(#warden-v2-accent)"
+          stroke-width="1"/>
+    <g fill="currentColor" opacity=".55" stroke="none">
+      <circle cx="39" cy="16" r="1.15"/>
+      <circle cx="321" cy="26" r="1.05"/>
+    </g>
+
+    <!-- Placa inferior corta, pegada al contorno y fuera del contenido -->
+    <path d="M68 527H109L124 520H235L249 525H304"
+          stroke="#344C58"
+          stroke-width="1"
+          opacity=".72"/>
+    <path d="M132 523H226"
+          stroke="url(#warden-v2-accent)"
+          stroke-width=".9"/>
+  </g>
+</svg>
