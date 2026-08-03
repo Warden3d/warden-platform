@@ -125,15 +125,14 @@
     },
     "systemsEyebrow": "Sistemas de juego",
     "systemsTitle": "Compatible en todo el espectro",
-    "processEyebrow": "Proceso",
-    "processTitle": "Cómo funciona WARDEN",
-    "processDesc": "No operamos con checkout directo. Así es como conseguir productos WARDEN para tu mesa.",
-    "step1Title": "Explora y selecciona",
-    "step1Desc": "Recorre el catálogo y añade productos a tu Selección. No se necesita cuenta.",
-    "step2Title": "Solicita presupuesto",
-    "step2Desc": "Envía tu Selección con tus datos de contacto. Revisamos y respondemos con precio, disponibilidad y plazos de entrega.",
-    "step3Title": "Confirma y recibe",
-    "step3Desc": "Una vez confirmado, tu pedido entra en producción. Fabricación en pequeños lotes para garantizar calidad. Envíos internacionales."
+    "processEyebrow": "PROCESS",
+    "processTitle": "HOW WARDEN WORKS",
+    "step1Title": "Explore and select",
+    "step1Desc": "Browse our catalog and add products to your Selection. No account needed.",
+    "step2Title": "Request a quote",
+    "step2Desc": "Submit your Selection with your contact details. We review availability and respond with price, availability and delivery times.",
+    "step3Title": "Confirm and receive",
+    "step3Desc": "Once confirmed, your order enters production. Small-batch manufacturing to guarantee quality. International shipping."
   },
   "about": {
     "heroEyebrow": "Identidad",

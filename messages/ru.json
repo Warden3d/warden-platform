@@ -93,15 +93,14 @@
     },
     "systemsEyebrow": "Игровые системы",
     "systemsTitle": "Совместимость во всём спектре",
-    "processEyebrow": "Процесс",
-    "processTitle": "Как работает WARDEN",
-    "processDesc": "Мы не работаем с прямой оплатой на сайте. Вот как получить продукты WARDEN для вашего стола.",
-    "step1Title": "Изучите и выберите",
-    "step1Desc": "Просмотрите каталог и добавьте продукты в подборку. Без регистрации.",
-    "step2Title": "Запросите расчёт",
-    "step2Desc": "Отправьте подборку с контактными данными. Мы ответим с ценой, наличием и сроками доставки.",
-    "step3Title": "Подтвердите и получите",
-    "step3Desc": "После подтверждения ваш заказ уходит в производство. Мелкосерийное изготовление для гарантии качества. Международная доставка."
+    "processEyebrow": "PROCESS",
+    "processTitle": "HOW WARDEN WORKS",
+    "step1Title": "Explore and select",
+    "step1Desc": "Browse our catalog and add products to your Selection. No account needed.",
+    "step2Title": "Request a quote",
+    "step2Desc": "Submit your Selection with your contact details. We review availability and respond with price, availability and delivery times.",
+    "step3Title": "Confirm and receive",
+    "step3Desc": "Once confirmed, your order enters production. Small-batch manufacturing to guarantee quality. International shipping."
   },
   "about": {
     "heroEyebrow": "Идентичность",

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { getTranslations } from "next-intl/server";
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
 import { getActiveProducts, getDrops } from "@/lib/data";
@@ -7,7 +8,34 @@ import { WardenButton } from "@/components/ui/warden-button";
 import Image from "next/image";
 import { VideoHero } from "@/components/layout/video-hero";
 import { HeroBrand } from "@/components/layout/hero-brand";
-import { Boxes, ChevronRight } from "lucide-react";
+import { Boxes, ChevronRight, FileText, Hexagon, Package, Search, type LucideIcon } from "lucide-react";
+
+const PROCESS_STEPS: {
+  num: string;
+  icon: LucideIcon;
+  titleKey: string;
+  descKey: string;
+}[] = [
+  { num: "01", icon: Search, titleKey: "step1Title", descKey: "step1Desc" },
+  { num: "02", icon: FileText, titleKey: "step2Title", descKey: "step2Desc" },
+  { num: "03", icon: Package, titleKey: "step3Title", descKey: "step3Desc" },
+];
+
+/* R079 — Icono técnico hexagonal: fondo oscuro recortado, contorno azul
+   exterior + segundo contorno interior, pictograma claro centrado. */
+function ProcessIcon({ icon: Icon }: { icon: LucideIcon }) {
+  return (
+    <div className="relative h-[96px] w-[105px] shrink-0" aria-hidden="true">
+      <div className="absolute inset-0 bg-[hsl(220_10%_8%)] [clip-path:polygon(50%_0%,95%_25%,95%_75%,50%_100%,5%_75%,5%_25%)]" />
+      <Hexagon className="absolute inset-0 h-full w-full text-warden-blue" strokeWidth={1.25} />
+      <Hexagon
+        className="absolute inset-[10px] h-[calc(100%-20px)] w-[calc(100%-20px)] text-warden-blue/45"
+        strokeWidth={1}
+      />
+      <Icon className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 text-[hsl(220_8%_86%)]" strokeWidth={1.5} />
+    </div>
+  );
+}
 
 export default async function Home() {
   const t = await getTranslations("home");
@@ -205,45 +233,41 @@ export default async function Home() {
       <SectionDivider />
 
       {/* ── 5. HOW WARDEN WORKS ── */}
-      <Section>
+      <Section className="pt-10 pb-14 md:pt-16 md:pb-20">
         <Container>
-          <div className="max-w-3xl">
-            <Eyebrow>{t("processEyebrow")}</Eyebrow>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              {t("processTitle")}
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {t("processDesc")}
-            </p>
-            <div className="mt-8 grid gap-6 sm:grid-cols-3">
-              <div>
-                <span className="text-data text-warden-blue block mb-2">01</span>
-                <h4 className="text-sm font-semibold text-foreground">
-                  {t("step1Title")}
-                </h4>
-                <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-                  {t("step1Desc")}
-                </p>
-              </div>
-              <div>
-                <span className="text-data text-warden-green block mb-2">02</span>
-                <h4 className="text-sm font-semibold text-foreground">
-                  {t("step2Title")}
-                </h4>
-                <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-                  {t("step2Desc")}
-                </p>
-              </div>
-              <div>
-                <span className="text-data text-warden-ochre block mb-2">03</span>
-                <h4 className="text-sm font-semibold text-foreground">
-                  {t("step3Title")}
-                </h4>
-                <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
-                  {t("step3Desc")}
-                </p>
-              </div>
-            </div>
+          <Eyebrow className="text-warden-blue">{t("processEyebrow")}</Eyebrow>
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            {t("processTitle")}
+            <span className="text-warden-ochre">.</span>
+          </h2>
+
+          <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-stretch lg:gap-x-6">
+            {PROCESS_STEPS.map((step, index) => (
+              <Fragment key={step.num}>
+                {index > 0 && (
+                  <div className="flex items-center justify-center gap-2 py-1 lg:py-0">
+                    <div className="h-8 w-px bg-[hsl(220_8%_14%)] lg:h-28" />
+                    <ChevronRight className="size-4 rotate-90 text-warden-blue/70 lg:rotate-0" />
+                  </div>
+                )}
+                <div className="grid grid-cols-[auto_1fr] items-stretch gap-5">
+                  <div className="flex items-center justify-center">
+                    <ProcessIcon icon={step.icon} />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-data block text-base font-semibold tracking-widest text-warden-blue">
+                      {step.num}
+                    </span>
+                    <h3 className="mt-1.5 text-base font-semibold tracking-tight text-foreground">
+                      {t(step.titleKey)}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-[hsl(220_6%_62%)]">
+                      {t(step.descKey)}
+                    </p>
+                  </div>
+                </div>
+              </Fragment>
+            ))}
           </div>
         </Container>
       </Section>

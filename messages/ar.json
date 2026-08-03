@@ -93,15 +93,14 @@
     },
     "systemsEyebrow": "أنظمة اللعب",
     "systemsTitle": "متوافقة عبر الطيف",
-    "processEyebrow": "العملية",
-    "processTitle": "كيف تعمل WARDEN",
-    "processDesc": "لا نعمل بنظام الدفع المباشر. إليك كيفية الحصول على منتجات WARDEN لطاولتك.",
-    "step1Title": "استكشف واختر",
-    "step1Desc": "تصفح الكتالوج وأضف المنتجات إلى اختياراتك. لا حاجة لحساب.",
-    "step2Title": "اطلب عرض سعر",
-    "step2Desc": "قدّم اختياراتك مع بيانات الاتصال. نراجع ونرد بالسعر والتوفر ومواعيد التسليم.",
-    "step3Title": "أكّد واستلم",
-    "step3Desc": "بعد التأكيد، يدخل طلبك مرحلة الإنتاج. تصنيع بدفعات صغيرة لضمان الجودة. شحن دولي."
+    "processEyebrow": "PROCESS",
+    "processTitle": "HOW WARDEN WORKS",
+    "step1Title": "Explore and select",
+    "step1Desc": "Browse our catalog and add products to your Selection. No account needed.",
+    "step2Title": "Request a quote",
+    "step2Desc": "Submit your Selection with your contact details. We review availability and respond with price, availability and delivery times.",
+    "step3Title": "Confirm and receive",
+    "step3Desc": "Once confirmed, your order enters production. Small-batch manufacturing to guarantee quality. International shipping."
   },
   "about": {
     "heroEyebrow": "الهوية",

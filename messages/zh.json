@@ -93,15 +93,14 @@
     },
     "systemsEyebrow": "游戏系统",
     "systemsTitle": "全谱系兼容",
-    "processEyebrow": "流程",
-    "processTitle": "WARDEN 的工作方式",
-    "processDesc": "我们不提供直接结账。以下是为您的桌面获取 WARDEN 产品的步骤。",
-    "step1Title": "浏览并选择",
-    "step1Desc": "浏览目录并将产品添加到您的精选。无需账户。",
-    "step2Title": "请求报价",
-    "step2Desc": "提交您的精选及联系方式。我们审核后回复价格、库存和交货时间。",
-    "step3Title": "确认并收货",
-    "step3Desc": "确认后，您的订单进入生产。小批量制造以保证品质。国际配送。"
+    "processEyebrow": "PROCESS",
+    "processTitle": "HOW WARDEN WORKS",
+    "step1Title": "Explore and select",
+    "step1Desc": "Browse our catalog and add products to your Selection. No account needed.",
+    "step2Title": "Request a quote",
+    "step2Desc": "Submit your Selection with your contact details. We review availability and respond with price, availability and delivery times.",
+    "step3Title": "Confirm and receive",
+    "step3Desc": "Once confirmed, your order enters production. Small-batch manufacturing to guarantee quality. International shipping."
   },
   "about": {
     "heroEyebrow": "身份",

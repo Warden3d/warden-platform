@@ -93,15 +93,14 @@
     },
     "systemsEyebrow": "खेल प्रणालियाँ",
     "systemsTitle": "पूर्ण स्पेक्ट्रम में संगत",
-    "processEyebrow": "प्रक्रिया",
-    "processTitle": "WARDEN कैसे काम करता है",
-    "processDesc": "हम सीधे चेकआउट से काम नहीं करते। यहाँ बताया गया है कि अपनी टेबल के लिए WARDEN उत्पाद कैसे प्राप्त करें।",
-    "step1Title": "खोजें और चुनें",
-    "step1Desc": "कैटलॉग ब्राउज़ करें और अपने चयन में उत्पाद जोड़ें। किसी खाते की आवश्यकता नहीं।",
-    "step2Title": "कोटेशन का अनुरोध करें",
-    "step2Desc": "अपने संपर्क विवरण के साथ अपना चयन सबमिट करें। हम समीक्षा करते हैं और मूल्य, उपलब्धता और डिलीवरी समय के साथ उत्तर देते हैं।",
-    "step3Title": "पुष्टि करें और प्राप्त करें",
-    "step3Desc": "पुष्टि होने पर, आपका ऑर्डर उत्पादन में प्रवेश करता है। गुणवत्ता की गारंटी के लिए छोटे-बैच निर्माण। अंतर्राष्ट्रीय शिपिंग।"
+    "processEyebrow": "PROCESS",
+    "processTitle": "HOW WARDEN WORKS",
+    "step1Title": "Explore and select",
+    "step1Desc": "Browse our catalog and add products to your Selection. No account needed.",
+    "step2Title": "Request a quote",
+    "step2Desc": "Submit your Selection with your contact details. We review availability and respond with price, availability and delivery times.",
+    "step3Title": "Confirm and receive",
+    "step3Desc": "Once confirmed, your order enters production. Small-batch manufacturing to guarantee quality. International shipping."
   },
   "about": {
     "heroEyebrow": "पहचान",

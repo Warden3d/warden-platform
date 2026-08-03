@@ -93,15 +93,14 @@
     },
     "systemsEyebrow": "Spelsystemen",
     "systemsTitle": "Compatibel over het hele spectrum",
-    "processEyebrow": "Proces",
-    "processTitle": "Hoe WARDEN werkt",
-    "processDesc": "We werken niet met directe afrekening. Zo krijgt u WARDEN-producten voor uw tafel.",
-    "step1Title": "Verken en selecteer",
-    "step1Desc": "Blader door de catalogus en voeg producten toe aan uw Selectie. Geen account nodig.",
-    "step2Title": "Offerte aanvragen",
-    "step2Desc": "Stuur uw Selectie met uw contactgegevens. Wij beoordelen en reageren met prijs, beschikbaarheid en levertijden.",
-    "step3Title": "Bevestigen en ontvangen",
-    "step3Desc": "Na bevestiging gaat uw bestelling in productie. Kleinschalige productie om kwaliteit te garanderen. Internationale verzending."
+    "processEyebrow": "PROCESS",
+    "processTitle": "HOW WARDEN WORKS",
+    "step1Title": "Explore and select",
+    "step1Desc": "Browse our catalog and add products to your Selection. No account needed.",
+    "step2Title": "Request a quote",
+    "step2Desc": "Submit your Selection with your contact details. We review availability and respond with price, availability and delivery times.",
+    "step3Title": "Confirm and receive",
+    "step3Desc": "Once confirmed, your order enters production. Small-batch manufacturing to guarantee quality. International shipping."
   },
   "about": {
     "heroEyebrow": "Identiteit",
