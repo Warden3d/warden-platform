@@ -14,7 +14,6 @@ export const footerNavLinks = {
     { label: "Colecciones", href: "/catalog", i18nKey: "footer.collections" },
     { label: "Bundles", href: "/bundles", i18nKey: "footer.bundles" },
     { label: "Drops", href: "/drops", i18nKey: "footer.drops" },
-    { label: "Mi Selección", href: "/selection", i18nKey: "footer.mySelection" },
   ],
   support: [
     { label: "Comunidad", href: "/community-support", i18nKey: "footer.community" },

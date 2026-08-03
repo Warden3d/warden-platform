@@ -27,11 +27,11 @@
     "mobileNavLabel": "Navigation mobile"
   },
   "footer": {
-    "brandDesc": "Équipement de précision conçu pour améliorer l'expérience de jeu dans BattleTech Classic, Alpha Strike et AeroTech.",
+    "brandDesc": "Scenery and gaming tools designed around the way BattleTech and Alpha Strike are played.",
     "products": "Produits",
     "support": "Support",
     "warden": "WARDEN",
-    "collections": "Collections",
+    "collections": "Catalog",
     "bundles": "Bundles",
     "drops": "Drops",
     "mySelection": "Ma Sélection",
@@ -40,6 +40,9 @@
     "faqs": "FAQ",
     "about": "À propos de WARDEN",
     "licenses": "Licences",
+    "socialInstagram": "WARDEN on Instagram",
+    "socialFacebook": "WARDEN on Facebook",
+    "socialTelegram": "WARDEN announcements on Telegram",
     "allRightsReserved": "Tous droits réservés.",
     "noAffiliation": "Aucune affiliation avec Topps ou Catalyst Game Labs."
   },

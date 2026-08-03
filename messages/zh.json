@@ -27,11 +27,11 @@
     "mobileNavLabel": "移动端导航"
   },
   "footer": {
-    "brandDesc": "精密装备，旨在提升 BattleTech Classic、Alpha Strike 和 AeroTech 的游戏体验。",
+    "brandDesc": "Scenery and gaming tools designed around the way BattleTech and Alpha Strike are played.",
     "products": "产品",
     "support": "支持",
     "warden": "WARDEN",
-    "collections": "系列",
+    "collections": "Catalog",
     "bundles": "套装",
     "drops": "新品发布",
     "mySelection": "我的精选",
@@ -40,6 +40,9 @@
     "faqs": "常见问题",
     "about": "关于 WARDEN",
     "licenses": "授权许可",
+    "socialInstagram": "WARDEN on Instagram",
+    "socialFacebook": "WARDEN on Facebook",
+    "socialTelegram": "WARDEN announcements on Telegram",
     "allRightsReserved": "版权所有。",
     "noAffiliation": "与 Topps 或 Catalyst Game Labs 无关联关系。"
   },

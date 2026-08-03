@@ -27,11 +27,11 @@
     "mobileNavLabel": "التنقل عبر الجوال"
   },
   "footer": {
-    "brandDesc": "معدات دقيقة مصممة لتعزيز تجربة اللعب في BattleTech Classic وAlpha Strike وAeroTech.",
+    "brandDesc": "Scenery and gaming tools designed around the way BattleTech and Alpha Strike are played.",
     "products": "المنتجات",
     "support": "الدعم",
     "warden": "WARDEN",
-    "collections": "المجموعات",
+    "collections": "Catalog",
     "bundles": "الحزم",
     "drops": "الإصدارات",
     "mySelection": "اختياراتي",
@@ -40,6 +40,9 @@
     "faqs": "الأسئلة الشائعة",
     "about": "عن WARDEN",
     "licenses": "التراخيص",
+    "socialInstagram": "WARDEN on Instagram",
+    "socialFacebook": "WARDEN on Facebook",
+    "socialTelegram": "WARDEN announcements on Telegram",
     "allRightsReserved": "جميع الحقوق محفوظة.",
     "noAffiliation": "لا توجد أي صلة مع Topps أو Catalyst Game Labs."
   },

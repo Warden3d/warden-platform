@@ -27,11 +27,11 @@
     "mobileNavLabel": "मोबाइल नेविगेशन"
   },
   "footer": {
-    "brandDesc": "BattleTech Classic, Alpha Strike और AeroTech में गेमिंग अनुभव को बढ़ाने के लिए डिज़ाइन किए गए सटीक उपकरण।",
+    "brandDesc": "Scenery and gaming tools designed around the way BattleTech and Alpha Strike are played.",
     "products": "उत्पाद",
     "support": "सहायता",
     "warden": "WARDEN",
-    "collections": "संग्रह",
+    "collections": "Catalog",
     "bundles": "बंडल",
     "drops": "ड्रॉप्स",
     "mySelection": "मेरा चयन",
@@ -40,6 +40,9 @@
     "faqs": "अक्सर पूछे जाने वाले प्रश्न",
     "about": "WARDEN के बारे में",
     "licenses": "लाइसेंस",
+    "socialInstagram": "WARDEN on Instagram",
+    "socialFacebook": "WARDEN on Facebook",
+    "socialTelegram": "WARDEN announcements on Telegram",
     "allRightsReserved": "सर्वाधिकार सुरक्षित।",
     "noAffiliation": "Topps या Catalyst Game Labs से कोई संबद्धता नहीं।"
   },
