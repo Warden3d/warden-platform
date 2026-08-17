@@ -215,9 +215,14 @@ export function SelectionView() {
               </button>
             </div>
 
-            {items.map((item) => (
+            {items.map((item) => {
+              const configLabel = item.configuration
+                ?.map((c) => `${c.capabilityId === "finish" ? "Acabado" : c.capabilityId}: ${c.label}`)
+                .join(" · ");
+
+              return (
               <div
-                key={item.entityId + item.entityType}
+                key={item.id}
                 className="flex items-start gap-4 border border-border bg-warden-surface p-4"
               >
                 <ItemThumbnail item={item} />
@@ -246,6 +251,11 @@ export function SelectionView() {
                       {item.entityType === "bundle" ? "Bundle" : "Drop"}
                     </p>
                   )}
+                  {configLabel && (
+                    <p className="text-[11px] text-muted-foreground/70 mt-0.5">
+                      {configLabel}
+                    </p>
+                  )}
                   <p className="text-data text-foreground/80 mt-1">
                     {item.unitPrice.toFixed(2).replace('.', ',')} €{" "}
                     <span className="text-spec-label text-muted-foreground">
@@ -259,7 +269,7 @@ export function SelectionView() {
                     <button
                       type="button"
                       onClick={() =>
-                        updateQuantity(item.entityId, item.entityType, item.quantity - 1)
+                        updateQuantity(item.entityId, item.entityType, item.quantity - 1, item.configuration)
                       }
                       className="size-7 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors"
                       aria-label="Reducir cantidad"
@@ -272,7 +282,7 @@ export function SelectionView() {
                     <button
                       type="button"
                       onClick={() =>
-                        updateQuantity(item.entityId, item.entityType, item.quantity + 1)
+                        updateQuantity(item.entityId, item.entityType, item.quantity + 1, item.configuration)
                       }
                       className="size-7 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors"
                       aria-label="Aumentar cantidad"
@@ -287,7 +297,7 @@ export function SelectionView() {
 
                   <button
                     type="button"
-                    onClick={() => removeItem(item.entityId, item.entityType)}
+                    onClick={() => removeItem(item.entityId, item.entityType, item.configuration)}
                     className="size-8 flex items-center justify-center text-muted-foreground hover:text-destructive transition-colors"
                     aria-label={`Eliminar ${item.name}`}
                   >
@@ -295,7 +305,7 @@ export function SelectionView() {
                   </button>
                 </div>
               </div>
-            ))}
+            );})}
 
             <SectionDivider />
 

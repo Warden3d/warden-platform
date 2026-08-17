@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useSelection } from "@/hooks/use-selection";
 import { Plus } from "lucide-react";
-import type { EntityType } from "@/types/warden";
+import type { EntityType, ProductConfigurationItem } from "@/types/warden";
 
 export function AddToSelectionButton({
   entityId,
@@ -15,6 +15,7 @@ export function AddToSelectionButton({
   size = "default",
   fullWidth = false,
   quantity = 1,
+  configuration,
   className,
 }: {
   entityId: string;
@@ -26,6 +27,7 @@ export function AddToSelectionButton({
   size?: "default" | "sm";
   fullWidth?: boolean;
   quantity?: number;
+  configuration?: ProductConfigurationItem[];
   className?: string;
 }) {
   const { addItem } = useSelection();
@@ -44,6 +46,7 @@ export function AddToSelectionButton({
           quantity,
           slug,
           image,
+          configuration,
         });
       }}
       aria-label={`Añadir ${name} a Mi Selección`}
@@ -53,7 +56,7 @@ export function AddToSelectionButton({
           ? "h-10 px-6 text-sm tracking-wide"
           : "h-7 px-3 text-xs tracking-wider uppercase",
         fullWidth && "w-full",
-        className
+        className,
       )}
     >
       <Plus className={size === "default" ? "size-4" : "size-3"} />

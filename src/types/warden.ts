@@ -195,6 +195,19 @@ export interface Drop {
 
 export type EntityType = "product" | "bundle" | "drop";
 
+/**
+ * A single capability selection (e.g. finish=color).
+ * Generic — works with present and future capabilities.
+ */
+export interface ProductConfigurationItem {
+  /** Stable capability identifier, e.g. "finish" */
+  capabilityId: string;
+  /** Stable option identifier, e.g. "color", "monocromo" */
+  optionId: string;
+  /** Human-readable label for display, e.g. "Color", "Monocromo" */
+  label: string;
+}
+
 export interface SelectionItem {
   id: string;
   entityId: string;
@@ -204,6 +217,12 @@ export interface SelectionItem {
   unitPrice: number;
   slug?: string;
   image?: string;
+  /**
+   * Generic configuration array.
+   * Undefined = legacy item (pre-R036B).
+   * Empty array = explicitly no configuration.
+   */
+  configuration?: ProductConfigurationItem[];
 }
 
 // ─── SupportRequest ─────────────────────────────

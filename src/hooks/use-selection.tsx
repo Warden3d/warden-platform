@@ -7,16 +7,16 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import type { SelectionItem, EntityType } from "@/types/warden";
+import type { SelectionItem, EntityType, ProductConfigurationItem } from "@/types/warden";
 
-export type { SelectionItem, EntityType };
+export type { SelectionItem, EntityType, ProductConfigurationItem };
 
 interface SelectionContextValue {
   items: SelectionItem[];
   addItem: (item: Omit<SelectionItem, "id">) => void;
-  removeItem: (entityId: string, entityType: EntityType) => void;
-  updateQuantity: (entityId: string, entityType: EntityType, quantity: number) => void;
-  isSelected: (entityId: string, entityType: EntityType) => boolean;
+  removeItem: (entityId: string, entityType: EntityType, configuration?: ProductConfigurationItem[]) => void;
+  updateQuantity: (entityId: string, entityType: EntityType, quantity: number, configuration?: ProductConfigurationItem[]) => void;
+  isSelected: (entityId: string, entityType: EntityType, configuration?: ProductConfigurationItem[]) => boolean;
   clearAll: () => void;
   itemCount: number;
 }
@@ -92,8 +92,42 @@ function getServerSnapshot(): SelectionItem[] {
   return [];
 }
 
-function itemMatch(a: SelectionItem, b: { entityId: string; entityType: EntityType }) {
-  return a.entityId === b.entityId && a.entityType === b.entityType;
+/**
+ * Deterministic configuration comparison.
+ * Two configurations are equal when they have the same capabilityId + optionId
+ * pairs regardless of array order.
+ */
+function configsEqual(
+  a?: ProductConfigurationItem[],
+  b?: ProductConfigurationItem[],
+): boolean {
+  if (!a && !b) return true;
+  if (!a || !b) return false;
+  if (a.length !== b.length) return false;
+
+  const sortedA = [...a].sort((x, y) => x.capabilityId.localeCompare(y.capabilityId));
+  const sortedB = [...b].sort((x, y) => x.capabilityId.localeCompare(y.capabilityId));
+
+  return sortedA.every(
+    (item, i) =>
+      item.capabilityId === sortedB[i].capabilityId &&
+      item.optionId === sortedB[i].optionId,
+  );
+}
+
+function itemMatch(
+  a: SelectionItem,
+  b: {
+    entityId: string;
+    entityType: EntityType;
+    configuration?: ProductConfigurationItem[];
+  },
+) {
+  return (
+    a.entityId === b.entityId &&
+    a.entityType === b.entityType &&
+    configsEqual(a.configuration, b.configuration)
+  );
 }
 
 export function SelectionProvider({ children }: { children: ReactNode }) {
@@ -107,7 +141,7 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
       cachedItems = current.map((i) =>
         itemMatch(i, item)
           ? { ...i, quantity: i.quantity + item.quantity }
-          : i
+          : i,
       );
     } else {
       cachedItems = [...current, { ...item, id }];
@@ -117,38 +151,40 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const removeItem = useCallback(
-    (entityId: string, entityType: EntityType) => {
+    (entityId: string, entityType: EntityType, configuration?: ProductConfigurationItem[]) => {
       cachedItems = getSnapshot().filter(
-        (i) => !itemMatch(i, { entityId, entityType })
+        (i) => !itemMatch(i, { entityId, entityType, configuration }),
       );
       saveToStorage(cachedItems);
       emitChange();
     },
-    []
+    [],
   );
 
   const updateQuantity = useCallback(
-    (entityId: string, entityType: EntityType, quantity: number) => {
+    (entityId: string, entityType: EntityType, quantity: number, configuration?: ProductConfigurationItem[]) => {
       const current = getSnapshot();
       if (quantity <= 0) {
         cachedItems = current.filter(
-          (i) => !itemMatch(i, { entityId, entityType })
+          (i) => !itemMatch(i, { entityId, entityType, configuration }),
         );
       } else {
         cachedItems = current.map((i) =>
-          itemMatch(i, { entityId, entityType }) ? { ...i, quantity } : i
+          itemMatch(i, { entityId, entityType, configuration })
+            ? { ...i, quantity }
+            : i,
         );
       }
       saveToStorage(cachedItems);
       emitChange();
     },
-    []
+    [],
   );
 
   const isSelected = useCallback(
-    (entityId: string, entityType: EntityType) =>
-      items.some((i) => itemMatch(i, { entityId, entityType })),
-    [items]
+    (entityId: string, entityType: EntityType, configuration?: ProductConfigurationItem[]) =>
+      items.some((i) => itemMatch(i, { entityId, entityType, configuration })),
+    [items],
   );
 
   const clearAll = useCallback(() => {

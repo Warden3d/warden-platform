@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { QuantitySelector } from "@/components/shared/quantity-selector";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 import { useProductConfig } from "@/contexts/product-config";
+import type { ProductConfigurationItem } from "@/types/warden";
 
 interface ClientProductActionsProps {
   productId: string;
@@ -21,7 +22,19 @@ export function ClientProductActions({
   productImage,
 }: ClientProductActionsProps) {
   const [quantity, setQuantity] = useState(1);
-  const { selectedVariant, variants } = useProductConfig();
+  const { selectedVariant } = useProductConfig();
+
+  // Generate generic configuration array matching the catalog card pattern
+  const configuration = useMemo((): ProductConfigurationItem[] | undefined => {
+    if (!selectedVariant) return undefined;
+    return [
+      {
+        capabilityId: "finish",
+        optionId: selectedVariant.name.toLowerCase().replace(/\s+/g, "-"),
+        label: selectedVariant.name,
+      },
+    ];
+  }, [selectedVariant]);
 
   return (
     <div className="grid grid-cols-2 gap-6">
@@ -36,6 +49,7 @@ export function ClientProductActions({
             slug={productSlug}
             image={productImage}
             quantity={quantity}
+            configuration={configuration}
             className="h-9 w-full text-sm"
           />
         </div>
