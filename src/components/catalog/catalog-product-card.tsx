@@ -9,20 +9,38 @@ import { CardFrame } from "@/components/catalog/card-frame";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
 import { cn } from "@/lib/utils";
 
-// ─── Compatibility label ──────────────────────────────────────────
+// ─── System badge (color-coded per game system) ────────────────────
 
-function CompatibilityLabel({ name }: { name: string }) {
-  const short =
-    name === "BattleTech Classic"
-      ? "BT Classic"
-      : name === "Alpha Strike"
-        ? "Alpha Strike"
-        : name === "AeroTech"
-          ? "AeroTech"
-          : name;
+const SYSTEM_BADGE: Record<
+  string,
+  { label: string; className: string }
+> = {
+  "comp-battletech-classic": {
+    label: "BT CLASSIC",
+    className: "border-warden-blue/25 text-warden-blue/70",
+  },
+  "comp-alpha-strike": {
+    label: "ALPHA STRIKE",
+    className: "border-warden-green/25 text-warden-green/70",
+  },
+  "comp-aerotech": {
+    label: "AEROTECH",
+    className: "border-[hsl(0_30%_45%)]/25 text-[hsl(0_30%_45%)]",
+  },
+};
+
+function SystemBadge({ compatibilityId }: { compatibilityId: string }) {
+  const badge =
+    SYSTEM_BADGE[compatibilityId] ?? SYSTEM_BADGE["comp-battletech-classic"];
   return (
-    <span className="inline-block px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider rounded-sm border border-border/40 text-muted-foreground/80 leading-none">
-      {short}
+    <span
+      className={cn(
+        "inline-block rounded-[2px] border bg-[hsl(220_10%_5%)] px-2 py-0.5",
+        "text-[11px] font-semibold uppercase leading-none tracking-[0.15em]",
+        badge.className,
+      )}
+    >
+      {badge.label}
     </span>
   );
 }
@@ -155,17 +173,9 @@ export function CatalogProductCard({
 
         {/* ── Text content ── */}
         <div className="flex flex-col flex-1 px-5 pt-4 pb-7">
-          {/* Compatibility label */}
+          {/* System badge */}
           <div className="mb-2">
-            <CompatibilityLabel
-              name={
-                product.compatibilityId === "comp-battletech-classic"
-                  ? "BattleTech Classic"
-                  : product.compatibilityId === "comp-alpha-strike"
-                    ? "Alpha Strike"
-                    : "AeroTech"
-              }
-            />
+            <SystemBadge compatibilityId={product.compatibilityId} />
           </div>
 
           {/* Product name */}
@@ -226,7 +236,7 @@ export function CatalogProductCard({
 
           {/* Price + CTA */}
           <div className="mt-auto flex items-center justify-between gap-2 border-t border-[hsl(215_10%_17%)] pt-3">
-            <span className="shrink-0 pl-4 text-base font-semibold text-[hsl(35_55%_62%)]">
+            <span className="shrink-0 pl-4 text-lg font-semibold text-[hsl(35_55%_62%)]">
               {displayPrice.toFixed(2)} €
             </span>
             <AddToSelectionButton
@@ -238,6 +248,7 @@ export function CatalogProductCard({
               image={displayImage?.url}
               size="sm"
               configuration={configuration}
+              className="px-2"
             />
           </div>
         </div>
