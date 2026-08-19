@@ -17,6 +17,10 @@ import type {
   Drop,
   ProductType,
   SpecVisibility,
+  SelectionItem,
+  EntityType,
+  RequestLine,
+  Request,
 } from "@/types/warden";
 
 // ── Mock data (fallback) — read from mutable in-memory store ─────────────────
@@ -803,6 +807,68 @@ export async function createSelectionRequest(
     return false;
   }
   return true;
+}
+
+// ============================================================================
+// V1 Request contract — transform + store
+// ============================================================================
+
+/**
+ * Transform SelectionItem[] into RequestLine[].
+ * Resolves SKU (internalCode) from active products when possible.
+ */
+export function transformSelectionToRequestLines(
+  items: SelectionItem[],
+  products: Product[],
+  bundles: Bundle[],
+  drops: Drop[],
+): RequestLine[] {
+  // Build lookup maps for SKU resolution
+  const productSkuMap = new Map<string, string>();
+  for (const p of products) {
+    productSkuMap.set(p.id, p.internalCode);
+  }
+  const bundleSkuMap = new Map<string, string>();
+  for (const b of bundles) {
+    bundleSkuMap.set(b.id, b.slug); // fallback: bundles may not have internalCode; use slug
+  }
+  const dropSkuMap = new Map<string, string>();
+  for (const d of drops) {
+    dropSkuMap.set(d.id, d.slug); // same fallback for drops
+  }
+
+  function resolveSku(entityId: string, entityType: EntityType): string {
+    if (entityType === "product") return productSkuMap.get(entityId) ?? "";
+    if (entityType === "bundle") return bundleSkuMap.get(entityId) ?? "";
+    return dropSkuMap.get(entityId) ?? "";
+  }
+
+  return items.map((item) => ({
+    entityId: item.entityId,
+    entityType: item.entityType,
+    name: item.name,
+    sku: resolveSku(item.entityId, item.entityType),
+    quantity: item.quantity,
+    configuration: item.configuration,
+    unitPrice: item.unitPrice,
+    lineSubtotal: item.unitPrice * item.quantity,
+    slug: item.slug,
+    image: item.image,
+  }));
+}
+
+/**
+ * Create a V1 Request (no-op until Supabase table is ready).
+ * Always returns success for now — integrations (insert, email, sequence)
+ * belong to subsequent checklist items.
+ */
+export async function createRequest(
+  request: Request,
+): Promise<{ success: boolean; message?: string }> {
+  // No-op: the Request is validated and assembled.
+  // Persistence, reference generation, and email are out of scope for R037.
+  void request;
+  return { success: true, message: "Solicitud recibida correctamente." };
 }
 
 export interface ContactRequestInput {

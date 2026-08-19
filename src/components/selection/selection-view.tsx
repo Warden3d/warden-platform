@@ -23,13 +23,6 @@ import { useSelection } from "@/hooks/use-selection";
 import { cn } from "@/lib/utils";
 import { submitSelection } from "@/lib/actions/submit-selection";
 
-const QUERY_TYPES = [
-  { value: "quote", label: "Solicitud de presupuesto" },
-  { value: "availability", label: "Consulta de disponibilidad" },
-  { value: "custom", label: "Proyecto personalizado" },
-  { value: "other", label: "Otro" },
-] as const;
-
 function ItemThumbnail({ item }: { item: SelectionItem }) {
   if (item.image) {
     return (
@@ -77,19 +70,25 @@ export function SelectionView() {
     const data = new FormData(e.currentTarget);
     const errors: Record<string, string> = {};
 
-    const name = (data.get("name") as string)?.trim();
+    const firstName = (data.get("firstName") as string)?.trim();
+    const lastName = (data.get("lastName") as string)?.trim();
     const email = (data.get("email") as string)?.trim();
     const country = (data.get("country") as string)?.trim();
-    const queryType = (data.get("queryType") as string)?.trim();
-    const message = (data.get("message") as string)?.trim();
+    const postalCode = (data.get("postalCode") as string)?.trim();
+    const city = (data.get("city") as string)?.trim();
+    const phone = (data.get("phone") as string)?.trim();
+    const company = (data.get("company") as string)?.trim();
+    const region = (data.get("region") as string)?.trim();
+    const notes = (data.get("notes") as string)?.trim();
 
-    if (!name) errors.name = "El nombre es obligatorio";
+    if (!firstName || firstName.length < 2) errors.firstName = "El nombre debe tener al menos 2 caracteres";
+    if (!lastName || lastName.length < 2) errors.lastName = "Los apellidos deben tener al menos 2 caracteres";
     if (!email) errors.email = "El email es obligatorio";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       errors.email = "Introduce un email válido";
-    if (!country) errors.country = "El país / provincia es obligatorio";
-    if (!queryType) errors.queryType = "Selecciona un tipo de consulta";
-    if (!message) errors.message = "El mensaje es obligatorio";
+    if (!country) errors.country = "El país es obligatorio";
+    if (!postalCode) errors.postalCode = "El código postal es obligatorio";
+    if (!city) errors.city = "La localidad es obligatoria";
     if (!accepted) errors.accepted = "Debes aceptar el aviso";
 
     if (Object.keys(errors).length > 0) {
@@ -101,11 +100,16 @@ export function SelectionView() {
     setSubmitting(true);
 
     const formData = new FormData();
-    formData.set("name", name);
+    formData.set("firstName", firstName);
+    formData.set("lastName", lastName);
     formData.set("email", email);
     formData.set("country", country);
-    formData.set("queryType", queryType);
-    formData.set("message", message);
+    formData.set("postalCode", postalCode);
+    formData.set("city", city);
+    if (phone) formData.set("phone", phone);
+    if (company) formData.set("company", company);
+    if (region) formData.set("region", region);
+    if (notes) formData.set("notes", notes);
     formData.set("selections", JSON.stringify(items));
 
     const result = await submitSelection(formData);
@@ -347,29 +351,41 @@ export function SelectionView() {
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                <div className="space-y-1.5">
-                  <label
-                    htmlFor="sel-name"
-                    className="text-spec-label text-muted-foreground"
-                  >
-                    Nombre <span className="text-destructive">*</span>
-                  </label>
-                  <Input
-                    id="sel-name"
-                    name="name"
-                    placeholder="Tu nombre completo"
-                    className={cn(formErrors.name && "border-destructive")}
-                  />
-                  {formErrors.name && (
-                    <p className="text-xs text-destructive">{formErrors.name}</p>
-                  )}
+                {/* Nombre y apellidos */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label htmlFor="sel-firstName" className="text-spec-label text-muted-foreground">
+                      Nombre <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      id="sel-firstName"
+                      name="firstName"
+                      placeholder="Tu nombre"
+                      className={cn(formErrors.firstName && "border-destructive")}
+                    />
+                    {formErrors.firstName && (
+                      <p className="text-xs text-destructive">{formErrors.firstName}</p>
+                    )}
+                  </div>
+                  <div className="space-y-1.5">
+                    <label htmlFor="sel-lastName" className="text-spec-label text-muted-foreground">
+                      Apellidos <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      id="sel-lastName"
+                      name="lastName"
+                      placeholder="Tus apellidos"
+                      className={cn(formErrors.lastName && "border-destructive")}
+                    />
+                    {formErrors.lastName && (
+                      <p className="text-xs text-destructive">{formErrors.lastName}</p>
+                    )}
+                  </div>
                 </div>
 
+                {/* Email */}
                 <div className="space-y-1.5">
-                  <label
-                    htmlFor="sel-email"
-                    className="text-spec-label text-muted-foreground"
-                  >
+                  <label htmlFor="sel-email" className="text-spec-label text-muted-foreground">
                     Email <span className="text-destructive">*</span>
                   </label>
                   <Input
@@ -380,91 +396,94 @@ export function SelectionView() {
                     className={cn(formErrors.email && "border-destructive")}
                   />
                   {formErrors.email && (
-                    <p className="text-xs text-destructive">
-                      {formErrors.email}
-                    </p>
+                    <p className="text-xs text-destructive">{formErrors.email}</p>
                   )}
                 </div>
 
+                {/* País */}
                 <div className="space-y-1.5">
-                  <label
-                    htmlFor="sel-country"
-                    className="text-spec-label text-muted-foreground"
-                  >
-                    País / Provincia{" "}
-                    <span className="text-destructive">*</span>
+                  <label htmlFor="sel-country" className="text-spec-label text-muted-foreground">
+                    País <span className="text-destructive">*</span>
                   </label>
                   <Input
                     id="sel-country"
                     name="country"
-                    placeholder="Ej. España, Madrid"
+                    placeholder="Ej. España"
                     className={cn(formErrors.country && "border-destructive")}
                   />
                   {formErrors.country && (
-                    <p className="text-xs text-destructive">
-                      {formErrors.country}
-                    </p>
+                    <p className="text-xs text-destructive">{formErrors.country}</p>
                   )}
                 </div>
 
-                <div className="space-y-1.5">
-                  <label
-                    htmlFor="sel-query-type"
-                    className="text-spec-label text-muted-foreground"
-                  >
-                    Tipo de consulta <span className="text-destructive">*</span>
-                  </label>
-                  <select
-                    id="sel-query-type"
-                    name="queryType"
-                    defaultValue=""
-                    className={cn(
-                      "flex h-9 w-full rounded-sm border bg-transparent px-3 py-1 text-sm text-foreground transition-colors",
-                      "placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50 focus-visible:ring-offset-1 focus-visible:ring-offset-warden-carbon",
-                      "disabled:cursor-not-allowed disabled:opacity-50",
-                      "appearance-none",
-                      formErrors.queryType
-                        ? "border-destructive"
-                        : "border-input"
+                {/* Código postal + Localidad */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label htmlFor="sel-postalCode" className="text-spec-label text-muted-foreground">
+                      Código postal <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      id="sel-postalCode"
+                      name="postalCode"
+                      placeholder="Ej. 28001"
+                      className={cn(formErrors.postalCode && "border-destructive")}
+                    />
+                    {formErrors.postalCode && (
+                      <p className="text-xs text-destructive">{formErrors.postalCode}</p>
                     )}
-                  >
-                    <option value="" disabled>
-                      Selecciona un tipo...
-                    </option>
-                    {QUERY_TYPES.map((qt) => (
-                      <option key={qt.value} value={qt.value}>
-                        {qt.label}
-                      </option>
-                    ))}
-                  </select>
-                  {formErrors.queryType && (
-                    <p className="text-xs text-destructive">
-                      {formErrors.queryType}
-                    </p>
-                  )}
+                  </div>
+                  <div className="space-y-1.5">
+                    <label htmlFor="sel-city" className="text-spec-label text-muted-foreground">
+                      Localidad <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      id="sel-city"
+                      name="city"
+                      placeholder="Ej. Madrid"
+                      className={cn(formErrors.city && "border-destructive")}
+                    />
+                    {formErrors.city && (
+                      <p className="text-xs text-destructive">{formErrors.city}</p>
+                    )}
+                  </div>
                 </div>
 
+                {/* Opcionales: Teléfono, Empresa, Provincia/Región */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="space-y-1.5">
+                    <label htmlFor="sel-phone" className="text-spec-label text-muted-foreground">
+                      Teléfono
+                    </label>
+                    <Input id="sel-phone" name="phone" placeholder="Opcional" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label htmlFor="sel-company" className="text-spec-label text-muted-foreground">
+                      Empresa / Entidad
+                    </label>
+                    <Input id="sel-company" name="company" placeholder="Opcional" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label htmlFor="sel-region" className="text-spec-label text-muted-foreground">
+                      Provincia / Región
+                    </label>
+                    <Input id="sel-region" name="region" placeholder="Opcional" />
+                  </div>
+                </div>
+
+                {/* Observaciones */}
                 <div className="space-y-1.5">
-                  <label
-                    htmlFor="sel-message"
-                    className="text-spec-label text-muted-foreground"
-                  >
-                    Mensaje <span className="text-destructive">*</span>
+                  <label htmlFor="sel-notes" className="text-spec-label text-muted-foreground">
+                    Observaciones
                   </label>
                   <Textarea
-                    id="sel-message"
-                    name="message"
+                    id="sel-notes"
+                    name="notes"
                     placeholder="Cuéntanos sobre tu proyecto, método de envío preferido o cualquier requisito especial..."
                     rows={4}
-                    className={cn(formErrors.message && "border-destructive")}
                   />
-                  {formErrors.message && (
-                    <p className="text-xs text-destructive">
-                      {formErrors.message}
-                    </p>
-                  )}
                 </div>
 
+                {/* Aceptación */}
                 <label className="flex items-start gap-2 cursor-pointer">
                   <input
                     type="checkbox"

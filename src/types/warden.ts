@@ -106,6 +106,97 @@ export interface ProductSpec {
 
 export type SpecVisibility = "card" | "pdp" | "contents" | "bundle" | "drop" | "api";
 
+// ─── Request Types (WARDEN Web V1 contract) ──────
+
+export const REQUEST_STATUSES = ["received", "in_review", "quoted", "closed"] as const;
+export type RequestStatus = (typeof REQUEST_STATUSES)[number];
+
+export const EMAIL_STATUSES = ["pending", "sent", "failed"] as const;
+export type EmailStatus = (typeof EMAIL_STATUSES)[number];
+
+export type ShippingStatus =
+  | "pending_calculation"
+  | "calculated"
+  | "free"
+  | "not_applicable";
+
+export interface RequestClient {
+  firstName: string;
+  lastName: string;
+  email: string;
+  country: string;
+  postalCode: string;
+  city: string;
+  phone?: string;
+  company?: string;
+  region?: string;
+  /** Client's free-text notes / observations */
+  notes?: string;
+}
+
+export interface RequestLine {
+  entityId: string;
+  entityType: EntityType;
+  name: string;
+  /** Internal SKU / reference code from the entity */
+  sku: string;
+  quantity: number;
+  configuration?: ProductConfigurationItem[];
+  /** Unit price at submission time */
+  unitPrice: number;
+  /** unitPrice × quantity */
+  lineSubtotal: number;
+  slug?: string;
+  image?: string;
+}
+
+export interface Request {
+  // ── Identification ──
+  /** DB id — assigned by Supabase on insert */
+  id?: string;
+  /** Human-readable reference: WDN-YYYY-NNNNNN — null until sequence generated */
+  reference: string | null;
+
+  // ── General data ──
+  /** Server-generated ISO timestamp */
+  createdAt: string;
+  /** Locale at submission time (e.g. "es", "en") */
+  locale: string;
+  /** Currency — always "EUR" for V1 */
+  currency: string;
+  /** Current status — starts at "received" */
+  status: RequestStatus;
+
+  // ── Client ──
+  client: RequestClient;
+
+  // ── Lines ──
+  lines: RequestLine[];
+
+  // ── Financial ──
+  /** Sum of all lineSubtotal */
+  productSubtotal: number;
+  /** Shipping: pending until calculated */
+  shippingStatus: ShippingStatus;
+  /** null = pending / not yet calculated; number when resolved */
+  shippingCost: number | null;
+
+  // ── Email tracking ──
+  customerEmailStatus: EmailStatus;
+  internalEmailStatus: EmailStatus;
+  emailSendAttempts: number;
+
+  // ── Internal management ──
+  /** Server-side update timestamp */
+  updatedAt: string;
+  /** Internal notes — never exposed to client */
+  internalNotes?: string;
+  /** Future link to a quote/presupuesto */
+  quoteReference: string | null;
+  /** Future ERPNext integration reference */
+  erpnextReference: string | null;
+}
+
 // ─── ProductType ─────────────────────────────────
 
 export interface ProductType {
