@@ -88,8 +88,13 @@ function getSnapshot(): SelectionItem[] {
   return cachedItems;
 }
 
+// Stable empty snapshot for SSR — useSyncExternalStore requires a stable
+// reference from getServerSnapshot(); a fresh `[]` on each call can cause
+// repeated re-renders ("should be cached to avoid an infinite loop").
+const EMPTY_SELECTION: SelectionItem[] = [];
+
 function getServerSnapshot(): SelectionItem[] {
-  return [];
+  return EMPTY_SELECTION;
 }
 
 /**
