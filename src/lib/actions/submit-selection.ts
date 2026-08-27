@@ -14,6 +14,8 @@ export type SelectionFormResult = {
   success: boolean;
   errors?: Record<string, string[]>;
   message?: string;
+  reference?: string;
+  emailStatus?: string;
 };
 
 interface RawSelectionItem {
@@ -41,6 +43,7 @@ export async function submitSelection(
   const company = (formData.get("company") as string)?.trim() ?? "";
   const region = (formData.get("region") as string)?.trim() ?? "";
   const notes = (formData.get("notes") as string)?.trim() ?? "";
+  const idempotencyKey = (formData.get("idempotencyKey") as string)?.trim() ?? crypto.randomUUID();
 
   const selectionsRaw = (formData.get("selections") as string)?.trim();
 
@@ -133,6 +136,7 @@ export async function submitSelection(
   const request = {
     id: undefined,
     reference: null,
+    idempotencyKey,
     createdAt: new Date().toISOString(),
     locale,
     currency: "EUR",
@@ -161,5 +165,5 @@ export async function submitSelection(
     };
   }
 
-  return { success: true, message: result.message };
+  return { success: true, message: result.message, reference: result.reference, emailStatus: result.emailStatus };
 }

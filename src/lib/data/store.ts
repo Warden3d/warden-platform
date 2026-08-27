@@ -43,11 +43,11 @@ const drops: Drop[] = JSON.parse(JSON.stringify(initialDrops));
 
 const collections: Collection[] = JSON.parse(JSON.stringify(initialCollections));
 const categories: Category[] = JSON.parse(JSON.stringify(initialCategories));
-let compatibilitySystems: CompatibilitySystem[] = JSON.parse(
+const compatibilitySystems: CompatibilitySystem[] = JSON.parse(
   JSON.stringify(initialCompatibilitySystems)
 );
-let productTypes: ProductType[] = JSON.parse(JSON.stringify(initialProductTypes));
-let licenses: License[] = JSON.parse(JSON.stringify(initialLicenses));
+const productTypes: ProductType[] = JSON.parse(JSON.stringify(initialProductTypes));
+const licenses: License[] = JSON.parse(JSON.stringify(initialLicenses));
 
 // ── Requests store ───────────────────────────────────────────────────
 

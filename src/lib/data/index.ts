@@ -58,6 +58,7 @@ interface ProductRow {
   featured: boolean;
   internal_code: string;
   associated_license_id: string | null;
+  designer_name: string | null;
   weight: number;
   volume: number;
   print_time: number;
@@ -67,6 +68,16 @@ interface ProductRow {
   related_drop_ids: string[];
   created_at: string;
   updated_at: string;
+}
+
+interface ProductVariantRow {
+  id: string;
+  product_id: string;
+  name: string;
+  price: number;
+  swatch_color: string | null;
+  image_indices: number[] | null;
+  sort_order: number;
 }
 
 interface ProductImageRow {
@@ -177,7 +188,8 @@ function isSupabaseConfigured(): boolean {
 function mapProductRow(
   row: ProductRow,
   images: ProductImage[],
-  specs: ProductSpec[]
+  specs: ProductSpec[],
+  variants: ProductVariantRow[] = []
 ): Product {
   return {
     id: row.id,
@@ -203,6 +215,7 @@ function mapProductRow(
     featured: row.featured,
     internalCode: row.internal_code,
     associatedLicenseId: row.associated_license_id,
+    designerName: row.designer_name ?? undefined,
     weight: row.weight,
     volume: row.volume,
     printTime: row.print_time,
@@ -211,6 +224,14 @@ function mapProductRow(
     relatedBundleIds: row.related_bundle_ids ?? [],
     relatedDropIds: row.related_drop_ids ?? [],
     specs,
+    variants: variants.length > 0
+      ? variants.map((v) => ({
+          name: v.name,
+          price: v.price,
+          swatchColor: v.swatch_color ?? undefined,
+          imageIndices: v.image_indices ?? undefined,
+        }))
+      : undefined,
   };
 }
 
@@ -354,14 +375,16 @@ async function loadProductsFromSupabase(
   const productRows = rows as ProductRow[];
   const productIds = productRows.map((r) => r.id);
 
-  // Fetch images in parallel
-  const [imagesRes, specsRes] = await Promise.all([
+  // Fetch images, specs, and variants in parallel
+  const [imagesRes, specsRes, variantsRes] = await Promise.all([
     supabase.from("product_images").select("*").in("product_id", productIds).order("sort_order"),
     supabase.from("product_specs").select("*").in("product_id", productIds).order("sort_order"),
+    supabase.from("product_variants").select("*").in("product_id", productIds).order("sort_order"),
   ]);
 
   const imageRows = (imagesRes.data ?? []) as ProductImageRow[];
   const specRows = (specsRes.data ?? []) as ProductSpecRow[];
+  const variantRows = (variantsRes.data ?? []) as ProductVariantRow[];
 
   const imagesByProduct = new Map<string, ProductImage[]>();
   for (const img of imageRows) {
@@ -377,11 +400,19 @@ async function loadProductsFromSupabase(
     specsByProduct.set(spec.product_id, list);
   }
 
+  const variantsByProduct = new Map<string, ProductVariantRow[]>();
+  for (const variant of variantRows) {
+    const list = variantsByProduct.get(variant.product_id) ?? [];
+    list.push(variant);
+    variantsByProduct.set(variant.product_id, list);
+  }
+
   return productRows.map((row) =>
     mapProductRow(
       row,
       imagesByProduct.get(row.id) ?? [],
-      specsByProduct.get(row.id) ?? []
+      specsByProduct.get(row.id) ?? [],
+      variantsByProduct.get(row.id) ?? [],
     )
   );
 }
@@ -541,8 +572,11 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function getProductTypes(): Promise<ProductType[]> {
   if (!isSupabaseConfigured()) return getStoreProductTypes();
-  // TODO: fetch from Supabase
-  return getStoreProductTypes();
+  const { createClient } = await import("@/lib/supabase/server");
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("product_types").select("*");
+  if (error || !data) return [];
+  return data as ProductType[];
 }
 
 export async function getCompatibilitySystems(): Promise<CompatibilitySystem[]> {
@@ -582,16 +616,18 @@ export async function getProductBySlug(slug: string): Promise<Product | undefine
 
   const productRow = row as ProductRow;
 
-  // Fetch images + specs for this single product
-  const [imagesRes, specsRes] = await Promise.all([
+  // Fetch images + specs + variants for this single product
+  const [imagesRes, specsRes, variantsRes] = await Promise.all([
     supabase.from("product_images").select("*").eq("product_id", productRow.id).order("sort_order"),
     supabase.from("product_specs").select("*").eq("product_id", productRow.id).order("sort_order"),
+    supabase.from("product_variants").select("*").eq("product_id", productRow.id).order("sort_order"),
   ]);
 
   const images = ((imagesRes.data ?? []) as ProductImageRow[]).map(mapImageRow);
   const specs = ((specsRes.data ?? []) as ProductSpecRow[]).map(mapSpecRow);
+  const variants = (variantsRes.data ?? []) as ProductVariantRow[];
 
-  return mapProductRow(productRow, images, specs);
+  return mapProductRow(productRow, images, specs, variants);
 }
 
 export async function getProductsByCollection(
@@ -858,17 +894,151 @@ export function transformSelectionToRequestLines(
 }
 
 /**
- * Create a V1 Request (no-op until Supabase table is ready).
- * Always returns success for now — integrations (insert, email, sequence)
- * belong to subsequent checklist items.
+ * Create a V1 Request via Supabase RPC (atomic: request + lines).
+ * After persistence, sends a customer confirmation email and updates email status.
  */
 export async function createRequest(
   request: Request,
-): Promise<{ success: boolean; message?: string }> {
-  // No-op: the Request is validated and assembled.
-  // Persistence, reference generation, and email are out of scope for R037.
-  void request;
-  return { success: true, message: "Solicitud recibida correctamente." };
+): Promise<{
+  success: boolean;
+  message?: string;
+  reference?: string;
+  duplicate?: boolean;
+  emailStatus?: string;
+  requestId?: string;
+}> {
+  if (!isSupabaseConfigured()) {
+    return { success: false, message: "Error al crear la solicitud. Inténtalo de nuevo." };
+  }
+
+  try {
+    const { createServiceClient } = await import("@/lib/supabase/server");
+    const supabase = await createServiceClient();
+
+    // ── 1. Persist via RPC ──────────────────────────────────────
+    const { data, error } = await supabase.rpc("create_request", {
+      p_locale: request.locale,
+      p_currency: request.currency,
+      p_first_name: request.client.firstName,
+      p_last_name: request.client.lastName,
+      p_email: request.client.email,
+      p_country: request.client.country,
+      p_postal_code: request.client.postalCode,
+      p_city: request.client.city,
+      p_idempotency_key: request.idempotencyKey ?? crypto.randomUUID(),
+      p_phone: request.client.phone ?? null,
+      p_company: request.client.company ?? null,
+      p_region: request.client.region ?? null,
+      p_notes: request.client.notes ?? null,
+      p_product_subtotal: request.productSubtotal,
+      p_shipping_status: request.shippingStatus,
+      p_shipping_cost: request.shippingCost,
+      p_customer_email_status: request.customerEmailStatus,
+      p_internal_email_status: request.internalEmailStatus,
+      p_internal_notes: request.internalNotes ?? null,
+      p_lines: JSON.stringify(request.lines),
+    });
+
+    if (error) {
+      console.error("create_request RPC error:", error);
+      return { success: false, message: "Error al crear la solicitud. Inténtalo de nuevo." };
+    }
+
+    const result = data as { id: string; reference: string; created_at: string; duplicate: boolean } | null;
+    if (!result || !result.reference) {
+      return { success: false, message: "Error al generar la referencia de solicitud." };
+    }
+
+    // ── 2. Attempt emails for new requests (independent, skip duplicates) ─
+    let customerEmailSent = false;
+    let internalEmailSent = false;
+
+    if (!result.duplicate) {
+      // ── 2a. Customer confirmation email ────────────────────────
+      try {
+        const { sendCustomerRequestEmail } = await import("@/lib/email/customer-confirmation");
+        const emailResult = await sendCustomerRequestEmail({
+          firstName: request.client.firstName,
+          reference: result.reference,
+          lines: request.lines,
+          productSubtotal: request.productSubtotal,
+          notes: request.client.notes,
+          recipientEmail: request.client.email,
+        });
+        customerEmailSent = emailResult.success;
+
+        await supabase.rpc("update_request_email_status", {
+          p_request_id: result.id,
+          p_customer_status: customerEmailSent ? "sent" : "failed",
+          p_internal_status: null,
+          p_increment_customer: true,
+          p_increment_internal: false,
+        });
+      } catch (emailErr) {
+        console.error("Customer email error:", emailErr);
+        try {
+          await supabase.rpc("update_request_email_status", {
+            p_request_id: result.id,
+            p_customer_status: "failed",
+            p_internal_status: null,
+            p_increment_customer: true,
+            p_increment_internal: false,
+          });
+        } catch { /* ignore */ }
+      }
+
+      // ── 2b. Internal notification email (independent of customer) ──
+      try {
+        const { sendInternalRequestEmail } = await import("@/lib/email/internal-notification");
+        const emailResult = await sendInternalRequestEmail({
+          reference: result.reference,
+          client: request.client,
+          lines: request.lines,
+          productSubtotal: request.productSubtotal,
+          notes: request.client.notes,
+        });
+        internalEmailSent = emailResult.success;
+
+        await supabase.rpc("update_request_email_status", {
+          p_request_id: result.id,
+          p_customer_status: null,
+          p_internal_status: internalEmailSent ? "sent" : "failed",
+          p_increment_customer: false,
+          p_increment_internal: true,
+        });
+      } catch (emailErr) {
+        console.error("Internal email error:", emailErr);
+        try {
+          await supabase.rpc("update_request_email_status", {
+            p_request_id: result.id,
+            p_customer_status: null,
+            p_internal_status: "failed",
+            p_increment_customer: false,
+            p_increment_internal: true,
+          });
+        } catch { /* ignore */ }
+      }
+    }
+
+    // Determine overall email status for frontend
+    let emailStatus = "skipped";
+    if (!result.duplicate) {
+      if (customerEmailSent) emailStatus = "sent";
+      else emailStatus = "failed";
+    }
+
+    return {
+      success: true,
+      message: `Solicitud recibida correctamente. Referencia: ${result.reference}`,
+      reference: result.reference,
+      duplicate: result.duplicate,
+      emailStatus,
+      requestId: result.id,
+    };
+  } catch (err) {
+    console.error("createRequest error:", err);
+    return { success: false, message: "Error interno al procesar la solicitud." };
+  }
 }
 
 export interface ContactRequestInput {

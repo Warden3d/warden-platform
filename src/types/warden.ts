@@ -156,6 +156,11 @@ export interface Request {
   id?: string;
   /** Human-readable reference: WDN-YYYY-NNNNNN — null until sequence generated */
   reference: string | null;
+  /**
+   * Internal idempotency key (technical, never shown to client).
+   * Identifies one logical submission intent; reused across retries.
+   */
+  idempotencyKey?: string;
 
   // ── General data ──
   /** Server-generated ISO timestamp */

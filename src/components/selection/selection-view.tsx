@@ -56,9 +56,19 @@ export function SelectionView() {
   const { items, updateQuantity, removeItem, clearAll } = useSelection();
 
   const [submitted, setSubmitted] = useState(false);
+  const [submittedReference, setSubmittedReference] = useState<string | undefined>();
   const [submitting, setSubmitting] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submittedEmailStatus, setSubmittedEmailStatus] = useState<'sent' | 'failed' | null>(null);
+  // Stable idempotency key per form instance — survives retries
+  const [idempotencyKey] = useState(() => {
+    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+      return crypto.randomUUID();
+    }
+    return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  });
 
   const subtotal = items.reduce(
     (sum, item) => sum + item.unitPrice * item.quantity,
@@ -100,6 +110,7 @@ export function SelectionView() {
     setSubmitting(true);
 
     const formData = new FormData();
+    formData.set("idempotencyKey", idempotencyKey);
     formData.set("firstName", firstName);
     formData.set("lastName", lastName);
     formData.set("email", email);
@@ -118,13 +129,23 @@ export function SelectionView() {
 
     if (result.success) {
       setSubmitted(true);
+      setSubmittedReference(result.reference);
+      // Clear selection after successful submission (R045)
       clearAll();
-    } else if (result.errors) {
-      const mapped: Record<string, string> = {};
-      for (const [key, msgs] of Object.entries(result.errors)) {
-        mapped[key] = msgs[0] ?? "";
+      // Set email status from result if available
+      if (result.emailStatus === 'sent' || result.emailStatus === 'failed') {
+        setSubmittedEmailStatus(result.emailStatus);
       }
-      setFormErrors(mapped);
+    } else {
+      if (result.errors) {
+        const mapped: Record<string, string> = {};
+        for (const [key, msgs] of Object.entries(result.errors)) {
+          mapped[key] = msgs[0] ?? "";
+        }
+        setFormErrors(mapped);
+      }
+      // Set submit error message from result
+      setSubmitError(result.message ?? "Error al enviar la solicitud. Inténtalo de nuevo.");
     }
   }
 
@@ -135,16 +156,33 @@ export function SelectionView() {
           <div className="max-w-lg mx-auto text-center py-16">
             <CheckCircle className="size-12 text-warden-green mx-auto mb-4" />
             <h1 className="text-2xl font-semibold text-foreground sm:text-3xl">
-              Solicitud enviada
+              Solicitud recibida
             </h1>
+            {submittedReference && (
+              <p className="mt-4 text-sm font-mono tracking-wider text-warden-blue">
+                Referencia: {submittedReference}
+              </p>
+            )}
             <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-              Hemos recibido tu solicitud de presupuesto. Nuestro equipo
-              revisará tu selección y responderá en un plazo máximo de{" "}
-              <strong>2 días hábiles</strong> con una propuesta detallada que
-              incluye disponibilidad, precio y plazos de entrega.
+              Hemos recibido correctamente tu solicitud. La revisaremos y nos pondremos en contacto contigo para confirmar disponibilidad, gastos de envío y presupuesto definitivo.
             </p>
+            {submittedEmailStatus === "sent" && (
+              <p className="mt-2 text-sm text-muted-foreground">
+                Hemos enviado una copia de la solicitud a tu correo electrónico.
+              </p>
+            )}
+            {submittedEmailStatus === "failed" && (
+              <>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Tu solicitud ha quedado registrada correctamente, pero no hemos podido enviar el correo de confirmación. Guarda esta referencia.
+                </p>
+                <p className="mt-2 text-sm font-mono tracking-wider text-warden-blue">
+                  Referencia: {submittedReference}
+                </p>
+              </>
+            )}
             <p className="mt-2 text-sm text-muted-foreground/60">
-              El envío no implica ningún compromiso de compra.
+              Los gastos de envío están pendientes de calcular.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
               <WardenButton href="/catalog">
@@ -508,6 +546,11 @@ export function SelectionView() {
                 {formErrors.accepted && (
                   <p className="text-xs text-destructive -mt-2">
                     {formErrors.accepted}
+                  </p>
+                )}
+                {submitError && (
+                  <p className="mt-2 text-xs text-destructive">
+                    {submitError}
                   </p>
                 )}
 
