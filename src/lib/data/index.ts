@@ -910,7 +910,6 @@ export async function createRequest(
   if (!isSupabaseConfigured()) {
     return { success: false, message: "Error al crear la solicitud. Inténtalo de nuevo." };
   }
-
   try {
     const { createServiceClient } = await import("@/lib/supabase/server");
     const supabase = await createServiceClient();
@@ -936,7 +935,7 @@ export async function createRequest(
       p_customer_email_status: request.customerEmailStatus,
       p_internal_email_status: request.internalEmailStatus,
       p_internal_notes: request.internalNotes ?? null,
-      p_lines: JSON.stringify(request.lines),
+      p_lines: request.lines,
     });
 
     if (error) {
