@@ -221,8 +221,8 @@ export default function CommunitySupportPage() {
               Solicitar apoyo
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-8">
-              Rellena el formulario y lo revisaremos. Te respondemos en un
-              plazo máximo de cinco días hábiles.
+              Rellena el formulario y lo revisaremos. Nos pondremos en contacto
+              contigo una vez evaluada la solicitud.
             </p>
           </div>
           <div className="border border-border bg-warden-surface p-6 max-w-2xl">

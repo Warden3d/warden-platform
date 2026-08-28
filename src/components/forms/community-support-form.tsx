@@ -93,8 +93,8 @@ export function CommunitySupportForm() {
           Solicitud enviada
         </h3>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
-          Hemos recibido tu solicitud. Revisaremos la información y te
-          responderemos en un plazo máximo de cinco días hábiles.
+          Hemos recibido tu solicitud. Revisaremos la información y nos
+          pondremos en contacto contigo una vez evaluada.
         </p>
       </div>
     );

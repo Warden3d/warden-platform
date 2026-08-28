@@ -2,8 +2,8 @@
  * Confirmation email sent to the Community Support applicant after the
  * request has been persisted successfully.
  * Reuses the shared sendEmail() transporter from ./index.
- * NOTE: intentionally no response-time commitment in the copy — the page
- * states "5 días hábiles" but the email avoids it pending PO confirmation.
+ * NOTE: intentionally no response-time commitment in the copy — the page and
+ * the success panel avoid fixed deadlines; the email must stay consistent.
  */
 import { sendEmail } from "./index";
 import { supportTypeLabels } from "@/lib/schemas/community-support";
