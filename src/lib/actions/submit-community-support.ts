@@ -53,8 +53,12 @@ export async function submitCommunitySupport(
     };
   }
 
-  // ── Internal email to WARDEN (only after successful persistence) ─
-  // A failed email never invalidates the stored request.
+  // ── Emails after successful persistence (independent channels) ──
+  // The stored request is the source of truth: a failure in either channel
+  // never invalidates it, and one channel's failure never blocks the other.
+  // No automatic retries.
+
+  // 1. Internal notification to WARDEN
   try {
     const { sendCommunitySupportNotification } = await import(
       "@/lib/email/community-support-notification"
@@ -78,6 +82,28 @@ export async function submitCommunitySupport(
     }
   } catch (err) {
     console.error("Community Support internal email error:", err);
+  }
+
+  // 2. Confirmation to the applicant (independent of channel 1)
+  try {
+    const { sendCommunitySupportConfirmation } = await import(
+      "@/lib/email/community-support-confirmation"
+    );
+    const emailResult = await sendCommunitySupportConfirmation({
+      entityName: parsed.data.entityName,
+      contactName: parsed.data.contactName,
+      supportTypes: parsed.data.supportTypes,
+      recipientEmail: parsed.data.email,
+    });
+    if (!emailResult.success) {
+      console.error(
+        "Community Support confirmation email failed:",
+        emailResult.status,
+        emailResult.message
+      );
+    }
+  } catch (err) {
+    console.error("Community Support confirmation email error:", err);
   }
 
   return { success: true, message: "Solicitud enviada correctamente." };
