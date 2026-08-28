@@ -264,6 +264,9 @@ create table drops (
   ends_at       timestamptz,
   status        drop_status not null default 'upcoming',
   thumbnail_url text not null default '',
+  -- Precio propio del Drop en EUR (V1). Un Drop solo es efectivamente
+  -- activo si tiene precio válido (price > 0). NULL = precio pendiente.
+  price         real,
   created_at    timestamptz not null default now()
 );
 

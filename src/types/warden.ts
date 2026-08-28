@@ -284,6 +284,8 @@ export interface Drop {
   endsAt: string | null;
   status: DropStatus;
   thumbnailUrl: string;
+  /** Precio propio del Drop en EUR; null si el precio está pendiente. */
+  price: number | null;
   productIds: string[];
 }
 

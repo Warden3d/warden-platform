@@ -11,6 +11,8 @@ import type { Drop, CompatibilitySystem, ProductImage } from "@/types/warden";
 import { TechnicalBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ChevronRight, Timer, Layers } from "lucide-react";
+import { resolveDropStatus } from "@/lib/drop-status";
+import { formatPriceEUR } from "@/lib/utils";
 
 // ── Campaign blocks ────────────────────────────
 import {
@@ -124,6 +126,8 @@ function buildCampaignConfig(
   const heroImage = activeDrop.thumbnailUrl || undefined;
   const scenarioImage =
     featuredProducts[0]?.images.find((img) => img.isPrimary)?.url || heroImage;
+  const effectiveStatus = resolveDropStatus(activeDrop);
+  const isEffectivelyLive = effectiveStatus === "live";
 
   return {
     metadata: {
@@ -234,12 +238,15 @@ function buildCampaignConfig(
             {
               label: "Estado",
               value:
-                activeDrop.status === "live"
+                isEffectivelyLive
                   ? "Disponible"
-                  : activeDrop.status === "upcoming"
+                  : effectiveStatus === "upcoming"
                     ? "Próximo"
                     : "Finalizado",
             },
+            ...(isEffectivelyLive && activeDrop.price != null
+              ? [{ label: "Precio", value: formatPriceEUR(activeDrop.price), icon: "◆" as const }]
+              : []),
             { label: "Productos", value: `${productCount}` },
             ...(compatibilitySystems.length > 0
               ? [
@@ -269,9 +276,14 @@ export default async function DropsPage() {
     getCompatibilitySystems(),
   ]);
 
-  const live = drops.filter((d) => d.status === "live");
-  const upcoming = drops.filter((d) => d.status === "upcoming");
-  const ended = drops.filter((d) => d.status === "ended");
+  // Estado efectivo de presentación (R053A): deriva de status + fechas + precio,
+  // no solo del campo `status` almacenado.
+  const now = new Date();
+  const effectiveStatusOf = (d: Drop) => resolveDropStatus(d, now);
+
+  const live = drops.filter((d) => effectiveStatusOf(d) === "live");
+  const upcoming = drops.filter((d) => effectiveStatusOf(d) === "upcoming");
+  const ended = drops.filter((d) => effectiveStatusOf(d) === "ended");
   const hasActive = live.length > 0 || upcoming.length > 0;
 
   const activeDrop = live[0] ?? upcoming[0] ?? null;

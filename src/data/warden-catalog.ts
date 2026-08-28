@@ -633,6 +633,9 @@ export const drops: Drop[] = [
     description:
       "A modular urban sector designed for tactical engagements. Expand your battlefield with detailed structures, defensive positions and interconnected terrain elements built for BattleTech and Alpha Strike.",
     theme: "City Terrain",
+    // Sin precio comercial aprobado (R053B) — ambos Drops actuales están
+    // efectivamente finalizados; price null = nunca activo hasta decisión del PO.
+    price: null,
     startsAt: "2026-07-20T17:00:00Z",
     endsAt: "2026-08-10T23:59:59Z",
     status: "live",
@@ -646,6 +649,8 @@ export const drops: Drop[] = [
     description:
       "Lanzamiento de la colección Wasteland Studios. Los tres productos iniciales —Command Post, Terrain Pack y City Map Pack— disponibles con precios de lanzamiento durante las primeras 72 horas. Los pedidos realizados durante el drop incluyen un parche bordado exclusivo de Wasteland Studios.",
     theme: "Lanzamientos",
+    // Sin precio → nunca efectivamente activo (R053A).
+    price: null,
     startsAt: "2026-08-01T17:00:00Z",
     endsAt: "2026-08-04T16:59:59Z",
     status: "upcoming",

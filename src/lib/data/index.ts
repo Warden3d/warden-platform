@@ -168,6 +168,7 @@ interface DropRow {
   ends_at: string | null;
   status: "upcoming" | "live" | "ended";
   thumbnail_url: string;
+  price: number | null;
 }
 
 interface DropItemRow {
@@ -327,6 +328,7 @@ function mapDropRow(row: DropRow, productIds: string[]): Drop {
     theme: row.theme,
     startsAt: row.starts_at,
     endsAt: row.ends_at,
+    price: row.price ?? null,
     status: row.status,
     thumbnailUrl: row.thumbnail_url,
     productIds,

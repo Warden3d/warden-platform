@@ -18,6 +18,8 @@ import {
   Info,
   ArrowUpRight,
 } from "lucide-react";
+import { resolveDropStatus } from "@/lib/drop-status";
+import { formatPriceEUR } from "@/lib/utils";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("es-ES", {
@@ -83,9 +85,12 @@ export default async function DropDetailPage({
   const dropProducts = allProducts.filter((p) =>
     drop.productIds.includes(p.id)
   );
-  const isLive = drop.status === "live";
-  const isUpcoming = drop.status === "upcoming";
-  const isEnded = drop.status === "ended";
+  // Estado efectivo (R053A): status + fechas + precio válido. Un Drop
+  // caducado se presenta como ended aunque su campo status siga en "live".
+  const effectiveStatus = resolveDropStatus(drop);
+  const isLive = effectiveStatus === "live";
+  const isUpcoming = effectiveStatus === "upcoming";
+  const isEnded = effectiveStatus === "ended";
 
   const compatIds = [...new Set(dropProducts.map((p) => p.compatibilityId))];
   const compatSystems = compatIds
@@ -209,14 +214,26 @@ export default async function DropDetailPage({
               {dropProducts.length !== 1 ? "s" : ""}
             </div>
 
-            {/* CTA for live drops */}
-            {isLive && (
+            {/* Precio real del Drop (solo cuando existe y es efectivamente activo) */}
+            {isLive && drop.price != null && (
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="text-spec-label text-muted-foreground">
+                  Precio
+                </span>
+                <span className="text-2xl font-semibold text-foreground tracking-tight">
+                  {formatPriceEUR(drop.price)}
+                </span>
+              </div>
+            )}
+
+            {/* CTA for live drops (solo si el Drop es efectivamente activo) */}
+            {isLive && drop.price != null && (
               <div className="mt-6">
                 <AddToSelectionButton
                   entityId={drop.id}
                   entityType="drop"
                   name={drop.name}
-                  unitPrice={0}
+                  unitPrice={drop.price}
                   slug={drop.slug}
                   fullWidth
                 />
