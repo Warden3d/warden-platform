@@ -150,6 +150,9 @@ export default async function CatalogPage({ searchParams }: PageProps) {
           collections={collections}
           licenses={licenses}
           productTypes={productTypes}
+          initialFilters={
+            initialCollectionId ? { collectionId: initialCollectionId } : undefined
+          }
           title="Catálogo"
           description="Explora todos los productos WARDEN. Usa los filtros para acotar por categoría, sistema de juego o colección."
         />

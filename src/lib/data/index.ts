@@ -576,7 +576,14 @@ export async function getProductTypes(): Promise<ProductType[]> {
   const supabase = await createClient();
   const { data, error } = await supabase.from("product_types").select("*");
   if (error || !data) return [];
-  return data as ProductType[];
+  // Map snake_case rows to the ProductType contract (category_id → categoryId)
+  return (data as Array<{ id: string; category_id: string | null; name: string }>).map(
+    (row) => ({
+      id: row.id,
+      categoryId: row.category_id ?? "",
+      name: row.name,
+    })
+  );
 }
 
 export async function getCompatibilitySystems(): Promise<CompatibilitySystem[]> {

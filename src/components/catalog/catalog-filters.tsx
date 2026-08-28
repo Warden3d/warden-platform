@@ -11,10 +11,12 @@ interface CatalogFiltersProps {
   compatibilitySystems: CompatibilitySystem[];
   collections: Collection[];
   productTypes: ProductType[];
+  origins: string[];
   activeCategoryId: string | null;
   activeTypeId: string | null;
   activeCompatibilityId: string | null;
   activeCollectionId: string | null;
+  activeOriginId: string | null;
   activePriceMin: number | null;
   activePriceMax: number | null;
   priceBounds: { min: number; max: number };
@@ -22,6 +24,7 @@ interface CatalogFiltersProps {
   onTypeChange: (id: string | null) => void;
   onCompatibilityChange: (id: string | null) => void;
   onCollectionChange: (id: string | null) => void;
+  onOriginChange: (id: string | null) => void;
   onPriceChange: (min: number | null, max: number | null) => void;
   onClear: () => void;
   hasActiveFilters: boolean;
@@ -50,10 +53,12 @@ export function CatalogFilters({
   compatibilitySystems,
   collections,
   productTypes,
+  origins,
   activeCategoryId,
   activeTypeId,
   activeCompatibilityId,
   activeCollectionId,
+  activeOriginId,
   activePriceMin,
   activePriceMax,
   priceBounds,
@@ -61,6 +66,7 @@ export function CatalogFilters({
   onTypeChange,
   onCompatibilityChange,
   onCollectionChange,
+  onOriginChange,
   onPriceChange,
   onClear,
   hasActiveFilters,
@@ -170,7 +176,27 @@ export function CatalogFilters({
         </div>
       </fieldset>
 
-      {/* ── 4. Tipo (tipologías agrupadas por categoría) ── */}
+      {/* ── 4. Diseñador / Licencia ── */}
+      <fieldset>
+        <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
+          Diseñador / Licencia
+        </legend>
+        <div className={GRID} role="group" aria-label="Filtrar por diseñador o licencia">
+          {origins.map((origin) => (
+            <button
+              type="button"
+              key={origin}
+              onClick={() => onOriginChange(origin)}
+              aria-pressed={activeOriginId === origin}
+              className={cn(BTN, activeOriginId === origin ? BTN_SELECTED : BTN_DEFAULT)}
+            >
+              {origin}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+
+      {/* ── 5. Tipo (tipologías agrupadas por categoría) ── */}
       <fieldset>
         <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
           Tipo
@@ -199,7 +225,7 @@ export function CatalogFilters({
         </div>
       </fieldset>
 
-      {/* ── 5. Precio ── */}
+      {/* ── 6. Precio ── */}
       <fieldset>
         <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
           Precio
