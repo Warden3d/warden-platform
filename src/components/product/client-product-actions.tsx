@@ -24,7 +24,10 @@ export function ClientProductActions({
   const [quantity, setQuantity] = useState(1);
   const { selectedVariant } = useProductConfig();
 
-  // Generate generic configuration array matching the catalog card pattern
+  // Generate generic configuration array matching the catalog card pattern.
+  // NOTE (R052A): capabilityId is fixed to "finish" — acceptable for V1 (only
+  // real configurable capabilities are finishes). Revisit when Size, Scale,
+  // Material, Variant or Content capabilities are introduced.
   const configuration = useMemo((): ProductConfigurationItem[] | undefined => {
     if (!selectedVariant) return undefined;
     return [

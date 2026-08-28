@@ -18,6 +18,7 @@ import { AddToSelectionButton } from "@/components/catalog/add-to-selection-butt
 import { CatalogProductCard } from "@/components/catalog/catalog-product-card";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ProductGallery } from "@/components/catalog/product-gallery";
+import { formatPriceEUR } from "@/lib/utils";
 import { ChevronRight, FileText, Info, Package as PackageIcon, Layers } from "lucide-react";
 
 export async function generateMetadata({
@@ -125,11 +126,11 @@ export default async function BundleDetailPage({
               {/* Precio + ahorro en euros */}
               <div>
                 <span className="text-2xl font-semibold text-foreground tracking-tight">
-                  {bundle.price.toFixed(2)} €
+                  {formatPriceEUR(bundle.price)}
                 </span>
                 {totalIndividual > bundle.price && (
                   <p className="mt-1 text-sm text-warden-green">
-                    Ahorra {(totalIndividual - bundle.price).toFixed(2)} € frente a la compra individual
+                    Ahorra {formatPriceEUR(totalIndividual - bundle.price)} frente a la compra individual
                   </p>
                 )}
               </div>

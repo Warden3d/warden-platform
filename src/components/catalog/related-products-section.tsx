@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Product, Bundle } from "@/types/warden";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
 import { ScrollableRow } from "@/components/catalog/scrollable-row";
+import { formatPriceEUR } from "@/lib/utils";
 import { ChevronRight, Package } from "lucide-react";
 
 function RelatedProductCard({ product }: { product: Product }) {
@@ -32,7 +33,7 @@ function RelatedProductCard({ product }: { product: Product }) {
       </p>
       <div className="mt-3 pt-2 border-t border-border flex items-center justify-between">
         <span className="text-data text-foreground/80">
-          ${product.price.toFixed(2)}
+          {formatPriceEUR(product.price)}
         </span>
         <span className="text-xs text-warden-blue inline-flex items-center gap-0.5">
           Ver <ChevronRight className="size-3" />
@@ -45,7 +46,7 @@ function RelatedProductCard({ product }: { product: Product }) {
 function RelatedBundleCard({ bundle }: { bundle: Bundle }) {
   return (
     <Link
-      href="/bundles"
+      href={`/bundles/${bundle.slug}`}
       className="group border border-border bg-warden-surface p-4 flex flex-col hover:border-warden-blue/20 transition-colors w-[260px] snap-start shrink-0"
     >
       <div className="flex items-center gap-2 mb-2">
@@ -61,7 +62,7 @@ function RelatedBundleCard({ bundle }: { bundle: Bundle }) {
       <div className="mt-3 pt-2 border-t border-border flex items-center justify-between">
         <div>
           <span className="text-data text-foreground/80">
-            ${bundle.price.toFixed(2)}
+            {formatPriceEUR(bundle.price)}
           </span>
           {bundle.discountLabel && (
             <span className="ml-2 text-[10px] text-warden-green uppercase tracking-wider">

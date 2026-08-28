@@ -46,6 +46,10 @@ function SystemBadge({ compatibilityId }: { compatibilityId: string }) {
 }
 
 // ─── FinishSelector chip component ─────────────────────────────────
+// NOTE (R052A): the configuration infrastructure is generic (variants array)
+// but capabilityId is currently fixed to "finish" — acceptable for V1 since
+// the only real configurable capabilities are finishes. Revisit when Size,
+// Scale, Material, Variant or Content capabilities are introduced.
 
 const CAPABILITY_ID = "finish";
 
