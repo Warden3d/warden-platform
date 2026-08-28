@@ -57,10 +57,19 @@ export function ContactForm() {
     resolver: zodResolver(contactSchema),
   });
 
+  // Honeypot value is read directly from the hidden field at submit time.
   const onSubmit = async (data: ContactFormValues) => {
+    if (status === "submitting") return; // guard against double submit
+    const website =
+      typeof document !== "undefined"
+        ? String(
+            (document.getElementById("website") as HTMLInputElement | null)
+              ?.value ?? "",
+          )
+        : "";
     setStatus("submitting");
     try {
-      const result = await submitContact(data);
+      const result = await submitContact({ ...data, website });
       if (result.success) {
         setStatus("success");
       } else {
@@ -90,6 +99,17 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      {/* Honeypot anti-spam — hidden from humans, ignored by screen readers */}
+      <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+        <label htmlFor="website">No rellenes este campo</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <FormField id="name" label="Nombre" required error={errors.name?.message}>
           <input

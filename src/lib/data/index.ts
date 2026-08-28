@@ -1050,7 +1050,12 @@ export interface ContactRequestInput {
 export async function createContactRequest(
   data: ContactRequestInput
 ): Promise<boolean> {
-  if (!isSupabaseConfigured()) return true;
+  if (!isSupabaseConfigured()) {
+    // No silent success: without Supabase the request is NOT persisted,
+    // so the caller must surface an error (no fake success).
+    console.error("createContactRequest: Supabase not configured");
+    return false;
+  }
 
   const { createClient } = await import("@/lib/supabase/server");
   const supabase = await createClient();

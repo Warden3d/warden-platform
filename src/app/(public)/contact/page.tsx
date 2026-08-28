@@ -40,9 +40,7 @@ export default function ContactPage() {
 
           <div className="space-y-4">
             <DataPanel label={<><Mail className="size-3.5 inline mr-1.5" />Email</>}>
-              <DataRow label="Contacto" value="contact@warden-platform.com" />
-              <DataRow label="Community Support" value="community@warden-platform.com" />
-              <DataRow label="Dealer Program" value="dealers@warden-platform.com" />
+              <DataRow label="Contacto" value="wardenminis@gmail.com" />
             </DataPanel>
             <DataPanel label={<><MapPin className="size-3.5 inline mr-1.5" />Ubicación</>}>
               <DataRow label="Operaciones" value="Remoto — envíos internacionales" />
