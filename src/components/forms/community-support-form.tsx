@@ -60,10 +60,19 @@ export function CommunitySupportForm() {
     resolver: zodResolver(communitySupportSchema),
   });
 
+  // Honeypot value is read directly from the hidden field at submit time.
   const onSubmit = async (data: CommunitySupportFormValues) => {
+    if (status === "submitting") return; // guard against double submit
+    const website =
+      typeof document !== "undefined"
+        ? String(
+            (document.getElementById("website") as HTMLInputElement | null)
+              ?.value ?? "",
+          )
+        : "";
     setStatus("submitting");
     try {
-      const result = await submitCommunitySupport(data);
+      const result = await submitCommunitySupport({ ...data, website });
       if (result.success) {
         setStatus("success");
       } else {
@@ -93,6 +102,17 @@ export function CommunitySupportForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      {/* Honeypot anti-spam — hidden from humans, ignored by screen readers */}
+      <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+        <label htmlFor="website">No rellenes este campo</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
       {/* Entity type */}
       <FormField
         id="entityType"

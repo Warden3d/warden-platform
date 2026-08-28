@@ -43,18 +43,22 @@ export const communitySupportSchema = z.object({
   }),
   entityName: z
     .string()
+    .trim()
     .min(2, "El nombre debe tener al menos 2 caracteres")
     .max(200, "El nombre no puede exceder 200 caracteres"),
   contactName: z
     .string()
+    .trim()
     .min(2, "El nombre debe tener al menos 2 caracteres")
     .max(100, "El nombre no puede exceder 100 caracteres"),
   email: z
     .string()
+    .trim()
     .min(1, "El email es obligatorio")
     .email("Introduce un email válido"),
   description: z
     .string()
+    .trim()
     .min(30, "Describe tu entidad en al menos 30 caracteres")
     .max(3000, "La descripción no puede exceder 3000 caracteres"),
   supportTypes: z
@@ -62,6 +66,7 @@ export const communitySupportSchema = z.object({
     .min(1, "Selecciona al menos un tipo de apoyo"),
   details: z
     .string()
+    .trim()
     .min(20, "Explica tu solicitud en al menos 20 caracteres")
     .max(5000, "Los detalles no pueden exceder 5000 caracteres"),
   acceptedTerms: z.literal(true, {

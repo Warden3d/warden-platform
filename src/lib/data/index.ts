@@ -1088,7 +1088,12 @@ export interface CommunitySupportRequestInput {
 export async function createCommunitySupportRequest(
   data: CommunitySupportRequestInput
 ): Promise<boolean> {
-  if (!isSupabaseConfigured()) return true;
+  if (!isSupabaseConfigured()) {
+    // No silent success: without Supabase the request is NOT persisted,
+    // so the caller must surface an error (no fake success).
+    console.error("createCommunitySupportRequest: Supabase not configured");
+    return false;
+  }
 
   const { createClient } = await import("@/lib/supabase/server");
   const supabase = await createClient();
