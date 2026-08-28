@@ -266,7 +266,7 @@ const data = {
     { id: "spec-bundle-002-3", bundle_id: "bundle-002", spec_key: "theme", spec_label: "Temática", spec_value: "Inicio — Punto de entrada", visibility: ["bundle"], sort_order: 3 },
   ],
   drops: [
-    { id: "drop-001", slug: "city-sector-command-complex", name: "City Sector — Command Complex", description: "A modular urban sector designed for tactical engagements.", theme: "City Terrain", starts_at: "2026-07-20T17:00:00Z", ends_at: "2026-08-10T23:59:59Z", status: "live", thumbnail_url: "/images/drops/steel-edition.svg", price: null /* sin precio comercial aprobado (R053B) */ },
+    { id: "drop-001", slug: "city-sector-command-complex", name: "City Sector — Command Complex", description: "A modular urban sector designed for tactical engagements.", theme: "City Terrain", starts_at: "2026-07-20T17:00:00Z", ends_at: "2026-12-31T23:59:59Z", status: "live", thumbnail_url: "/images/drops/steel-edition.svg", price: 89.99 /* DEMO PRICE (R053D) — sustituir por precio comercial real antes del lanzamiento público definitivo. No usar en otro Drop. */ },
     { id: "drop-002", slug: "wasteland-studios-launch", name: "Wasteland Studios Launch Drop", description: "Lanzamiento de la colección Wasteland Studios.", theme: "Lanzamientos", starts_at: "2026-08-01T17:00:00Z", ends_at: "2026-08-04T16:59:59Z", status: "upcoming", thumbnail_url: "/images/drops/wasteland-launch.svg", price: null /* sin precio → nunca activo */ },
   ],
   dropItems: [

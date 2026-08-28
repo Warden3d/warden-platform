@@ -633,11 +633,11 @@ export const drops: Drop[] = [
     description:
       "A modular urban sector designed for tactical engagements. Expand your battlefield with detailed structures, defensive positions and interconnected terrain elements built for BattleTech and Alpha Strike.",
     theme: "City Terrain",
-    // Sin precio comercial aprobado (R053B) — ambos Drops actuales están
-    // efectivamente finalizados; price null = nunca activo hasta decisión del PO.
-    price: null,
+    // DEMO PRICE (R053D) — sustituir por precio comercial real antes del
+    // lanzamiento público definitivo. No es precio aprobado. No usar en otro Drop.
+    price: 89.99,
     startsAt: "2026-07-20T17:00:00Z",
-    endsAt: "2026-08-10T23:59:59Z",
+    endsAt: "2026-12-31T23:59:59Z",
     status: "live",
     thumbnailUrl: "/images/drops/steel-edition.svg",
     productIds: ["prod-001"],
