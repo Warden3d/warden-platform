@@ -1,5 +1,7 @@
 {
   "catalog": {
+    "exploreCatalog": "Explore",
+    "hideFilters": "Hide filters",
     "title": "Catalog",
     "description": "Explore all WARDEN products. Use the filters to narrow by category, game system, or collection.",
     "quickAccessWardenCore": "WARDEN Core",

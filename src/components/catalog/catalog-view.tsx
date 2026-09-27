@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 import type { Product, Category, CompatibilitySystem, Collection, License, ProductType } from "@/types/warden";
 import { useCatalogFilters, type CatalogFilters as CatalogFiltersState, type CatalogSort } from "@/hooks/use-catalog-filters";
 import { SearchBar } from "@/components/catalog/search-bar";
@@ -8,9 +10,9 @@ import { EmptyState } from "@/components/catalog/empty-state";
 import { CatalogFilters as FilterPanel } from "@/components/catalog/catalog-filters";
 import { CatalogProductCard } from "@/components/catalog/catalog-product-card";
 import { ProductGrid } from "@/components/catalog/product-grid";
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
-import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { SlidersHorizontal, ArrowUpDown, ChevronRight, LayoutGrid, Box, Rocket } from "lucide-react";
 
 interface CatalogViewProps {
   products: Product[];
@@ -44,6 +46,7 @@ export function CatalogView({
   description,
 }: CatalogViewProps) {
   const t = useTranslations("catalog");
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const {
     filters,
     sort,
@@ -116,11 +119,11 @@ export function CatalogView({
       </div>
 
       {/* Search + Controls */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        <div className="flex-1">
+      <div className="flex flex-col gap-3 mb-6 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="min-w-0 flex-1 sm:min-w-64">
           <SearchBar value={filters.search} onChange={setSearch} />
         </div>
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <ResultsCounter total={products.length} filtered={filteredProducts.length} />
           {/* Sort selector */}
           <div className="flex items-center gap-1.5">
@@ -141,18 +144,54 @@ export function CatalogView({
               ))}
             </select>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <SlidersHorizontal className="size-3.5" />
-            <span className="hidden sm:inline">{t("filters")}</span>
-          </div>
+          <button
+            type="button"
+            aria-expanded={filtersOpen}
+            aria-controls="catalog-sidebar"
+            onClick={() => setFiltersOpen((open) => !open)}
+            className="inline-flex min-h-11 items-center gap-2 rounded-sm border border-border px-3 text-xs text-foreground transition-colors hover:border-warden-blue/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50 lg:hidden"
+          >
+            <SlidersHorizontal className="size-3.5" aria-hidden="true" />
+            {filtersOpen ? t("hideFilters") : t("filters")}
+            {hasActiveFilters && <span className="size-1.5 rounded-full bg-warden-blue" aria-hidden="true" />}
+          </button>
         </div>
       </div>
 
       {/* Filters + Grid */}
       <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
         {/* Sidebar filters */}
-        <aside className="order-2 lg:order-1">
-          <div className="lg:sticky lg:top-24">
+        <aside
+          id="catalog-sidebar"
+          aria-label={t("filters")}
+          className={cn("min-w-0 lg:block", filtersOpen ? "block" : "hidden")}
+        >
+          <div className="space-y-6">
+            <nav aria-label={t("exploreCatalog")} className="border-b border-border pb-5">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("exploreCatalog")}
+              </p>
+              <ul className="space-y-1">
+                <li>
+                  <span aria-current="page" className="flex min-h-11 items-center gap-2.5 rounded-sm bg-warden-blue/10 px-3 text-sm font-medium text-foreground">
+                    <LayoutGrid className="size-4 text-warden-blue" aria-hidden="true" />
+                    {t("title")}
+                  </span>
+                </li>
+                {[
+                  { href: "/bundles", label: t("quickAccessBundles"), Icon: Box },
+                  { href: "/drops", label: t("quickAccessDrops"), Icon: Rocket },
+                ].map(({ href, label, Icon }) => (
+                  <li key={href}>
+                    <Link href={href} className="flex min-h-11 items-center gap-2.5 rounded-sm px-3 text-sm text-muted-foreground transition-colors hover:bg-warden-surface hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50">
+                      <Icon className="size-4" aria-hidden="true" />
+                      {label}
+                      <ChevronRight className="ml-auto size-3.5" aria-hidden="true" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
             <FilterPanel
               categories={visibleCategories}
               compatibilitySystems={visibleCompatibilities}
@@ -180,7 +219,7 @@ export function CatalogView({
         </aside>
 
         {/* Product grid */}
-        <main className="order-1 lg:order-2 min-h-[300px]">
+        <div className="min-w-0 min-h-[300px]">
           {filteredProducts.length > 0 ? (
             <ProductGrid>
               {filteredProducts.map((product) => (
@@ -193,7 +232,7 @@ export function CatalogView({
               description={t("emptyDesc")}
             />
           )}
-        </main>
+        </div>
       </div>
     </div>
   );

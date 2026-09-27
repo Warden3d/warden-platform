@@ -18,7 +18,6 @@ import {
   updateProduct as updateStoreProduct,
   deleteProduct as deleteStoreProduct,
   updateProductStatus as updateStoreProductStatus,
-  getSelectionRequests as getStoreSelectionRequests,
   getContactRequests as getStoreContactRequests,
   getCommunitySupportRequests as getStoreCommunitySupportRequests,
   getCollections as getStoreCollections,
@@ -27,9 +26,13 @@ import {
   getLicenses as getStoreLicenses,
 } from "./store";
 
+import { requireAdmin } from "@/lib/auth";
+import { demoQuoteRequests } from "@/data/demo-quote-requests";
+import { mapRequestRecord, type RequestRecord } from "./request-records";
+
 // ── Helpers ─────────────────────────────────────────────────────────────
 
-function isSupabaseConfigured(): boolean {
+export function isSupabaseConfigured(): boolean {
   return Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -147,21 +150,23 @@ export async function getLicenses() {
 
 // ── Requests ──────────────────────────────────────────────────────────
 
-export async function getSelectionRequests() {
-  if (!isSupabaseConfigured()) return getStoreSelectionRequests();
+export async function getQuoteRequests() {
+  if (!isSupabaseConfigured()) return demoQuoteRequests;
+  await requireAdmin();
 
   const { createClient } = await import("@/lib/supabase/server");
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("selection_requests")
-    .select("*")
+    .from("requests")
+    .select("*, request_lines(*)")
     .order("created_at", { ascending: false });
-  if (error || !data) return [];
-  return data;
+  if (error) throw new Error("No se pudieron cargar las solicitudes de presupuesto.");
+  return (data ?? []).map((row) => mapRequestRecord(row as RequestRecord));
 }
 
 export async function getContactRequests() {
   if (!isSupabaseConfigured()) return getStoreContactRequests();
+  await requireAdmin();
 
   const { createClient } = await import("@/lib/supabase/server");
   const supabase = await createClient();
@@ -169,12 +174,19 @@ export async function getContactRequests() {
     .from("contact_requests")
     .select("*")
     .order("created_at", { ascending: false });
-  if (error || !data) return [];
-  return data;
+  if (error) throw new Error("No se pudieron cargar los mensajes de contacto.");
+  return (data ?? []).map((row) => ({
+    id: row.id as string, name: row.name as string, email: row.email as string,
+    subject: row.subject as string, message: row.message as string,
+    createdAt: row.created_at as string,
+    // This table has no workflow status; do not label every record as new.
+    status: "received",
+  }));
 }
 
 export async function getCommunitySupportRequests() {
   if (!isSupabaseConfigured()) return getStoreCommunitySupportRequests();
+  await requireAdmin();
 
   const { createClient } = await import("@/lib/supabase/server");
   const supabase = await createClient();
@@ -182,6 +194,12 @@ export async function getCommunitySupportRequests() {
     .from("community_support_requests")
     .select("*")
     .order("created_at", { ascending: false });
-  if (error || !data) return [];
-  return data;
+  if (error) throw new Error("No se pudieron cargar las solicitudes de Community Support.");
+  return (data ?? []).map((row) => ({
+    id: row.id as string, entityType: row.entity_type as string,
+    entityName: row.entity_name as string, contactName: row.contact_name as string,
+    email: row.email as string, description: row.description as string,
+    supportTypes: (row.support_types ?? []) as string[], details: row.details as string,
+    createdAt: row.created_at as string, status: row.status as string,
+  }));
 }

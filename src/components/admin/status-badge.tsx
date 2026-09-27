@@ -1,6 +1,11 @@
 import { cn } from "@/lib/utils";
 
 export const statusLabels: Record<string, string> = {
+  received: "Recibida",
+  in_review: "En revisión",
+  quoted: "Presupuestada",
+  closed: "Cerrada",
+  open: "Abierta",
   active: "Activo",
   hidden: "Oculto",
   retired: "Retirado",
