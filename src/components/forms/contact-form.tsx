@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Check, ChevronRight, Loader } from "lucide-react";
 
 import {
@@ -13,6 +14,19 @@ import {
 import { submitContact } from "@/lib/actions/submit-contact";
 import { WardenButton } from "@/components/ui/warden-button";
 import { cn } from "@/lib/utils";
+
+/**
+ * Display labels for the subject selector only. The option VALUES come from
+ * CONTACT_SUBJECTS and are submitted and stored verbatim, so they must never
+ * change — only the visible label is localised here.
+ * Brand terms ("Community Support", "Dealer Program") have no entry and are
+ * rendered as-is in both locales.
+ */
+const SUBJECT_LABELS: Record<string, string> = {
+  "Consulta general": "subjects.general",
+  "Licencias y colaboraciones": "subjects.licensing",
+  "Otros": "subjects.other",
+};
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
@@ -45,6 +59,7 @@ function FormField({
 }
 
 export function ContactForm() {
+  const t = useTranslations("contact");
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
@@ -87,11 +102,10 @@ export function ContactForm() {
           <Check className="size-6 text-warden-green" />
         </div>
         <h3 className="text-lg font-semibold text-foreground mb-2">
-          Mensaje enviado
+          {t("successTitle")}
         </h3>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
-          Hemos recibido tu mensaje. Te responderemos en un plazo máximo de dos
-          días hábiles.
+          {t("successBody")}
         </p>
       </div>
     );
@@ -101,7 +115,7 @@ export function ContactForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       {/* Honeypot anti-spam — hidden from humans, ignored by screen readers */}
       <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
-        <label htmlFor="website">No rellenes este campo</label>
+        <label htmlFor="website">{t("honeypotLabel")}</label>
         <input
           id="website"
           name="website"
@@ -111,7 +125,7 @@ export function ContactForm() {
         />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormField id="name" label="Nombre" required error={errors.name?.message}>
+        <FormField id="name" label={t("name")} required error={errors.name?.message}>
           <input
             id="name"
             {...register("name")}
@@ -121,10 +135,10 @@ export function ContactForm() {
                 ? "border-destructive focus-visible:border-destructive"
                 : "border-input"
             )}
-            placeholder="Tu nombre"
+            placeholder={t("namePlaceholder")}
           />
         </FormField>
-        <FormField id="email" label="Email" required error={errors.email?.message}>
+        <FormField id="email" label={t("emailLabel")} required error={errors.email?.message}>
           <input
             id="email"
             type="email"
@@ -135,12 +149,12 @@ export function ContactForm() {
                 ? "border-destructive focus-visible:border-destructive"
                 : "border-input"
             )}
-            placeholder="tucorreo@ejemplo.com"
+            placeholder={t("emailPlaceholder")}
           />
         </FormField>
       </div>
 
-      <FormField id="subject" label="Motivo" required error={errors.subject?.message}>
+      <FormField id="subject" label={t("subject")} required error={errors.subject?.message}>
         <select
           id="subject"
           {...register("subject")}
@@ -152,17 +166,17 @@ export function ContactForm() {
           )}
         >
           <option value="" className="bg-warden-carbon">
-            Selecciona un motivo
+            {t("subjectPlaceholder")}
           </option>
           {CONTACT_SUBJECTS.map((s) => (
             <option key={s} value={s} className="bg-warden-carbon">
-              {s}
+              {SUBJECT_LABELS[s] ? t(SUBJECT_LABELS[s]) : s}
             </option>
           ))}
         </select>
       </FormField>
 
-      <FormField id="message" label="Mensaje" required error={errors.message?.message}>
+      <FormField id="message" label={t("message")} required error={errors.message?.message}>
         <textarea
           id="message"
           rows={6}
@@ -173,25 +187,23 @@ export function ContactForm() {
               ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
-          placeholder="Describe tu consulta en detalle..."
+          placeholder={t("messagePlaceholder")}
         />
       </FormField>
 
       {status === "error" && (
-        <p className="text-xs text-destructive">
-          No se pudo enviar el mensaje. Inténtalo de nuevo.
-        </p>
+        <p className="text-xs text-destructive">{t("error")}</p>
       )}
 
       <WardenButton type="submit" disabled={status === "submitting"}>
         {status === "submitting" ? (
           <>
             <Loader className="size-4 animate-spin" />
-            Enviando...
+            {t("submitting")}
           </>
         ) : (
           <>
-            Enviar mensaje
+            {t("submit")}
             <ChevronRight className="size-4" />
           </>
         )}

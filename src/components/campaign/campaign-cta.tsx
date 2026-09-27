@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { getTranslations } from "next-intl/server";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
@@ -46,7 +47,7 @@ interface CampaignCtaProps {
  *
  * Content-driven: if `ctaHref` is empty, the block is not rendered.
  */
-export function CampaignCta({
+export async function CampaignCta({
   title,
   closing,
   highlights,
@@ -59,12 +60,14 @@ export function CampaignCta({
 }: CampaignCtaProps) {
   if (!ctaHref) return null;
 
+  const t = await getTranslations("drops");
+
   const statusLabel =
     status === "upcoming"
-      ? "Próximo lanzamiento"
+      ? t("cta.status.upcoming")
       : status === "ended"
-        ? "Campaña finalizada"
-        : "Disponible ahora";
+        ? t("cta.status.ended")
+        : t("cta.status.live");
 
   const statusColors =
     status === "live"

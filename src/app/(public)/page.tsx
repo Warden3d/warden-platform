@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
 import { getActiveProducts, getDrops } from "@/lib/data";
 
@@ -40,8 +40,17 @@ function ProcessIcon({ icon: Icon }: { icon: LucideIcon }) {
 export default async function Home() {
   const t = await getTranslations("home");
   const c = await getTranslations("common");
+  const locale = await getLocale();
   const products = await getActiveProducts();
   const featuredProducts = products.filter((p) => p.featured);
+
+  // Localized long date for the Active Drop reservation notice
+  const formatLongDate = (iso: string) =>
+    new Intl.DateTimeFormat(locale, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(iso));
 
   // R077 — Imágenes reales de prueba en ventana interior (4 fichas).
   // El texto del producto no coincide con las imágenes: son pruebas visuales.
@@ -97,7 +106,7 @@ export default async function Home() {
                     <div className="max-w-[440px] lg:max-w-[500px]">
                       <p className="flex items-center gap-2 text-sm md:text-base font-semibold uppercase tracking-[0.25em] text-warden-ochre mb-3">
                         <span className="inline-block size-1.5 rounded-full bg-warden-ochre animate-pulse opacity-80" />
-                        ACTIVE DROP
+                        {t("activeDropEyebrow")}
                       </p>
                       <h2 className="text-[1.65rem] md:text-[2.0625rem] font-semibold tracking-tight text-foreground">
                         {activeDrop.name}
@@ -105,12 +114,14 @@ export default async function Home() {
                       <p className="mt-2 text-sm text-white/70 leading-relaxed line-clamp-2">
                         {activeDrop.description}
                       </p>
-                      <p className="mt-2 text-xs text-white/50">
-                        Reservations close August 31, 2026
-                      </p>
+                      {activeDrop.endsAt && (
+                        <p className="mt-2 text-xs text-white/50">
+                          {t("activeDropReservations", { date: formatLongDate(activeDrop.endsAt) })}
+                        </p>
+                      )}
                       <div className="mt-4">
                         <WardenButton href="/drops">
-                          Explore the Drop <ChevronRight className="size-4" />
+                          {t("activeDropCta")} <ChevronRight className="size-4" />
                         </WardenButton>
                       </div>
                     </div>

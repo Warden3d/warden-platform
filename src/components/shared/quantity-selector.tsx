@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Minus, Plus } from "lucide-react";
 
@@ -21,6 +22,7 @@ export function QuantitySelector({
 }: QuantitySelectorProps) {
   const [internalQty, setInternalQty] = useState(1);
   const qty = controlledValue ?? internalQty;
+  const t = useTranslations("common");
 
   const setQty = useCallback(
     (v: number) => {
@@ -34,14 +36,14 @@ export function QuantitySelector({
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       <span className="text-spec-label text-muted-foreground uppercase tracking-wider">
-        Cantidad
+        {t("quantity")}
       </span>
       <div className="flex items-center gap-0">
         <button
           type="button"
           onClick={() => setQty(qty - 1)}
           className="flex h-9 w-9 items-center justify-center border border-border bg-warden-surface text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors rounded-l-sm"
-          aria-label="Reducir cantidad"
+          aria-label={t("decreaseQuantity")}
         >
           <Minus className="size-3.5" />
         </button>
@@ -52,7 +54,7 @@ export function QuantitySelector({
           type="button"
           onClick={() => setQty(qty + 1)}
           className="flex h-9 w-9 items-center justify-center border border-border bg-warden-surface text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors rounded-r-sm"
-          aria-label="Aumentar cantidad"
+          aria-label={t("increaseQuantity")}
         >
           <Plus className="size-3.5" />
         </button>

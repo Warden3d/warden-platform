@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
@@ -37,6 +38,8 @@ export function CampaignGallery({
   className,
   muted,
 }: CampaignGalleryProps) {
+  const t = useTranslations("drops");
+  const tCommon = useTranslations("common");
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -163,7 +166,7 @@ export function CampaignGallery({
             type="button"
             onClick={() => openLightbox(0)}
             className="relative w-full aspect-[16/9] sm:aspect-[21/9] overflow-hidden border border-border bg-warden-carbon mb-4 group cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50"
-            aria-label={`${hero.alt} — Ampliar imagen`}
+            aria-label={t("gallery.zoom", { alt: hero.alt })}
           >
             <Image
               src={hero.url}
@@ -193,7 +196,7 @@ export function CampaignGallery({
                   type="button"
                   onClick={() => openLightbox(idx + 1)}
                   className="relative aspect-square overflow-hidden border border-border bg-warden-carbon group cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50"
-                  aria-label={`${img.alt} — Ampliar imagen`}
+                  aria-label={t("gallery.zoom", { alt: img.alt })}
                 >
                   <Image
                     src={img.url}
@@ -222,7 +225,7 @@ export function CampaignGallery({
           ref={lightboxRef}
           role="dialog"
           aria-modal="true"
-          aria-label={`Galería: ${images[activeIndex]?.alt}`}
+          aria-label={t("gallery.ariaLabel", { title: images[activeIndex]?.alt ?? "" })}
           onClick={handleOverlayClick}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
@@ -236,7 +239,7 @@ export function CampaignGallery({
             ref={closeButtonRef}
             type="button"
             onClick={closeLightbox}
-            aria-label="Cerrar galería"
+            aria-label={t("gallery.close")}
             className="absolute top-4 right-4 z-20 size-10 flex items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           >
             <X className="size-5" />
@@ -254,7 +257,7 @@ export function CampaignGallery({
               <button
                 type="button"
                 onClick={goPrev}
-                aria-label="Imagen anterior"
+                aria-label={tCommon("previousImage")}
                 className="absolute left-2 md:left-4 z-10 size-10 md:size-12 flex items-center justify-center rounded-full bg-white/5 text-white/60 hover:bg-white/15 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               >
                 <ChevronLeft className="size-5 md:size-6" />
@@ -278,7 +281,7 @@ export function CampaignGallery({
               <button
                 type="button"
                 onClick={goNext}
-                aria-label="Imagen siguiente"
+                aria-label={tCommon("nextImage")}
                 className="absolute right-2 md:right-4 z-10 size-10 md:size-12 flex items-center justify-center rounded-full bg-white/5 text-white/60 hover:bg-white/15 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
               >
                 <ChevronRight className="size-5 md:size-6" />
@@ -294,7 +297,7 @@ export function CampaignGallery({
                   key={idx}
                   type="button"
                   onClick={() => setActiveIndex(idx)}
-                  aria-label={`Ir a imagen ${idx + 1}: ${img.alt}`}
+                  aria-label={t("gallery.goTo", { index: idx + 1, alt: img.alt })}
                   className={cn(
                     "relative shrink-0 size-12 md:size-16 overflow-hidden border-2 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50",
                     idx === activeIndex

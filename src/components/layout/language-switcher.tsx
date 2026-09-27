@@ -1,13 +1,17 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+/**
+ * Full locale name map — kept complete so future versions can re-enable
+ * any language without touching this component's structure.
+ */
 const localeNames: Record<string, string> = {
-  en: "English",
   es: "Español",
+  en: "English",
   de: "Deutsch",
   nl: "Nederlands",
   it: "Italiano",
@@ -18,7 +22,11 @@ const localeNames: Record<string, string> = {
   hi: "हिन्दी",
 };
 
-const locales = Object.keys(localeNames);
+/**
+ * V1 language scope (R055A): only ES/EN are offered publicly.
+ * Re-enable additional languages here once their message files are complete.
+ */
+const VISIBLE_LOCALES = ["es", "en"] as const;
 
 function setLocaleCookie(locale: string) {
   document.cookie = `warden-locale=${locale};path=/;max-age=31536000;SameSite=Lax`;
@@ -26,6 +34,7 @@ function setLocaleCookie(locale: string) {
 
 export function LanguageSwitcher() {
   const currentLocale = useLocale();
+  const t = useTranslations("common");
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -51,14 +60,14 @@ export function LanguageSwitcher() {
         type="button"
         onClick={() => setOpen(!open)}
         className="flex items-center gap-1.5 px-2 py-1 text-xs text-muted-foreground hover:text-foreground transition-colors rounded-sm"
-        aria-label="Change language"
+        aria-label={t("changeLanguage")}
       >
         <Globe className="size-3.5" />
         <span className="hidden sm:inline">{localeNames[currentLocale] || currentLocale}</span>
       </button>
       {open && (
         <div className="absolute right-0 top-full mt-1 w-40 bg-warden-carbon border border-border rounded-sm shadow-lg z-50 py-1">
-          {locales.map((loc) => (
+          {VISIBLE_LOCALES.map((loc) => (
             <button
               key={loc}
               type="button"

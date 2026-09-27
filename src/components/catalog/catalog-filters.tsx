@@ -1,8 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import type { Category, CompatibilitySystem, Collection, ProductType } from "@/types/warden";
-import { cn } from "@/lib/utils";
+import { cn, formatPriceEUR } from "@/lib/utils";
 import { X } from "lucide-react";
 import { PriceRangeSlider } from "@/components/catalog/price-range-slider";
 
@@ -71,6 +72,9 @@ export function CatalogFilters({
   onClear,
   hasActiveFilters,
 }: CatalogFiltersProps) {
+  const t = useTranslations("catalog");
+  const locale = useLocale();
+
   // Group typologies by category for the Tipo section
   const groupedTypes = useMemo(() => {
     const catName = new Map(categories.map((c) => [c.id, c.name]));
@@ -80,7 +84,7 @@ export function CatalogFilters({
     for (const catId of catOrder) {
       const types = productTypes
         .filter((t) => t.categoryId === catId)
-        .sort((a, b) => a.name.localeCompare(b.name, "es"));
+        .sort((a, b) => a.name.localeCompare(b.name, locale));
       if (types.length > 0) {
         result.push({
           categoryId: catId,
@@ -90,14 +94,14 @@ export function CatalogFilters({
       }
     }
     return result;
-  }, [productTypes, categories]);
+  }, [productTypes, categories, locale]);
 
   return (
     <div className="space-y-6">
       {/* ── Sidebar header ── */}
       <div className="flex items-center justify-between">
         <span className="text-sm font-semibold text-foreground/90 tracking-wider uppercase">
-          Filtros
+          {t("filters")}
         </span>
         <button
           type="button"
@@ -112,16 +116,16 @@ export function CatalogFilters({
           )}
         >
           <X className="size-3" />
-          Limpiar
+          {t("clearFilters")}
         </button>
       </div>
 
       {/* ── 1. Categorías ── */}
       <fieldset>
         <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
-          Categorías
+          {t("filterCategories")}
         </legend>
-        <div className={GRID} role="group" aria-label="Filtrar por categoría">
+        <div className={GRID} role="group" aria-label={t("filterByCategory")}>
           {categories.map((cat) => (
             <button
               type="button"
@@ -139,9 +143,9 @@ export function CatalogFilters({
       {/* ── 2. Sistema de juego ── */}
       <fieldset>
         <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
-          Sistema de juego
+          {t("filterGameSystem")}
         </legend>
-        <div className={GRID} role="group" aria-label="Filtrar por sistema de juego">
+        <div className={GRID} role="group" aria-label={t("filterByGameSystem")}>
           {compatibilitySystems.map((comp) => (
             <button
               type="button"
@@ -159,9 +163,9 @@ export function CatalogFilters({
       {/* ── 3. Colección ── */}
       <fieldset>
         <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
-          Colección
+          {t("filterCollection")}
         </legend>
-        <div className={GRID} role="group" aria-label="Filtrar por colección">
+        <div className={GRID} role="group" aria-label={t("filterByCollection")}>
           {collections.map((col) => (
             <button
               type="button"
@@ -179,9 +183,9 @@ export function CatalogFilters({
       {/* ── 4. Diseñador / Licencia ── */}
       <fieldset>
         <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
-          Diseñador / Licencia
+          {t("filterDesignerLicense")}
         </legend>
-        <div className={GRID} role="group" aria-label="Filtrar por diseñador o licencia">
+        <div className={GRID} role="group" aria-label={t("filterByDesignerLicense")}>
           {origins.map((origin) => (
             <button
               type="button"
@@ -199,7 +203,7 @@ export function CatalogFilters({
       {/* ── 5. Tipo (tipologías agrupadas por categoría) ── */}
       <fieldset>
         <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
-          Tipo
+          {t("filterType")}
         </legend>
         <div className="space-y-4">
           {groupedTypes.map((group) => (
@@ -207,16 +211,16 @@ export function CatalogFilters({
               <h4 className="text-[11px] font-medium text-muted-foreground/70 tracking-wider mb-2 uppercase">
                 {group.categoryName}
               </h4>
-              <div className={GRID} role="group" aria-label={`Filtrar por tipo: ${group.categoryName}`}>
-                {group.types.map((t) => (
+              <div className={GRID} role="group" aria-label={t("filterByType", { category: group.categoryName })}>
+                {group.types.map((type) => (
                   <button
                     type="button"
-                    key={t.id}
-                    onClick={() => onTypeChange(t.id)}
-                    aria-pressed={activeTypeId === t.id}
-                    className={cn(BTN, activeTypeId === t.id ? BTN_SELECTED : BTN_DEFAULT)}
+                    key={type.id}
+                    onClick={() => onTypeChange(type.id)}
+                    aria-pressed={activeTypeId === type.id}
+                    className={cn(BTN, activeTypeId === type.id ? BTN_SELECTED : BTN_DEFAULT)}
                   >
-                    {t.name}
+                    {type.name}
                   </button>
                 ))}
               </div>
@@ -228,7 +232,7 @@ export function CatalogFilters({
       {/* ── 6. Precio ── */}
       <fieldset>
         <legend className="text-[13px] font-semibold text-foreground/90 tracking-wider mb-3 uppercase">
-          Precio
+          {t("filterPrice")}
         </legend>
         <PriceRangeSlider
           min={priceBounds.min}
@@ -236,7 +240,7 @@ export function CatalogFilters({
           valueMin={activePriceMin}
           valueMax={activePriceMax}
           onChange={onPriceChange}
-          formatPrice={(v) => `${v.toFixed(2)} €`}
+          formatPrice={formatPriceEUR}
         />
       </fieldset>
     </div>

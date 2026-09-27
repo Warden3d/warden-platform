@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Container, Section, Eyebrow } from "@/components/shared/container";
 import { CatalogView } from "@/components/catalog/catalog-view";
 import {
@@ -26,6 +27,7 @@ interface PageProps {
 }
 
 export default async function CatalogPage({ searchParams }: PageProps) {
+  const t = await getTranslations("catalog");
   const [products, collections, categories, compatibilitySystems, bundles, drops, productTypes, licenses] =
     await Promise.all([
       getActiveProducts(),
@@ -72,14 +74,13 @@ export default async function CatalogPage({ searchParams }: PageProps) {
             <Shield className="size-5 text-warden-ochre mb-5" />
             <Eyebrow>
               {wardenCoreCount}{" "}
-              {wardenCoreCount === 1 ? "product" : "products"}
+              {wardenCoreCount === 1 ? t("product") : t("products")}
             </Eyebrow>
             <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-warden-blue transition-colors">
-              WARDEN Core
+              {t("quickAccessWardenCore")}
             </h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Main collection of precision tools for BattleTech. Terrain,
-              structures, accessories and complete battlefield solutions.
+              {t("quickAccessWardenCoreDesc")}
             </p>
           </Link>
 
@@ -95,14 +96,13 @@ export default async function CatalogPage({ searchParams }: PageProps) {
             <Gauge className="size-5 text-warden-green mb-5" />
             <Eyebrow>
               {licensesCount}{" "}
-              {licensesCount === 1 ? "product" : "products"}
+              {licensesCount === 1 ? t("product") : t("products")}
             </Eyebrow>
             <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-warden-green transition-colors">
-              Licenses
+              {t("quickAccessLicenses")}
             </h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Collaborations with independent creators and studios. Bespoke
-              tools with WARDEN manufacturing standards.
+              {t("quickAccessLicensesDesc")}
             </p>
           </Link>
 
@@ -113,13 +113,13 @@ export default async function CatalogPage({ searchParams }: PageProps) {
           >
             <Box className="size-5 text-warden-blue mb-5" />
             <Eyebrow>
-              {bundles.length} {bundles.length === 1 ? "bundle" : "bundles"}
+              {bundles.length} {bundles.length === 1 ? t("bundle") : t("bundles")}
             </Eyebrow>
             <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-warden-blue transition-colors">
-              Bundles
+              {t("quickAccessBundles")}
             </h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Curated sets at a reduced price. Everything in one package.
+              {t("quickAccessBundlesDesc")}
             </p>
           </Link>
 
@@ -130,13 +130,13 @@ export default async function CatalogPage({ searchParams }: PageProps) {
           >
             <Rocket className="size-5 text-muted-foreground mb-5 group-hover:text-foreground transition-colors" />
             <Eyebrow>
-              {drops.length} {drops.length === 1 ? "drop" : "drops"}
+              {drops.length} {drops.length === 1 ? t("drop") : t("drops")}
             </Eyebrow>
             <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground group-hover:text-foreground transition-colors">
-              Drops
+              {t("quickAccessDrops")}
             </h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Limited releases and special editions. Time-bound availability.
+              {t("quickAccessDropsDesc")}
             </p>
           </Link>
         </div>
@@ -153,8 +153,8 @@ export default async function CatalogPage({ searchParams }: PageProps) {
           initialFilters={
             initialCollectionId ? { collectionId: initialCollectionId } : undefined
           }
-          title="Catálogo"
-          description="Explora todos los productos WARDEN. Usa los filtros para acotar por categoría, sistema de juego o colección."
+          title={t("title")}
+          description={t("description")}
         />
       </Container>
     </Section>

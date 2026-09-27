@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +12,7 @@ interface ScrollableRowProps {
 
 export function ScrollableRow({ children, className }: ScrollableRowProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations("common");
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -29,7 +31,7 @@ export function ScrollableRow({ children, className }: ScrollableRowProps) {
         type="button"
         onClick={() => scroll("left")}
         className="absolute left-0 top-0 bottom-0 z-10 w-10 flex items-center justify-center bg-gradient-to-r from-warden-carbon/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50"
-        aria-label="Desplazar a la izquierda"
+        aria-label={t("scrollLeft")}
       >
         <ChevronLeft className="size-5 text-muted-foreground" />
       </button>
@@ -47,7 +49,7 @@ export function ScrollableRow({ children, className }: ScrollableRowProps) {
         type="button"
         onClick={() => scroll("right")}
         className="absolute right-0 top-0 bottom-0 z-10 w-10 flex items-center justify-center bg-gradient-to-l from-warden-carbon/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50"
-        aria-label="Desplazar a la derecha"
+        aria-label={t("scrollRight")}
       >
         <ChevronRight className="size-5 text-muted-foreground" />
       </button>

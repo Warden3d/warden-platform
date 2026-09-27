@@ -18,6 +18,7 @@ import { AddToSelectionButton } from "@/components/catalog/add-to-selection-butt
 import { CatalogProductCard } from "@/components/catalog/catalog-product-card";
 import { WardenButton } from "@/components/ui/warden-button";
 import { ProductGallery } from "@/components/catalog/product-gallery";
+import { getTranslations } from "next-intl/server";
 import { formatPriceEUR } from "@/lib/utils";
 import { ChevronRight, FileText, Info, Package as PackageIcon, Layers } from "lucide-react";
 
@@ -46,6 +47,9 @@ export default async function BundleDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const t = await getTranslations("bundles");
+  const tCommon = await getTranslations("common");
+
   const { slug } = await params;
 
   const [bundle, compatibilitySystems, allProducts] = await Promise.all([
@@ -83,7 +87,7 @@ export default async function BundleDetailPage({
     <Section className="pt-12 md:pt-16">
       <Container>
         {/* ── Breadcrumb ── */}
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6" aria-label="Breadcrumb">
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6" aria-label={tCommon("breadcrumb")}>
           <Link href="/bundles" className="hover:text-foreground transition-colors">
             Bundles
           </Link>
@@ -130,7 +134,9 @@ export default async function BundleDetailPage({
                 </span>
                 {totalIndividual > bundle.price && (
                   <p className="mt-1 text-sm text-warden-green">
-                    Ahorra {formatPriceEUR(totalIndividual - bundle.price)} frente a la compra individual
+                    {t("saveVsIndividual", {
+                      amount: formatPriceEUR(totalIndividual - bundle.price),
+                    })}
                   </p>
                 )}
               </div>
@@ -155,7 +161,7 @@ export default async function BundleDetailPage({
                     size="lg"
                     className="h-9 w-full"
                   >
-                    Volver al catálogo
+                    {tCommon("backToCatalog")}
                   </WardenButton>
                 </div>
               </div>
@@ -166,20 +172,20 @@ export default async function BundleDetailPage({
         {/* ════ BLOQUES INFORMATIVOS (ancho completo) ════ */}
         <div className="space-y-6 mb-12">
           {/* 1. Información del producto */}
-          <CollapsiblePanel title="Información del producto" defaultOpen={false} icon={<Info className="size-3.5 shrink-0" />}>
+          <CollapsiblePanel title={t("panelInfo")} defaultOpen={false} icon={<Info className="size-3.5 shrink-0" />}>
             <ProductSpecsPanel
               specs={bundle.specs}
             />
           </CollapsiblePanel>
 
           {/* 2. Información adicional */}
-          <CollapsiblePanel title="Información adicional" defaultOpen={false} icon={<FileText className="size-3.5 shrink-0" />}>
+          <CollapsiblePanel title={t("panelAdditional")} defaultOpen={false} icon={<FileText className="size-3.5 shrink-0" />}>
             <ExpandableText text={bundle.description} maxLines={6} expandable={false} />
           </CollapsiblePanel>
 
           {/* 3. Contenido del producto (productos incluidos) */}
           {bundleProducts.length > 0 && (
-            <CollapsiblePanel title="Contenido del producto" defaultOpen={false} icon={<PackageIcon className="size-3.5 shrink-0" />}>
+            <CollapsiblePanel title={t("panelContents")} defaultOpen={false} icon={<PackageIcon className="size-3.5 shrink-0" />}>
               <div className="p-4">
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {bundleProducts.map((product) => (
@@ -192,7 +198,7 @@ export default async function BundleDetailPage({
 
           {/* Colecciones compatibles */}
           {compatSystems.length > 0 && (
-            <CollapsiblePanel title="Colecciones compatibles" defaultOpen={false} icon={<Layers className="size-3.5 shrink-0" />}>
+            <CollapsiblePanel title={t("panelCompatibleCollections")} defaultOpen={false} icon={<Layers className="size-3.5 shrink-0" />}>
               <div className="flex flex-wrap gap-2 p-4">
                 {compatSystems.map(
                   (cs) =>

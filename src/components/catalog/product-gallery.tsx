@@ -2,12 +2,14 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import type { ProductImage } from "@/types/warden";
 import { IMAGE_VIEW_LABELS } from "@/types/warden";
 import { cn } from "@/lib/utils";
 import { Package } from "lucide-react";
 
 function GalleryFallback({ productName }: { productName: string }) {
+  const t = useTranslations("common");
   return (
     <div className="w-full aspect-square flex flex-col items-center justify-center bg-warden-carbon border border-border">
       <Package className="size-16 text-muted-foreground/20" strokeWidth={1} />
@@ -15,7 +17,7 @@ function GalleryFallback({ productName }: { productName: string }) {
         {productName}
       </p>
       <p className="mt-1 text-[10px] text-muted-foreground/25 uppercase tracking-widest">
-        Sin imagen disponible
+        {t("noImageAvailable")}
       </p>
     </div>
   );
@@ -32,6 +34,17 @@ export function ProductGallery({
 }) {
   const sorted = [...images].sort((a, b) => a.sortOrder - b.sortOrder);
   const [selectedIndex, setSelectedIndex] = useState(defaultIndex);
+  const t = useTranslations("product");
+  const tCommon = useTranslations("common");
+
+  /** Localized label for an image view type, falling back to the domain map. */
+  const viewLabel = useCallback(
+    (viewType: string) =>
+      t.has(`view.${viewType}`)
+        ? t(`view.${viewType}`)
+        : IMAGE_VIEW_LABELS[viewType as keyof typeof IMAGE_VIEW_LABELS] ?? viewType,
+    [t]
+  );
 
   const handlePrev = useCallback(() => {
     setSelectedIndex((prev) => (prev > 0 ? prev - 1 : sorted.length - 1));
@@ -67,7 +80,7 @@ export function ProductGallery({
         {/* View type badge */}
         <div className="absolute top-3 left-3 z-10">
           <span className="inline-block px-2 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider bg-warden-surface/90 text-muted-foreground border border-border/60 backdrop-blur-sm">
-            {IMAGE_VIEW_LABELS[current.viewType] ?? current.viewType}
+            {viewLabel(current.viewType)}
           </span>
         </div>
 
@@ -75,7 +88,7 @@ export function ProductGallery({
         {current.isPrimary && (
           <div className="absolute top-3 right-3 z-10">
             <span className="inline-block px-2 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider bg-warden-blue/20 text-warden-blue border border-warden-blue/30 backdrop-blur-sm">
-              Principal
+              {viewLabel("main")}
             </span>
           </div>
         )}
@@ -87,7 +100,7 @@ export function ProductGallery({
               type="button"
               onClick={handlePrev}
               className="absolute left-2 top-1/2 -translate-y-1/2 z-10 size-8 inline-flex items-center justify-center rounded-full bg-warden-surface/90 text-foreground/80 hover:text-foreground hover:bg-warden-surface border border-border/60 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50"
-              aria-label="Imagen anterior"
+              aria-label={tCommon("previousImage")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +120,7 @@ export function ProductGallery({
               type="button"
               onClick={handleNext}
               className="absolute right-2 top-1/2 -translate-y-1/2 z-10 size-8 inline-flex items-center justify-center rounded-full bg-warden-surface/90 text-foreground/80 hover:text-foreground hover:bg-warden-surface border border-border/60 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50"
-              aria-label="Imagen siguiente"
+              aria-label={tCommon("nextImage")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +145,7 @@ export function ProductGallery({
         <div
           className="flex gap-2 overflow-x-auto pb-1 scrollbar-none"
           role="tablist"
-          aria-label="Vistas del producto"
+          aria-label={t("viewsLabel")}
         >
           {sorted.map((img, idx) => (
             <button
@@ -141,7 +154,7 @@ export function ProductGallery({
               onClick={() => setSelectedIndex(idx)}
               role="tab"
               aria-selected={selectedIndex === idx}
-              aria-label={`Ver ${IMAGE_VIEW_LABELS[img.viewType] ?? `vista ${idx + 1}`}`}
+              aria-label={t("viewImage", { view: viewLabel(img.viewType) || t("imageNumber", { index: idx + 1 }) })}
               className={cn(
                 "relative size-[84px] shrink-0 border overflow-hidden transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50",
                 selectedIndex === idx
@@ -159,7 +172,7 @@ export function ProductGallery({
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-1 py-0.5">
                 <span className="block text-[8px] text-white/80 font-medium uppercase tracking-wider leading-none">
-                  {IMAGE_VIEW_LABELS[img.viewType] ?? `Vista ${idx + 1}`}
+                  {viewLabel(img.viewType) || t("imageNumber", { index: idx + 1 })}
                 </span>
               </div>
             </button>

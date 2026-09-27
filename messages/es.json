@@ -3,18 +3,47 @@
     "title": "Catálogo",
     "description": "Explora todos los productos WARDEN. Usa los filtros para acotar por categoría, sistema de juego o colección.",
     "quickAccessWardenCore": "WARDEN Core",
-    "quickAccessWardenCoreDesc": "Colección principal de herramientas de precisión para BattleTech.",
+    "quickAccessWardenCoreDesc": "Colección principal de herramientas de precisión para BattleTech. Terreno, estructuras, accesorios y soluciones completas de campo de batalla.",
     "quickAccessLicenses": "Licencias",
-    "quickAccessLicensesDesc": "Colaboraciones con creadores independientes y estudios.",
+    "quickAccessLicensesDesc": "Colaboraciones con creadores independientes y estudios. Herramientas a medida con los estándares de fabricación WARDEN.",
     "quickAccessBundles": "Bundles",
-    "quickAccessBundlesDesc": "Conjuntos seleccionados a precio reducido.",
+    "quickAccessBundlesDesc": "Conjuntos seleccionados a precio reducido. Todo en un solo paquete.",
     "quickAccessDrops": "Drops",
-    "quickAccessDropsDesc": "Lanzamientos limitados y ediciones especiales.",
+    "quickAccessDropsDesc": "Lanzamientos limitados y ediciones especiales. Disponibilidad temporal.",
     "products": "productos",
     "bundle": "bundle",
     "bundles": "bundles",
     "drop": "drop",
-    "drops": "drops"
+    "drops": "drops",
+    "searchPlaceholder": "Buscar productos...",
+    "searchLabel": "Buscar productos",
+    "clearSearch": "Limpiar búsqueda",
+    "sortLabel": "Ordenar resultados",
+    "sortDefault": "Orden por defecto",
+    "sortNameAsc": "Nombre A-Z",
+    "sortNameDesc": "Nombre Z-A",
+    "sortPriceAsc": "Precio: menor a mayor",
+    "sortPriceDesc": "Precio: mayor a menor",
+    "filters": "Filtros",
+    "clearFilters": "Limpiar",
+    "filterCategories": "Categorías",
+    "filterByCategory": "Filtrar por categoría",
+    "filterGameSystem": "Sistema de juego",
+    "filterByGameSystem": "Filtrar por sistema de juego",
+    "filterCollection": "Colección",
+    "filterByCollection": "Filtrar por colección",
+    "filterDesignerLicense": "Diseñador / Licencia",
+    "filterByDesignerLicense": "Filtrar por diseñador o licencia",
+    "filterType": "Tipo",
+    "filterByType": "Filtrar por tipo: {category}",
+    "filterPrice": "Precio",
+    "emptyTitle": "Ningún resultado coincide con tus criterios",
+    "emptyDesc": "Prueba a limpiar algunos filtros o ajustar tu búsqueda para encontrar lo que buscas.",
+    "resultsProductCount": "{count, plural, one {producto} other {productos}}",
+    "resultsOf": "de",
+    "priceMin": "Precio mínimo",
+    "priceMax": "Precio máximo",
+    "product": "producto"
   },
   "common": {
     "siteName": "WARDEN",
@@ -27,11 +56,38 @@
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú",
     "backToHome": "Volver al inicio",
-    "viewFullCatalog": "View full catalog",
+    "viewFullCatalog": "Ver catálogo completo",
     "learnMore": "Saber más",
     "viewBundles": "Ver bundles",
     "getSupport": "Obtener soporte",
-    "language": "Idioma"
+    "language": "Idioma",
+    "add": "Añadir",
+    "addToSelectionAria": "Añadir {name} a Mi Selección",
+    "quantity": "Cantidad",
+    "decreaseQuantity": "Reducir cantidad",
+    "increaseQuantity": "Aumentar cantidad",
+    "finish": "Acabado",
+    "readMore": "Leer más",
+    "readLess": "Mostrar menos",
+    "noImage": "Sin imagen",
+    "viewProduct": "Ver producto",
+    "view": "Ver",
+    "viewBundle": "Ver bundle",
+    "saving": "Ahorro",
+    "product": "Producto",
+    "backToCatalog": "Volver al catálogo",
+    "catalogBreadcrumb": "Catálogo",
+    "changeLanguage": "Cambiar idioma",
+    "removeItemAria": "Eliminar {name}",
+    "emptyResultsTitle": "No se encontraron productos",
+    "emptyResultsDesc": "Prueba a ajustar los filtros o los términos de búsqueda para encontrar lo que necesitas.",
+    "noImageAvailable": "Sin imagen disponible",
+    "previousImage": "Imagen anterior",
+    "nextImage": "Imagen siguiente",
+    "loading": "Cargando...",
+    "scrollLeft": "Desplazar a la izquierda",
+    "scrollRight": "Desplazar a la derecha",
+    "breadcrumb": "Ruta de navegación"
   },
   "nav": {
     "catalog": "Catálogo",
@@ -44,11 +100,11 @@
     "mobileNavLabel": "Navegación móvil"
   },
   "footer": {
-    "brandDesc": "Scenery and gaming tools designed around the way BattleTech and Alpha Strike are played.",
+    "brandDesc": "Escenografía y herramientas de juego diseñadas alrededor de la forma en que se juega BattleTech y Alpha Strike.",
     "products": "Productos",
     "support": "Soporte",
     "warden": "WARDEN",
-    "collections": "Catalog",
+    "collections": "Catálogo",
     "bundles": "Bundles",
     "drops": "Drops",
     "mySelection": "Mi Selección",
@@ -108,34 +164,37 @@
     },
     "featuredEyebrow": "FEATURED PRODUCTS",
     "featuredTitle": "BUILD YOUR BATTLEFIELD",
-    "featuredDesc": "Explore selected WARDEN products designed to expand your tabletop battlefield.",
+    "featuredDesc": "Explora productos WARDEN seleccionados para ampliar tu campo de batalla de mesa.",
     "designPrinciplesEyebrow": "WHAT DEFINES US",
-    "designPrinciplesTitle": "Three principles built into every WARDEN design",
+    "designPrinciplesTitle": "Tres principios presentes en cada diseño WARDEN",
     "principle1": {
       "number": "01",
-      "title": "Designed around the game",
-      "desc": "Every product begins with how BattleTech and Alpha Strike are actually played. Scale, footprint, elevation, line of sight and miniature placement are considered from the first design decision."
+      "title": "Diseñado alrededor del juego",
+      "desc": "Cada producto parte de cómo se juegan realmente BattleTech y Alpha Strike. Escala, huella, elevación, línea de visión y colocación de miniaturas se consideran desde la primera decisión de diseño."
     },
     "principle2": {
       "number": "02",
-      "title": "Built for real play",
-      "desc": "WARDEN products are designed to be handled, transported and used game after game. Robustness, practicality and durability are built into every design from the start."
+      "title": "Construido para jugar de verdad",
+      "desc": "Los productos WARDEN están diseñados para manipularse, transportarse y usarse partida tras partida. Robustez, practicidad y durabilidad están integradas en cada diseño desde el inicio."
     },
     "principle3": {
       "number": "03",
-      "title": "Designed to work together",
-      "desc": "Scenery, terrain, maps and gaming tools are designed as parts of a coherent tabletop system, making it easier to build, expand and adapt your BattleTech and Alpha Strike tables over time."
+      "title": "Diseñado para funcionar en conjunto",
+      "desc": "Escenografía, terreno, mapas y herramientas de juego se diseñan como partes de un sistema de mesa coherente, lo que facilita construir, ampliar y adaptar tus mesas de BattleTech y Alpha Strike con el tiempo."
     },
     "systemsEyebrow": "Sistemas de juego",
     "systemsTitle": "Compatible en todo el espectro",
     "processEyebrow": "PROCESS",
     "processTitle": "HOW WARDEN WORKS",
-    "step1Title": "Explore and select",
-    "step1Desc": "Browse our catalog and add products to your Selection. No account needed.",
-    "step2Title": "Request a quote",
-    "step2Desc": "Submit your Selection with your contact details. We review availability and respond with price, availability and delivery times.",
-    "step3Title": "Confirm and receive",
-    "step3Desc": "Once confirmed, your order enters production. Small-batch manufacturing to guarantee quality. International shipping."
+    "step1Title": "Explora y selecciona",
+    "step1Desc": "Navega por el catálogo y añade productos a tu Selección. No necesitas cuenta.",
+    "step2Title": "Solicita presupuesto",
+    "step2Desc": "Envía tu Selección con tus datos de contacto. Revisamos la disponibilidad y respondemos con precio, disponibilidad y plazos de entrega.",
+    "step3Title": "Confirma y recibe",
+    "step3Desc": "Una vez confirmado, tu pedido entra en producción. Fabricación en pequeños lotes para garantizar la calidad. Envío internacional.",
+    "activeDropEyebrow": "DROP ACTIVO",
+    "activeDropReservations": "Reservas hasta el {date}",
+    "activeDropCta": "Explorar el Drop"
   },
   "about": {
     "heroEyebrow": "Identidad",
@@ -167,7 +226,180 @@
     "ctaTitle": "Ver el catálogo",
     "ctaDesc": "Todos los productos WARDEN están organizados por colección y sistema. Cada ficha incluye especificaciones técnicas, compatibilidad y guías de uso.",
     "goToCatalog": "Ir al catálogo",
-    "communitySupport": "Community Support"
+    "communitySupport": "Community Support",
+    "identity": {
+      "eyebrow": "Identidad"
+    },
+    "hero": {
+      "title": "Sobre WARDEN",
+      "description": "WARDEN desarrolla equipamiento físico de precisión para la experiencia de juego en BattleTech Classic, Alpha Strike y AeroTech. Cada producto nace de una necesidad real sobre la mesa: reducir fricción mecánica, acelerar fases de juego y clarificar el estado de la partida.",
+      "description2": "No fabricamos decoración. Fabricamos herramientas que se ganan su lugar en la mesa. Si un producto no resuelve un problema concreto — ya sea de velocidad, claridad o carga cognitiva — no se fabrica."
+    },
+    "purpose": {
+      "eyebrow": "Propósito",
+      "title": "Misión y visión"
+    },
+    "mission": {
+      "eyebrow": "Misión",
+      "description": "Eliminar la fricción mecánica y cognitiva del wargame de mesa mediante herramientas físicas diseñadas con criterio técnico, fabricadas con materiales industriales y validadas en cientos de sesiones de juego real."
+    },
+    "vision": {
+      "eyebrow": "Visión",
+      "description": "Ser el estándar de referencia en accesorios funcionales para wargaming de ciencia ficción, manteniendo el compromiso con la calidad de fabricación, la compatibilidad con los sistemas oficiales y una ética de diseño donde la función determina la forma."
+    },
+    "principles": {
+      "eyebrow": "Principios",
+      "title": "Valores",
+      "description": "Seis principios que gobiernan cada decisión de diseño, material y producción.",
+      "items": {
+        "0": {
+          "title": "Funcionalidad",
+          "desc": "Cada producto sirve un propósito claro y definible dentro del juego. No fabricamos objetos decorativos. Una herramienta WARDEN está en tu mesa porque mejora activamente tu experiencia de juego."
+        },
+        "1": {
+          "title": "Compatibilidad",
+          "desc": "Todos los productos están diseñados para funcionar con mapas, hojas de registro, miniaturas y reglamentos oficiales de BattleTech. Probamos contra las ediciones vigentes de cada sistema compatible."
+        },
+        "2": {
+          "title": "Robustez",
+          "desc": "Componentes de latón, aluminio y acrílico maquinados con tolerancias precisas. Las herramientas WARDEN están construidas para soportar cientos de sesiones sin degradación en ajuste o función."
+        },
+        "3": {
+          "title": "Claridad",
+          "desc": "El diseño de información es una competencia central. Números, marcas e indicadores están diseñados para ser legibles en condiciones variables de iluminación y a distancias de mesa de juego."
+        },
+        "4": {
+          "title": "Coherencia",
+          "desc": "Los productos dentro de una colección WARDEN comparten materiales, lenguaje de diseño e interfaces mecánicas. No hay curva de aprendizaje entre herramientas del mismo ecosistema."
+        },
+        "5": {
+          "title": "Honestidad",
+          "desc": "Describimos nuestros productos con precisión, mostramos especificaciones reales y no prometemos más de lo que cumplimos. El latón desarrolla pátina. El acrílico puede rayarse. No son defectos: son características del material."
+        }
+      }
+    },
+    "systems": {
+      "eyebrow": "Sistemas",
+      "title": "Sistemas de referencia",
+      "description": "WARDEN diseña y prueba sus productos para los tres sistemas principales del ecosistema BattleTech.",
+      "labels": {
+        "scale": "Escala",
+        "unitType": "Unidad tipo",
+        "coverage": "Cobertura"
+      },
+      "items": {
+        "0": {
+          "name": "BattleTech Classic",
+          "scale": "1 hexágono = 30 m",
+          "unitType": "Lanza / Compañía",
+          "coverage": "4 productos"
+        },
+        "1": {
+          "name": "Alpha Strike",
+          "scale": "Abstracta",
+          "unitType": "Compañía / Batallón",
+          "coverage": "1 producto"
+        },
+        "2": {
+          "name": "AeroTech",
+          "scale": "Atmosférica / Espacial",
+          "unitType": "Caza / Escuadrón",
+          "coverage": "2 productos"
+        }
+      }
+    },
+    "philosophy": {
+      "eyebrow": "Filosofía",
+      "title": "Diseñar para jugar. Construir para durar.",
+      "description": "Tres principios que definen cómo pensamos, diseñamos y fabricamos.",
+      "items": {
+        "0": {
+          "title": "Diseñar para jugar",
+          "desc": "Cada producto WARDEN comienza con un problema de juego. Si no acelera una fase, clarifica una regla o reduce la carga cognitiva, no se fabrica. Sin decoración. Sin relleno. Solo función."
+        },
+        "1": {
+          "title": "Construir para durar",
+          "desc": "Latón, aluminio y acrílico maquinados con tolerancias precisas. Cada material se selecciona por sus propiedades mecánicas y se valida en cientos de sesiones. Una herramienta WARDEN debe sobrevivir a la campaña."
+        },
+        "2": {
+          "title": "Evolucionar sin perder la identidad",
+          "desc": "Nuevos productos, nuevos sistemas, nuevos materiales — pero el mismo compromiso con la claridad, la compatibilidad y la coherencia. Cada colección añade capacidad sin fragmentar la experiencia."
+        }
+      }
+    },
+    "history": {
+      "eyebrow": "Historia",
+      "title": "Trayectoria",
+      "description": "De la comunidad al catálogo. Los hitos que han definido el proyecto.",
+      "items": {
+        "0": {
+          "title": "Origen en la comunidad",
+          "desc": "El proyecto nace en comunidades de BattleTech como respuesta a la falta de herramientas físicas especializadas. Primeros prototipos diseñados y probados entre jugadores."
+        },
+        "1": {
+          "title": "Etapa artesanal",
+          "desc": "Fabricación manual en pequeños lotes. Cada pieza cortada, ensamblada y verificada individualmente. La comunidad valida el enfoque: herramientas que resuelven problemas reales de juego."
+        },
+        "2": {
+          "title": "Impresión 3D",
+          "desc": "Incorporación de fabricación aditiva para iterar más rápido. Los prototipos pasan de semanas a días. Se amplía el catálogo y se refinan los diseños con feedback directo de los usuarios."
+        },
+        "3": {
+          "title": "Punto Nadir",
+          "desc": "Primera colección unificada. Los productos dejan de ser piezas aisladas y se organizan en un sistema coherente. Se establece el lenguaje de diseño que define la marca."
+        },
+        "4": {
+          "title": "MechWarrior Online",
+          "desc": "Colaboración con la comunidad de MWO. La exposición a una base de jugadores más amplia impulsa mejoras de diseño y confirma la demanda de herramientas físicas de calidad."
+        },
+        "5": {
+          "title": "WARDEN Core",
+          "desc": "Lanzamiento de la colección insignia. Materiales industriales definitivos: latón, aluminio y acrílico. Tolerancias de fabricación ajustadas. La colección se convierte en el estándar de referencia."
+        },
+        "6": {
+          "title": "Consolidación",
+          "desc": "WARDEN se consolida como plataforma de catálogo con colecciones, bundles, drops y un sistema de selección por presupuesto. El proyecto mira hacia nuevos sistemas y colaboraciones con estudios licenciados."
+        }
+      }
+    },
+    "designDna": {
+      "eyebrow": "ADN de diseño",
+      "title": "Cómo diseñamos",
+      "description": "Seis principios que gobiernan cada decisión de ingeniería y fabricación.",
+      "items": {
+        "0": {
+          "title": "Funcionalidad antes que ornamentación",
+          "desc": "La forma sigue a la función. Cada elemento de diseño tiene una razón de ser operativa. Si no mejora la experiencia de juego, no pertenece al producto."
+        },
+        "1": {
+          "title": "Robustez",
+          "desc": "Materiales seleccionados por sus propiedades mecánicas, no por su apariencia. Latón, aluminio y acrílico. Herramientas que soportan el uso continuo sin comprometer su precisión."
+        },
+        "2": {
+          "title": "Compatibilidad",
+          "desc": "Cada producto se verifica contra los sistemas oficiales. Una herramienta WARDEN debe integrarse sin fricción con el resto del equipamiento de juego del usuario."
+        },
+        "3": {
+          "title": "Fabricación viable",
+          "desc": "Diseñamos para producir. Cada pieza está optimizada para su proceso de fabricación, equilibrando calidad, costo y disponibilidad. Sin piezas imposibles ni tiempos irreales."
+        },
+        "4": {
+          "title": "Soluciones multifunción",
+          "desc": "Una herramienta debe ser útil en tantos contextos como sea posible sin comprometer su función principal. Versatilidad sin complejidad añadida."
+        },
+        "5": {
+          "title": "Simplicidad operativa",
+          "desc": "La herramienta más avanzada es la que se usa sin pensar. El diseño debe ser intuitivo, sin instrucciones extensas ni curvas de aprendizaje innecesarias."
+        }
+      }
+    },
+    "cta": {
+      "eyebrow": "Explorar",
+      "title": "Ver el catálogo",
+      "description": "Todos los productos WARDEN están organizados por colección y sistema. Cada ficha incluye especificaciones técnicas, compatibilidad y guías de uso.",
+      "goToCatalog": "Ir al catálogo",
+      "communitySupport": "Community Support"
+    }
   },
   "notFound": {
     "title": "Página no encontrada",
@@ -184,6 +416,331 @@
     "clearAll": "Vaciar todo",
     "submit": "Solicitar presupuesto",
     "productAdded": "Producto añadido a la Selección",
-    "productRemoved": "Producto eliminado de la Selección"
+    "productRemoved": "Producto eliminado de la Selección",
+    "eyebrow": "Solicitud de presupuesto",
+    "intro": "Revisa tus productos seleccionados a continuación y envía una solicitud de presupuesto. Responderemos con disponibilidad, precio y plazos de entrega en un plazo de 2 días hábiles.",
+    "selectedProducts": "Productos seleccionados",
+    "clearSelection": "Vaciar selección",
+    "entityBundle": "Bundle",
+    "entityDrop": "Drop",
+    "perUnit": "/ unidad",
+    "productsSelected": "{count, plural, one {# producto seleccionado} other {# productos seleccionados}}",
+    "subtotalEstimate": "Subtotal orientativo",
+    "noticeImportant": "Importante:",
+    "noticeBody": "Los precios mostrados son orientativos y no constituyen una oferta final. El precio definitivo, disponibilidad y plazos de entrega se confirmarán en nuestra respuesta. Enviar esta solicitud no implica ningún compromiso de compra.",
+    "formTitle": "Solicitar presupuesto",
+    "formResponseTime": "Respondemos en un plazo máximo de 2 días hábiles.",
+    "fieldFirstName": "Nombre",
+    "fieldLastName": "Apellidos",
+    "fieldEmail": "Email",
+    "fieldCountry": "País",
+    "fieldPostalCode": "Código postal",
+    "fieldCity": "Localidad",
+    "fieldPhone": "Teléfono",
+    "fieldCompany": "Empresa / Entidad",
+    "fieldRegion": "Provincia / Región",
+    "fieldNotes": "Observaciones",
+    "phFirstName": "Tu nombre",
+    "phLastName": "Tus apellidos",
+    "phEmail": "tucorreo@ejemplo.com",
+    "phCountry": "Ej. España",
+    "phPostalCode": "Ej. 28001",
+    "phCity": "Ej. Madrid",
+    "phOptional": "Opcional",
+    "phNotes": "Cuéntanos sobre tu proyecto, método de envío preferido o cualquier requisito especial...",
+    "acceptLabel": "Entiendo que esta solicitud no implica ningún compromiso de compra y que el presupuesto final será facilitado por el equipo de WARDEN.",
+    "submitButton": "Enviar solicitud",
+    "submitting": "Enviando solicitud...",
+    "errFirstName": "El nombre debe tener al menos 2 caracteres",
+    "errLastName": "Los apellidos deben tener al menos 2 caracteres",
+    "errEmailRequired": "El email es obligatorio",
+    "errEmailInvalid": "Introduce un email válido",
+    "errCountry": "El país es obligatorio",
+    "errPostalCode": "El código postal es obligatorio",
+    "errCity": "La localidad es obligatoria",
+    "errAccept": "Debes aceptar el aviso",
+    "errSubmit": "Error al enviar la solicitud. Inténtalo de nuevo.",
+    "confirmationTitle": "Solicitud recibida",
+    "confirmationReference": "Referencia: {reference}",
+    "confirmationBody": "Hemos recibido correctamente tu solicitud. La revisaremos y nos pondremos en contacto contigo para confirmar disponibilidad, gastos de envío y presupuesto definitivo.",
+    "confirmationEmailSent": "Hemos enviado una copia de la solicitud a tu correo electrónico.",
+    "confirmationEmailFailed": "Tu solicitud ha quedado registrada correctamente, pero no hemos podido enviar el correo de confirmación. Guarda esta referencia.",
+    "confirmationShippingNote": "Los gastos de envío están pendientes de calcular.",
+    "summaryTitle": "Resumen de la selección",
+    "products": "Productos",
+    "summaryNote": "Precio orientativo. El presupuesto final se confirmará tras revisar tu solicitud."
+  },
+  "product": {
+    "licensedBy": "Licenciado por {name}",
+    "designedBy": "Diseñado por {name}",
+    "panelInfo": "Información del producto",
+    "panelAdditional": "Información adicional",
+    "panelContents": "Contenido del producto",
+    "panelCollection": "Colección",
+    "relatedTitle": "También puede interesarte",
+    "viewsLabel": "Vistas del producto",
+    "viewImage": "Ver {view}",
+    "imageNumber": "vista {index}",
+    "view": {
+      "main": "Principal",
+      "left": "Izquierda",
+      "right": "Derecha",
+      "top": "Superior",
+      "rear": "Trasera",
+      "contextual": "Contextual",
+      "other": "Otra"
+    },
+    "taxesExcluded": "Impuestos no incluidos"
+  },
+  "bundles": {
+    "eyebrow": "Soluciones completas",
+    "description": "Agrupaciones de productos diseñados para funcionar como un sistema cohesionado. Cada bundle reúne herramientas compatibles que cubren una necesidad completa de juego a un precio inferior al de la compra individual.",
+    "emptyTitle": "No hay bundles disponibles en este momento.",
+    "emptyDesc": "Los bundles se publican a medida que se completan las colecciones.",
+    "exploreIndividualProducts": "Explorar productos individuales",
+    "saveVsIndividual": "Ahorra {amount} frente a la compra individual",
+    "panelInfo": "Información del producto",
+    "panelAdditional": "Información adicional",
+    "panelContents": "Contenido del producto",
+    "panelCompatibleCollections": "Colecciones compatibles"
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "Contacto",
+    "intro": "Consultas generales, Community Support, programa de distribuidores, licencias y colaboraciones, o cualquier otro asunto. Respondemos en un plazo máximo de dos días hábiles.",
+    "metaDescription": "Ponte en contacto con WARDEN para consultas generales, Community Support, programa de distribuidores, licencias u otros asuntos.",
+    "formTitle": "Enviar mensaje",
+    "emailLabel": "Email",
+    "contactRow": "Contacto",
+    "locationLabel": "Ubicación",
+    "operationsRow": "Operaciones",
+    "remoteValue": "Remoto — envíos internacionales",
+    "responseTimeLabel": "Tiempo de respuesta",
+    "standardRow": "Estándar",
+    "businessDaysValue": "2 días hábiles",
+    "aboutWarden": "Sobre WARDEN",
+    "honeypotLabel": "No rellenes este campo",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "emailPlaceholder": "tucorreo@ejemplo.com",
+    "subject": "Motivo",
+    "subjectPlaceholder": "Selecciona un motivo",
+    "subjects": {
+      "general": "Consulta general",
+      "licensing": "Licencias y colaboraciones",
+      "other": "Otros"
+    },
+    "message": "Mensaje",
+    "messagePlaceholder": "Describe tu consulta en detalle...",
+    "error": "No se pudo enviar el mensaje. Inténtalo de nuevo.",
+    "successTitle": "Mensaje enviado",
+    "successBody": "Hemos recibido tu mensaje. Te responderemos en un plazo máximo de dos días hábiles.",
+    "submit": "Enviar mensaje",
+    "submitting": "Enviando..."
+  },
+  "communitySupport": {
+    "eyebrow": "Colaboración",
+    "title": "Community Support",
+    "intro": "Apoyo a asociaciones, clubes, organizadores y comunidades que comparten los valores de WARDEN: juego en mesa, precisión artesanal y comunidad sostenible.",
+    "what": {
+      "eyebrow": "Qué es",
+      "title": "Un programa de colaboración, no un canal publicitario",
+      "body": "Community Support no es un programa de marketing ni una estrategia de captación. Es una iniciativa para fortalecer el ecosistema del wargame apoyando a quienes ya construyen comunidad alrededor de la mesa. Colaboramos con entidades e iniciativas que promueven el juego organizado, la accesibilidad y la difusión de los wargames de mesa con un enfoque respetuoso con los jugadores y sus espacios."
+    },
+    "applicants": {
+      "eyebrow": "Quién puede solicitar apoyo",
+      "title": "Entidades e iniciativas",
+      "asociacion": {
+        "title": "Asociaciones",
+        "description": "Entidades constituidas que organizan actividades regulares de juego y eventos para sus miembros."
+      },
+      "club": {
+        "title": "Clubes de juego",
+        "description": "Grupos estables que se reúnen periódicamente para jugar, con o sin formalización legal."
+      },
+      "organizador": {
+        "title": "Organizadores de eventos",
+        "description": "Personas o equipos que montan torneos, jornadas o convenciones de wargames."
+      },
+      "comunidad": {
+        "title": "Comunidades de juego",
+        "description": "Comunidades digitales o presenciales que agrupan jugadores en torno a sistemas de juego compatibles."
+      },
+      "iniciativa": {
+        "title": "Iniciativas comunitarias",
+        "description": "Proyectos orientados a la divulgación, la accesibilidad o la ampliación de la base de jugadores."
+      }
+    },
+    "support": {
+      "eyebrow": "Formas de apoyo",
+      "title": "Cómo podemos colaborar",
+      "materialPromocional": {
+        "title": "Material promocional",
+        "description": "Folletos, fichas de producto y material gráfico para distribuir en tus eventos o puntos de encuentro."
+      },
+      "premios": {
+        "title": "Premios para torneos",
+        "description": "Productos WARDEN para utilizar como premios en torneos, ligas o competiciones organizadas."
+      },
+      "escenografia": {
+        "title": "Escenografía",
+        "description": "Cesión temporal de piezas de escenografía para eventos presenciales o exhibiciones."
+      },
+      "elementosJuego": {
+        "title": "Elementos de juego",
+        "description": "Productos funcionales para facilitar la organización de partidas demostrativas o torneos."
+      },
+      "asesoramiento": {
+        "title": "Asesoramiento",
+        "description": "Orientación sobre selección de productos, preparación de mesas de juego o configuración de eventos."
+      },
+      "difusion": {
+        "title": "Difusión puntual",
+        "description": "Mención o promoción de vuestro evento en los canales de WARDEN, sin compromiso de cobertura continuada."
+      }
+    },
+    "clarifications": {
+      "eyebrow": "Aclaraciones",
+      "title": "Transparencia sobre el programa",
+      "noCounterpart": "No existe contraprestación obligatoria. El apoyo se concede sin exigir exclusividad ni compromisos publicitarios.",
+      "discretionary": "La concesión es discrecional. Evaluamos cada solicitud según su alineación con los valores de WARDEN y el impacto potencial en la comunidad.",
+      "resources": "Depende de recursos disponibles. El alcance del apoyo se ajusta al inventario, capacidad operativa y calendario de producción en cada momento."
+    },
+    "request": {
+      "eyebrow": "Solicitud",
+      "title": "Solicitar apoyo",
+      "intro": "Rellena el formulario y lo revisaremos. Nos pondremos en contacto contigo una vez evaluada la solicitud."
+    },
+    "cta": {
+      "contact": "Contacto general"
+    },
+    "form": {
+      "honeypot": "No rellenes este campo",
+      "entityType": "Tipo de entidad",
+      "entityTypePlaceholder": "Selecciona una opción",
+      "entityName": "Nombre de la entidad",
+      "entityNamePlaceholder": "Nombre de la asociación, club, etc.",
+      "contactName": "Persona de contacto",
+      "contactNamePlaceholder": "Nombre y apellidos",
+      "email": "Email de contacto",
+      "emailPlaceholder": "tucorreo@ejemplo.com",
+      "description": "Describe tu entidad",
+      "descriptionPlaceholder": "Cuéntanos quiénes sois, qué hacéis y a qué comunidad pertenecéis...",
+      "supportTypes": "¿Qué tipo de apoyo solicitas?",
+      "details": "Detalles de la solicitud",
+      "detailsPlaceholder": "Explica qué necesitas, para qué evento o actividad, y cómo el apoyo de WARDEN ayudaría...",
+      "acceptedTerms": "Confirmo que he leído y acepto las condiciones del programa Community Support. Entiendo que la concesión de apoyo es discrecional y depende de los recursos disponibles en cada momento.",
+      "submit": "Enviar solicitud",
+      "submitting": "Enviando solicitud...",
+      "error": "No se pudo enviar la solicitud. Inténtalo de nuevo.",
+      "success": {
+        "title": "Solicitud enviada",
+        "body": "Hemos recibido tu solicitud. Revisaremos la información y nos pondremos en contacto contigo una vez evaluada."
+      }
+    },
+    "applicant": {
+      "asociacion": "Asociación",
+      "club": "Club de juego",
+      "organizador": "Organizador de eventos",
+      "comunidad": "Comunidad de juego",
+      "iniciativa": "Iniciativa comunitaria"
+    }
+  },
+  "drops": {
+    "allDrops": "Todos los drops",
+    "campaignsTitle": "Campañas WARDEN",
+    "compatibleSystems": "Sistemas compatibles",
+    "cta": {
+      "closing": "{count, plural, one {# pieza exclusiva en una edición limitada. Todo el contenido ha sido seleccionado para ofrecer una experiencia única dentro del universo BattleTech.} other {# piezas exclusivas en una edición limitada. Todo el contenido ha sido seleccionado para ofrecer una experiencia única dentro del universo BattleTech.}}",
+      "status": {
+        "ended": "Campaña finalizada",
+        "live": "Disponible ahora",
+        "upcoming": "Próximo lanzamiento"
+      }
+    },
+    "dateEnd": "Fin",
+    "dateStart": "Inicio",
+    "design": {
+      "desc": "Renders y detalles del proceso creativo. Cada pieza ha sido revisada para ofrecer la mejor experiencia de impresión y juego.",
+      "title": "Trabajo de diseño"
+    },
+    "development": {
+      "provisional": "Datos provisionales — serán sustituidos por la cronología real del desarrollo."
+    },
+    "discover": "Descubrir el Drop",
+    "empty": {
+      "desc": "Las campañas son lanzamientos periódicos de ediciones especiales y productos de temporada. Cuando haya una campaña activa, aparecerá aquí.",
+      "note": "Mientras tanto, puedes explorar el catálogo permanente o nuestros bundles."
+    },
+    "explore": "Explorar el Drop",
+    "field": {
+      "compatibility": "Compatibilidad",
+      "price": "Precio",
+      "products": "Productos",
+      "status": "Estado",
+      "theme": "Temática"
+    },
+    "gallery": {
+      "ariaLabel": "Galería: {title}",
+      "close": "Cerrar galería",
+      "goTo": "Ir a imagen {index}: {alt}",
+      "zoom": "{alt} — Ampliar imagen"
+    },
+    "hero": {
+      "trailer": "▶ Tráiler"
+    },
+    "limitedEdition": "Edición limitada",
+    "noActive": {
+      "desc": "No hay campañas activas en este momento. Todos los productos de campañas anteriores pueden seguir adquiriéndose a través del catálogo general."
+    },
+    "notFound": "Drop no encontrado",
+    "notice": {
+      "ended": "Este drop ha finalizado. Los productos pueden estar disponibles en el catálogo general si el stock lo permite.",
+      "livePrefix": "Este drop estará disponible hasta el ",
+      "liveSuffix": ". Los productos incluidos pueden adquirirse individualmente durante este período. Pasada la fecha, el drop se cerrará y los productos volverán al catálogo general si están disponibles.",
+      "untilEnd": "su finalización",
+      "upcomingPrefix": "Este drop se abrirá el ",
+      "upcomingSuffix": ". Los productos se podrán adquirir individualmente durante la ventana de disponibilidad."
+    },
+    "origins": {
+      "body": "{count, plural, one {# pieza exclusiva diseñada para coleccionistas y entusiastas de BattleTech. Una edición que recupera la esencia del universo clásico con el acabado y la precisión de WARDEN.} other {# piezas exclusivas diseñadas para coleccionistas y entusiastas de BattleTech. Una edición que recupera la esencia del universo clásico con el acabado y la precisión de WARDEN.}}",
+      "imagePlaceholder": "Imagen placeholder",
+      "visual": "Orígenes"
+    },
+    "placeholder": "[placeholder]",
+    "previous": "Drops anteriores",
+    "previousCampaigns": "Campañas anteriores",
+    "products": {
+      "count": "{count, plural, one {{status, select, live {{count} producto en este drop — disponible ahora.} upcoming {{count} producto en este drop — disponible al inicio del drop.} other {{count} producto en este drop.}}} other {{status, select, live {{count} productos en este drop — disponibles ahora.} upcoming {{count} productos en este drop — disponibles al inicio del drop.} other {{count} productos en este drop.}}}}",
+      "empty": "Este drop no tiene productos asignados.",
+      "eyebrow": "Contenido",
+      "title": "Productos incluidos"
+    },
+    "productsIncluded": "{count, plural, one {# producto incluido} other {# productos incluidos}}",
+    "scenario": {
+      "body": "Cada pieza transporta al universo de la campaña. Los diseños evocan la atmósfera, la escala y la narrativa del escenario original.",
+      "eyebrow": "El escenario",
+      "fallbackTitle": "Una experiencia única",
+      "imagePlaceholder": "Imagen provisional",
+      "visual": "Visual"
+    },
+    "status": {
+      "available": "Disponible",
+      "ended": "Finalizado",
+      "live": "Activo",
+      "upcoming": "Próximo"
+    },
+    "story": {
+      "provisional": "Contenido provisional — será sustituido por el texto definitivo de la campaña."
+    },
+    "temporalCampaigns": "Campañas temporales",
+    "trailer": {
+      "ariaLabel": "Tráiler: {title}",
+      "close": "Cerrar tráiler",
+      "fullscreen": "Pantalla completa",
+      "unsupported": "Tu navegador no soporta la reproducción de vídeo."
+    },
+    "upcoming": "Próximos lanzamientos",
+    "viewAll": "Ver todos los Drops"
   }
 }

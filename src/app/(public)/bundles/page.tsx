@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 import { Container, Section, Eyebrow } from "@/components/shared/container";
 import {
@@ -9,6 +10,7 @@ import {
 } from "@/lib/data";
 import { CompatibilityBadge, TechnicalBadge } from "@/components/catalog/technical-badge";
 import { WardenButton } from "@/components/ui/warden-button";
+import { formatPriceEUR } from "@/lib/utils";
 import { ChevronRight, Package } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -18,6 +20,9 @@ export const metadata: Metadata = {
 };
 
 export default async function BundlesPage() {
+  const t = await getTranslations("bundles");
+  const tCommon = await getTranslations("common");
+
   const [bundles, products, compatibilitySystems] = await Promise.all([
     getActiveBundles(),
     getActiveProducts(),
@@ -28,15 +33,12 @@ export default async function BundlesPage() {
     <Section>
       <Container>
         <div className="max-w-3xl mb-14">
-          <Eyebrow className="text-warden-ochre">Soluciones completas</Eyebrow>
+          <Eyebrow className="text-warden-ochre">{t("eyebrow")}</Eyebrow>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Bundles
           </h1>
           <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-            Agrupaciones de productos diseñados para funcionar como un sistema
-            cohesionado. Cada bundle reúne herramientas compatibles que cubren
-            una necesidad completa de juego a un precio inferior al de la compra
-            individual.
+            {t("description")}
           </p>
         </div>
 
@@ -44,14 +46,14 @@ export default async function BundlesPage() {
           <div className="text-center py-16 border border-border bg-warden-surface">
             <Package className="size-8 text-muted-foreground/40 mx-auto mb-4" />
             <p className="text-sm text-muted-foreground">
-              No hay bundles disponibles en este momento.
+              {t("emptyTitle")}
             </p>
             <p className="text-xs text-muted-foreground/60 mt-2">
-              Los bundles se publican a medida que se completan las colecciones.
+              {t("emptyDesc")}
             </p>
             <div className="mt-6">
               <WardenButton href="/catalog" variant="outline">
-                Explorar catálogo
+                {tCommon("exploreCatalog")}
                 <ChevronRight className="size-4" />
               </WardenButton>
             </div>
@@ -122,19 +124,16 @@ export default async function BundlesPage() {
                   <div className="mt-5 pt-4 border-t border-border flex items-baseline justify-between">
                     <div>
                       <span className="text-xl font-semibold text-foreground tracking-tight">
-                        ${bundle.price.toFixed(2)}
-                      </span>
-                      <span className="text-spec-label text-muted-foreground ml-2">
-                        USD
+                        {formatPriceEUR(bundle.price)}
                       </span>
                       {totalIndividual > bundle.price && (
                         <span className="ml-3 text-[11px] text-muted-foreground/50 line-through">
-                          ${totalIndividual.toFixed(2)}
+                          {formatPriceEUR(totalIndividual)}
                         </span>
                       )}
                     </div>
                     <span className="text-xs text-warden-ochre inline-flex items-center gap-0.5">
-                      Ver bundle <ChevronRight className="size-3" />
+                      {tCommon("viewBundle")} <ChevronRight className="size-3" />
                     </span>
                   </div>
                 </Link>
@@ -145,7 +144,7 @@ export default async function BundlesPage() {
 
         <div className="mt-12 flex flex-wrap gap-3">
           <WardenButton href="/catalog" variant="outline">
-            Explorar productos individuales
+            {t("exploreIndividualProducts")}
             <ChevronRight className="size-4" />
           </WardenButton>
         </div>

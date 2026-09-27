@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 
@@ -20,7 +21,7 @@ interface CampaignScenarioSectionProps {
  * Image alternates left/right per campaign to avoid visual monotony.
  * Content-driven: if `title` is empty, the block is not rendered.
  */
-export function CampaignScenarioSection({
+export async function CampaignScenarioSection({
   eyebrow,
   title,
   body,
@@ -31,6 +32,8 @@ export function CampaignScenarioSection({
   placeholder,
 }: CampaignScenarioSectionProps) {
   if (!title) return null;
+
+  const t = await getTranslations("drops");
 
   return (
     <section className={cn("py-14 md:py-20 bg-warden-surface/30", className)}>
@@ -43,7 +46,7 @@ export function CampaignScenarioSection({
                 {eyebrow}
                 {placeholder && (
                   <span className="ml-2 text-[9px] text-muted-foreground/40 normal-case tracking-normal font-normal">
-                    [placeholder]
+                    {t("placeholder")}
                   </span>
                 )}
               </p>
@@ -73,7 +76,7 @@ export function CampaignScenarioSection({
             ) : (
               <div className="relative w-full aspect-video overflow-hidden border border-border bg-warden-carbon flex items-center justify-center">
                 <p className="text-[11px] text-muted-foreground/30 uppercase tracking-widest">
-                  {placeholder ? "Imagen provisional" : "Visual"}
+                  {placeholder ? t("scenario.imagePlaceholder") : t("scenario.visual")}
                 </p>
               </div>
             )}

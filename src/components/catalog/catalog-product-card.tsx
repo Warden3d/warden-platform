@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { Package } from "lucide-react";
 import type { Product } from "@/types/warden";
 import { CardFrame } from "@/components/catalog/card-frame";
 import { AddToSelectionButton } from "@/components/catalog/add-to-selection-button";
-import { cn } from "@/lib/utils";
+import { cn, formatPriceEUR } from "@/lib/utils";
 
 // ─── System badge (color-coded per game system) ────────────────────
 
@@ -100,6 +101,7 @@ export function CatalogProductCard({
 }) {
   const variants = product.variants ?? [];
   const hasMultipleVariants = variants.length >= 2;
+  const t = useTranslations("common");
 
   // PCM State B: 1 variant → show label text; State C/D: 2+ → show chips
   const [selectedIdx, setSelectedIdx] = useState(0);
@@ -161,7 +163,7 @@ export function CatalogProductCard({
             <div className="flex h-full w-full flex-col items-center justify-center bg-[hsl(220_10%_6%)] text-muted-foreground/20">
               <Package className="size-10" strokeWidth={1} />
               <span className="mt-1 text-[10px] uppercase tracking-widest">
-                Sin imagen
+                {t("noImage")}
               </span>
             </div>
           )}
@@ -213,7 +215,7 @@ export function CatalogProductCard({
           {hasMultipleVariants && (
             <div className="mt-2 flex items-center gap-2">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60 font-medium">
-                Acabado
+                {t("finish")}
               </span>
               <div className="flex items-center gap-1.5">
                 {variants.map((v, idx) => (
@@ -233,7 +235,7 @@ export function CatalogProductCard({
           {variants.length === 1 && (
             <div className="mt-2">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60 font-medium">
-                Acabado: {variants[0].name}
+                {t("finish")}: {variants[0].name}
               </span>
             </div>
           )}
@@ -241,7 +243,7 @@ export function CatalogProductCard({
           {/* Price + CTA */}
           <div className="mt-auto flex items-center justify-between gap-2 border-t border-[hsl(215_10%_17%)] pt-3">
             <span className="shrink-0 pl-4 text-lg font-semibold text-[hsl(35_55%_62%)]">
-              {displayPrice.toFixed(2)} €
+              {formatPriceEUR(displayPrice)}
             </span>
             <AddToSelectionButton
               entityId={product.id}

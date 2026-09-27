@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 
@@ -23,7 +24,7 @@ interface CampaignGalleryPreviewProps {
  * Designed to evolve into a full premium gallery viewer in future iterations.
  * Content-driven: if `images` is empty, the block is not rendered.
  */
-export function CampaignGalleryPreview({
+export async function CampaignGalleryPreview({
   eyebrow,
   title,
   description,
@@ -32,6 +33,8 @@ export function CampaignGalleryPreview({
   placeholder,
 }: CampaignGalleryPreviewProps) {
   if (images.length === 0) return null;
+
+  const t = await getTranslations("drops");
 
   return (
     <section className={cn("py-14 md:py-20 bg-warden-surface/30", className)}>
@@ -43,7 +46,7 @@ export function CampaignGalleryPreview({
                 {eyebrow}
                 {placeholder && (
                   <span className="ml-2 text-[9px] text-muted-foreground/40 normal-case tracking-normal font-normal">
-                    [placeholder]
+                    {t("placeholder")}
                   </span>
                 )}
               </p>

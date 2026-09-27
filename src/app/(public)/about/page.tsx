@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import {
   Container,
   Section,
@@ -25,137 +26,69 @@ export const metadata: Metadata = {
 };
 
 const values = [
-  {
-    icon: Shield,
-    label: "Funcionalidad",
-    desc: "Cada producto sirve un propósito claro y definible dentro del juego. No fabricamos objetos decorativos. Una herramienta WARDEN está en tu mesa porque mejora activamente tu experiencia de juego.",
-  },
-  {
-    icon: Compass,
-    label: "Compatibilidad",
-    desc: "Todos los productos están diseñados para funcionar con mapas, hojas de registro, miniaturas y reglamentos oficiales de BattleTech. Probamos contra las ediciones vigentes de cada sistema compatible.",
-  },
-  {
-    icon: Wrench,
-    label: "Robustez",
-    desc: "Componentes de latón, aluminio y acrílico maquinados con tolerancias precisas. Las herramientas WARDEN están construidas para soportar cientos de sesiones sin degradación en ajuste o función.",
-  },
-  {
-    icon: Eye,
-    label: "Claridad",
-    desc: "El diseño de información es una competencia central. Números, marcas e indicadores están diseñados para ser legibles en condiciones variables de iluminación y a distancias de mesa de juego.",
-  },
-  {
-    icon: Box,
-    label: "Coherencia",
-    desc: "Los productos dentro de una colección WARDEN comparten materiales, lenguaje de diseño e interfaces mecánicas. No hay curva de aprendizaje entre herramientas del mismo ecosistema.",
-  },
-  {
-    icon: ShieldCheck,
-    label: "Honestidad",
-    desc: "Describimos nuestros productos con precisión, mostramos especificaciones reales y no prometemos más de lo que cumplimos. El latón desarrolla pátina. El acrílico puede rayarse. No son defectos: son características del material.",
-  },
+  { icon: Shield },
+  { icon: Compass },
+  { icon: Wrench },
+  { icon: Eye },
+  { icon: Box },
+  { icon: ShieldCheck },
 ];
 
 const timeline = [
-  {
-    year: "2019",
-    title: "Origen en la comunidad",
-    desc: "El proyecto nace en comunidades de BattleTech como respuesta a la falta de herramientas físicas especializadas. Primeros prototipos diseñados y probados entre jugadores.",
-  },
-  {
-    year: "2020",
-    title: "Etapa artesanal",
-    desc: "Fabricación manual en pequeños lotes. Cada pieza cortada, ensamblada y verificada individualmente. La comunidad valida el enfoque: herramientas que resuelven problemas reales de juego.",
-  },
-  {
-    year: "2021",
-    title: "Impresión 3D",
-    desc: "Incorporación de fabricación aditiva para iterar más rápido. Los prototipos pasan de semanas a días. Se amplía el catálogo y se refinan los diseños con feedback directo de los usuarios.",
-  },
-  {
-    year: "2022",
-    title: "Punto Nadir",
-    desc: "Primera colección unificada. Los productos dejan de ser piezas aisladas y se organizan en un sistema coherente. Se establece el lenguaje de diseño que define la marca.",
-  },
-  {
-    year: "2023",
-    title: "MechWarrior Online",
-    desc: "Colaboración con la comunidad de MWO. La exposición a una base de jugadores más amplia impulsa mejoras de diseño y confirma la demanda de herramientas físicas de calidad.",
-  },
-  {
-    year: "2024",
-    title: "WARDEN Core",
-    desc: "Lanzamiento de la colección insignia. Materiales industriales definitivos: latón, aluminio y acrílico. Tolerancias de fabricación ajustadas. La colección se convierte en el estándar de referencia.",
-  },
-  {
-    year: "2025",
-    title: "Consolidación",
-    desc: "WARDEN se consolida como plataforma de catálogo con colecciones, bundles, drops y un sistema de selección por presupuesto. El proyecto mira hacia nuevos sistemas y colaboraciones con estudios licenciados.",
-  },
+  { year: "2019" },
+  { year: "2020" },
+  { year: "2021" },
+  { year: "2022" },
+  { year: "2023" },
+  { year: "2024" },
+  { year: "2025" },
 ];
 
 const dnaPrinciples = [
   {
     number: "01",
     accent: "text-warden-blue",
-    title: "Funcionalidad antes que ornamentación",
-    desc: "La forma sigue a la función. Cada elemento de diseño tiene una razón de ser operativa. Si no mejora la experiencia de juego, no pertenece al producto.",
   },
   {
     number: "02",
     accent: "text-warden-green",
-    title: "Robustez",
-    desc: "Materiales seleccionados por sus propiedades mecánicas, no por su apariencia. Latón, aluminio y acrílico. Herramientas que soportan el uso continuo sin comprometer su precisión.",
   },
   {
     number: "03",
     accent: "text-warden-ochre",
-    title: "Compatibilidad",
-    desc: "Cada producto se verifica contra los sistemas oficiales. Una herramienta WARDEN debe integrarse sin fricción con el resto del equipamiento de juego del usuario.",
   },
   {
     number: "04",
     accent: "text-warden-blue",
-    title: "Fabricación viable",
-    desc: "Diseñamos para producir. Cada pieza está optimizada para su proceso de fabricación, equilibrando calidad, costo y disponibilidad. Sin piezas imposibles ni tiempos irreales.",
   },
   {
     number: "05",
     accent: "text-warden-green",
-    title: "Soluciones multifunción",
-    desc: "Una herramienta debe ser útil en tantos contextos como sea posible sin comprometer su función principal. Versatilidad sin complejidad añadida.",
   },
   {
     number: "06",
     accent: "text-warden-ochre",
-    title: "Simplicidad operativa",
-    desc: "La herramienta más avanzada es la que se usa sin pensar. El diseño debe ser intuitivo, sin instrucciones extensas ni curvas de aprendizaje innecesarias.",
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const t = await getTranslations("about");
+
   return (
     <>
       {/* ── HERO: QUÉ ES WARDEN ── */}
       <Section>
         <Container>
           <div className="max-w-3xl">
-            <Eyebrow className="text-warden-blue">Identidad</Eyebrow>
+            <Eyebrow className="text-warden-blue">{t("identity.eyebrow")}</Eyebrow>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-              Sobre WARDEN
+              {t("hero.title")}
             </h1>
             <p className="mt-6 text-base text-muted-foreground leading-relaxed">
-              WARDEN desarrolla equipamiento físico de precisión para la
-              experiencia de juego en BattleTech Classic, Alpha Strike y
-              AeroTech. Cada producto nace de una necesidad real sobre la mesa:
-              reducir fricción mecánica, acelerar fases de juego y clarificar el
-              estado de la partida.
+              {t("hero.description")}
             </p>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              No fabricamos decoración. Fabricamos herramientas que se ganan su
-              lugar en la mesa. Si un producto no resuelve un problema concreto
-              — ya sea de velocidad, claridad o carga cognitiva — no se fabrica.
+              {t("hero.description2")}
             </p>
           </div>
         </Container>
@@ -167,29 +100,22 @@ export default function AboutPage() {
       <Section>
         <Container>
           <div className="mb-12">
-            <Eyebrow>Propósito</Eyebrow>
+            <Eyebrow>{t("purpose.eyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Misión y visión
+              {t("purpose.title")}
             </h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="border border-border bg-warden-surface p-6">
-              <Eyebrow className="text-warden-blue mb-3">Misión</Eyebrow>
+              <Eyebrow className="text-warden-blue mb-3">{t("mission.eyebrow")}</Eyebrow>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Eliminar la fricción mecánica y cognitiva del wargame de mesa
-                mediante herramientas físicas diseñadas con criterio técnico,
-                fabricadas con materiales industriales y validadas en cientos de
-                sesiones de juego real.
+                {t("mission.description")}
               </p>
             </div>
             <div className="border border-border bg-warden-surface p-6">
-              <Eyebrow className="text-warden-green mb-3">Visión</Eyebrow>
+              <Eyebrow className="text-warden-green mb-3">{t("vision.eyebrow")}</Eyebrow>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Ser el estándar de referencia en accesorios funcionales para
-                wargaming de ciencia ficción, manteniendo el compromiso con la
-                calidad de fabricación, la compatibilidad con los sistemas
-                oficiales y una ética de diseño donde la función determina la
-                forma.
+                {t("vision.description")}
               </p>
             </div>
           </div>
@@ -202,27 +128,26 @@ export default function AboutPage() {
       <Section>
         <Container>
           <div className="mb-12">
-            <Eyebrow>Principios</Eyebrow>
+            <Eyebrow>{t("principles.eyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Valores
+              {t("principles.title")}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-              Seis principios que gobiernan cada decisión de diseño, material y
-              producción.
+              {t("principles.description")}
             </p>
           </div>
           <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {values.map((v) => (
+            {values.map((v, i) => (
               <div
-                key={v.label}
+                key={i}
                 className="bg-warden-carbon p-6"
               >
                 <v.icon className="size-5 text-warden-blue mb-3" />
                 <h3 className="text-base font-semibold text-foreground mb-2">
-                  {v.label}
+                  {t(`principles.items.${i}.title`)}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  {v.desc}
+                  {t(`principles.items.${i}.desc`)}
                 </p>
               </div>
             ))}
@@ -236,30 +161,29 @@ export default function AboutPage() {
       <Section>
         <Container>
           <div className="mb-12">
-            <Eyebrow>Sistemas</Eyebrow>
+            <Eyebrow>{t("systems.eyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Sistemas de referencia
+              {t("systems.title")}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-              WARDEN diseña y prueba sus productos para los tres sistemas
-              principales del ecosistema BattleTech.
+              {t("systems.description")}
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-3">
-            <DataPanel label="BattleTech Classic" className="border-warden-ochre/20">
-              <DataRow label="Escala" value="1 hexágono = 30 m" />
-              <DataRow label="Unidad tipo" value="Lanza / Compañía" />
-              <DataRow label="Cobertura" value="4 productos" />
+            <DataPanel label={t("systems.items.0.name")} className="border-warden-ochre/20">
+              <DataRow label={t("systems.labels.scale")} value={t("systems.items.0.scale")} />
+              <DataRow label={t("systems.labels.unitType")} value={t("systems.items.0.unitType")} />
+              <DataRow label={t("systems.labels.coverage")} value={t("systems.items.0.coverage")} />
             </DataPanel>
-            <DataPanel label="Alpha Strike" className="border-warden-blue/20">
-              <DataRow label="Escala" value="Abstracta" />
-              <DataRow label="Unidad tipo" value="Compañía / Batallón" />
-              <DataRow label="Cobertura" value="1 producto" />
+            <DataPanel label={t("systems.items.1.name")} className="border-warden-blue/20">
+              <DataRow label={t("systems.labels.scale")} value={t("systems.items.1.scale")} />
+              <DataRow label={t("systems.labels.unitType")} value={t("systems.items.1.unitType")} />
+              <DataRow label={t("systems.labels.coverage")} value={t("systems.items.1.coverage")} />
             </DataPanel>
-            <DataPanel label="AeroTech" className="border-warden-green/20">
-              <DataRow label="Escala" value="Atmosférica / Espacial" />
-              <DataRow label="Unidad tipo" value="Caza / Escuadrón" />
-              <DataRow label="Cobertura" value="2 productos" />
+            <DataPanel label={t("systems.items.2.name")} className="border-warden-green/20">
+              <DataRow label={t("systems.labels.scale")} value={t("systems.items.2.scale")} />
+              <DataRow label={t("systems.labels.unitType")} value={t("systems.items.2.unitType")} />
+              <DataRow label={t("systems.labels.coverage")} value={t("systems.items.2.coverage")} />
             </DataPanel>
           </div>
         </Container>
@@ -271,49 +195,40 @@ export default function AboutPage() {
       <Section>
         <Container>
           <div className="mb-12">
-            <Eyebrow>Filosofía</Eyebrow>
+            <Eyebrow>{t("philosophy.eyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Diseñar para jugar. Construir para durar.
+              {t("philosophy.title")}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-              Tres principios que definen cómo pensamos, diseñamos y fabricamos.
+              {t("philosophy.description")}
             </p>
           </div>
           <div className="grid gap-px bg-border sm:grid-cols-3">
             <div className="bg-warden-carbon p-8">
               <span className="text-data text-warden-blue mb-4 block">01</span>
               <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
-                Diseñar para jugar
+                {t("philosophy.items.0.title")}
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Cada producto WARDEN comienza con un problema de juego. Si no
-                acelera una fase, clarifica una regla o reduce la carga
-                cognitiva, no se fabrica. Sin decoración. Sin relleno. Solo
-                función.
+                {t("philosophy.items.0.desc")}
               </p>
             </div>
             <div className="bg-warden-carbon p-8">
               <span className="text-data text-warden-green mb-4 block">02</span>
               <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
-                Construir para durar
+                {t("philosophy.items.1.title")}
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Latón, aluminio y acrílico maquinados con tolerancias precisas.
-                Cada material se selecciona por sus propiedades mecánicas y se
-                valida en cientos de sesiones. Una herramienta WARDEN debe
-                sobrevivir a la campaña.
+                {t("philosophy.items.1.desc")}
               </p>
             </div>
             <div className="bg-warden-carbon p-8">
               <span className="text-data text-warden-ochre mb-4 block">03</span>
               <h3 className="text-lg font-semibold tracking-tight text-foreground mb-3">
-                Evolucionar sin perder la identidad
+                {t("philosophy.items.2.title")}
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Nuevos productos, nuevos sistemas, nuevos materiales — pero el
-                mismo compromiso con la claridad, la compatibilidad y la
-                coherencia. Cada colección añade capacidad sin fragmentar la
-                experiencia.
+                {t("philosophy.items.2.desc")}
               </p>
             </div>
           </div>
@@ -326,13 +241,12 @@ export default function AboutPage() {
       <Section>
         <Container>
           <div className="mb-12">
-            <Eyebrow>Historia</Eyebrow>
+            <Eyebrow>{t("history.eyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Trayectoria
+              {t("history.title")}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-              De la comunidad al catálogo. Los hitos que han definido el
-              proyecto.
+              {t("history.description")}
             </p>
           </div>
           <div className="relative space-y-10 pl-6 sm:pl-8">
@@ -342,10 +256,10 @@ export default function AboutPage() {
                 <span className="absolute left-[-5px] top-1.5 size-2.5 rounded-full border border-warden-blue bg-warden-carbon sm:left-[-7px]" />
                 <span className="text-data text-warden-blue">{m.year}</span>
                 <h3 className="text-base font-semibold text-foreground mt-1">
-                  {m.title}
+                  {t(`history.items.${i}.title`)}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed mt-1 max-w-2xl">
-                  {m.desc}
+                  {t(`history.items.${i}.desc`)}
                 </p>
               </div>
             ))}
@@ -359,17 +273,16 @@ export default function AboutPage() {
       <Section>
         <Container>
           <div className="mb-12">
-            <Eyebrow>ADN de diseño</Eyebrow>
+            <Eyebrow>{t("designDna.eyebrow")}</Eyebrow>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Cómo diseñamos
+              {t("designDna.title")}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-              Seis principios que gobiernan cada decisión de ingeniería y
-              fabricación.
+              {t("designDna.description")}
             </p>
           </div>
           <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {dnaPrinciples.map((p) => (
+            {dnaPrinciples.map((p, i) => (
               <div key={p.number} className="bg-warden-carbon p-6">
                 <span
                   className={`text-data ${p.accent} mb-3 block`}
@@ -377,10 +290,10 @@ export default function AboutPage() {
                   {p.number}
                 </span>
                 <h3 className="text-base font-semibold text-foreground mb-2">
-                  {p.title}
+                  {t(`designDna.items.${i}.title`)}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  {p.desc}
+                  {t(`designDna.items.${i}.desc`)}
                 </p>
               </div>
             ))}
@@ -395,22 +308,20 @@ export default function AboutPage() {
         <Container>
           <div className="border border-border bg-warden-surface p-8 md:p-12">
             <div className="max-w-2xl">
-              <Eyebrow>Explorar</Eyebrow>
+              <Eyebrow>{t("cta.eyebrow")}</Eyebrow>
               <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                Ver el catálogo
+                {t("cta.title")}
               </h2>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Todos los productos WARDEN están organizados por colección y
-                sistema. Cada ficha incluye especificaciones técnicas,
-                compatibilidad y guías de uso.
+                {t("cta.description")}
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <WardenButton href="/catalog">
-                  Ir al catálogo
+                  {t("cta.goToCatalog")}
                   <ChevronRight className="size-4" />
                 </WardenButton>
                 <WardenButton href="/community-support" variant="outline">
-                  Community Support
+                  {t("cta.communitySupport")}
                   <ArrowUpRight className="size-3.5" />
                 </WardenButton>
               </div>

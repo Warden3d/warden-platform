@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
@@ -27,23 +28,27 @@ interface CampaignProductsSectionProps {
  * Renders a grid of product cards (image, badge, name, description).
  * Content-driven: if `products` is empty, the block is not rendered.
  */
-export function CampaignProductsSection({
-  eyebrow = "Contenido",
-  title = "Productos incluidos",
+export async function CampaignProductsSection({
+  eyebrow,
+  title,
   products,
   className,
 }: CampaignProductsSectionProps) {
   if (products.length === 0) return null;
+
+  const t = await getTranslations("drops");
+  const resolvedEyebrow = eyebrow ?? t("products.eyebrow");
+  const resolvedTitle = title ?? t("products.title");
 
   return (
     <section className={cn("py-10 md:py-14 bg-warden-surface/30", className)}>
       <Container>
         <div className="max-w-3xl mb-8">
           <p className="text-[11px] font-medium uppercase tracking-widest text-warden-ochre/70 mb-3">
-            {eyebrow}
+            {resolvedEyebrow}
           </p>
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl leading-tight text-foreground">
-            {title}
+            {resolvedTitle}
           </h2>
         </div>
 

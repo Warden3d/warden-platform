@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getTranslations, getLocale } from "next-intl/server";
 
 import { Container, Section, Eyebrow, SectionDivider } from "@/components/shared/container";
 import {
@@ -26,8 +27,8 @@ export const metadata: Metadata = {
     "Lanzamientos temporales y ediciones limitadas de accesorios 3D para BattleTech. Cada campaña presenta una experiencia narrativa única.",
 };
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("es-ES", {
+function formatDate(iso: string, locale: string) {
+  return new Date(iso).toLocaleDateString(locale, {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -35,13 +36,17 @@ function formatDate(iso: string) {
 }
 
 // ── Compact DropCard for secondary listing ─────
-function CompactDropCard({
+async function CompactDropCard({
   drop,
   variant,
+  locale,
 }: {
   drop: Drop;
   variant: "live" | "upcoming" | "ended";
+  locale: string;
 }) {
+  const t = await getTranslations("drops");
+  const tCommon = await getTranslations("common");
   const isMuted = variant === "ended";
 
   return (
@@ -60,14 +65,14 @@ function CompactDropCard({
         {variant === "live" && (
           <span className="inline-flex items-center gap-1.5 text-eyebrow text-warden-blue">
             <span className="size-1.5 rounded-full bg-warden-blue animate-pulse" />
-            Activo
+            {t("status.live")}
           </span>
         )}
         {variant === "upcoming" && (
-          <span className="text-eyebrow text-muted-foreground">Próximo</span>
+          <span className="text-eyebrow text-muted-foreground">{t("status.upcoming")}</span>
         )}
         {variant === "ended" && (
-          <span className="text-eyebrow text-muted-foreground">Finalizado</span>
+          <span className="text-eyebrow text-muted-foreground">{t("status.ended")}</span>
         )}
         {drop.theme && !isMuted && (
           <TechnicalBadge variant={variant === "live" ? "blue" : "neutral"}>
@@ -90,12 +95,12 @@ function CompactDropCard({
 
       <div className="mt-3 pt-2 border-t border-border flex items-center justify-between">
         <span className="text-spec-label text-muted-foreground">
-          {formatDate(drop.startsAt)}
-          {drop.endsAt && <> — {formatDate(drop.endsAt)}</>}
+          {formatDate(drop.startsAt, locale)}
+          {drop.endsAt && <> — {formatDate(drop.endsAt, locale)}</>}
         </span>
         {!isMuted && (
           <span className="text-xs text-warden-blue inline-flex items-center gap-0.5">
-            Ver <ChevronRight className="size-3" />
+            {tCommon("view")} <ChevronRight className="size-3" />
           </span>
         )}
       </div>
@@ -116,11 +121,12 @@ function getAllDropImages(drop: Drop, products: Array<{ id: string; images: Prod
 }
 
 // ── Active campaign landing (declarative) ──────
-function buildCampaignConfig(
+async function buildCampaignConfig(
   activeDrop: Drop,
   featuredProducts: Array<{ id: string; name: string; slug: string; shortDescription: string; images: ProductImage[]; compatibilityId: string }>,
   compatibilitySystems: CompatibilitySystem[]
-): CampaignConfig {
+): Promise<CampaignConfig> {
+  const t = await getTranslations("drops");
   const productCount = featuredProducts.length;
   const allImages = getAllDropImages(activeDrop, featuredProducts);
   const heroImage = activeDrop.thumbnailUrl || undefined;
@@ -136,7 +142,7 @@ function buildCampaignConfig(
       name: activeDrop.name,
       subtitle: activeDrop.description,
       status: activeDrop.status,
-      ctaLabel: "Discover the Drop",
+      ctaLabel: t("discover"),
       pdpSlug: activeDrop.slug,
     },
     assets: {
@@ -157,7 +163,7 @@ function buildCampaignConfig(
           title: activeDrop.name,
           subtitle: activeDrop.description,
           imageUrl: heroImage,
-          ctaLabel: "Explore the Drop",
+          ctaLabel: t("explore"),
           ctaHref: `/drops/${activeDrop.slug}`,
           theme: activeDrop.theme ?? undefined,
           trailerSrc: "/videos/battle-of-tukayyid.mp4",
@@ -167,9 +173,9 @@ function buildCampaignConfig(
       {
         type: "origins",
         props: {
-          eyebrow: activeDrop.theme ?? "Edición limitada",
+          eyebrow: activeDrop.theme ?? t("limitedEdition"),
           title: activeDrop.name,
-          body: `${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} diseñada${productCount !== 1 ? "s" : ""} para coleccionistas y entusiastas de BattleTech. Una edición que recupera la esencia del universo clásico con el acabado y la precisión de WARDEN.`,
+          body: t("origins.body", { count: productCount }),
           imageUrl: heroImage,
           imageAlt: activeDrop.name,
         },
@@ -177,9 +183,9 @@ function buildCampaignConfig(
       {
         type: "scenario",
         props: {
-          eyebrow: "El escenario",
-          title: activeDrop.theme ?? "Una experiencia única",
-          body: "Cada pieza transporta al universo de la campaña. Los diseños evocan la atmósfera, la escala y la narrativa del escenario original.",
+          eyebrow: t("scenario.eyebrow"),
+          title: activeDrop.theme ?? t("scenario.fallbackTitle"),
+          body: t("scenario.body"),
           imageUrl: scenarioImage,
           imageAlt: activeDrop.theme ?? activeDrop.name,
           imagePosition: "left",
@@ -189,8 +195,8 @@ function buildCampaignConfig(
         type: "design",
         props: {
           eyebrow: "Design by WARDEN",
-          title: "Trabajo de diseño",
-          description: "Renders y detalles del proceso creativo. Cada pieza ha sido revisada para ofrecer la mejor experiencia de impresión y juego.",
+          title: t("design.title"),
+          description: t("design.desc"),
           items: featuredProducts.slice(0, 6).map((p) => ({
             imageUrl: p.images.find((img) => img.isPrimary)?.url ?? "",
             imageAlt: p.name,
@@ -230,28 +236,28 @@ function buildCampaignConfig(
         type: "cta",
         props: {
           title: activeDrop.name,
-          closing: `${productCount} pieza${productCount !== 1 ? "s" : ""} exclusiva${productCount !== 1 ? "s" : ""} en una edición limitada. Todo el contenido ha sido seleccionado para ofrecer una experiencia única dentro del universo BattleTech.`,
+          closing: t("cta.closing", { count: productCount }),
           highlights: [
             ...(activeDrop.theme
-              ? [{ label: "Temática", value: activeDrop.theme, icon: "◆" }]
+              ? [{ label: t("field.theme"), value: activeDrop.theme, icon: "◆" }]
               : []),
             {
-              label: "Estado",
+              label: t("field.status"),
               value:
                 isEffectivelyLive
-                  ? "Disponible"
+                  ? t("status.available")
                   : effectiveStatus === "upcoming"
-                    ? "Próximo"
-                    : "Finalizado",
+                    ? t("status.upcoming")
+                    : t("status.ended"),
             },
             ...(isEffectivelyLive && activeDrop.price != null
-              ? [{ label: "Precio", value: formatPriceEUR(activeDrop.price), icon: "◆" as const }]
+              ? [{ label: t("field.price"), value: formatPriceEUR(activeDrop.price), icon: "◆" as const }]
               : []),
-            { label: "Productos", value: `${productCount}` },
+            { label: t("field.products"), value: `${productCount}` },
             ...(compatibilitySystems.length > 0
               ? [
                   {
-                    label: "Compatibilidad",
+                    label: t("field.compatibility"),
                     value: compatibilitySystems
                       .map((cs) => cs.name)
                       .join(", "),
@@ -259,7 +265,7 @@ function buildCampaignConfig(
                 ]
               : []),
           ],
-          ctaLabel: "Discover the Drop",
+          ctaLabel: t("discover"),
           ctaHref: `/drops/${activeDrop.slug}`,
           status: activeDrop.status,
         },
@@ -270,6 +276,10 @@ function buildCampaignConfig(
 
 // ── Page ───────────────────────────────────────
 export default async function DropsPage() {
+  const t = await getTranslations("drops");
+  const tCommon = await getTranslations("common");
+  const locale = await getLocale();
+
   const [drops, products, compatibilitySystems] = await Promise.all([
     getDrops(),
     getActiveProducts(),
@@ -297,7 +307,7 @@ export default async function DropsPage() {
       <>
         {/* ── Campaign Landing (declarative) ── */}
         <CampaignRenderer
-          config={buildCampaignConfig(activeDrop, featuredProducts, compatibilitySystems)}
+          config={await buildCampaignConfig(activeDrop, featuredProducts, compatibilitySystems)}
         />
 
         {/* ── Other drops (compact listing) ── */}
@@ -311,7 +321,7 @@ export default async function DropsPage() {
                 <div className="mb-10">
                   <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
                     <Timer className="size-4 text-muted-foreground" />
-                    Próximos lanzamientos
+                    {t("upcoming")}
                   </h2>
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {upcoming
@@ -321,6 +331,7 @@ export default async function DropsPage() {
                           key={drop.id}
                           drop={drop}
                           variant="upcoming"
+                          locale={locale}
                         />
                       ))}
                   </div>
@@ -332,7 +343,7 @@ export default async function DropsPage() {
                 <div>
                   <h2 className="text-lg font-semibold text-foreground/60 mb-4 flex items-center gap-2">
                     <Layers className="size-4 text-muted-foreground" />
-                    Drops anteriores
+                    {t("previous")}
                   </h2>
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {ended.map((drop) => (
@@ -340,6 +351,7 @@ export default async function DropsPage() {
                         key={drop.id}
                         drop={drop}
                         variant="ended"
+                        locale={locale}
                       />
                     ))}
                   </div>
@@ -362,23 +374,21 @@ export default async function DropsPage() {
               <Timer className="size-7 text-muted-foreground/40" />
             </div>
             <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-              Campañas WARDEN
+              {t("campaignsTitle")}
             </h1>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-              Las campañas son lanzamientos periódicos de ediciones especiales y
-              productos de temporada. Cuando haya una campaña activa, aparecerá aquí.
+              {t("empty.desc")}
             </p>
             <p className="mt-2 text-xs text-muted-foreground/60">
-              Mientras tanto, puedes explorar el catálogo permanente o nuestros
-              bundles.
+              {t("empty.note")}
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <WardenButton href="/catalog">
-                Explorar catálogo
+                {tCommon("exploreCatalog")}
                 <ChevronRight className="size-4" />
               </WardenButton>
               <WardenButton href="/bundles" variant="outline">
-                Ver bundles
+                {tCommon("viewBundles")}
               </WardenButton>
             </div>
           </div>
@@ -387,24 +397,22 @@ export default async function DropsPage() {
         {!hasActive && ended.length > 0 && (
           <>
             <div className="max-w-2xl mb-14">
-              <Eyebrow>Campañas temporales</Eyebrow>
+              <Eyebrow>{t("temporalCampaigns")}</Eyebrow>
               <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                Campañas WARDEN
+                {t("campaignsTitle")}
               </h1>
               <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-                No hay campañas activas en este momento. Todos los productos de
-                campañas anteriores pueden seguir adquiriéndose a través del catálogo
-                general.
+                {t("noActive.desc")}
               </p>
             </div>
 
             <div className="flex flex-wrap gap-3 mb-12">
               <WardenButton href="/catalog">
-                Explorar catálogo
+                {tCommon("exploreCatalog")}
                 <ChevronRight className="size-4" />
               </WardenButton>
               <WardenButton href="/bundles" variant="outline">
-                Ver bundles
+                {tCommon("viewBundles")}
               </WardenButton>
             </div>
 
@@ -413,7 +421,7 @@ export default async function DropsPage() {
                 <SectionDivider className="mb-8" />
                 <h2 className="text-xl font-semibold text-foreground/60 mb-6 flex items-center gap-2">
                   <Layers className="size-5" />
-                  Campañas anteriores
+                  {t("previousCampaigns")}
                 </h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {ended.map((drop) => (
@@ -422,6 +430,7 @@ export default async function DropsPage() {
                       drop={drop}
 
                       variant="ended"
+                      locale={locale}
                     />
                   ))}
                 </div>

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 
@@ -23,7 +24,7 @@ interface CampaignDevelopmentSectionProps {
  * prepared to evolve into a full Timeline component in future campaigns.
  * Content-driven: if `entries` is empty, the block is not rendered.
  */
-export function CampaignDevelopmentSection({
+export async function CampaignDevelopmentSection({
   eyebrow,
   title,
   description,
@@ -32,6 +33,8 @@ export function CampaignDevelopmentSection({
   placeholder,
 }: CampaignDevelopmentSectionProps) {
   if (entries.length === 0) return null;
+
+  const t = await getTranslations("drops");
 
   return (
     <section className={cn("py-14 md:py-20", className)}>
@@ -42,7 +45,7 @@ export function CampaignDevelopmentSection({
               {eyebrow}
               {placeholder && (
                 <span className="ml-2 text-[9px] text-muted-foreground/40 normal-case tracking-normal font-normal">
-                  [placeholder]
+                  {t("placeholder")}
                 </span>
               )}
             </p>
@@ -95,7 +98,7 @@ export function CampaignDevelopmentSection({
 
         {placeholder && (
           <p className="mt-8 text-[10px] text-muted-foreground/30 italic text-center">
-            Datos provisionales — serán sustituidos por la cronología real del desarrollo.
+            {t("development.provisional")}
           </p>
         )}
       </Container>

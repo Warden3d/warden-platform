@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 
@@ -24,7 +25,7 @@ interface CampaignDesignSectionProps {
  * with optional captions. Content-driven: if `items` is empty, the
  * block is not rendered.
  */
-export function CampaignDesignSection({
+export async function CampaignDesignSection({
   eyebrow,
   title,
   description,
@@ -33,6 +34,8 @@ export function CampaignDesignSection({
   placeholder,
 }: CampaignDesignSectionProps) {
   if (items.length === 0) return null;
+
+  const t = await getTranslations("drops");
 
   return (
     <section className={cn("py-14 md:py-20", className)}>
@@ -43,7 +46,7 @@ export function CampaignDesignSection({
               {eyebrow}
               {placeholder && (
                 <span className="ml-2 text-[9px] text-muted-foreground/40 normal-case tracking-normal font-normal">
-                  [placeholder]
+                  {t("placeholder")}
                 </span>
               )}
             </p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 interface PriceRangeSliderProps {
   min: number;
@@ -19,6 +20,7 @@ export function PriceRangeSlider({
   onChange,
   formatPrice,
 }: PriceRangeSliderProps) {
+  const t = useTranslations("catalog");
   const curMin = valueMin ?? min;
   const curMax = valueMax ?? max;
   const range = max - min || 1;
@@ -63,7 +65,7 @@ export function PriceRangeSlider({
           step={0.01}
           value={curMin}
           onChange={handleMin}
-          aria-label="Precio mínimo"
+          aria-label={t("priceMin")}
           className="absolute inset-0 w-full h-full appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-warden-blue [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-warden-carbon [&::-webkit-slider-thumb]:shadow-sm [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:transition-shadow [&::-webkit-slider-thumb]:hover:shadow-md [&::-webkit-slider-thumb]:focus-visible:ring-2 [&::-webkit-slider-thumb]:focus-visible:ring-warden-blue/50 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-warden-blue [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-warden-carbon [&::-moz-range-thumb]:cursor-pointer"
         />
         {/* Max thumb */}
@@ -74,7 +76,7 @@ export function PriceRangeSlider({
           step={0.01}
           value={curMax}
           onChange={handleMax}
-          aria-label="Precio máximo"
+          aria-label={t("priceMax")}
           className="absolute inset-0 w-full h-full appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-warden-blue [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-warden-carbon [&::-webkit-slider-thumb]:shadow-sm [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:transition-shadow [&::-webkit-slider-thumb]:hover:shadow-md [&::-webkit-slider-thumb]:focus-visible:ring-2 [&::-webkit-slider-thumb]:focus-visible:ring-warden-blue/50 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-warden-blue [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-warden-carbon [&::-moz-range-thumb]:cursor-pointer"
         />
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { CampaignHero } from "@/components/campaign/campaign-hero";
 import { CampaignTrailer } from "@/components/campaign/campaign-trailer";
 
@@ -27,12 +28,14 @@ export function HeroWithTrailer({
   title,
   subtitle,
   imageUrl,
-  ctaLabel = "Explore the Drop",
+  ctaLabel,
   ctaHref,
   theme,
   trailerSrc,
   trailerPoster,
 }: HeroWithTrailerProps) {
+  const t = useTranslations("drops");
+  const resolvedCtaLabel = ctaLabel ?? t("explore");
   const [trailerOpen, setTrailerOpen] = useState(false);
   const [trailerClicked, setTrailerClicked] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(() => {
@@ -81,7 +84,7 @@ export function HeroWithTrailer({
         title={title}
         subtitle={subtitle}
         imageUrl={imageUrl}
-        ctaLabel={ctaLabel}
+        ctaLabel={resolvedCtaLabel}
         ctaHref={ctaHref}
         theme={theme}
         trailerClicked={trailerClicked}

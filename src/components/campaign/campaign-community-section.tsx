@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 
@@ -24,7 +25,7 @@ interface CampaignCommunitySectionProps {
  * Displays photos, text, quotes, and testimonials from the community.
  * Content-driven: if `testimonials` is empty, the block is not rendered.
  */
-export function CampaignCommunitySection({
+export async function CampaignCommunitySection({
   eyebrow,
   title,
   description,
@@ -33,6 +34,8 @@ export function CampaignCommunitySection({
   placeholder,
 }: CampaignCommunitySectionProps) {
   if (testimonials.length === 0) return null;
+
+  const t = await getTranslations("drops");
 
   return (
     <section className={cn("py-14 md:py-20 bg-warden-surface/30", className)}>
@@ -43,7 +46,7 @@ export function CampaignCommunitySection({
               {eyebrow}
               {placeholder && (
                 <span className="ml-2 text-[9px] text-muted-foreground/40 normal-case tracking-normal font-normal">
-                  [placeholder]
+                  {t("placeholder")}
                 </span>
               )}
             </p>

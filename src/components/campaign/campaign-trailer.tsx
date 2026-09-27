@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { X, Maximize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -37,6 +38,7 @@ export function CampaignTrailer({
   isOpen,
   onClose,
 }: CampaignTrailerProps) {
+  const t = useTranslations("drops");
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -161,7 +163,7 @@ export function CampaignTrailer({
       ref={overlayRef}
       role="dialog"
       aria-modal="true"
-      aria-label={`Tráiler: ${title}`}
+      aria-label={t("trailer.ariaLabel", { title })}
       onClick={handleOverlayClick}
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
     >
@@ -180,7 +182,7 @@ export function CampaignTrailer({
             intentionalCloseRef.current = true;
             onClose();
           }}
-          aria-label="Cerrar tráiler"
+          aria-label={t("trailer.close")}
           className="absolute top-3 right-3 z-20 size-10 flex items-center justify-center rounded-full bg-black/40 text-white/70 hover:bg-white/20 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
         >
           <X className="size-5" />
@@ -209,14 +211,14 @@ export function CampaignTrailer({
                 className="absolute inset-0 size-full object-contain bg-black"
                 aria-label={title}
               >
-                Tu navegador no soporta la reproducción de vídeo.
+                {t("trailer.unsupported")}
               </video>
 
               {/* Fullscreen toggle */}
               <button
                 type="button"
                 onClick={handleManualFullscreen}
-                aria-label="Pantalla completa"
+                aria-label={t("trailer.fullscreen")}
                 className="absolute bottom-3 right-3 z-10 size-9 flex items-center justify-center rounded-sm bg-black/50 text-white/70 hover:bg-black/70 hover:text-white transition-all opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
               >
                 <Maximize2 className="size-4" />

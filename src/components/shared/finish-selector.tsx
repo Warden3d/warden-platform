@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { useProductConfig } from "@/contexts/product-config";
 
 // ── Props ──
@@ -17,9 +18,11 @@ interface FinishSelectorProps {
 //   C / D (2+ vars)  → interactive swatch selector
 
 export function FinishSelector({
-  label = "Acabado",
+  label,
   className,
 }: FinishSelectorProps) {
+  const tCommon = useTranslations("common");
+  const resolvedLabel = label ?? tCommon("finish");
   const { variants, selectedIdx, selectVariant } = useProductConfig();
 
   // ── State A: no variants → nothing ──
@@ -30,7 +33,7 @@ export function FinishSelector({
     return (
       <div className={cn("flex flex-col gap-2", className)}>
         <span className="text-spec-label text-muted-foreground uppercase tracking-wider">
-          {label}
+          {resolvedLabel}
         </span>
         <span className="text-sm text-foreground/80">{variants[0].name}</span>
       </div>
@@ -41,7 +44,7 @@ export function FinishSelector({
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       <span className="text-spec-label text-muted-foreground uppercase tracking-wider">
-        {label}
+        {resolvedLabel}
       </span>
       <div className="flex items-center gap-2">
         {variants.map((v, idx) => (
@@ -49,7 +52,7 @@ export function FinishSelector({
             key={v.name}
             type="button"
             onClick={() => selectVariant(idx)}
-            aria-label={`${label}: ${v.name}`}
+            aria-label={`${resolvedLabel}: ${v.name}`}
             className={cn(
               "flex items-center gap-1.5 rounded-sm border px-2.5 py-1.5 text-xs transition-all duration-150",
               idx === selectedIdx

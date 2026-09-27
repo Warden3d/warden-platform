@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useSelection } from "@/hooks/use-selection";
+import { useTranslations } from "next-intl";
 import { Plus } from "lucide-react";
 import type { EntityType, ProductConfigurationItem } from "@/types/warden";
 
@@ -31,6 +32,7 @@ export function AddToSelectionButton({
   className?: string;
 }) {
   const { addItem } = useSelection();
+  const t = useTranslations("common");
 
   return (
     <button
@@ -49,7 +51,7 @@ export function AddToSelectionButton({
           configuration,
         });
       }}
-      aria-label={`Añadir ${name} a Mi Selección`}
+      aria-label={t("addToSelectionAria", { name })}
       className={cn(
         "inline-flex items-center justify-center gap-2 rounded-sm font-medium transition-all duration-150 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warden-blue/50 focus-visible:ring-offset-1 focus-visible:ring-offset-warden-carbon bg-warden-blue text-warden-carbon hover:bg-warden-blue/90",
         size === "default"
@@ -60,7 +62,7 @@ export function AddToSelectionButton({
       )}
     >
       <Plus className={size === "default" ? "size-4" : "size-3"} />
-      {size === "default" ? "Añadir" : "Añadir"}
+      {t("add")}
     </button>
   );
 }

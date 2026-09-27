@@ -1,10 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useProductConfig } from "@/contexts/product-config";
 import { formatPriceEUR } from "@/lib/utils";
 
 export function DynamicPrice({ basePrice }: { basePrice: number }) {
   const { selectedVariant } = useProductConfig();
+  const t = useTranslations("product");
   // Variant price when one is selected; otherwise the product base price.
   // A valid product without variants must never show 0,00 €.
   const price = selectedVariant?.price ?? basePrice;
@@ -15,7 +17,7 @@ export function DynamicPrice({ basePrice }: { basePrice: number }) {
         {formatPriceEUR(price)}
       </span>
       <p className="text-xs text-muted-foreground mt-1">
-        Impuestos no incluidos
+        {t("taxesExcluded")}
       </p>
     </div>
   );

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/shared/container";
 
@@ -17,7 +18,7 @@ interface CampaignStorySectionProps {
  * Props: eyebrow, title, body, body2
  * Content-driven: if `title` is empty, the block is not rendered.
  */
-export function CampaignStorySection({
+export async function CampaignStorySection({
   eyebrow,
   title,
   body,
@@ -26,6 +27,8 @@ export function CampaignStorySection({
   placeholder,
 }: CampaignStorySectionProps) {
   if (!title) return null;
+
+  const t = await getTranslations("drops");
 
   return (
     <section className={cn("py-14 md:py-20", className)}>
@@ -36,7 +39,7 @@ export function CampaignStorySection({
               {eyebrow}
               {placeholder && (
                 <span className="ml-2 text-[9px] text-muted-foreground/40 normal-case tracking-normal font-normal">
-                  [placeholder]
+                  {t("placeholder")}
                 </span>
               )}
             </p>
@@ -58,7 +61,7 @@ export function CampaignStorySection({
 
           {placeholder && (
             <p className="mt-4 text-[10px] text-muted-foreground/30 italic">
-              Contenido provisional — será sustituido por el texto definitivo de la campaña.
+              {t("story.provisional")}
             </p>
           )}
         </div>

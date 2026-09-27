@@ -3,19 +3,38 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Check, ChevronRight, Loader } from "lucide-react";
 
 import {
   communitySupportSchema,
   APPLICANT_TYPES,
   SUPPORT_TYPES,
-  supportTypeLabels,
-  applicantTypeLabels,
   type CommunitySupportFormValues,
 } from "@/lib/schemas/community-support";
 import { submitCommunitySupport } from "@/lib/actions/submit-community-support";
 import { WardenButton } from "@/components/ui/warden-button";
 import { cn } from "@/lib/utils";
+
+// Los valores del schema son códigos estables; aquí solo se mapean a las claves
+// de traducción (el mapa de etiquetas del schema se mantiene intacto porque lo
+// usan los emails).
+const APPLICANT_TYPE_KEYS: Record<(typeof APPLICANT_TYPES)[number], string> = {
+  asociacion: "asociacion",
+  club: "club",
+  organizador: "organizador",
+  comunidad: "comunidad",
+  iniciativa: "iniciativa",
+};
+
+const SUPPORT_TYPE_KEYS: Record<(typeof SUPPORT_TYPES)[number], string> = {
+  "material-promocional": "materialPromocional",
+  premios: "premios",
+  escenografia: "escenografia",
+  "elementos-juego": "elementosJuego",
+  asesoramiento: "asesoramiento",
+  difusion: "difusion",
+};
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
@@ -48,6 +67,7 @@ function FormField({
 }
 
 export function CommunitySupportForm() {
+  const t = useTranslations("communitySupport");
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
@@ -90,11 +110,10 @@ export function CommunitySupportForm() {
           <Check className="size-6 text-warden-green" />
         </div>
         <h3 className="text-lg font-semibold text-foreground mb-2">
-          Solicitud enviada
+          {t("form.success.title")}
         </h3>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
-          Hemos recibido tu solicitud. Revisaremos la información y nos
-          pondremos en contacto contigo una vez evaluada.
+          {t("form.success.body")}
         </p>
       </div>
     );
@@ -104,7 +123,7 @@ export function CommunitySupportForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       {/* Honeypot anti-spam — hidden from humans, ignored by screen readers */}
       <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
-        <label htmlFor="website">No rellenes este campo</label>
+        <label htmlFor="website">{t("form.honeypot")}</label>
         <input
           id="website"
           name="website"
@@ -116,7 +135,7 @@ export function CommunitySupportForm() {
       {/* Entity type */}
       <FormField
         id="entityType"
-        label="Tipo de entidad"
+        label={t("form.entityType")}
         required
         error={errors.entityType?.message}
       >
@@ -131,11 +150,11 @@ export function CommunitySupportForm() {
           )}
         >
           <option value="" className="bg-warden-carbon">
-            Selecciona una opción
+            {t("form.entityTypePlaceholder")}
           </option>
-          {APPLICANT_TYPES.map((t) => (
-            <option key={t} value={t} className="bg-warden-carbon">
-              {applicantTypeLabels[t]}
+          {APPLICANT_TYPES.map((type) => (
+            <option key={type} value={type} className="bg-warden-carbon">
+              {t(`applicant.${APPLICANT_TYPE_KEYS[type]}`)}
             </option>
           ))}
         </select>
@@ -145,7 +164,7 @@ export function CommunitySupportForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <FormField
           id="entityName"
-          label="Nombre de la entidad"
+          label={t("form.entityName")}
           required
           error={errors.entityName?.message}
         >
@@ -158,12 +177,12 @@ export function CommunitySupportForm() {
                 ? "border-destructive focus-visible:border-destructive"
                 : "border-input"
             )}
-            placeholder="Nombre de la asociación, club, etc."
+            placeholder={t("form.entityNamePlaceholder")}
           />
         </FormField>
         <FormField
           id="contactName"
-          label="Persona de contacto"
+          label={t("form.contactName")}
           required
           error={errors.contactName?.message}
         >
@@ -176,7 +195,7 @@ export function CommunitySupportForm() {
                 ? "border-destructive focus-visible:border-destructive"
                 : "border-input"
             )}
-            placeholder="Nombre y apellidos"
+            placeholder={t("form.contactNamePlaceholder")}
           />
         </FormField>
       </div>
@@ -184,7 +203,7 @@ export function CommunitySupportForm() {
       {/* Email */}
       <FormField
         id="email"
-        label="Email de contacto"
+        label={t("form.email")}
         required
         error={errors.email?.message}
       >
@@ -198,14 +217,14 @@ export function CommunitySupportForm() {
               ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
-          placeholder="tucorreo@ejemplo.com"
+          placeholder={t("form.emailPlaceholder")}
         />
       </FormField>
 
       {/* Description */}
       <FormField
         id="description"
-        label="Describe tu entidad"
+        label={t("form.description")}
         required
         error={errors.description?.message}
       >
@@ -219,14 +238,14 @@ export function CommunitySupportForm() {
               ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
-          placeholder="Cuéntanos quiénes sois, qué hacéis y a qué comunidad pertenecéis..."
+          placeholder={t("form.descriptionPlaceholder")}
         />
       </FormField>
 
       {/* Support types */}
       <div className="space-y-2">
         <span className="text-spec-label text-muted-foreground block">
-          ¿Qué tipo de apoyo solicitas?
+          {t("form.supportTypes")}
         </span>
         <div className="grid gap-2 sm:grid-cols-2">
           {SUPPORT_TYPES.map((type) => (
@@ -241,7 +260,7 @@ export function CommunitySupportForm() {
                 className="mt-0.5 size-4 accent-warden-blue"
               />
               <span className="text-sm text-muted-foreground leading-snug">
-                {supportTypeLabels[type]}
+                {t(`support.${SUPPORT_TYPE_KEYS[type]}.title`)}
               </span>
             </label>
           ))}
@@ -252,7 +271,7 @@ export function CommunitySupportForm() {
       {/* Details */}
       <FormField
         id="details"
-        label="Detalles de la solicitud"
+        label={t("form.details")}
         required
         error={errors.details?.message}
       >
@@ -266,7 +285,7 @@ export function CommunitySupportForm() {
               ? "border-destructive focus-visible:border-destructive"
               : "border-input"
           )}
-          placeholder="Explica qué necesitas, para qué evento o actividad, y cómo el apoyo de WARDEN ayudaría..."
+          placeholder={t("form.detailsPlaceholder")}
         />
       </FormField>
 
@@ -279,10 +298,7 @@ export function CommunitySupportForm() {
             className="mt-0.5 size-4 accent-warden-blue"
           />
           <span className="text-xs text-muted-foreground leading-relaxed">
-            Confirmo que he leído y acepto las condiciones del programa
-            Community Support. Entiendo que la concesión de apoyo es
-            discrecional y depende de los recursos disponibles en cada
-            momento.
+            {t("form.acceptedTerms")}
           </span>
         </label>
         <FieldError message={errors.acceptedTerms?.message} />
@@ -290,7 +306,7 @@ export function CommunitySupportForm() {
 
       {status === "error" && (
         <p className="text-xs text-destructive">
-          No se pudo enviar la solicitud. Inténtalo de nuevo.
+          {t("form.error")}
         </p>
       )}
 
@@ -298,11 +314,11 @@ export function CommunitySupportForm() {
         {status === "submitting" ? (
           <>
             <Loader className="size-4 animate-spin" />
-            Enviando solicitud...
+            {t("form.submitting")}
           </>
         ) : (
           <>
-            Enviar solicitud
+            {t("form.submit")}
             <ChevronRight className="size-4" />
           </>
         )}

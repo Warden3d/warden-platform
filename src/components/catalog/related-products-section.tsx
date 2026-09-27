@@ -1,18 +1,20 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import type { Product, Bundle } from "@/types/warden";
 import { CompatibilityBadge } from "@/components/catalog/technical-badge";
 import { ScrollableRow } from "@/components/catalog/scrollable-row";
 import { formatPriceEUR } from "@/lib/utils";
 import { ChevronRight, Package } from "lucide-react";
 
-function RelatedProductCard({ product }: { product: Product }) {
+async function RelatedProductCard({ product }: { product: Product }) {
+  const t = await getTranslations("common");
   return (
     <Link
       href={`/products/${product.slug}`}
       className="group border border-border bg-warden-surface p-4 flex flex-col hover:border-warden-blue/20 transition-colors w-[260px] snap-start shrink-0"
     >
       <div className="flex items-center gap-2 mb-2">
-        <span className="text-eyebrow text-muted-foreground">Producto</span>
+        <span className="text-eyebrow text-muted-foreground">{t("product")}</span>
       </div>
       <div className="mb-2">
         <CompatibilityBadge
@@ -36,14 +38,15 @@ function RelatedProductCard({ product }: { product: Product }) {
           {formatPriceEUR(product.price)}
         </span>
         <span className="text-xs text-warden-blue inline-flex items-center gap-0.5">
-          Ver <ChevronRight className="size-3" />
+          {t("view")} <ChevronRight className="size-3" />
         </span>
       </div>
     </Link>
   );
 }
 
-function RelatedBundleCard({ bundle }: { bundle: Bundle }) {
+async function RelatedBundleCard({ bundle }: { bundle: Bundle }) {
+  const t = await getTranslations("common");
   return (
     <Link
       href={`/bundles/${bundle.slug}`}
@@ -66,25 +69,26 @@ function RelatedBundleCard({ bundle }: { bundle: Bundle }) {
           </span>
           {bundle.discountLabel && (
             <span className="ml-2 text-[10px] text-warden-green uppercase tracking-wider">
-              Ahorro
+              {t("saving")}
             </span>
           )}
         </div>
         <span className="text-xs text-warden-blue inline-flex items-center gap-0.5">
-          Ver bundle <ChevronRight className="size-3" />
+          {t("viewBundle")} <ChevronRight className="size-3" />
         </span>
       </div>
     </Link>
   );
 }
 
-export function RelatedProductsSection({
+export async function RelatedProductsSection({
   products,
   bundles,
 }: {
   products: Product[];
   bundles: Bundle[];
 }) {
+  const t = await getTranslations("product");
   const hasProducts = products.length > 0;
   const hasBundles = bundles.length > 0;
 
@@ -93,7 +97,7 @@ export function RelatedProductsSection({
   return (
     <div className="space-y-4">
       <h3 className="text-spec-label text-muted-foreground mb-3 uppercase tracking-wider text-xs">
-        También puede interesarte
+        {t("relatedTitle")}
       </h3>
       <ScrollableRow>
         {products.map((p) => (

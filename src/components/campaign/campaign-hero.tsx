@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { ChevronRight } from "lucide-react";
 import { WardenButton } from "@/components/ui/warden-button";
 import { cn } from "@/lib/utils";
@@ -43,14 +44,18 @@ export function CampaignHero({
   subtitle,
   imageUrl,
   videoUrl,
-  ctaLabel = "Explore the Drop",
+  ctaLabel,
   ctaHref,
-  trailerLabel = "▶ Trailer",
+  trailerLabel,
   onTrailerClick,
   trailerClicked,
   theme,
   className,
 }: CampaignHeroProps) {
+  const t = useTranslations("drops");
+  const resolvedCtaLabel = ctaLabel ?? t("explore");
+  const resolvedTrailerLabel = trailerLabel ?? t("hero.trailer");
+
   return (
     <section
       className={cn(
@@ -106,7 +111,7 @@ export function CampaignHero({
         {ctaHref && (
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <WardenButton href={ctaHref} size="lg">
-              {ctaLabel}
+              {resolvedCtaLabel}
               <ChevronRight className="size-4" />
             </WardenButton>
             {onTrailerClick && (
@@ -121,7 +126,7 @@ export function CampaignHero({
                   trailerClicked && "scale-[0.97]"
                 )}
               >
-                {trailerLabel}
+                {resolvedTrailerLabel}
               </WardenButton>
             )}
           </div>

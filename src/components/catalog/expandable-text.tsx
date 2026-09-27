@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +19,7 @@ export function ExpandableText({
   expandable = true,
 }: ExpandableTextProps) {
   const [expanded, setExpanded] = useState(false);
+  const t = useTranslations("common");
 
   return (
     <div className={className}>
@@ -35,7 +37,7 @@ export function ExpandableText({
           onClick={() => setExpanded((prev) => !prev)}
           className="mt-2 inline-flex items-center gap-1 text-xs text-warden-blue hover:text-warden-blue/80 transition-colors uppercase tracking-wider font-medium"
         >
-          {expanded ? "Mostrar menos" : "Leer más"}
+          {expanded ? t("readLess") : t("readMore")}
           <ChevronDown
             className={cn(
               "size-3 transition-transform duration-200",

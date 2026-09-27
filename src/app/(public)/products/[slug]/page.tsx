@@ -23,6 +23,7 @@ import { WardenButton } from "@/components/ui/warden-button";
 import { ProductConfigProvider } from "@/contexts/product-config";
 import { DynamicPrice } from "@/components/product/dynamic-price";
 import { GalleryWithVariant } from "@/components/product/gallery-with-variant";
+import { getTranslations } from "next-intl/server";
 import { ChevronRight, FileText, Info, Package as PackageIcon, Layers } from "lucide-react";
 
 const systemMap: Record<string, "battletech-classic" | "alpha-strike" | "aerotech"> = {
@@ -56,6 +57,8 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const t = await getTranslations("product");
+  const tCommon = await getTranslations("common");
 
   const [
     product,
@@ -97,9 +100,9 @@ export default async function ProductPage({
     <Section className="pt-12 md:pt-16">
       <Container>
         {/* ── Breadcrumb ── */}
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6" aria-label="Breadcrumb">
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6" aria-label={tCommon("breadcrumb")}>
           <Link href="/catalog" className="hover:text-foreground transition-colors">
-            Catálogo
+            {tCommon("catalogBreadcrumb")}
           </Link>
           {collection && (
             <>
@@ -133,7 +136,7 @@ export default async function ProductPage({
             {/* 5.1 — Procedencia */}
             {license && !product.designerName ? (
               <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70">
-                Licensed by {license.name}
+                {t("licensedBy", { name: license.name })}
               </p>
             ) : (
               collection && (
@@ -169,7 +172,7 @@ export default async function ProductPage({
             {/* Autoría: diseñador (si no hay licencia) */}
             {!license && product.designerName && (
               <p className="text-xs text-muted-foreground/60">
-                Designed by {product.designerName}
+                {t("designedBy", { name: product.designerName })}
               </p>
             )}
 
@@ -199,7 +202,7 @@ export default async function ProductPage({
                     size="lg"
                     className="h-9 w-full"
                   >
-                    Volver al catálogo
+                    {tCommon("backToCatalog")}
                   </WardenButton>
                 </div>
               </div>
@@ -211,7 +214,7 @@ export default async function ProductPage({
         {/* ════ BLOQUES INFORMATIVOS (ancho completo) ════ */}
         <div className="space-y-6 mb-12">
           {/* 1. Información del producto */}
-          <CollapsiblePanel title="Información del producto" defaultOpen={false} icon={<Info className="size-3.5 shrink-0" />}>
+          <CollapsiblePanel title={t("panelInfo")} defaultOpen={false} icon={<Info className="size-3.5 shrink-0" />}>
             <ProductSpecsPanel
               specs={product.specs}
               categoryName={productCategory?.name}
@@ -220,13 +223,13 @@ export default async function ProductPage({
           </CollapsiblePanel>
 
           {/* 2. Información adicional */}
-          <CollapsiblePanel title="Información adicional" defaultOpen={false} icon={<FileText className="size-3.5 shrink-0" />}>
+          <CollapsiblePanel title={t("panelAdditional")} defaultOpen={false} icon={<FileText className="size-3.5 shrink-0" />}>
             <ExpandableText text={product.description} maxLines={6} expandable={false} />
           </CollapsiblePanel>
 
           {/* 3. Contenido del producto */}
           {product.specs.filter((s) => s.visibility.includes("contents")).length > 0 && (
-          <CollapsiblePanel title="Contenido del producto" defaultOpen={false} icon={<PackageIcon className="size-3.5 shrink-0" />}>
+          <CollapsiblePanel title={t("panelContents")} defaultOpen={false} icon={<PackageIcon className="size-3.5 shrink-0" />}>
             <div className="divide-y divide-border">
               {product.specs
                 .filter((s) => s.visibility.includes("contents"))
@@ -243,7 +246,7 @@ export default async function ProductPage({
 
           {/* Colección (pertenencia real del producto — no compatibilidad) */}
           {collection && (
-          <CollapsiblePanel title="Colección" defaultOpen={false} icon={<Layers className="size-3.5 shrink-0" />}>
+          <CollapsiblePanel title={t("panelCollection")} defaultOpen={false} icon={<Layers className="size-3.5 shrink-0" />}>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               <Link
                 href={collection.slug === "warden-core"

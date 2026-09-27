@@ -1,20 +1,24 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Search, X } from "lucide-react";
 
 export function SearchBar({
   value,
   onChange,
-  placeholder = "Buscar productos...",
+  placeholder,
 }: {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
 }) {
+  const t = useTranslations("catalog");
+  const resolvedPlaceholder = placeholder ?? t("searchPlaceholder");
+
   return (
     <div className="relative">
       <label htmlFor="catalog-search" className="sr-only">
-        Buscar productos
+        {t("searchLabel")}
       </label>
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" aria-hidden="true" />
       <input
@@ -22,14 +26,14 @@ export function SearchBar({
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
+        placeholder={resolvedPlaceholder}
         className="w-full h-9 bg-warden-surface border border-border rounded-sm pl-9 pr-8 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-warden-blue/50 focus:ring-1 focus:ring-warden-blue/20 transition-colors"
       />
       {value && (
         <button
           type="button"
           onClick={() => onChange("")}
-          aria-label="Limpiar búsqueda"
+          aria-label={t("clearSearch")}
           className="absolute right-2 top-1/2 -translate-y-1/2 size-5 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
         >
           <X className="size-3.5" />

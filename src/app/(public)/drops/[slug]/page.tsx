@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getTranslations, getLocale } from "next-intl/server";
 
 import { Container, Section } from "@/components/shared/container";
 import {
@@ -21,8 +22,8 @@ import {
 import { resolveDropStatus } from "@/lib/drop-status";
 import { formatPriceEUR } from "@/lib/utils";
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("es-ES", {
+function formatDate(iso: string, locale: string) {
+  return new Date(iso).toLocaleDateString(locale, {
     weekday: "long",
     month: "long",
     day: "numeric",
@@ -33,8 +34,8 @@ function formatDate(iso: string) {
   });
 }
 
-function formatShortDate(iso: string) {
-  return new Date(iso).toLocaleDateString("es-ES", {
+function formatShortDate(iso: string, locale: string) {
+  return new Date(iso).toLocaleDateString(locale, {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -73,6 +74,9 @@ export default async function DropDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const t = await getTranslations("drops");
+  const tCommon = await getTranslations("common");
+  const locale = await getLocale();
 
   const [drop, compatibilitySystems, allProducts] = await Promise.all([
     getDropBySlug(slug),
@@ -105,7 +109,7 @@ export default async function DropDetailPage({
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ArrowLeft className="size-4" />
-          Todos los drops
+          {t("allDrops")}
         </Link>
 
         {/* Hero */}
@@ -147,14 +151,14 @@ export default async function DropDetailPage({
               {isLive && (
                 <TechnicalBadge variant="blue">
                   <span className="size-1.5 rounded-full bg-warden-blue animate-pulse mr-1.5" />
-                  Activo
+                  {t("status.live")}
                 </TechnicalBadge>
               )}
               {isUpcoming && (
-                <TechnicalBadge variant="neutral">Próximo</TechnicalBadge>
+                <TechnicalBadge variant="neutral">{t("status.upcoming")}</TechnicalBadge>
               )}
               {isEnded && (
-                <TechnicalBadge variant="neutral">Finalizado</TechnicalBadge>
+                <TechnicalBadge variant="neutral">{t("status.ended")}</TechnicalBadge>
               )}
               {drop.theme && (
                 <TechnicalBadge variant="neutral">{drop.theme}</TechnicalBadge>
@@ -185,10 +189,10 @@ export default async function DropDetailPage({
                 <CalendarDays className="size-4 text-muted-foreground mt-0.5 shrink-0" />
                 <div>
                   <p className="text-spec-label text-muted-foreground">
-                    Inicio
+                    {t("dateStart")}
                   </p>
                   <p className="text-data text-foreground/90">
-                    {formatDate(drop.startsAt)}
+                    {formatDate(drop.startsAt, locale)}
                   </p>
                 </div>
               </div>
@@ -197,10 +201,10 @@ export default async function DropDetailPage({
                   <CalendarDays className="size-4 text-muted-foreground mt-0.5 shrink-0" />
                   <div>
                     <p className="text-spec-label text-muted-foreground">
-                      Fin
+                      {t("dateEnd")}
                     </p>
                     <p className="text-data text-foreground/90">
-                      {formatDate(drop.endsAt)}
+                      {formatDate(drop.endsAt, locale)}
                     </p>
                   </div>
                 </div>
@@ -209,16 +213,14 @@ export default async function DropDetailPage({
 
             {/* Product count */}
             <div className="mt-4 text-spec-label text-muted-foreground">
-              {dropProducts.length} producto
-              {dropProducts.length !== 1 ? "s" : ""} incluido
-              {dropProducts.length !== 1 ? "s" : ""}
+              {t("productsIncluded", { count: dropProducts.length })}
             </div>
 
             {/* Precio real del Drop (solo cuando existe y es efectivamente activo) */}
             {isLive && drop.price != null && (
               <div className="mt-4 flex items-baseline gap-2">
                 <span className="text-spec-label text-muted-foreground">
-                  Precio
+                  {t("field.price")}
                 </span>
                 <span className="text-2xl font-semibold text-foreground tracking-tight">
                   {formatPriceEUR(drop.price)}
@@ -246,30 +248,27 @@ export default async function DropDetailPage({
               <div>
                 {isLive && (
                   <p className="text-xs text-muted-foreground/60 leading-relaxed">
-                    Este drop estará disponible hasta el{" "}
+                    {t("notice.livePrefix")}
                     <span className="text-foreground/70">
-                      {drop.endsAt ? formatShortDate(drop.endsAt) : "su finalización"}
+                      {drop.endsAt
+                        ? formatShortDate(drop.endsAt, locale)
+                        : t("notice.untilEnd")}
                     </span>
-                    . Los productos incluidos pueden adquirirse individualmente
-                    durante este período. Pasada la fecha, el drop se cerrará y
-                    los productos volverán al catálogo general si están
-                    disponibles.
+                    {t("notice.liveSuffix")}
                   </p>
                 )}
                 {isUpcoming && (
                   <p className="text-xs text-muted-foreground/60 leading-relaxed">
-                    Este drop se abrirá el{" "}
+                    {t("notice.upcomingPrefix")}
                     <span className="text-foreground/70">
-                      {formatShortDate(drop.startsAt)}
+                      {formatShortDate(drop.startsAt, locale)}
                     </span>
-                    . Los productos se podrán adquirir individualmente durante
-                    la ventana de disponibilidad.
+                    {t("notice.upcomingSuffix")}
                   </p>
                 )}
                 {isEnded && (
                   <p className="text-xs text-muted-foreground/40 leading-relaxed">
-                    Este drop ha finalizado. Los productos pueden estar
-                    disponibles en el catálogo general si el stock lo permite.
+                    {t("notice.ended")}
                   </p>
                 )}
               </div>
@@ -279,7 +278,7 @@ export default async function DropDetailPage({
             {compatSystems.length > 0 && (
               <div className="mt-6 pt-4 border-t border-border space-y-2">
                 <p className="text-spec-label text-muted-foreground">
-                  Sistemas compatibles
+                  {t("compatibleSystems")}
                 </p>
                 <div className="flex flex-wrap items-center gap-2">
                   {compatSystems.map(
@@ -305,12 +304,13 @@ export default async function DropDetailPage({
         {/* Included Products */}
         <div className="mb-12">
           <h2 className="text-xl font-semibold tracking-tight text-foreground mb-2">
-            Productos incluidos
+            {t("products.title")}
           </h2>
           <p className="text-sm text-muted-foreground mb-8">
-            {dropProducts.length} producto
-            {dropProducts.length !== 1 ? "s" : ""} en este drop
-            {isLive ? " — disponibles ahora." : isUpcoming ? " — disponibles al inicio del drop." : "."}
+            {t("products.count", {
+              count: dropProducts.length,
+              status: isLive ? "live" : isUpcoming ? "upcoming" : "ended",
+            })}
           </p>
 
           {dropProducts.length > 0 ? (
@@ -375,7 +375,7 @@ export default async function DropDetailPage({
                         size="sm"
                         href={`/products/${product.slug}`}
                       >
-                        Ver producto
+                        {tCommon("viewProduct")}
                         <ArrowUpRight className="size-3" />
                       </WardenButton>
                     </div>
@@ -386,7 +386,7 @@ export default async function DropDetailPage({
           ) : (
             <div className="text-center py-12 border border-border bg-warden-surface">
               <p className="text-sm text-muted-foreground">
-                Este drop no tiene productos asignados.
+                {t("products.empty")}
               </p>
             </div>
           )}
@@ -396,7 +396,7 @@ export default async function DropDetailPage({
         <div className="border-t border-border pt-8 flex flex-wrap gap-3">
           <WardenButton href="/drops" variant="ghost">
             <ArrowLeft className="size-4" />
-            Ver todos los Drops
+            {t("viewAll")}
           </WardenButton>
         </div>
       </Container>

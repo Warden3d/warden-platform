@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Package } from "lucide-react";
 import type { Product } from "@/types/warden";
-import { cn } from "@/lib/utils";
+import { cn, formatPriceEUR } from "@/lib/utils";
 import { WardenButton } from "@/components/ui/warden-button";
 
 // ─── Props ─────────────────────────────────────
@@ -45,7 +46,8 @@ const objectPositions: Record<string, string> = {};
 
 // ─── Card component ────────────────────────────
 
-export function WardenCard({ product, className, windowImage }: WardenCardProps) {
+export async function WardenCard({ product, className, windowImage }: WardenCardProps) {
+  const t = await getTranslations("common");
   const primaryImage = product.images.find((img) => img.isPrimary);
   const isSupabaseUrl =
     primaryImage?.url &&
@@ -108,7 +110,7 @@ export function WardenCard({ product, className, windowImage }: WardenCardProps)
               <div className="flex h-full w-full flex-col items-center justify-center bg-[hsl(220_10%_6%)] text-muted-foreground/20">
                 <Package className="size-10" strokeWidth={1} />
                 <span className="mt-1 text-[10px] uppercase tracking-widest">
-                  Sin imagen
+                  {t("noImage")}
                 </span>
               </div>
             )}
@@ -147,7 +149,7 @@ export function WardenCard({ product, className, windowImage }: WardenCardProps)
             {/* Price + CTA — pushed to bottom by mt-auto */}
             <div className="mt-auto flex items-center justify-between gap-2 border-t border-[hsl(215_10%_17%)] pt-3">
               <span className="shrink-0 pl-4 text-base font-semibold text-[hsl(35_55%_62%)]">
-                {product.price.toFixed(2)} €
+                {formatPriceEUR(product.price)}
               </span>
               <WardenButton
                 href={`/products/${product.slug}`}
@@ -155,7 +157,7 @@ export function WardenCard({ product, className, windowImage }: WardenCardProps)
                 size="sm"
                 className="border-[hsl(210_45%_60%)] text-[hsl(210_55%_70%)] hover:border-[hsl(210_55%_70%)] hover:text-[hsl(210_60%_80%)] hover:shadow-[0_0_10px_hsl(210_70%_60%_/_0.25)]"
               >
-                View product
+                {t("viewProduct")}
               </WardenButton>
             </div>
           </div>

@@ -20,7 +20,8 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { useSelection } from "@/hooks/use-selection";
-import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+import { cn, formatPriceEUR } from "@/lib/utils";
 import { submitSelection } from "@/lib/actions/submit-selection";
 
 function ItemThumbnail({ item }: { item: SelectionItem }) {
@@ -54,6 +55,8 @@ function ItemThumbnail({ item }: { item: SelectionItem }) {
 
 export function SelectionView() {
   const { items, updateQuantity, removeItem, clearAll } = useSelection();
+  const t = useTranslations("selection");
+  const tCommon = useTranslations("common");
 
   const [submitted, setSubmitted] = useState(false);
   const [submittedReference, setSubmittedReference] = useState<string | undefined>();
@@ -91,15 +94,15 @@ export function SelectionView() {
     const region = (data.get("region") as string)?.trim();
     const notes = (data.get("notes") as string)?.trim();
 
-    if (!firstName || firstName.length < 2) errors.firstName = "El nombre debe tener al menos 2 caracteres";
-    if (!lastName || lastName.length < 2) errors.lastName = "Los apellidos deben tener al menos 2 caracteres";
-    if (!email) errors.email = "El email es obligatorio";
+    if (!firstName || firstName.length < 2) errors.firstName = t("errFirstName");
+    if (!lastName || lastName.length < 2) errors.lastName = t("errLastName");
+    if (!email) errors.email = t("errEmailRequired");
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      errors.email = "Introduce un email válido";
-    if (!country) errors.country = "El país es obligatorio";
-    if (!postalCode) errors.postalCode = "El código postal es obligatorio";
-    if (!city) errors.city = "La localidad es obligatoria";
-    if (!accepted) errors.accepted = "Debes aceptar el aviso";
+      errors.email = t("errEmailInvalid");
+    if (!country) errors.country = t("errCountry");
+    if (!postalCode) errors.postalCode = t("errPostalCode");
+    if (!city) errors.city = t("errCity");
+    if (!accepted) errors.accepted = t("errAccept");
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -145,7 +148,7 @@ export function SelectionView() {
         setFormErrors(mapped);
       }
       // Set submit error message from result
-      setSubmitError(result.message ?? "Error al enviar la solicitud. Inténtalo de nuevo.");
+      setSubmitError(result.message ?? t("errSubmit"));
     }
   }
 
@@ -156,41 +159,41 @@ export function SelectionView() {
           <div className="max-w-lg mx-auto text-center py-16">
             <CheckCircle className="size-12 text-warden-green mx-auto mb-4" />
             <h1 className="text-2xl font-semibold text-foreground sm:text-3xl">
-              Solicitud recibida
+              {t("confirmationTitle")}
             </h1>
             {submittedReference && (
               <p className="mt-4 text-sm font-mono tracking-wider text-warden-blue">
-                Referencia: {submittedReference}
+                {t("confirmationReference", { reference: submittedReference })}
               </p>
             )}
             <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-              Hemos recibido correctamente tu solicitud. La revisaremos y nos pondremos en contacto contigo para confirmar disponibilidad, gastos de envío y presupuesto definitivo.
+              {t("confirmationBody")}
             </p>
             {submittedEmailStatus === "sent" && (
               <p className="mt-2 text-sm text-muted-foreground">
-                Hemos enviado una copia de la solicitud a tu correo electrónico.
+                {t("confirmationEmailSent")}
               </p>
             )}
             {submittedEmailStatus === "failed" && (
               <>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Tu solicitud ha quedado registrada correctamente, pero no hemos podido enviar el correo de confirmación. Guarda esta referencia.
+                  {t("confirmationEmailFailed")}
                 </p>
                 <p className="mt-2 text-sm font-mono tracking-wider text-warden-blue">
-                  Referencia: {submittedReference}
+                  {t("confirmationReference", { reference: submittedReference ?? "" })}
                 </p>
               </>
             )}
             <p className="mt-2 text-sm text-muted-foreground/60">
-              Los gastos de envío están pendientes de calcular.
+              {t("confirmationShippingNote")}
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
               <WardenButton href="/catalog">
-                Explorar catálogo
+                {t("browseCatalog")}
                 <ChevronRight className="size-4" />
               </WardenButton>
               <WardenButton variant="outline" href="/">
-                Volver al inicio
+                {tCommon("backToHome")}
               </WardenButton>
             </div>
           </div>
@@ -206,15 +209,14 @@ export function SelectionView() {
           <div className="max-w-lg mx-auto text-center py-16">
             <Package className="size-12 text-muted-foreground mx-auto mb-4" />
             <h1 className="text-xl font-semibold text-foreground">
-              Tu Selección está vacía
+              {t("empty")}
             </h1>
             <p className="mt-2 text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
-              Explora el catálogo y añade productos a tu selección. Vuelve aquí
-              para enviar una solicitud de presupuesto cuando estés listo.
+              {t("emptyDesc")}
             </p>
             <div className="mt-6 inline-block">
               <WardenButton href="/catalog">
-                Explorar catálogo
+                {t("browseCatalog")}
                 <ChevronRight className="size-4" />
               </WardenButton>
             </div>
@@ -230,15 +232,13 @@ export function SelectionView() {
         <div className="max-w-3xl mb-4">
           <div className="flex items-center gap-3 mb-3">
             <Package className="size-5 text-warden-blue" />
-            <Eyebrow>Solicitud de presupuesto</Eyebrow>
+            <Eyebrow>{t("eyebrow")}</Eyebrow>
           </div>
           <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Mi Selección
+            {t("title")}
           </h1>
           <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-            Revisa tus productos seleccionados a continuación y envía una
-            solicitud de presupuesto. Responderemos con disponibilidad, precio
-            y plazos de entrega en un plazo de 2 días hábiles.
+            {t("intro")}
           </p>
         </div>
       </Container>
@@ -247,19 +247,19 @@ export function SelectionView() {
         <div className="grid gap-12 lg:grid-cols-3">
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center justify-between">
-              <Eyebrow>Productos seleccionados</Eyebrow>
+              <Eyebrow>{t("selectedProducts")}</Eyebrow>
               <button
                 type="button"
                 onClick={clearAll}
                 className="text-xs text-muted-foreground hover:text-destructive transition-colors tracking-wider uppercase"
               >
-                Vaciar selección
+                {t("clearSelection")}
               </button>
             </div>
 
             {items.map((item) => {
               const configLabel = item.configuration
-                ?.map((c) => `${c.capabilityId === "finish" ? "Acabado" : c.capabilityId}: ${c.label}`)
+                ?.map((c) => `${c.capabilityId === "finish" ? tCommon("finish") : c.capabilityId}: ${c.label}`)
                 .join(" · ");
 
               return (
@@ -290,7 +290,7 @@ export function SelectionView() {
                   </h3>
                   {item.entityType !== "product" && (
                     <p className="text-xs text-warden-ochre/70 mt-0.5 font-medium uppercase tracking-wider">
-                      {item.entityType === "bundle" ? "Bundle" : "Drop"}
+                      {item.entityType === "bundle" ? t("entityBundle") : t("entityDrop")}
                     </p>
                   )}
                   {configLabel && (
@@ -299,9 +299,9 @@ export function SelectionView() {
                     </p>
                   )}
                   <p className="text-data text-foreground/80 mt-1">
-                    {item.unitPrice.toFixed(2).replace('.', ',')} €{" "}
+                    {formatPriceEUR(item.unitPrice)}{" "}
                     <span className="text-spec-label text-muted-foreground">
-                      / unidad
+                      {t("perUnit")}
                     </span>
                   </p>
                 </div>
@@ -314,7 +314,7 @@ export function SelectionView() {
                         updateQuantity(item.entityId, item.entityType, item.quantity - 1, item.configuration)
                       }
                       className="size-7 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors"
-                      aria-label="Reducir cantidad"
+                      aria-label={tCommon("decreaseQuantity")}
                     >
                       <Minus className="size-3" />
                     </button>
@@ -327,21 +327,21 @@ export function SelectionView() {
                         updateQuantity(item.entityId, item.entityType, item.quantity + 1, item.configuration)
                       }
                       className="size-7 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-warden-elevated transition-colors"
-                      aria-label="Aumentar cantidad"
+                      aria-label={tCommon("increaseQuantity")}
                     >
                       <Plus className="size-3" />
                     </button>
                   </div>
 
                   <span className="text-data text-muted-foreground w-16 text-right tabular-nums">
-                    {(item.unitPrice * item.quantity).toFixed(2).replace('.', ',')} €
+                    {formatPriceEUR(item.unitPrice * item.quantity)}
                   </span>
 
                   <button
                     type="button"
                     onClick={() => removeItem(item.entityId, item.entityType, item.configuration)}
                     className="size-8 flex items-center justify-center text-muted-foreground hover:text-destructive transition-colors"
-                    aria-label={`Eliminar ${item.name}`}
+                    aria-label={tCommon("removeItemAria", { name: item.name })}
                   >
                     <Trash2 className="size-4" />
                   </button>
@@ -353,26 +353,22 @@ export function SelectionView() {
 
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">
-                {items.reduce((s, i) => s + i.quantity, 0)} productos
-                seleccionados
+                {t("productsSelected", { count: items.reduce((s, i) => s + i.quantity, 0) })}
               </p>
               <p className="text-sm">
                 <span className="text-muted-foreground">
-                  Subtotal orientativo:{" "}
+                  {t("subtotalEstimate")}:{" "}
                 </span>
                 <span className="text-data text-foreground tabular-nums">
-                  ${subtotal.toFixed(2)}
+                  {formatPriceEUR(subtotal)}
                 </span>
               </p>
             </div>
 
             <div className="bg-warden-blue/5 border border-warden-blue/20 p-4">
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <strong className="text-foreground">Importante:</strong> Los
-                precios mostrados son orientativos y no constituyen una oferta
-                final. El precio definitivo, disponibilidad y plazos de entrega
-                se confirmarán en nuestra respuesta. Enviar esta solicitud no
-                implica ningún compromiso de compra.
+                <strong className="text-foreground">{t("noticeImportant")}</strong>{" "}
+                {t("noticeBody")}
               </p>
             </div>
           </div>
@@ -382,10 +378,10 @@ export function SelectionView() {
 
             <div className="border border-border bg-warden-surface p-6">
               <h2 className="text-base font-semibold text-foreground mb-1">
-                Solicitar presupuesto
+                {t("formTitle")}
               </h2>
               <p className="text-xs text-muted-foreground mb-5">
-                Respondemos en un plazo máximo de 2 días hábiles.
+                {t("formResponseTime")}
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
@@ -393,12 +389,12 @@ export function SelectionView() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1.5">
                     <label htmlFor="sel-firstName" className="text-spec-label text-muted-foreground">
-                      Nombre <span className="text-destructive">*</span>
+                      {t("fieldFirstName")} <span className="text-destructive">*</span>
                     </label>
                     <Input
                       id="sel-firstName"
                       name="firstName"
-                      placeholder="Tu nombre"
+                      placeholder={t("phFirstName")}
                       className={cn(formErrors.firstName && "border-destructive")}
                     />
                     {formErrors.firstName && (
@@ -407,12 +403,12 @@ export function SelectionView() {
                   </div>
                   <div className="space-y-1.5">
                     <label htmlFor="sel-lastName" className="text-spec-label text-muted-foreground">
-                      Apellidos <span className="text-destructive">*</span>
+                      {t("fieldLastName")} <span className="text-destructive">*</span>
                     </label>
                     <Input
                       id="sel-lastName"
                       name="lastName"
-                      placeholder="Tus apellidos"
+                      placeholder={t("phLastName")}
                       className={cn(formErrors.lastName && "border-destructive")}
                     />
                     {formErrors.lastName && (
@@ -424,13 +420,13 @@ export function SelectionView() {
                 {/* Email */}
                 <div className="space-y-1.5">
                   <label htmlFor="sel-email" className="text-spec-label text-muted-foreground">
-                    Email <span className="text-destructive">*</span>
+                    {t("fieldEmail")} <span className="text-destructive">*</span>
                   </label>
                   <Input
                     id="sel-email"
                     name="email"
                     type="email"
-                    placeholder="tucorreo@ejemplo.com"
+                    placeholder={t("phEmail")}
                     className={cn(formErrors.email && "border-destructive")}
                   />
                   {formErrors.email && (
@@ -441,12 +437,12 @@ export function SelectionView() {
                 {/* País */}
                 <div className="space-y-1.5">
                   <label htmlFor="sel-country" className="text-spec-label text-muted-foreground">
-                    País <span className="text-destructive">*</span>
+                    {t("fieldCountry")} <span className="text-destructive">*</span>
                   </label>
                   <Input
                     id="sel-country"
                     name="country"
-                    placeholder="Ej. España"
+                    placeholder={t("phCountry")}
                     className={cn(formErrors.country && "border-destructive")}
                   />
                   {formErrors.country && (
@@ -458,12 +454,12 @@ export function SelectionView() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1.5">
                     <label htmlFor="sel-postalCode" className="text-spec-label text-muted-foreground">
-                      Código postal <span className="text-destructive">*</span>
+                      {t("fieldPostalCode")} <span className="text-destructive">*</span>
                     </label>
                     <Input
                       id="sel-postalCode"
                       name="postalCode"
-                      placeholder="Ej. 28001"
+                      placeholder={t("phPostalCode")}
                       className={cn(formErrors.postalCode && "border-destructive")}
                     />
                     {formErrors.postalCode && (
@@ -472,12 +468,12 @@ export function SelectionView() {
                   </div>
                   <div className="space-y-1.5">
                     <label htmlFor="sel-city" className="text-spec-label text-muted-foreground">
-                      Localidad <span className="text-destructive">*</span>
+                      {t("fieldCity")} <span className="text-destructive">*</span>
                     </label>
                     <Input
                       id="sel-city"
                       name="city"
-                      placeholder="Ej. Madrid"
+                      placeholder={t("phCity")}
                       className={cn(formErrors.city && "border-destructive")}
                     />
                     {formErrors.city && (
@@ -490,33 +486,33 @@ export function SelectionView() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="space-y-1.5">
                     <label htmlFor="sel-phone" className="text-spec-label text-muted-foreground">
-                      Teléfono
+                      {t("fieldPhone")}
                     </label>
-                    <Input id="sel-phone" name="phone" placeholder="Opcional" />
+                    <Input id="sel-phone" name="phone" placeholder={t("phOptional")} />
                   </div>
                   <div className="space-y-1.5">
                     <label htmlFor="sel-company" className="text-spec-label text-muted-foreground">
-                      Empresa / Entidad
+                      {t("fieldCompany")}
                     </label>
-                    <Input id="sel-company" name="company" placeholder="Opcional" />
+                    <Input id="sel-company" name="company" placeholder={t("phOptional")} />
                   </div>
                   <div className="space-y-1.5">
                     <label htmlFor="sel-region" className="text-spec-label text-muted-foreground">
-                      Provincia / Región
+                      {t("fieldRegion")}
                     </label>
-                    <Input id="sel-region" name="region" placeholder="Opcional" />
+                    <Input id="sel-region" name="region" placeholder={t("phOptional")} />
                   </div>
                 </div>
 
                 {/* Observaciones */}
                 <div className="space-y-1.5">
                   <label htmlFor="sel-notes" className="text-spec-label text-muted-foreground">
-                    Observaciones
+                    {t("fieldNotes")}
                   </label>
                   <Textarea
                     id="sel-notes"
                     name="notes"
-                    placeholder="Cuéntanos sobre tu proyecto, método de envío preferido o cualquier requisito especial..."
+                    placeholder={t("phNotes")}
                     rows={4}
                   />
                 </div>
@@ -538,9 +534,7 @@ export function SelectionView() {
                     className="warden-check mt-0.5 shrink-0"
                   />
                   <span className="text-xs text-muted-foreground leading-relaxed">
-                    Entiendo que esta solicitud no implica ningún compromiso de
-                    compra y que el presupuesto final será facilitado por el
-                    equipo de WARDEN.
+                    {t("acceptLabel")}
                   </span>
                 </label>
                 {formErrors.accepted && (
@@ -560,10 +554,10 @@ export function SelectionView() {
                   disabled={submitting}
                 >
                   {submitting ? (
-                    "Enviando solicitud..."
+                    t("submitting")
                   ) : (
                     <>
-                      Enviar solicitud
+                      {t("submitButton")}
                       <ChevronRight className="size-4" />
                     </>
                   )}

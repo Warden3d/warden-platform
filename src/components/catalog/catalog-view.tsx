@@ -9,6 +9,7 @@ import { CatalogFilters as FilterPanel } from "@/components/catalog/catalog-filt
 import { CatalogProductCard } from "@/components/catalog/catalog-product-card";
 import { ProductGrid } from "@/components/catalog/product-grid";
 import { useMemo, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
 
 interface CatalogViewProps {
@@ -23,12 +24,12 @@ interface CatalogViewProps {
   description?: string;
 }
 
-const SORT_OPTIONS: { value: CatalogSort; label: string }[] = [
-  { value: "default", label: "Orden por defecto" },
-  { value: "name-asc", label: "Nombre A-Z" },
-  { value: "name-desc", label: "Nombre Z-A" },
-  { value: "price-asc", label: "Precio: menor a mayor" },
-  { value: "price-desc", label: "Precio: mayor a menor" },
+const SORT_OPTIONS: { value: CatalogSort; labelKey: string }[] = [
+  { value: "default", labelKey: "sortDefault" },
+  { value: "name-asc", labelKey: "sortNameAsc" },
+  { value: "name-desc", labelKey: "sortNameDesc" },
+  { value: "price-asc", labelKey: "sortPriceAsc" },
+  { value: "price-desc", labelKey: "sortPriceDesc" },
 ];
 
 export function CatalogView({
@@ -42,6 +43,7 @@ export function CatalogView({
   title,
   description,
 }: CatalogViewProps) {
+  const t = useTranslations("catalog");
   const {
     filters,
     sort,
@@ -124,7 +126,7 @@ export function CatalogView({
           <div className="flex items-center gap-1.5">
             <ArrowUpDown className="size-3.5 text-muted-foreground shrink-0" aria-hidden="true" />
             <label htmlFor="catalog-sort" className="sr-only">
-              Ordenar resultados
+              {t("sortLabel")}
             </label>
             <select
               id="catalog-sort"
@@ -134,14 +136,14 @@ export function CatalogView({
             >
               {SORT_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value} className="bg-warden-carbon">
-                  {opt.label}
+                  {t(opt.labelKey)}
                 </option>
               ))}
             </select>
           </div>
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <SlidersHorizontal className="size-3.5" />
-            <span className="hidden sm:inline">Filtros</span>
+            <span className="hidden sm:inline">{t("filters")}</span>
           </div>
         </div>
       </div>
@@ -187,8 +189,8 @@ export function CatalogView({
             </ProductGrid>
           ) : (
             <EmptyState
-              title="Ningún resultado coincide con tus criterios"
-              description="Prueba a limpiar algunos filtros o ajustar tu búsqueda para encontrar lo que buscas."
+              title={t("emptyTitle")}
+              description={t("emptyDesc")}
             />
           )}
         </main>
